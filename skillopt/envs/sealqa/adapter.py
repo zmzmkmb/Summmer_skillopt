@@ -105,11 +105,11 @@ class SealQAAdapter(EnvAdapter):
             random_seed=kwargs.get('random_seed'),
             step_buffer_context=kwargs.get('step_buffer_context', ''),
             output_requirements=[
-                "- There is no hidden reference block. Use only the question, provided evidence, URL/fetch trace, student output, and evaluation result to infer what intermediate state is worth probing.",
+                "- There is no hidden reference block. Use only the question, provided evidence, URL/fetch trace, target output, and evaluation result to infer what intermediate state is worth probing.",
                 "- The instruction must explicitly request a short <analysis>...</analysis> block before the final <answer>...</answer>.",
                 "- The readout should focus on effective time frame, conflicting evidence, decisive source, candidate answer, and answer-finalization rule.",
                 "- Do not ask for exhaustive web summaries or a full chain-of-thought.",
-                "- The instruction text should be ready to append directly to the student's prompt.",
+                "- The instruction text should be ready to append directly to the target's prompt.",
             ],
             metadata_builder=lambda item: {
                 "id": str(item.get('id')),

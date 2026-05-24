@@ -7,8 +7,8 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from skillopt.envs.sealqa.evaluator import score_sealqa
 from skillopt.envs.sealqa.tool_runtime import web_fetch
-from skillopt.model import chat_student, get_student_backend, is_student_exec_backend
-from skillopt.model.codex_harness import prepare_workspace, render_skill_md, run_student_exec
+from skillopt.model import chat_target, get_target_backend, is_target_exec_backend
+from skillopt.model.codex_harness import prepare_workspace, render_skill_md, run_target_exec
 from skillopt.prompts import load_prompt
 
 _FINAL_RE = re.compile(r"<answer>(.*?)</answer>", re.IGNORECASE | re.DOTALL)
@@ -83,11 +83,11 @@ def _run_codex_once(
         task_text=final_task_text,
     )
     prompt = (
-        "Use the `skillopt-student` skill available in this workspace.\n"
+        "Use the `skillopt-target` skill available in this workspace.\n"
         "Read `task.md`, answer the SealQA question using the provided evidence,\n"
         "and return the final answer inside <answer>...</answer>."
     )
-    final_message, raw = run_student_exec(
+    final_message, raw = run_target_exec(
         work_dir=work_dir,
         prompt=prompt,
         model=model,
@@ -121,14 +121,14 @@ def process_one(
     fail_reason = ''
 
     try:
-        if is_student_exec_backend():
+        if is_target_exec_backend():
             from skillopt.model import azure_openai as _llm
 
             response, _raw, system, user_for_save = _run_codex_once(
                 pred_dir=pred_dir,
                 skill_content=skill_content,
                 task_text=user,
-                model=_llm.STUDENT_DEPLOYMENT,
+                model=_llm.TARGET_DEPLOYMENT,
                 timeout=120,
             )
             final_response = response
@@ -138,7 +138,7 @@ def process_one(
             else:
                 user = user_for_save
         else:
-            response, _ = chat_student(
+            response, _ = chat_target(
                 system=system,
                 user=user,
                 max_completion_tokens=768,
@@ -162,17 +162,17 @@ def process_one(
                 conversation.append({'type': 'tool_call', 'cmd': f'web_fetch({raw_url!r})', 'obs': fetched})
             if fetched_blocks:
                 retry_user = user + '\n\n## Fetched URL Content\n' + '\n\n'.join(fetched_blocks)
-                if is_student_exec_backend():
+                if is_target_exec_backend():
                     retry_response, _raw, system, retry_user = _run_codex_once(
                         pred_dir=pred_dir,
                         skill_content=skill_content,
                         task_text=retry_user,
-                        model=_llm.STUDENT_DEPLOYMENT,
+                        model=_llm.TARGET_DEPLOYMENT,
                         timeout=120,
                         previous_response=final_response,
                     )
                 else:
-                    retry_response, _ = chat_student(
+                    retry_response, _ = chat_target(
                         system=system,
                         user=retry_user,
                         max_completion_tokens=768,
@@ -190,9 +190,9 @@ def process_one(
     except Exception as e:  # noqa: BLE001
         fail_reason = f'error: {e}'
 
-    with open(os.path.join(pred_dir, 'student_system_prompt.txt'), 'w', encoding='utf-8') as f:
+    with open(os.path.join(pred_dir, 'target_system_prompt.txt'), 'w', encoding='utf-8') as f:
         f.write(system)
-    with open(os.path.join(pred_dir, 'student_user_prompt.txt'), 'w', encoding='utf-8') as f:
+    with open(os.path.join(pred_dir, 'target_user_prompt.txt'), 'w', encoding='utf-8') as f:
         f.write(user)
     with open(os.path.join(pred_dir, 'conversation.json'), 'w', encoding='utf-8') as f:
         json.dump(conversation, f, ensure_ascii=False, indent=2)
@@ -211,8 +211,8 @@ def process_one(
         'fail_reason': fail_reason or ('' if score >= 1.0 else f"predicted '{final_answer}' but expected '{item.get('ground_truth', '')}'"),
         'agent_ok': not fail_reason,
         'n_turns': len(conversation),
-        'student_system_prompt': system,
-        'student_user_prompt': user,
+        'target_system_prompt': system,
+        'target_user_prompt': user,
     }
     return result
 

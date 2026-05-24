@@ -36,8 +36,8 @@ def _setup_litellm_env() -> None:
             os.environ[key] = value
 
 
-def _normalize_student_model(student_model: str) -> str:
-    model = str(student_model or "").strip()
+def _normalize_target_model(target_model: str) -> str:
+    model = str(target_model or "").strip()
     if not model:
         return "azure/gpt-5.4"
     if "/" in model:
@@ -57,7 +57,7 @@ def _load_json(path: str) -> dict | list | None:
 def _build_agent_config(
     *,
     skill_content: str,
-    student_model: str,
+    target_model: str,
     step_limit: int,
     cost_limit: float,
 ) -> tuple[dict, str]:
@@ -88,7 +88,7 @@ def _build_agent_config(
             "cost_limit": float(cost_limit),
         },
         "model": {
-            "model_name": _normalize_student_model(student_model),
+            "model_name": _normalize_target_model(target_model),
             "cost_tracking": "ignore_errors",
         },
     }
@@ -120,7 +120,7 @@ def _run_rollout(
     items: list[dict],
     predictions_dir: str,
     skill_content: str,
-    student_model: str,
+    target_model: str,
     workers: int,
     step_limit: int,
     cost_limit: float,
@@ -136,7 +136,7 @@ def _run_rollout(
     _setup_litellm_env()
     config, system_prompt = _build_agent_config(
         skill_content=skill_content,
-        student_model=student_model,
+        target_model=target_model,
         step_limit=step_limit,
         cost_limit=cost_limit,
     )
@@ -190,9 +190,9 @@ def _run_rollout(
         ).strip()
         with open(task_dir / "conversation.json", "w", encoding="utf-8") as f:
             json.dump(messages, f, ensure_ascii=False, indent=2)
-        with open(task_dir / "student_system_prompt.txt", "w", encoding="utf-8") as f:
+        with open(task_dir / "target_system_prompt.txt", "w", encoding="utf-8") as f:
             f.write(system_prompt)
-        with open(task_dir / "student_user_prompt.txt", "w", encoding="utf-8") as f:
+        with open(task_dir / "target_user_prompt.txt", "w", encoding="utf-8") as f:
             f.write(user_prompt)
 
         results.append(
@@ -288,7 +288,7 @@ def run_batch(
     items: list[dict],
     out_root: str,
     skill_content: str,
-    student_model: str,
+    target_model: str,
     dataset_name: str,
     hf_split: str,
     workers: int,
@@ -314,7 +314,7 @@ def run_batch(
         items=items,
         predictions_dir=predictions_dir,
         skill_content=skill_content,
-        student_model=student_model,
+        target_model=target_model,
         workers=workers,
         step_limit=step_limit,
         cost_limit=cost_limit,

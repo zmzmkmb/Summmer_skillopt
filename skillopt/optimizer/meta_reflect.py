@@ -17,7 +17,7 @@ directions are effective, which are not). This is the "momentum buffer".
 Public API
 ----------
 - :func:`build_epoch_history`   — format an epoch's step records for meta-reflect
-- :func:`run_meta_reflect`      — one teacher call to produce high-level edits + meta_summary
+- :func:`run_meta_reflect`      — one optimizer call to produce high-level edits + meta_summary
 """
 from __future__ import annotations
 
@@ -25,7 +25,7 @@ import json
 import os
 import traceback
 
-from skillopt.model import chat_teacher
+from skillopt.model import chat_optimizer
 from skillopt.optimizer.update_modes import (
     describe_item,
     get_payload_items,
@@ -46,7 +46,7 @@ def build_epoch_history(
     *,
     update_mode: str = "patch",
 ) -> str:
-    """Format an epoch's step records into text for the meta-reflect teacher.
+    """Format an epoch's step records into text for the meta-reflect optimizer.
 
     For each step, includes the exact edits applied (read from
     ``ranked_edits.json``) and the gate evaluation result.
@@ -129,7 +129,7 @@ def build_epoch_history(
     return "\n\n".join(parts)
 
 
-# ── Meta-reflect teacher call ────────────────────────────────────────────────
+# ── Meta-reflect optimizer call ────────────────────────────────────────────────
 
 
 def run_meta_reflect(
@@ -141,7 +141,7 @@ def run_meta_reflect(
     system_prompt: str | None = None,
     update_mode: str = "patch",
 ) -> dict | None:
-    """Run one meta-reflect teacher call for an epoch.
+    """Run one meta-reflect optimizer call for an epoch.
 
     Parameters
     ----------
@@ -179,7 +179,7 @@ def run_meta_reflect(
     )
 
     try:
-        response, _ = chat_teacher(
+        response, _ = chat_optimizer(
             system=actual_system,
             user=user,
             max_completion_tokens=4096,

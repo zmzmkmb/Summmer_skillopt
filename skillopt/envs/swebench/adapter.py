@@ -31,7 +31,7 @@ class SWEBenchAdapter(EnvAdapter):
         step_limit: int = 50,
         cost_limit: float = 3.0,
         timeout_per_instance: int = 600,
-        student_model: str = "",
+        target_model: str = "",
     ) -> None:
         self.dataset_name = dataset_name
         self.hf_split = hf_split
@@ -44,7 +44,7 @@ class SWEBenchAdapter(EnvAdapter):
         self.step_limit = step_limit
         self.cost_limit = cost_limit
         self.timeout_per_instance = timeout_per_instance
-        self.student_model = student_model
+        self.target_model = target_model
         self.dataloader = SWEBenchDataLoader(
             split_dir=split_dir,
             data_path=data_path,
@@ -60,7 +60,7 @@ class SWEBenchAdapter(EnvAdapter):
 
     def setup(self, cfg: dict) -> None:
         super().setup(cfg)
-        self.student_model = str(self.student_model or cfg.get("student_model") or "gpt-5.4").strip()
+        self.target_model = str(self.target_model or cfg.get("target_model") or "gpt-5.4").strip()
         self.dataset_name = str(self.dataset_name or cfg.get("dataset_name") or "lite").strip()
         self.hf_split = str(self.hf_split or cfg.get("hf_split") or "test").strip()
         self.dataloader.setup(cfg)
@@ -85,7 +85,7 @@ class SWEBenchAdapter(EnvAdapter):
             items=items,
             out_root=out_dir,
             skill_content=skill_content,
-            student_model=self.student_model,
+            target_model=self.target_model,
             dataset_name=self.dataset_name,
             hf_split=self.hf_split,
             workers=self.workers,

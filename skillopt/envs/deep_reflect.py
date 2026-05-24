@@ -21,7 +21,7 @@ def run_no_reference_deep_reflect(
     output_requirements: list[str] | None = None,
     metadata_builder: Callable[[dict], dict] | None = None,
 ) -> list[dict | None]:
-    """Run teacher-designed diagnostic probing without hidden references."""
+    """Run optimizer-designed diagnostic probing without hidden references."""
     if not getattr(adapter, "use_deep_reflect", False):
         return []
     if not isinstance(env_manager, list):

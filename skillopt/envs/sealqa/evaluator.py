@@ -64,7 +64,7 @@ def _build_grader_client() -> tuple[OpenAI | AzureOpenAI, str]:
     openai_key = os.environ.get('OPENAI_API_KEY', '').strip()
     api_key = azure_key or openai_key
     if endpoint and api_version and api_key:
-        model = os.environ.get('SEALQA_GRADER_AZURE_MODEL', '').strip() or os.environ.get('SEALQA_GRADER_MODEL', '').strip() or os.environ.get('AZURE_MODEL_NAME', '').strip() or os.environ.get('TEACHER_DEPLOYMENT', '').strip() or 'gpt-5.4'
+        model = os.environ.get('SEALQA_GRADER_AZURE_MODEL', '').strip() or os.environ.get('SEALQA_GRADER_MODEL', '').strip() or os.environ.get('AZURE_MODEL_NAME', '').strip() or os.environ.get('OPTIMIZER_DEPLOYMENT', '').strip() or 'gpt-5.4'
         client = AzureOpenAI(api_key=api_key, api_version=api_version, azure_endpoint=endpoint.rstrip('/'))
         return client, model
 

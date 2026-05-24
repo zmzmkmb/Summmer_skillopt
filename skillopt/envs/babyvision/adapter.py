@@ -10,7 +10,7 @@ from skillopt.gradient.reflect import run_minibatch_reflect
 from skillopt.envs.base import EnvAdapter
 from skillopt.envs.babyvision.dataloader import BabyVisionDataLoader
 from skillopt.envs.babyvision.rollout import run_batch
-from skillopt.model import get_student_backend
+from skillopt.model import get_target_backend
 
 
 class BabyVisionAdapter(EnvAdapter):
@@ -165,7 +165,7 @@ class BabyVisionAdapter(EnvAdapter):
         random_seed = kwargs.get("random_seed")
         step_buffer_context = kwargs.get("step_buffer_context", "")
         meta_skill_context = kwargs.get("meta_skill_context", "")
-        codex_backend = get_student_backend() == "codex_exec"
+        codex_backend = get_target_backend() == "codex_exec"
         selected_items = self.select_representative_items(
             results,
             env_manager if isinstance(env_manager, list) else None,

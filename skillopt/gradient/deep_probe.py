@@ -1,8 +1,8 @@
-"""Teacher-written diagnostic probe generation for deep reflection."""
+"""Optimizer-written diagnostic probe generation for deep reflection."""
 from __future__ import annotations
 
 from skillopt.gradient.reflect import fmt_minibatch_trajectories
-from skillopt.model import chat_teacher
+from skillopt.model import chat_optimizer
 from skillopt.optimizer.meta_skill import format_meta_skill_context
 from skillopt.prompts import load_prompt
 from skillopt.utils import extract_json
@@ -27,21 +27,21 @@ def generate_deep_probe_instruction(
     user = (
         f"## Current Skill\n{skill_content}\n\n"
         "## Probe Design Goal\n"
-        "Design one short diagnostic instruction to append to the student prompt.\n"
-        "The instruction should expose the student's current intermediate judgment\n"
+        "Design one short diagnostic instruction to append to the target prompt.\n"
+        "The instruction should expose the target's current intermediate judgment\n"
         "without materially changing the original scaffold.\n\n"
     )
     if step_buffer_context.strip():
         user += f"## Previous Steps in This Epoch\n{step_buffer_context}\n\n"
-    teacher_ctx = format_meta_skill_context(meta_skill_context)
-    if teacher_ctx:
-        user += teacher_ctx + "\n\n"
+    optimizer_ctx = format_meta_skill_context(meta_skill_context)
+    if optimizer_ctx:
+        user += optimizer_ctx + "\n\n"
     requirements = output_requirements or [
-        "- Some trajectories may include a hidden Reference block. Use it to identify what intermediate conclusion matters, but do not reveal or paraphrase that reference directly to the student.",
+        "- Some trajectories may include a hidden Reference block. Use it to identify what intermediate conclusion matters, but do not reveal or paraphrase that reference directly to the target.",
         "- The instruction must explicitly request a short <analysis>...</analysis> block before the final <answer>...</answer>.",
         "- Keep the readout concise and structured.",
         "- Do not ask for exhaustive listing, full derivation, or a new solving protocol.",
-        "- The instruction text should be ready to append directly to the student's prompt.",
+        "- The instruction text should be ready to append directly to the target's prompt.",
     ]
     user += (
         f"## Representative Trajectories ({len(items)} total)\n{trajectories_text}\n\n"
@@ -51,7 +51,7 @@ def generate_deep_probe_instruction(
     )
 
     try:
-        response, _ = chat_teacher(
+        response, _ = chat_optimizer(
             system=actual_system,
             user=user,
             max_completion_tokens=1024,

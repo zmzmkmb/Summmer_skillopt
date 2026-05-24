@@ -10,7 +10,7 @@ from skillopt.envs.mathverse.dataloader import MathVerseDataLoader
 from skillopt.envs.mathverse.rollout import run_batch
 from skillopt.gradient.deep_probe import generate_deep_probe_instruction
 from skillopt.gradient.reflect import run_minibatch_reflect
-from skillopt.model import get_student_backend
+from skillopt.model import get_target_backend
 
 
 class MathVerseAdapter(EnvAdapter):
@@ -176,7 +176,7 @@ class MathVerseAdapter(EnvAdapter):
         selected_ids = {str(item["id"]) for item in selected_items}
         selected_results = [row for row in results if str(row.get("id")) in selected_ids]
         selected_examples = self.attach_reference_context(selected_results, selected_items)
-        codex_backend = get_student_backend() == "codex_exec"
+        codex_backend = get_target_backend() == "codex_exec"
         if codex_backend:
             selected_examples = self.attach_codex_probe_context(selected_examples, prediction_dir)
         selected_metadata = []
