@@ -13,105 +13,18 @@
 
 ---
 
-## What is SkillOpt?
+## Install
 
-SkillOpt is a framework for optimizing a natural-language **skill document** through iterative rollout, reflection, editing, and gated validation.
-
-It does **not** fine-tune model parameters. Instead, it treats the skill document as the optimization target:
-
-- The **target** model executes tasks with the current skill
-- The **optimizer** model analyzes trajectories and proposes edits
-- The framework merges, ranks, applies, and validates those edits
-- Only validated skill updates are kept
-
-| Deep Learning | SkillOpt |
-|---|---|
-| Model weights | Skill document (Markdown) |
-| Forward pass | Rollout (target executes tasks) |
-| Loss computation | Reflect (optimizer analyzes trajectories) |
-| Gradient | Edit patches (proposed skill improvements) |
-| Gradient clipping | Edit ranking & selection (`learning_rate`) |
-| Weight update | Patch application to skill document |
-| Validation | Gated evaluation on held-out split |
-| Learning rate schedule | `lr_scheduler`: cosine, linear decay |
-| Epochs | Multi-epoch training with slow update & meta skill |
-
----
-
-## Method Overview
-
-### Optimization Target
-
-Each run maintains a mutable markdown skill document. The framework repeatedly improves that document instead of changing model parameters.
-
-This gives a training-style loop for prompt / policy optimization:
-
-1. Roll out the current skill on a batch of tasks.
-2. Reflect on failures and successes.
-3. Merge patch proposals into a coherent candidate update.
-4. Rank and select a bounded number of edits.
-5. Apply those edits to produce a candidate skill.
-6. Validate the candidate skill on a held-out selection split.
-7. Keep the update only if the gate accepts it.
-
-### Per-Step Pipeline
-
-Every training step executes the following pipeline in `skillopt/engine/trainer.py`:
-
-1. **Rollout**
-   The target model runs a batch of tasks using the current skill.
-
-2. **Reflect**
-   The optimizer analyzes minibatches of trajectories and emits raw patches.
-   Failure-driven and success-driven patches are tracked separately.
-
-3. **Aggregate**
-   Raw patches are merged hierarchically. Metadata such as `support_count` and `source_type` is carried into the merged patch so later ranking can use it.
-
-4. **Select**
-   The optimizer ranks the merged edit pool and keeps up to `edit_budget` edits.
-
-5. **Update**
-   The selected edits are applied to the skill document. The framework records an `edit_apply_report.json` so you can see which edits actually landed, which were skipped, and why.
-
-6. **Evaluate / Gate**
-   The candidate skill is evaluated on the selection split. A candidate update is accepted only if it improves over the current selection score; a new global best is tracked separately.
-
-### Within-Epoch Memory
-
-Inside an epoch, the trainer maintains a step buffer containing:
-
-- Compact failure-pattern summaries from previous steps
-- Rejected edits and their score deltas
-
-That context is fed back into later reflection calls so the optimizer can avoid repeating ineffective edits and can focus on unsolved error patterns.
-
-### Epoch-Level Mechanisms
-
-#### Slow Update
-
-At the end of each epoch, `slow_update` compares the previous epoch's terminal skill and current epoch's terminal skill on a sampled train subset. It then writes longitudinal guidance into a protected slow-update region inside the skill document.
-
-This guidance is **not** blindly written through — it is converted into a candidate skill and sent through the same selection gate as step-level updates.
-
-#### Meta Skill
-
-`meta_skill` is optimizer-side cross-epoch memory. It does not directly edit the current skill. Instead, it writes a compact memory artifact describing longer-term patterns across adjacent epochs. That memory is loaded into later reflection / merge / ranking calls as extra context.
-
-#### Meta Reflect
-
-`meta_reflect` runs at epoch end over the step history of the current epoch. It looks at accepted and rejected directions from the whole epoch, proposes higher-level patch edits, applies them to a meta candidate, and then sends that candidate through the same selection gate.
-
----
-
-## Quick Start
-
-### Install
+**Requirements:** Python 3.10+
 
 ```bash
-git clone https://github.com/AgenticOpt/SkillOpt.git
+git clone https://github.com/microsoft/SkillOpt.git
 cd SkillOpt
 pip install -e .
+
+# For ALFWorld benchmark (optional):
+pip install -e ".[alfworld]"
+alfworld-download
 ```
 
 ### Configure API Credentials
@@ -122,12 +35,16 @@ cp .env.example .env
 source .env
 ```
 
-**Azure OpenAI** (API key or managed identity):
+**Azure OpenAI** (recommended):
 ```bash
 export AZURE_OPENAI_ENDPOINT="https://your-resource.openai.azure.com/"
+# Option 1: API key auth
 export AZURE_OPENAI_API_KEY="your-key"
-# Or use managed identity: set azure_openai_auth_mode=managed_identity in config
+# Option 2: Azure CLI auth (no API key needed)
+export AZURE_OPENAI_AUTH_MODE="azure_cli"
 ```
+
+> **Note:** `AZURE_OPENAI_ENDPOINT` is always required. Without it, all LLM calls will fail.
 
 **OpenAI** directly:
 ```bash
@@ -145,237 +62,139 @@ export QWEN_CHAT_BASE_URL="http://localhost:8000/v1"
 export QWEN_CHAT_MODEL="Qwen/Qwen3.5-4B"
 ```
 
-### Run Training
-
-```bash
-python scripts/train.py --config configs/searchqa/default.yaml
-```
-
 ---
 
-## Configuration
+## Data Preparation
 
-SkillOpt uses a hierarchical YAML configuration system. Each benchmark config inherits from `configs/_base_/default.yaml`.
+SkillOpt expects data in a **split directory** with `train/`, `val/`, `test/` subdirectories, each containing a JSON file (e.g., `items.json`).
 
-### Configuration Structure
-
-```yaml
-model:
-  optimizer_backend: openai_chat     # openai_chat | claude_chat | qwen_chat
-  target_backend: openai_chat     # openai_chat | claude_chat | codex_exec | qwen_chat
-  optimizer: gpt-5.5                 # optimizer model deployment name
-  target: gpt-5.5                 # target model deployment name
-  reasoning_effort: medium         # low | medium | high
-
-train:
-  num_epochs: 4
-  batch_size: 40
-  seed: 42
-
-gradient:
-  minibatch_size: 8                # trajectories per reflection call
-  analyst_workers: 16              # parallel reflection workers
-  use_deep_reflect: false          # deep multi-turn probing
-  deep_reflect_failures: 4
-  deep_reflect_successes: 2
-
-optimizer:
-  learning_rate: 4                 # max edits per step (edit_budget)
-  min_learning_rate: 2             # min edits for decay schedulers
-  lr_scheduler: cosine             # constant | linear | cosine | autonomous
-  skill_update_mode: patch         # patch | rewrite_from_suggestions | full_rewrite_minibatch
-  use_slow_update: true
-  use_meta_skill: true
-  use_meta_reflect: false
-
-evaluation:
-  use_gate: true                   # gated validation (always recommended)
-
-env:
-  name: ""                         # benchmark name
-  skill_init: ""                   # path to initial skill document
-  split_mode: ratio                # ratio | split_dir
-  split_ratio: "2:1:7"            # train:val:test
+```
+data/my_split/
+├── train/items.json
+├── val/items.json
+└── test/items.json
 ```
 
-### CLI Overrides
+Each JSON file is an array of task items. The required fields depend on the benchmark. For example, SearchQA items look like:
 
-Override any config key from the command line:
-
-```bash
-python scripts/train.py \
-  --config configs/searchqa/default.yaml \
-  --cfg-options model.optimizer_backend=openai_chat \
-                model.target_backend=codex_exec \
-                train.batch_size=40 \
-                optimizer.learning_rate=4
-
-# Legacy flat overrides also work for common keys:
-python scripts/train.py \
-  --config configs/searchqa/default.yaml \
-  --backend azure_openai \
-  --optimizer_model gpt-5.5 \
-  --target_model gpt-5.5 \
-  --reasoning_effort medium
+```json
+[
+  {
+    "id": "unique_item_id",
+    "question": "Who wrote the novel ...",
+    "context": "[DOC] relevant passage text ...",
+    "answers": ["expected answer"]
+  }
+]
 ```
 
----
+See `skillopt/envs/<benchmark>/dataloader.py` for the exact format each benchmark expects.
 
-## Model Backends
+> **Note:** Benchmark datasets are not included in this repository. Prepare your own data following the format above.
 
-All model access goes through the unified backend router in `skillopt/model/`.
-
-| Backend | Use case | Config key |
-|---|---|---|
-| `openai_chat` | Azure OpenAI / OpenAI API | optimizer / target |
-| `claude_chat` | Anthropic Claude | optimizer / target |
-| `codex_exec` | Codex execution harness | target only |
-| `qwen_chat` | Local Qwen via vLLM | optimizer / target |
-
-Separate optimizer/target endpoints are supported:
-
-```yaml
-model:
-  optimizer_backend: openai_chat
-  target_backend: codex_exec
-  optimizer: gpt-5.5
-  target: gpt-5.5-codex
-```
-
----
-
-## Data Splits
-
-SkillOpt supports two split modes:
-
-**Ratio split** — auto-generate from raw data:
-```bash
-python scripts/train.py \
-  --config configs/searchqa/default.yaml \
-  --split_mode ratio \
-  --data_path /path/to/searchqa_data.json
-```
-
-**Pre-split directory** — consume prepared splits:
-```bash
-python scripts/train.py \
-  --config configs/searchqa/default.yaml \
-  --split_mode split_dir \
-  --split_dir /path/to/searchqa_split
-```
-
----
-
-## Supported Benchmarks
+### Supported Benchmarks
 
 | Benchmark | Type | Config |
 |---|---|---|
 | SearchQA | QA | `configs/searchqa/default.yaml` |
-| SpreadsheetBench | Code generation | `configs/spreadsheetbench/default.yaml` |
 | ALFWorld | Embodied agent | `configs/alfworld/default.yaml` |
 | DocVQA | Document QA | `configs/docvqa/default.yaml` |
-| OfficeQA | Tool-augmented QA | `configs/officeqa/default.yaml` |
-| SealQA | Tool-augmented QA | `configs/sealqa/default.yaml` |
-| BabyVision | Vision QA | `configs/babyvision/default.yaml` |
 | LiveMathematicianBench | Math | `configs/livemathematicianbench/default.yaml` |
-| MathVerse | Multimodal math | `configs/mathverse/default.yaml` |
-| MMRB | Multimodal reasoning | `configs/mmrb/default.yaml` |
-| SWEBench | Software engineering | `configs/swebench/default.yaml` |
+| SpreadsheetBench | Code generation | `configs/spreadsheetbench/default.yaml` |
+| OfficeQA | Tool-augmented QA | `configs/officeqa/default.yaml` |
 
 ---
 
-## Running Training
+## Quick Start
 
-Basic training:
-
-```bash
-python scripts/train.py --config configs/searchqa/default.yaml
-```
-
-Exec harness (Codex target):
+### Training
 
 ```bash
+# Minimal example — train on SearchQA:
 python scripts/train.py \
-  --config configs/searchqa/default.yaml \
-  --optimizer_backend openai_chat \
-  --target_backend codex_exec \
-  --optimizer_model gpt-5.5 \
-  --target_model gpt-5.5-codex \
-  --use_deep_reflect true \
-  --skill_update_mode rewrite_from_suggestions
-```
+    --config configs/searchqa/default.yaml \
+    --split_dir /path/to/your/searchqa_split \
+    --azure_openai_endpoint https://your-resource.openai.azure.com/ \
+    --optimizer_model gpt-5.5 \
+    --target_model gpt-5.5
 
-SWEBench:
-
-```bash
+# Train on LiveMathematicianBench:
 python scripts/train.py \
-  --config configs/swebench/default.yaml \
-  --cfg-options env.dataset_name=lite env.split_ratio=2:1:7
+    --config configs/livemathematicianbench/default.yaml \
+    --split_dir /path/to/your/livemath_split \
+    --azure_openai_endpoint https://your-resource.openai.azure.com/ \
+    --optimizer_model gpt-5.5 \
+    --target_model gpt-5.5
+
+# Train on ALFWorld:
+python scripts/train.py \
+    --config configs/alfworld/default.yaml \
+    --split_dir /path/to/your/alfworld_split \
+    --azure_openai_endpoint https://your-resource.openai.azure.com/ \
+    --optimizer_model gpt-5.5 \
+    --target_model gpt-5.5
 ```
+
+Key CLI arguments:
+
+| Argument | Description | Example |
+|---|---|---|
+| `--config` | Benchmark config YAML | `configs/searchqa/default.yaml` |
+| `--split_dir` | Path to data split directory | `/path/to/split` |
+| `--azure_openai_endpoint` | Azure OpenAI endpoint URL | `https://your-resource.openai.azure.com/` |
+| `--optimizer_model` | Optimizer model deployment name | `gpt-5.5` |
+| `--target_model` | Target model deployment name | `gpt-5.5` |
+| `--num_epochs` | Number of training epochs | `4` |
+| `--batch_size` | Batch size per step | `40` |
+| `--workers` | Parallel rollout workers | `8` |
+| `--out_root` | Output directory | `outputs/my_run` |
 
 ### Eval Only
 
-Evaluate a specific skill without training:
+Evaluate a trained skill on specific data splits without training:
 
 ```bash
+# Evaluate on test set only:
 python scripts/eval_only.py \
   --config configs/searchqa/default.yaml \
-  --skill skillopt/envs/searchqa/skills/initial.md
+  --skill outputs/my_run/best_skill.md \
+  --split valid_unseen \
+  --split_dir /path/to/searchqa_split \
+  --azure_openai_endpoint https://your-resource.openai.azure.com/
+
+# Evaluate on all splits (train + val + test):
+python scripts/eval_only.py \
+  --config configs/searchqa/default.yaml \
+  --skill outputs/my_run/best_skill.md \
+  --split all \
+  --split_dir /path/to/searchqa_split \
+  --azure_openai_endpoint https://your-resource.openai.azure.com/
 ```
 
----
+| Split | Description |
+|---|---|
+| `valid_unseen` | Test set |
+| `valid_seen` | Validation set |
+| `train` | Training set |
+| `all` | All splits combined (default) |
 
-## Output Structure
+### Output Structure
 
-Each run writes a structured output directory:
+Each run writes to a structured output directory:
 
 ```
 outputs/<run_name>/
 ├── config.json              # Flattened runtime config
-├── history.json             # Per-step history records
-├── runtime_state.json       # Resume state (for auto-resume)
-├── best_skill.md            # Current best validated skill
+├── history.json             # Per-step training history
+├── runtime_state.json       # Resume checkpoint
+├── best_skill.md            # Best validated skill document
 ├── skills/skill_vXXXX.md   # Skill snapshot per step
-├── steps/step_XXXX/        # Per-step artifacts
-│   ├── merged_patch.json
-│   ├── ranked_edits.json
-│   ├── candidate_skill.md
-│   ├── edit_apply_report.json
-│   ├── rewrite_result.json  # when rewrite mode is enabled
-│   └── selection_eval/
-├── slow_update/epoch_XX/
-├── meta_skill/epoch_XX/
-└── meta_reflect/epoch_XX/
+├── steps/step_XXXX/        # Per-step artifacts (patches, evals)
+├── slow_update/epoch_XX/   # Slow update logs
+└── meta_skill/epoch_XX/    # Meta skill logs
 ```
 
-### Resume Behavior
-
-The trainer resumes from `runtime_state.json` when present. That state tracks:
-
-- Last completed step
-- Current skill path and score
-- Best skill path and score
-- Origin tags for current and best skill
-
----
-
-## Extending SkillOpt
-
-### Add a New Benchmark
-
-1. Create `skillopt/envs/<your_env>/` with:
-   - `adapter.py` — implements `EnvAdapter`
-   - `dataloader.py` — data loading logic
-   - `rollout.py` — target execution logic
-   - `skills/initial.md` — initial skill document
-2. Add a config at `configs/<your_env>/default.yaml`
-3. Register in `skillopt/envs/__init__.py`
-
-See `skillopt/envs/_template/` for a scaffold.
-
-### Add a New Model Backend
-
-Implement a backend in `skillopt/model/` following the interface in `skillopt/model/common.py`, then register it in `skillopt/model/router.py`.
+Re-running the same command auto-resumes from the last completed step.
 
 ---
 
@@ -388,25 +207,16 @@ pip install -e ".[webui]"
 python -m skillopt_webui.app
 ```
 
-Provides browser-based config selection, training launch, and real-time log monitoring.
-
----
-
-## Minimal Setup
-
-```bash
-conda create -n skillopt python=3.11
-conda activate skillopt
-pip install -e .
-```
-
-Depending on the benchmark, you may also need:
+| Flag | Default | Description |
+|---|---|---|
+| `--port` | 7860 | Server port |
+| `--host` | `0.0.0.0` | Bind address |
+| `--share` | off | Create a public Gradio share link |
 
 ```bash
-pip install datasets gymnasium numpy
+# With public share link (useful for remote servers)
+python -m skillopt_webui.app --share
 ```
-
-For SWEBench, you also need a working Docker environment plus the SWE-bench harness dependencies.
 
 ---
 
@@ -414,8 +224,9 @@ For SWEBench, you also need a working Docker environment plus the SWE-bench harn
 
 ```bibtex
 @article{skillopt2026,
-  title={SkillOpt: Executive Strategy for Self-Evolving Agent Skills},
+  title={SKILLOPT: Executive Strategy for Self-Evolving Agent Skills},
   author={SkillOpt Team},
   year={2026}
 }
 ```
+
