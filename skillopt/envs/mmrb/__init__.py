@@ -1,2 +1,0 @@
-"""MMRB environment package."""
-

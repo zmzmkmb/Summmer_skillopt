@@ -1,1 +1,0 @@
-"""SWEBench environment for ReflACT."""
