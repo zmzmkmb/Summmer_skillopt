@@ -5,6 +5,10 @@
 
 *Train agent skills like you train neural networks — with epochs, learning rates, and validation gates — but without touching model weights.*
 
+[Project page](https://microsoft.github.io/SkillOpt/) · [Paper](https://microsoft.github.io/SkillOpt/#paper) · [Project video](https://youtu.be/JUBMDTCiM0M)
+
+[![SkillOpt project video](https://img.youtube.com/vi/JUBMDTCiM0M/maxresdefault.jpg)](https://youtu.be/JUBMDTCiM0M)
+
 ---
 
 ## What is SkillOpt?
@@ -413,5 +417,4 @@ For SWEBench, you also need a working Docker environment plus the SWE-bench harn
   year={2026}
 }
 ```
-
 
