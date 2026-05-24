@@ -89,13 +89,10 @@
       white-space: nowrap;
     }
 
-    .brandmark::before {
-      content: "";
-      width: 13px;
-      height: 13px;
-      background: linear-gradient(135deg, var(--red) 0 48%, var(--gold) 48% 66%, var(--teal) 66%);
-      border: 1px solid rgba(255, 255, 255, 0.8);
-      transform: rotate(45deg);
+    .microsoft-mark {
+      width: 16px;
+      height: 16px;
+      flex: 0 0 auto;
     }
 
     .nav {
@@ -1396,7 +1393,15 @@
 </head>
 <body>
   <header class="topbar" aria-label="Page navigation">
-    <a class="brandmark" href="#top">SkillOpt</a>
+    <a class="brandmark" href="#top" aria-label="SkillOpt home">
+      <svg class="microsoft-mark" viewBox="0 0 23 23" aria-hidden="true">
+        <rect width="10" height="10" fill="#F25022"></rect>
+        <rect x="13" width="10" height="10" fill="#7FBA00"></rect>
+        <rect y="13" width="10" height="10" fill="#00A4EF"></rect>
+        <rect x="13" y="13" width="10" height="10" fill="#FFB900"></rect>
+      </svg>
+      <span>SkillOpt</span>
+    </a>
     <nav class="nav" aria-label="Sections">
       <a href="#idea">Idea</a>
       <a href="#method">Method</a>
