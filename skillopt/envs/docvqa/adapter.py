@@ -27,10 +27,13 @@ class DocVQAAdapter(EnvAdapter):
         edit_budget: int = 4,
         seed: int = 42,
         limit: int = 0,
-        image_detail: str = "auto",    ) -> None:
+        image_detail: str = "auto",
+        max_completion_tokens: int = 16384,
+    ) -> None:
         self.max_turns = max_turns
         self.exec_timeout = exec_timeout
         self.workers = workers
+        self.max_completion_tokens = int(max_completion_tokens)
         self.analyst_workers = analyst_workers
         self.failure_only = failure_only
         self.minibatch_size = minibatch_size
@@ -75,6 +78,7 @@ class DocVQAAdapter(EnvAdapter):
             exec_timeout=self.exec_timeout,
             workers=self.workers,
             image_detail=self.image_detail,
+            max_completion_tokens=self.max_completion_tokens,
             diagnostic_mode=kwargs.get("diagnostic_mode", False),
             diagnostic_instruction=kwargs.get("diagnostic_instruction", ""),
             task_timeout=self.exec_timeout,

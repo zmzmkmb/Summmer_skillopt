@@ -23,12 +23,12 @@ env:
   name: spreadsheetbench
   skill_init: skillopt/envs/spreadsheetbench/skills/initial.md
   split_mode: split_dir
-  split_ratio: "2:1:7"
   split_dir: data/spreadsheetbench_split
   data_path: ""
   split_output_dir: ""
   data_root: data/spreadsheetbench_verified_400
   mode: multi
   max_turns: 30
+  max_completion_tokens: 16384
   exec_timeout: 600
   workers: 24

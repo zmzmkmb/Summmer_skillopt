@@ -365,7 +365,7 @@ def run_react(
     answer_position: str = "",
     skill_content: str = "",
     max_turns: int = 30,
-    max_output_tokens: int = 4096,
+    max_output_tokens: int = 16384,
     diagnostic_mode: bool = False,
     diagnostic_instruction: str = "",
     diagnostic_trace_context: str = "",

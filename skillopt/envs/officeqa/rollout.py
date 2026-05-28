@@ -516,7 +516,7 @@ def process_one(
     skill_content: str,
     *,
     max_tool_turns: int = 12,
-    max_completion_tokens: int = 64000,
+    max_completion_tokens: int = 16384,
     search_mode: str = _DEFAULT_SEARCH_MODE,
     max_queries_per_turn: int = 4,
     search_api_url: str = "",
@@ -652,7 +652,7 @@ def process_one(
             for turn in range(1, max_tool_turns + 1):
                 message, _ = chat_target_messages(
                     messages=messages,
-                    max_completion_tokens=768,
+                    max_completion_tokens=max_completion_tokens,
                     retries=5,
                     stage="rollout",
                     tools=_TOOL_SCHEMAS,
@@ -725,7 +725,7 @@ def run_batch(
     *,
     workers: int = 8,
     max_tool_turns: int = 12,
-    max_completion_tokens: int = 64000,
+    max_completion_tokens: int = 16384,
     search_mode: str = _DEFAULT_SEARCH_MODE,
     max_queries_per_turn: int = 4,
     search_api_url: str = "",

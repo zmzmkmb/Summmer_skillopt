@@ -23,10 +23,10 @@ env:
   name: searchqa
   skill_init: skillopt/envs/searchqa/skills/initial.md
   split_mode: split_dir
-  split_ratio: "2:1:7"
   split_dir: data/searchqa_split
   data_path: ""
   split_output_dir: ""
   max_turns: 1
+  max_completion_tokens: 16384
   workers: 24
   limit: 0

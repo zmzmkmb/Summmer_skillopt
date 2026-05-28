@@ -174,6 +174,7 @@ def process_one(
     diagnostic_mode: bool = False,
     diagnostic_instruction: str = "",
     diagnostic_trace_context: str = "",
+    max_completion_tokens: int = 16384,
 ) -> dict:
     """Run the ReAct agent on a single SpreadsheetBench task.
 
@@ -283,6 +284,7 @@ def process_one(
                 answer_position=answer_position_eval,
                 skill_content=skill_content,
                 max_turns=max_turns,
+                max_output_tokens=max_completion_tokens,
                 diagnostic_mode=diagnostic_mode,
                 diagnostic_instruction=diagnostic_instruction,
                 diagnostic_trace_context=diagnostic_trace_context,
@@ -409,6 +411,7 @@ def run_spreadsheet_batch(
     out_root: str,
     skill_content: str,
     max_turns: int = 30,
+    max_completion_tokens: int = 16384,
     max_api_workers: int = 64,
     task_timeout: int = 600,
     diagnostic_mode: bool = False,
@@ -479,6 +482,7 @@ def run_spreadsheet_batch(
             diagnostic_mode,
             diagnostic_instruction,
             (diagnostic_trace_context_by_id or {}).get(str(it["id"]), ""),
+            max_completion_tokens,
         )
 
     ex = ThreadPoolExecutor(max_workers=max_api_workers)
@@ -542,6 +546,7 @@ def process_one_codegen(
     skill_content: str,
     mode: str = "single",
     max_turns: int = 5,
+    max_completion_tokens: int = 16384,
     use_eval_feedback: bool = False,
     diagnostic_mode: bool = False,
     diagnostic_instruction: str = "",
@@ -653,6 +658,7 @@ def process_one_codegen(
                     answer_position=answer_position_eval,
                     skill_content=skill_content,
                     max_turns=max_turns,
+                    max_output_tokens=max_completion_tokens,
                     gold_path=first_gold if use_eval_feedback else "",
                     diagnostic_mode=diagnostic_mode,
                     diagnostic_instruction=diagnostic_instruction,
@@ -666,6 +672,7 @@ def process_one_codegen(
                     instruction_type=instruction_type,
                     answer_position=answer_position_eval,
                     skill_content=skill_content,
+                    max_output_tokens=max_completion_tokens,
                     diagnostic_mode=diagnostic_mode,
                     diagnostic_instruction=diagnostic_instruction,
                     diagnostic_trace_context=diagnostic_trace_context,
@@ -790,6 +797,7 @@ def run_spreadsheet_batch_codegen(
     skill_content: str,
     mode: str = "single",
     max_turns: int = 5,
+    max_completion_tokens: int = 16384,
     max_api_workers: int = 32,
     task_timeout: int = 0,
     use_eval_feedback: bool = False,
@@ -845,6 +853,7 @@ def run_spreadsheet_batch_codegen(
             skill_content,
             mode,
             max_turns,
+            max_completion_tokens,
             use_eval_feedback,
             diagnostic_mode,
             diagnostic_instruction,

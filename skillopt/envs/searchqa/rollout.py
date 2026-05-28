@@ -148,6 +148,7 @@ def process_one(
     diagnostic_instruction: str = "",
     diagnostic_trace_context: str = "",
     exec_timeout: int = 120,
+    max_completion_tokens: int = 16384,
 ) -> dict:
     """Process a single QA item: run agent + evaluate.
 
@@ -268,7 +269,7 @@ def process_one(
             if turn == 0:
                 resp_text, _ = chat_target(
                     system=system, user=user,
-                    max_completion_tokens=512,
+                    max_completion_tokens=max_completion_tokens,
                     retries=5, stage="rollout",
                     timeout=exec_timeout,
                 )
@@ -281,7 +282,7 @@ def process_one(
                 )
                 resp_text, _ = chat_target(
                     system=system, user=refinement,
-                    max_completion_tokens=512,
+                    max_completion_tokens=max_completion_tokens,
                     retries=5, stage="rollout",
                     timeout=exec_timeout,
                 )
@@ -352,6 +353,7 @@ def run_batch(
     max_turns: int = 1,
     exec_timeout: int = 120,
     workers: int = 64,
+    max_completion_tokens: int = 16384,
     diagnostic_mode: bool = False,
     diagnostic_instruction: str = "",
     diagnostic_trace_context_by_id: dict[str, str] | None = None,
@@ -423,6 +425,7 @@ def run_batch(
             diagnostic_instruction,
             (diagnostic_trace_context_by_id or {}).get(str(item["id"]), ""),
             exec_timeout,
+            max_completion_tokens,
         )
 
     with open(results_path, "a") as outf:

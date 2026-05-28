@@ -31,10 +31,13 @@ class SearchQAAdapter(EnvAdapter):
         minibatch_size: int = 8,
         edit_budget: int = 4,
         seed: int = 42,
-        limit: int = 0,    ) -> None:
+        limit: int = 0,
+        max_completion_tokens: int = 16384,
+    ) -> None:
         self.max_turns = max_turns
         self.exec_timeout = exec_timeout
         self.workers = workers
+        self.max_completion_tokens = int(max_completion_tokens)
         self.analyst_workers = analyst_workers
         self.failure_only = failure_only
         self.minibatch_size = minibatch_size
@@ -84,6 +87,7 @@ class SearchQAAdapter(EnvAdapter):
             max_turns=self.max_turns,
             exec_timeout=self.exec_timeout,
             workers=self.workers,
+            max_completion_tokens=self.max_completion_tokens,
             diagnostic_mode=kwargs.get("diagnostic_mode", False),
             diagnostic_instruction=kwargs.get("diagnostic_instruction", ""),
             diagnostic_trace_context_by_id=kwargs.get("diagnostic_trace_context_by_id"),

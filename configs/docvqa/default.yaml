@@ -18,11 +18,11 @@ env:
   name: docvqa
   skill_init: skillopt/envs/docvqa/skills/initial.md
   split_mode: split_dir
-  split_ratio: "2:1:7"
   split_dir: data/docvqa/splits
   data_path: ""
   split_output_dir: ""
   max_turns: 1
+  max_completion_tokens: 16384
   workers: 16
   image_detail: auto
   limit: 0

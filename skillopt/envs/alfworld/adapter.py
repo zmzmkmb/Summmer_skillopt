@@ -81,10 +81,13 @@ class ALFWorldAdapter(EnvAdapter):
         analyst_workers: int = 16,
         failure_only: bool = False,
         minibatch_size: int = 8,
-        edit_budget: int = 4,    ) -> None:
+        edit_budget: int = 4,
+        max_completion_tokens: int = 16384,
+    ) -> None:
         self.max_steps = max_steps
         self.workers = max(int(workers or 1), 1)
         self.max_api_workers = max_api_workers
+        self.max_completion_tokens = int(max_completion_tokens)
         self.analyst_workers = analyst_workers
         self.failure_only = failure_only
         self.minibatch_size = minibatch_size
@@ -349,6 +352,7 @@ class ALFWorldAdapter(EnvAdapter):
                 max_steps=self.max_steps,
                 out_root=out_dir,
                 max_api_workers=self.max_api_workers,
+                max_completion_tokens=self.max_completion_tokens,
                 result_ids=getattr(env_manager, "_skillopt_result_ids", None),
             )
 
@@ -411,6 +415,7 @@ class ALFWorldAdapter(EnvAdapter):
                     max_steps=self.max_steps,
                     out_root=out_dir,
                     max_api_workers=min(self.max_api_workers, chunk_size),
+                    max_completion_tokens=self.max_completion_tokens,
                     diagnostic_mode=diagnostic_mode,
                     diagnostic_instruction=diagnostic_instruction,
                     result_ids=chunk_ids,

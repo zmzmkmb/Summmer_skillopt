@@ -60,10 +60,13 @@ class LiveMathematicianBenchAdapter(EnvAdapter):
         limit: int = 0,
         shuffle_choices: bool = True,
         use_theorem: bool = False,
-        use_sketch: bool = False,    ) -> None:
+        use_sketch: bool = False,
+        max_completion_tokens: int = 16384,
+    ) -> None:
         self.max_turns = max_turns
         self.exec_timeout = exec_timeout
         self.workers = workers
+        self.max_completion_tokens = int(max_completion_tokens)
         self.analyst_workers = analyst_workers
         self.failure_only = failure_only
         self.minibatch_size = minibatch_size
@@ -115,6 +118,7 @@ class LiveMathematicianBenchAdapter(EnvAdapter):
             max_turns=self.max_turns,
             exec_timeout=self.exec_timeout,
             workers=self.workers,
+            max_completion_tokens=self.max_completion_tokens,
             use_theorem=self.use_theorem,
             use_sketch=self.use_sketch,
             diagnostic_mode=kwargs.get("diagnostic_mode", False),

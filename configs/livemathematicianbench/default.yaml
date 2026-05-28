@@ -9,11 +9,11 @@ env:
   name: livemathematicianbench
   skill_init: skillopt/envs/livemathematicianbench/skills/initial.md
   split_mode: split_dir
-  split_ratio: "2:1:7"
   split_dir: data/ablation_splits/livemathematicianbench/2-1-7_seed42
   data_path: ""
   split_output_dir: ""
   max_turns: 1
+  max_completion_tokens: 16384
   exec_timeout: 300
   workers: 64
   limit: 0

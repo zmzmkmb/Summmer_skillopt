@@ -120,6 +120,7 @@ def process_one(
     diagnostic_instruction: str = "",
     diagnostic_trace_context: str = "",
     exec_timeout: int = 300,
+    max_completion_tokens: int = 16384,
 ) -> dict:
     item_id = str(item["id"])
     result = {
@@ -219,7 +220,7 @@ def process_one(
                 resp_text, _ = chat_target(
                     system=system,
                     user=user,
-                    max_completion_tokens=16384,
+                    max_completion_tokens=max_completion_tokens,
                     retries=5,
                     stage="rollout",
                     timeout=exec_timeout,
@@ -233,7 +234,7 @@ def process_one(
                 resp_text, _ = chat_target(
                     system=system,
                     user=refinement,
-                    max_completion_tokens=16384,
+                    max_completion_tokens=max_completion_tokens,
                     retries=5,
                     stage="rollout",
                     timeout=exec_timeout,
@@ -293,6 +294,7 @@ def run_batch(
     max_turns: int = 1,
     exec_timeout: int = 300,
     workers: int = 64,
+    max_completion_tokens: int = 16384,
     use_theorem: bool = False,
     use_sketch: bool = False,
     diagnostic_mode: bool = False,
@@ -338,6 +340,7 @@ def run_batch(
             skill_content,
             max_turns=max_turns,
             exec_timeout=exec_timeout,
+            max_completion_tokens=max_completion_tokens,
             use_theorem=use_theorem,
             use_sketch=use_sketch,
             diagnostic_mode=diagnostic_mode,

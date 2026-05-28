@@ -23,7 +23,7 @@ env:
     - data/officeqa_docs_official
   workers: 4
   max_tool_turns: 24
-  max_completion_tokens: 10000
+  max_completion_tokens: 16384
   search_mode: offline
   max_queries_per_turn: 4
   search_api_url: http://apisix.westus2.cloudapp.azure.com/search_tool/search

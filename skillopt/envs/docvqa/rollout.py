@@ -134,6 +134,7 @@ def process_one(
     max_turns: int = 1,
     exec_timeout: int = 120,
     image_detail: str = "auto",
+    max_completion_tokens: int = 16384,
     diagnostic_mode: bool = False,
     diagnostic_instruction: str = "",
 ) -> dict:
@@ -200,7 +201,7 @@ def process_one(
                 if turn == 0:
                     resp_text, _ = chat_target_messages(
                         messages=messages,
-                        max_completion_tokens=768,
+                        max_completion_tokens=max_completion_tokens,
                         retries=5,
                         stage="rollout",
                         timeout=exec_timeout,
@@ -214,7 +215,7 @@ def process_one(
                     ]
                     resp_text, _ = chat_target_messages(
                         messages=refinement_messages,
-                        max_completion_tokens=512,
+                        max_completion_tokens=max_completion_tokens,
                         retries=5,
                         stage="rollout",
                         timeout=exec_timeout,
@@ -266,6 +267,7 @@ def run_batch(
     exec_timeout: int = 120,
     workers: int = 16,
     image_detail: str = "auto",
+    max_completion_tokens: int = 16384,
     diagnostic_mode: bool = False,
     diagnostic_instruction: str = "",
     task_timeout: int = 600,
@@ -325,6 +327,7 @@ def run_batch(
             max_turns=max_turns,
             exec_timeout=exec_timeout,
             image_detail=image_detail,
+            max_completion_tokens=max_completion_tokens,
             diagnostic_mode=diagnostic_mode,
             diagnostic_instruction=diagnostic_instruction,
         )

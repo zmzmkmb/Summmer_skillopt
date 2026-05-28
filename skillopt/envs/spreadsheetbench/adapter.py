@@ -44,12 +44,15 @@ class SpreadsheetBenchAdapter(EnvAdapter):
         failure_only: bool = False,
         minibatch_size: int = 8,
         edit_budget: int = 4,
-        seed: int = 42,    ) -> None:
+        seed: int = 42,
+        max_completion_tokens: int = 16384,
+    ) -> None:
         self.data_root = data_root
         self.mode = mode  # "single", "multi", or "react"
         self.max_turns = max_turns
         self.exec_timeout = exec_timeout
         self.workers = workers
+        self.max_completion_tokens = int(max_completion_tokens)
         self.analyst_workers = analyst_workers
         self.failure_only = failure_only
         self.minibatch_size = minibatch_size
@@ -124,6 +127,7 @@ class SpreadsheetBenchAdapter(EnvAdapter):
                 skill_content=skill_content,
                 mode=self.mode,
                 max_turns=self.max_turns,
+                max_completion_tokens=self.max_completion_tokens,
                 max_api_workers=self.workers,
                 task_timeout=self.exec_timeout,
                 use_eval_feedback=kwargs.get("use_eval_feedback", False),
@@ -138,6 +142,7 @@ class SpreadsheetBenchAdapter(EnvAdapter):
                 out_root=out_dir,
                 skill_content=skill_content,
                 max_turns=self.max_turns,
+                max_completion_tokens=self.max_completion_tokens,
                 max_api_workers=self.workers,
                 task_timeout=max(600, int(self.exec_timeout) + 60),
                 diagnostic_mode=kwargs.get("diagnostic_mode", False),

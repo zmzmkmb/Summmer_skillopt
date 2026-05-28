@@ -79,7 +79,6 @@ env:
   name: ""
   skill_init: ""
   split_mode: ratio       # ratio = build deterministic split from data_path; split_dir = use pre-split train/val/test
-  split_ratio: "2:1:7"    # explicit default for dataset-backed benchmarks: train:val:test
   split_seed: 42
   split_dir: ""
   data_path: ""
