@@ -374,7 +374,7 @@ def _compute_task_type_buckets(results: list[dict], task_types: list[str]) -> di
             if key not in buckets:
                 buckets[key] = {"total": 0, "hard": 0, "soft": 0.0}
             buckets[key]["total"] += 1
-            buckets[key]["hard"] += int(r.get("hard", 0))
+            buckets[key]["hard"] += float(r.get("hard", 0))
             buckets[key]["soft"] += float(r.get("soft", 0.0))
     return buckets
 
@@ -393,7 +393,7 @@ def _extract_failure_patterns(
     Uses analyst ``failure_summary`` from minibatch patches when available,
     otherwise falls back to ``fail_reason`` prefix grouping.
     """
-    failures = [r for r in rollout_results if not r.get("hard")]
+    failures = [r for r in rollout_results if not r.get("hard") or float(r.get("hard", 0)) < 1e-9]
     if not failures:
         return []
 
@@ -1322,7 +1322,7 @@ class ReflACTTrainer:
                 # ── Step buffer: unified failure patterns + rejected edits ─
                 action = step_rec.get("action", "unknown")
                 n_total = len(all_rollout_results) or 1
-                n_fail = sum(1 for r in all_rollout_results if not r.get("hard"))
+                n_fail = sum(1 for r in all_rollout_results if not r.get("hard") or float(r.get("hard", 0)) < 1e-9)
                 failure_patterns = _extract_failure_patterns(
                     all_rollout_results, step_dir,
                 )
