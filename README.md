@@ -164,10 +164,10 @@ Key CLI arguments:
 Evaluate a trained skill on specific data splits without training:
 
 ```bash
-# Evaluate on test set only:
+# Evaluate the packaged GPT-5.5 SearchQA skill on the test split:
 python scripts/eval_only.py \
   --config configs/searchqa/default.yaml \
-  --skill outputs/my_run/best_skill.md \
+  --skill ckpt/searchqa/gpt5.5_skill.md \
   --split valid_unseen \
   --split_dir /path/to/searchqa_split \
   --azure_openai_endpoint https://your-resource.openai.azure.com/
@@ -175,11 +175,14 @@ python scripts/eval_only.py \
 # Evaluate on all splits (train + val + test):
 python scripts/eval_only.py \
   --config configs/searchqa/default.yaml \
-  --skill outputs/my_run/best_skill.md \
+  --skill ckpt/searchqa/gpt5.5_skill.md \
   --split all \
   --split_dir /path/to/searchqa_split \
   --azure_openai_endpoint https://your-resource.openai.azure.com/
 ```
+
+To evaluate a skill produced by a training run, replace `--skill` with that
+run's best-skill path, for example `outputs/my_run/best_skill.md`.
 
 | Split | Description |
 |---|---|
@@ -260,4 +263,3 @@ python -m skillopt_webui.app --share
       url={https://arxiv.org/abs/2605.23904}
 }
 ```
-
