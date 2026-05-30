@@ -45,12 +45,21 @@ export AZURE_OPENAI_API_KEY="your-key"
 export AZURE_OPENAI_AUTH_MODE="azure_cli"
 ```
 
-> **Note:** `AZURE_OPENAI_ENDPOINT` is always required. Without it, all LLM calls will fail.
+> **Note:** `AZURE_OPENAI_ENDPOINT` is required for all three modes (`api_key`, `azure_cli`,
+> `openai_compatible`). Without it, all LLM calls will fail.
 
-**OpenAI** directly:
+**OpenAI-compatible endpoints**:
 ```bash
-export OPENAI_API_KEY="sk-..."
+export AZURE_OPENAI_ENDPOINT="https://api.openai.com/v1"
+export AZURE_OPENAI_API_KEY="sk-..."
+export AZURE_OPENAI_AUTH_MODE="openai_compatible"
 ```
+
+This routes all calls through the plain OpenAI Python client (no Azure auth, no `api-version`
+header).
+
+> **Note:** SkillOpt reuses the `AZURE_OPENAI_*` env var names even in this mode — there is no
+> separate `OPENAI_API_KEY` knob.
 
 **Anthropic Claude**:
 ```bash
