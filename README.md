@@ -14,6 +14,29 @@ https://github.com/user-attachments/assets/eb12d3bc-371c-467f-904d-91b61f339ed7
 
 ---
 
+## Documentation
+
+A complete, self-contained **Documentation & Reproduction Guide** lives at
+[`docs/guideline.html`](docs/guideline.html). It covers installation, data
+preparation, training/eval commands, the full configuration reference, the
+framework internals (training loop, validation gate, slow update, meta skill),
+and an API/function reference — all in a single page with a left navigation
+sidebar.
+
+Because GitHub shows raw source for `.html` files instead of rendering them,
+open the guide one of these ways:
+
+- **Locally** — clone the repo and open `docs/guideline.html` in any browser
+  (no build step required).
+- **Rendered online (no setup)** — via the htmlpreview proxy:
+  [`htmlpreview.github.io/?…/docs/guideline.html`](https://htmlpreview.github.io/?https://github.com/microsoft/SkillOpt/blob/main/docs/guideline.html)
+- **GitHub Pages** — the repository's GitHub Pages site already serves the
+  project homepage from the repo root, so the guide is reachable alongside it at
+  `https://microsoft.github.io/SkillOpt/docs/guideline.html` (the homepage at
+  `https://microsoft.github.io/SkillOpt/` is unaffected).
+
+---
+
 ## Install
 
 **Requirements:** Python 3.10+
