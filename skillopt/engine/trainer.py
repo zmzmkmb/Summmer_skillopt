@@ -865,6 +865,15 @@ class ReflACTTrainer:
                 else ""
             )
         )
+        slow_gate_with_selection = bool(
+            cfg.get("slow_update_gate_with_selection", False)
+        )
+        print(
+            "  [slow update] acceptance="
+            + ("gated (selection-set validation)"
+               if slow_gate_with_selection
+               else "force-accept (unconditional)")
+        )
         if current_score < 0:
             print(f"\n{'='*60}")
             print("  BASELINE — evaluate initial skill on Selection set (valid_seen)")
@@ -1468,17 +1477,27 @@ class ReflACTTrainer:
                             epoch_comparison_pairs = None
                     if (
                         slow_saved.get("slow_update_content")
-                        and slow_saved.get("action") in {
-                            "accept", "accept_new_best", "force_accept",
-                        }
                         and epoch >= 2
                     ):
-                        current_skill = replace_slow_update_field(
-                            current_skill, slow_saved["slow_update_content"],
-                        )
-                        best_skill = replace_slow_update_field(
-                            best_skill, slow_saved["slow_update_content"],
-                        )
+                        action = slow_saved.get("action")
+                        if slow_gate_with_selection:
+                            # Gated mode (follow SkillReflection): re-apply the
+                            # guidance to current_skill only when it was accepted.
+                            if action in {"accept", "accept_new_best"}:
+                                current_skill = replace_slow_update_field(
+                                    current_skill,
+                                    slow_saved["slow_update_content"],
+                                )
+                        elif action in {
+                            "accept", "accept_new_best", "force_accept",
+                        }:
+                            # Force-accept mode: re-apply to both current & best.
+                            current_skill = replace_slow_update_field(
+                                current_skill, slow_saved["slow_update_content"],
+                            )
+                            best_skill = replace_slow_update_field(
+                                best_skill, slow_saved["slow_update_content"],
+                            )
                 elif epoch == 1:
                     # Epoch 1: inject empty placeholder
                     os.makedirs(slow_dir, exist_ok=True)
@@ -1618,31 +1637,119 @@ class ReflACTTrainer:
                             "observed across adjacent epochs."
                         )
 
-                        # Slow update field is force-updated into both
-                        # current_skill and best_skill unconditionally.
-                        # The epoch-level longitudinal guidance should always
-                        # persist — it must not be gated by step-level
-                        # selection scores.
-                        slow_content = slow_result["slow_update_content"]
-                        current_skill = replace_slow_update_field(
-                            current_skill, slow_content,
-                        )
-                        best_skill = replace_slow_update_field(
-                            best_skill, slow_content,
-                        )
-                        # Update caches so downstream steps use the
-                        # slow-update-injected skill for hashing.
-                        slow_candidate_hash = skill_hash(current_skill)
-                        sel_cache[slow_candidate_hash] = (current_score, 0.0)
+                        # Slow update acceptance — two modes selected via
+                        # `optimizer.slow_update_gate_with_selection`.
+                        if slow_gate_with_selection:
+                            # ── Gated mode (follow SkillReflection) ──────────
+                            # Evaluate the slow-update candidate on the
+                            # selection set and accept/reject via the same
+                            # validation gate used for step-level updates.
+                            if slow_candidate_hash in sel_cache:
+                                slow_sel_hard, slow_sel_soft = sel_cache[
+                                    slow_candidate_hash
+                                ]
+                                print(
+                                    f"    [slow gate] cache hit: "
+                                    f"hard={slow_sel_hard:.4f}"
+                                )
+                            else:
+                                sel_env, sel_n = _build_eval_env(
+                                    split="valid_seen",
+                                    env_num=cfg["sel_env_num"],
+                                    seed=seed,
+                                )
+                                print(f"    [slow gate] selection items={sel_n}")
+                                slow_eval_dir = os.path.join(
+                                    slow_dir, "selection_eval",
+                                )
+                                slow_eval_results = adapter.rollout(
+                                    sel_env, slow_candidate, slow_eval_dir,
+                                )
+                                slow_sel_hard, slow_sel_soft = compute_score(
+                                    slow_eval_results
+                                )
+                                sel_cache[slow_candidate_hash] = (
+                                    slow_sel_hard, slow_sel_soft,
+                                )
 
-                        slow_result["action"] = "force_accept"
-                        current_origin = f"slow_update_epoch_{epoch:02d}"
+                            slow_gate = evaluate_gate(
+                                candidate_skill=slow_candidate,
+                                cand_hard=slow_sel_hard,
+                                current_skill=current_skill,
+                                current_score=current_score,
+                                best_skill=best_skill,
+                                best_score=best_score,
+                                best_step=best_step,
+                                global_step=global_step,
+                                cand_soft=slow_sel_soft,
+                                metric=gate_metric,
+                                mixed_weight=gate_mixed_weight,
+                            )
+                            slow_result["selection_hard"] = slow_sel_hard
+                            slow_result["selection_soft"] = slow_sel_soft
+                            slow_result["action"] = slow_gate.action
+                            prev_current = current_score
+                            prev_best = best_score
+                            current_skill = slow_gate.current_skill
+                            current_score = slow_gate.current_score
+                            best_skill = slow_gate.best_skill
+                            best_score = slow_gate.best_score
+                            best_step = slow_gate.best_step
+                            if slow_gate.action in {"accept", "accept_new_best"}:
+                                current_origin = (
+                                    f"slow_update_epoch_{epoch:02d}"
+                                )
+                            if slow_gate.action == "accept_new_best":
+                                best_origin = current_origin
+                                print(
+                                    f"    [slow gate] ACCEPT (new best) "
+                                    f"hard={slow_sel_hard:.4f} > "
+                                    f"prev best {prev_best:.4f}"
+                                )
+                            elif slow_gate.action == "accept":
+                                print(
+                                    f"    [slow gate] ACCEPT "
+                                    f"hard={slow_sel_hard:.4f} > "
+                                    f"current={prev_current:.4f}"
+                                )
+                            else:
+                                print(
+                                    f"    [slow gate] REJECT "
+                                    f"hard={slow_sel_hard:.4f} <= "
+                                    f"current={current_score:.4f}"
+                                )
+                            print(
+                                f"    [slow update] guidance written "
+                                f"({len(slow_result['slow_update_content'])} "
+                                f"chars), {slow_time}s"
+                            )
+                        else:
+                            # ── Force-accept mode (default) ──────────────────
+                            # The epoch-level longitudinal guidance is injected
+                            # into both current_skill and best_skill
+                            # unconditionally — it must not be gated by
+                            # step-level selection scores.
+                            slow_content = slow_result["slow_update_content"]
+                            current_skill = replace_slow_update_field(
+                                current_skill, slow_content,
+                            )
+                            best_skill = replace_slow_update_field(
+                                best_skill, slow_content,
+                            )
+                            # Update caches so downstream steps use the
+                            # slow-update-injected skill for hashing.
+                            slow_candidate_hash = skill_hash(current_skill)
+                            sel_cache[slow_candidate_hash] = (current_score, 0.0)
 
-                        print(
-                            f"    [slow update] force-injected into current & best "
-                            f"({len(slow_content)} chars), "
-                            f"{slow_time}s"
-                        )
+                            slow_result["action"] = "force_accept"
+                            current_origin = f"slow_update_epoch_{epoch:02d}"
+
+                            print(
+                                f"    [slow update] force-injected into "
+                                f"current & best "
+                                f"({len(slow_content)} chars), "
+                                f"{slow_time}s"
+                            )
                     else:
                         slow_result = slow_result or {}
                         slow_result["action"] = "no_content"
