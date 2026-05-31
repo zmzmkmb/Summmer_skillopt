@@ -51,6 +51,7 @@ from skillopt.model import (
     configure_azure_openai,
     configure_claude_code_exec,
     configure_codex_exec,
+    configure_minimax_chat,
     configure_qwen_chat,
     get_token_summary,
     reset_token_tracker,
@@ -636,6 +637,16 @@ class ReflACTTrainer:
             max_tokens=cfg.get("qwen_chat_max_tokens"),
             enable_thinking=cfg.get("qwen_chat_enable_thinking"),
         )
+        configure_minimax_chat(
+            base_url=cfg.get("minimax_base_url") or None,
+            api_key=cfg.get("minimax_api_key") or None,
+            temperature=cfg.get("minimax_temperature"),
+            max_tokens=cfg.get("minimax_max_tokens"),
+            enable_thinking=cfg.get("minimax_enable_thinking"),
+        )
+        minimax_model_cfg = cfg.get("minimax_model")
+        if minimax_model_cfg and cfg.get("target_backend") == "minimax_chat":
+            set_target_deployment(str(minimax_model_cfg))
         os.environ["REFLACT_CODEX_TRACE_TO_OPTIMIZER"] = (
             "1"
             if target_backend == "codex_exec" and cfg.get("codex_trace_to_optimizer", False)
