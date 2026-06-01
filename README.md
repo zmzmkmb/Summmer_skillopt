@@ -139,7 +139,7 @@ python scripts/train.py \
 # Train on ALFWorld:
 python scripts/train.py \
     --config configs/alfworld/default.yaml \
-    --split_dir /path/to/your/alfworld_split \
+    --split_dir data/alfworld_path_split \
     --azure_openai_endpoint https://your-resource.openai.azure.com/ \
     --optimizer_model gpt-5.5 \
     --target_model gpt-5.5
