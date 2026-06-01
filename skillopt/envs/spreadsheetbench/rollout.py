@@ -26,7 +26,9 @@ from concurrent.futures import (
 import openpyxl
 
 from skillopt.envs.spreadsheetbench.react_agent import run_react
-from skillopt.envs.spreadsheetbench.evaluator import evaluate, _generate_cell_names
+from skillopt.envs.spreadsheetbench.evaluator import (
+    evaluate, _generate_cell_names, _compare_cell_value,
+)
 from skillopt.envs.spreadsheetbench.executor import run_generated_code
 
 
@@ -129,11 +131,30 @@ def _auto_verify_output(
                 lines.append(f"  Sheet '{sheet_name}' NOT FOUND in output.")
                 continue
 
+            n_correct_skipped = 0
             for cn in cell_names:
                 gv = ws_gold[cn].value if ws_gold else "N/A"
                 pv = ws_pred[cn].value
-                match = "✓" if repr(gv) == repr(pv) else "✗"
+                # Use the official cell comparator so this report's ✓/✗ agrees
+                # with the real scorer (evaluate). repr() equality would wrongly
+                # flag e.g. 5 vs 5.0 or None vs "" as mismatches and mislead the
+                # model into "fixing" cells that already pass scoring.
+                ok_cell = ws_gold is not None and _compare_cell_value(gv, pv)
+                match = "✓" if ok_cell else "✗"
+                # Skip cells that are correct AND empty on both sides: for large
+                # answer ranges (e.g. C2:C5000) the vast majority are empty
+                # (got=None, expected=None ✓) and would otherwise flood the
+                # report with hundreds of thousands of noise chars, burying the
+                # few real ✗ lines. We only emit wrong cells and non-empty
+                # correct cells; empty-correct cells are collapsed into a count.
+                if ok_cell and gv in (None, "") and pv in (None, ""):
+                    n_correct_skipped += 1
+                    continue
                 lines.append(f"  {sheet_name}!{cn}: got={pv!r}, expected={gv!r} {match}")
+            if n_correct_skipped:
+                lines.append(
+                    f"  (+{n_correct_skipped} empty cells correct, omitted)"
+                )
 
         # Also check if any cells in the output contain formula strings
         formula_cells = []

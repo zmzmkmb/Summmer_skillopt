@@ -43,19 +43,21 @@ from skillopt.utils import extract_json
 
 # ── Trajectory formatting ────────────────────────────────────────────────────
 
-_MAX_TRAJ_CHARS = 12_000
 
+def _clip_text(value, limit: int | None = None) -> str:
+    """Render optional trajectory fields. Truncation is disabled: the optimizer
+    is given the full content so it can see exactly what the agent saw/did.
 
-def _clip_text(value, limit: int) -> str:
-    """Render optional trajectory fields safely before truncation."""
+    ``limit`` is accepted for backward compatibility but ignored.
+    """
     if value is None:
         return ""
-    return str(value)[:limit]
+    return str(value)
 
 
 def fmt_trajectory(
     conversation: list[dict],
-    max_chars: int = _MAX_TRAJ_CHARS,
+    max_chars: int | None = None,
 ) -> str:
     """Format a conversation list into analyst-readable text.
 
@@ -69,37 +71,32 @@ def fmt_trajectory(
     lines: list[str] = []
     for item in conversation:
         if not isinstance(item, dict):
-            lines.append(f"[agent] {_clip_text(item, 500)}")
+            lines.append(f"[agent] {_clip_text(item)}")
             continue
         if item.get("type") == "tool_call":
-            cmd = _clip_text(item.get("cmd"), 500)
-            obs = _clip_text(item.get("obs"), 800)
+            cmd = _clip_text(item.get("cmd"))
+            obs = _clip_text(item.get("obs"))
             lines.append(f"[action] {cmd}")
             lines.append(f"[obs]    {obs}")
         elif "action" in item and "env_feedback" in item:
             step = item.get("step", "?")
-            reasoning = _clip_text(item.get("reasoning"), 300)
-            action = _clip_text(item.get("action"), 200)
-            feedback = _clip_text(item.get("env_feedback"), 500)
+            reasoning = _clip_text(item.get("reasoning"))
+            action = _clip_text(item.get("action"))
+            feedback = _clip_text(item.get("env_feedback"))
             if reasoning:
                 lines.append(f"[step {step} think] {reasoning}")
             lines.append(f"[step {step} action] {action}")
             lines.append(f"[step {step} obs]    {feedback}")
         elif item.get("role") == "system":
             # Post-execution verification / enrichment info
-            msg = _clip_text(item.get("content"), 2000)
+            msg = _clip_text(item.get("content"))
             lines.append(f"[verification] {msg}")
         else:
-            msg = _clip_text(item.get("content"), 500)
+            msg = _clip_text(item.get("content"))
             role = item.get("role", "agent")
             lines.append(f"[{role}] {msg}")
 
-    text = "\n".join(lines)
-    if len(text) > max_chars:
-        head = text[: max_chars // 2]
-        tail = text[-max_chars // 2 :]
-        text = head + "\n...[middle truncated]...\n" + tail
-    return text
+    return "\n".join(lines)
 
 
 # ── Minibatch trajectory formatting ──────────────────────────────────────────
@@ -157,7 +154,7 @@ def fmt_minibatch_trajectories(
         if reference_text:
             header += (
                 f"\n#### Hidden Reference\n"
-                f"{reference_text[:4000]}\n"
+                f"{reference_text}\n"
             )
 
         # ── Append target context (what the agent saw) ──────────────
@@ -170,7 +167,7 @@ def fmt_minibatch_trajectories(
         if target_prompt:
             header += (
                 f"\n#### Target System Prompt\n"
-                f"{target_prompt[:3000]}\n"
+                f"{target_prompt}\n"
             )
 
         user_prompt = item.get("target_user_prompt", "")
@@ -182,7 +179,7 @@ def fmt_minibatch_trajectories(
         if user_prompt:
             header += (
                 f"\n#### Target User Prompt\n"
-                f"{user_prompt[:3000]}\n"
+                f"{user_prompt}\n"
             )
 
         if os.environ.get("REFLACT_CODEX_TRACE_TO_OPTIMIZER", "0") == "1":
@@ -214,7 +211,7 @@ def fmt_minibatch_trajectories(
         if preview:
             header += (
                 f"\n#### Spreadsheet Preview\n"
-                f"{preview[:3000]}\n"
+                f"{preview}\n"
             )
 
         parts.append(header + "\n" + traj_text)
@@ -323,7 +320,7 @@ def run_error_analyst_minibatch(
     try:
         response, _ = chat_optimizer(
             system=actual_system, user=user,
-            max_completion_tokens=64000 if is_full_rewrite_minibatch_mode(mode) else 4096,
+            max_completion_tokens=64000 if is_full_rewrite_minibatch_mode(mode) else 16384,
             retries=3,
             stage="analyst",
         )
@@ -398,7 +395,7 @@ def run_success_analyst_minibatch(
     try:
         response, _ = chat_optimizer(
             system=actual_system, user=user,
-            max_completion_tokens=64000 if is_full_rewrite_minibatch_mode(mode) else 4096,
+            max_completion_tokens=64000 if is_full_rewrite_minibatch_mode(mode) else 16384,
             retries=3,
             stage="analyst",
         )

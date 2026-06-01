@@ -24,7 +24,7 @@ from collections import defaultdict
 
 from skillopt.datasets.base import BatchSpec
 from skillopt.envs.base import EnvAdapter
-from skillopt.evaluation.gate import evaluate_gate, select_gate_score
+from skillopt.evaluation.gate import GateResult, evaluate_gate, select_gate_score
 from skillopt.gradient.aggregate import merge_patches
 from skillopt.optimizer.meta_skill import run_meta_skill
 from skillopt.optimizer.clip import rank_and_select
@@ -467,7 +467,7 @@ def _format_step_buffer(buffer: list[dict]) -> str:
 
         # Failure patterns
         for p in entry.get("failure_patterns", []):
-            ids = ", ".join(p["task_ids"][:3])
+            ids = ", ".join(p["task_ids"])
             parts.append(f'  - "{p["pattern"]}" (×{p["count"]}, tasks: {ids})')
 
         # Rejected edits (only present on reject)
@@ -484,7 +484,7 @@ def _format_step_buffer(buffer: list[dict]) -> str:
                     content = e.get("content", "")
                     target = e.get("target", "")
                     if target:
-                        parts.append(f'    {i}. [{op}] target="{target[:80]}" → "{content}"')
+                        parts.append(f'    {i}. [{op}] target="{target}" → "{content}"')
                     else:
                         parts.append(f'    {i}. [{op}] "{content}"')
                 else:
@@ -863,11 +863,10 @@ class ReflACTTrainer:
                 sel_cache[sh] = (rec["selection_hard"], rec["selection_soft"])
 
         # ── Baseline evaluation on selection set ─────────────────────────
-        if cfg.get("use_gate") is False:
-            raise ValueError(
-                "Gate validation is mandatory in this branch. Remove "
-                "`evaluation.use_gate=false` from the config."
-            )
+        # `use_gate=False` keeps validation running (selection rollout +
+        # scoring are unconditional below) but force-accepts every candidate
+        # instead of gating it; final skill is chosen manually afterwards.
+        use_gate = cfg.get("use_gate", True) is not False
         gate_metric = str(cfg.get("gate_metric", "hard")).strip().lower()
         if gate_metric not in {"hard", "soft", "mixed"}:
             raise ValueError(
@@ -887,6 +886,8 @@ class ReflACTTrainer:
                 if gate_metric == "mixed"
                 else ""
             )
+            + ("" if use_gate
+               else "  (DISABLED → validation runs, candidates force-accepted)")
         )
         slow_gate_with_selection = bool(
             cfg.get("slow_update_gate_with_selection", False)
@@ -1346,10 +1347,31 @@ class ReflACTTrainer:
                     cand_soft=cand_soft,
                     metric=gate_metric,
                     mixed_weight=gate_mixed_weight,
-                )
+                ) if use_gate else None
                 cand_gate_score = select_gate_score(
                     cand_hard, cand_soft, gate_metric, gate_mixed_weight,
                 )
+                if not use_gate:
+                    # Validation ran (scores recorded above) but the gate is
+                    # disabled: force-accept the candidate as the new current
+                    # skill. Best-so-far is still tracked for convenience; the
+                    # final skill is selected manually from the trajectory.
+                    if cand_gate_score > best_score:
+                        fa_best_skill = candidate_skill
+                        fa_best_score = cand_gate_score
+                        fa_best_step = global_step
+                    else:
+                        fa_best_skill = best_skill
+                        fa_best_score = best_score
+                        fa_best_step = best_step
+                    gate = GateResult(
+                        action="force_accept",
+                        current_skill=candidate_skill,
+                        current_score=cand_gate_score,
+                        best_skill=fa_best_skill,
+                        best_score=fa_best_score,
+                        best_step=fa_best_step,
+                    )
                 step_rec["gate_metric"] = gate_metric
                 step_rec["candidate_gate_score"] = cand_gate_score
                 step_rec["action"] = gate.action
@@ -1360,9 +1382,11 @@ class ReflACTTrainer:
                 best_skill = gate.best_skill
                 best_score = gate.best_score
                 best_step = gate.best_step
-                if gate.action in {"accept", "accept_new_best"}:
+                if gate.action in {"accept", "accept_new_best", "force_accept"}:
                     current_origin = f"step_{global_step:04d}"
-                if gate.action == "accept_new_best":
+                if gate.action == "accept_new_best" or (
+                    gate.action == "force_accept" and best_step == global_step
+                ):
                     best_origin = current_origin
 
                 if gate_metric == "hard":
@@ -1383,6 +1407,11 @@ class ReflACTTrainer:
                     print(
                         f"    [6/6 EVALUATE] ACCEPT "
                         f"{score_label} > current={prev_current:.4f}"
+                    )
+                elif gate.action == "force_accept":
+                    print(
+                        f"    [6/6 EVALUATE] FORCE-ACCEPT (gate disabled) "
+                        f"{score_label}"
                     )
                 else:
                     print(

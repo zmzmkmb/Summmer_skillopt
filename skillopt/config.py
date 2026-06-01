@@ -189,13 +189,6 @@ def flatten_config(cfg: dict) -> dict:
 
     flat: dict[str, Any] = {}
 
-    evaluation_section = cfg.get("evaluation", {})
-    if isinstance(evaluation_section, dict) and evaluation_section.get("use_gate") is False:
-        raise ValueError(
-            "Gate validation is mandatory in this branch. Remove "
-            "`evaluation.use_gate: false` from the config."
-        )
-
     # Apply the explicit mapping
     for dotted, flat_key in _FLATTEN_MAP.items():
         section, key = dotted.split(".", 1)
