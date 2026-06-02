@@ -6,11 +6,8 @@
 
 ---
 
-## 🔥 News
-
-| Date | Version | Highlights |
-|---|---|---|
-| 2026-06-02 | [v0.1.0](https://github.com/microsoft/SkillOpt/releases/tag/v0.1.0) | Initial public release on [PyPI](https://pypi.org/project/skillopt/). Full training loop (rollout → reflect → aggregate → select → update → evaluate), multi-backend support (OpenAI / Azure / Claude / Qwen / MiniMax), six built-in benchmarks, WebUI dashboard, and pretrained GPT-5.5 skill artifacts. |
+## News 🔥🔥🔥
+- **[2026-06-02]** 🎉 **SkillOpt [v0.1.0](https://github.com/microsoft/SkillOpt/releases/tag/v0.1.0) is now available on [PyPI](https://pypi.org/project/skillopt/)!** Install with `pip install skillopt`. This initial release includes the full training loop (rollout → reflect → aggregate → select → update → evaluate), multi-backend support (OpenAI / Azure / Claude / Qwen / MiniMax), six built-in benchmarks, WebUI dashboard, and pretrained GPT-5.5 skill artifacts.
 
 ---
 
