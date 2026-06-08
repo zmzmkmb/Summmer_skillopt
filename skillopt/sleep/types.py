@@ -56,8 +56,9 @@ class TaskRecord:
     context_excerpt: str = ""         # minimal context needed to attempt it
     attempted_solution: str = ""      # what the agent produced before
     outcome: str = "unknown"          # success | fail | mixed | unknown
-    reference_kind: str = "none"      # exact | rubric | none
+    reference_kind: str = "none"      # exact | rubric | rule | none
     reference: str = ""               # exact answer, or rubric text
+    judge: Dict[str, Any] = field(default_factory=dict)  # gbrain-style rule judge
     tags: List[str] = field(default_factory=list)
     source_sessions: List[str] = field(default_factory=list)
     split: str = "replay"             # replay (train) | holdout (test)

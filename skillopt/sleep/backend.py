@@ -29,6 +29,11 @@ from typing import Any, Dict, List, Optional, Tuple
 from skillopt.sleep.types import EditRecord, ReplayResult, TaskRecord
 
 
+def skill_hash(content: str) -> str:
+    import hashlib
+    return hashlib.sha256(content.encode("utf-8")).hexdigest()[:16]
+
+
 # ── Backend protocol ──────────────────────────────────────────────────────────
 
 class Backend:
@@ -153,6 +158,9 @@ class MockBackend(Backend):
         return "(attempted, no checkable reference)"
 
     def judge(self, task: TaskRecord, response: str) -> Tuple[float, float, str]:
+        if task.reference_kind == "rule" and task.judge:
+            from skillopt.sleep.judges import score_rule_judge
+            return score_rule_judge(task.judge, response)
         if task.reference_kind == "exact" and task.reference:
             hard = exact_score(task.reference, response)
             soft = max(hard, keyword_soft_score(task.reference, response))
@@ -198,84 +206,83 @@ class MockBackend(Backend):
         return edits
 
 
-# ── Anthropic backend (real API; lazy, optional) ──────────────────────────────
+# ── Shared real-CLI backend (prompts + parsing + cache; subclasses do _call) ──
 
-class AnthropicBackend(Backend):
-    """Uses the user's Anthropic budget. Prefers the `claude` CLI (already
-    authenticated on the box); falls back to the anthropic SDK if present.
+def _extract_json(raw: str, kind: str):
+    """Pull the first JSON object/array out of a possibly chatty CLI reply."""
+    pat = r"\{.*\}" if kind == "object" else r"\[.*\]"
+    m = re.search(pat, raw or "", re.DOTALL)
+    if not m:
+        return None
+    try:
+        return json.loads(m.group(0))
+    except Exception:
+        return None
 
-    This is intentionally thin for Phase 1 — it wires the prompts and parses
-    JSON. Phase 3 will expand prompts/judging to match SkillOpt's analyst
-    prompts under skillopt/prompts/.
+
+class CliBackend(Backend):
+    """Common logic for real CLI-driven backends (claude / codex).
+
+    Subclasses implement only ``_call(prompt) -> str``. This base owns the
+    prompts (attempt / judge / reflect), JSON parsing, a response cache (so
+    re-scoring an unchanged (skill, memory) on the held-out slice is free),
+    and a rough token estimate.
     """
 
-    name = "anthropic"
+    name = "cli"
 
-    def __init__(self, model: str = "", claude_path: str = "claude") -> None:
-        self.model = model or os.environ.get("ANTHROPIC_MODEL", "") or "sonnet"
-        self.claude_path = claude_path
+    def __init__(self, model: str = "", timeout: int = 180) -> None:
+        self.model = model
+        self.timeout = timeout
         self._tokens = 0
+        self._cache: Dict[str, str] = {}
 
-    # -- low-level call -----------------------------------------------------
+    # subclasses override --------------------------------------------------
     def _call(self, prompt: str, *, max_tokens: int = 1024) -> str:
-        # Try the CLI first (non-interactive, text output).
-        try:
-            cmd = [self.claude_path, "-p", "--output-format", "text"]
-            if self.model:
-                cmd += ["--model", self.model]
-            cmd += ["--", prompt]
-            proc = subprocess.run(
-                cmd, capture_output=True, text=True, timeout=180,
-            )
-            out = (proc.stdout or "").strip()
-            if out:
-                self._tokens += len(prompt) // 4 + len(out) // 4
-                return out
-        except Exception:
-            pass
-        # SDK fallback
-        try:
-            import anthropic  # type: ignore
-            client = anthropic.Anthropic()
-            msg = client.messages.create(
-                model=self.model or "claude-sonnet-4-5",
-                max_tokens=max_tokens,
-                messages=[{"role": "user", "content": prompt}],
-            )
-            text = "".join(getattr(b, "text", "") for b in msg.content)
-            self._tokens += getattr(msg.usage, "input_tokens", 0) + getattr(
-                msg.usage, "output_tokens", 0
-            )
-            return text.strip()
-        except Exception:
-            return ""
+        raise NotImplementedError
 
+    def _cached_call(self, key: str, prompt: str, *, max_tokens: int = 1024) -> str:
+        if key in self._cache:
+            return self._cache[key]
+        out = self._call(prompt, max_tokens=max_tokens)
+        self._tokens += len(prompt) // 4 + len(out) // 4
+        self._cache[key] = out
+        return out
+
+    # operations -----------------------------------------------------------
     def attempt(self, task: TaskRecord, skill: str, memory: str) -> str:
         prompt = (
             "You are completing a recurring task for a user. Apply the skill and "
-            "memory exactly.\n\n"
+            "memory rules EXACTLY, including any output-format requirements.\n\n"
             f"# Skill\n{skill or '(none)'}\n\n# Memory\n{memory or '(none)'}\n\n"
             f"# Task\n{task.intent}\n\n{task.context_excerpt}\n\n"
-            "Return only the final answer."
+            "Return ONLY the final answer text, nothing else."
         )
-        return self._call(prompt)
+        # cache on (task, skill, memory) so identical hold-out re-scoring is free
+        key = "attempt:" + skill_hash(prompt)
+        return self._cached_call(key, prompt, max_tokens=512)
 
     def judge(self, task: TaskRecord, response: str) -> Tuple[float, float, str]:
+        # gbrain-style rule judge: scored locally, no API spend
+        if task.reference_kind == "rule" and task.judge:
+            from skillopt.sleep.judges import score_rule_judge
+            return score_rule_judge(task.judge, response)
+        # exact references are scored locally — no API spend
         if task.reference_kind == "exact" and task.reference:
             hard = exact_score(task.reference, response)
-            return hard, max(hard, keyword_soft_score(task.reference, response)), "exact"
+            return hard, max(hard, keyword_soft_score(task.reference, response)), "exact(local)"
         prompt = (
-            "Score the response against the rubric on a 0-1 scale. "
-            "Return JSON {\"score\": <0..1>, \"reason\": \"...\"}.\n\n"
+            "Score how well the response satisfies the rubric, 0..1. "
+            'Return ONLY JSON {"score": <0..1>, "reason": "..."}.\n\n'
             f"# Rubric\n{task.reference or task.intent}\n\n# Response\n{response}"
         )
-        raw = self._call(prompt, max_tokens=256)
-        m = re.search(r"\{.*\}", raw, re.DOTALL)
-        if m:
+        key = "judge:" + skill_hash(prompt)
+        raw = self._cached_call(key, prompt, max_tokens=200)
+        obj = _extract_json(raw, "object")
+        if isinstance(obj, dict):
             try:
-                obj = json.loads(m.group(0))
                 soft = float(obj.get("score", 0.0))
-                return (1.0 if soft >= 0.8 else 0.0), soft, str(obj.get("reason", ""))
+                return (1.0 if soft >= 0.8 else 0.0), soft, str(obj.get("reason", ""))[:200]
             except Exception:
                 pass
         return 0.0, 0.0, "judge-parse-failed"
@@ -291,44 +298,182 @@ class AnthropicBackend(Backend):
         evolve_skill: bool,
         evolve_memory: bool,
     ) -> List[EditRecord]:
+        if not failures:
+            return []
+        target = "skill" if evolve_skill else "memory"
+        cur_doc = (skill if target == "skill" else memory) or "(empty)"
         fail_text = "\n".join(
-            f"- intent: {t.intent[:200]}\n  got: {r.response[:200]}\n  why: {r.fail_reason[:160]}"
+            f"- wanted: {t.intent[:160]}\n  got: {r.response[:160]}\n  why-wrong: {r.fail_reason[:160]}"
             for t, r in failures[:8]
         )
-        target = "skill" if evolve_skill else "memory"
+        # Aggregate the most common failing criteria across all failures so the
+        # optimizer is told *exactly what the scorer rewards* — gbrain's lesson:
+        # the optimizer kept proposing reasonable-but-wrong edits until it could
+        # see the success criteria.
+        from collections import Counter
+        crit = Counter()
+        for _t, r in failures:
+            fr = r.fail_reason or ""
+            if fr.startswith("failed:"):
+                for part in fr[len("failed:"):].split(","):
+                    part = part.strip()
+                    if part:
+                        crit[part] += 1
+        criteria_text = ""
+        if crit:
+            criteria_text = (
+                "\n# Exact criteria the outputs are FAILING (fix these directly)\n"
+                + "\n".join(f"- {c}  (failed {n}x)" for c, n in crit.most_common())
+            )
         prompt = (
-            "You are SkillOpt's optimizer. Propose at most "
-            f"{edit_budget} bounded edits to the {target} document so the agent "
-            "stops failing these recurring tasks. Each edit must be a short, "
-            "general, reusable rule (not task-specific). Return JSON list: "
-            "[{\"op\":\"add|replace|delete\",\"content\":\"...\",\"rationale\":\"...\"}].\n\n"
-            f"# Current {target}\n{(skill if target=='skill' else memory) or '(empty)'}\n\n"
-            f"# Recurring failures\n{fail_text or '(none)'}"
+            "You are SkillOpt's optimizer. The agent keeps failing the recurring "
+            f"tasks below. Propose at most {edit_budget} bounded edits to the "
+            f"{target} document so it stops failing. Each edit MUST be a short, "
+            "GENERAL, reusable rule or preference (never task-specific, never an "
+            "answer to a single task). If exact failing criteria are listed, your "
+            "edits MUST make future outputs satisfy every one of them. "
+            'Return ONLY a JSON array: '
+            '[{"op":"add|replace|delete","content":"<rule>","anchor":"<text to replace/delete, optional>","rationale":"<why>"}].\n\n'
+            f"# Current {target}\n{cur_doc}\n"
+            f"{criteria_text}\n\n"
+            f"# Recurring failures\n{fail_text}"
         )
         raw = self._call(prompt, max_tokens=1024)
-        m = re.search(r"\[.*\]", raw, re.DOTALL)
+        self._tokens += len(prompt) // 4 + len(raw) // 4
+        arr = _extract_json(raw, "array")
         edits: List[EditRecord] = []
-        if m:
-            try:
-                for e in json.loads(m.group(0))[:edit_budget]:
-                    edits.append(
-                        EditRecord(
-                            target=target,
-                            op=str(e.get("op", "add")),
-                            content=str(e.get("content", "")).strip(),
-                            anchor=str(e.get("anchor", "")),
-                            rationale=str(e.get("rationale", "")),
-                        )
-                    )
-            except Exception:
-                pass
-        return [e for e in edits if e.content]
+        if isinstance(arr, list):
+            for e in arr[:edit_budget]:
+                if not isinstance(e, dict):
+                    continue
+                content = str(e.get("content", "")).strip()
+                if not content:
+                    continue
+                edits.append(EditRecord(
+                    target=target,
+                    op=str(e.get("op", "add")).strip().lower(),
+                    content=content,
+                    anchor=str(e.get("anchor", "")).strip(),
+                    rationale=str(e.get("rationale", "")).strip(),
+                ))
+        return edits
 
     def tokens_used(self) -> int:
         return self._tokens
 
 
-def get_backend(name: str, *, model: str = "", claude_path: str = "claude") -> Backend:
-    if name == "anthropic":
-        return AnthropicBackend(model=model, claude_path=claude_path)
+# ── Claude Code CLI backend ───────────────────────────────────────────────────
+
+class ClaudeCliBackend(CliBackend):
+    """Drives the authenticated `claude` CLI: claude -p --output-format text."""
+
+    name = "claude"
+
+    def __init__(self, model: str = "", claude_path: str = "claude", timeout: int = 180) -> None:
+        super().__init__(model=model or os.environ.get("SKILLOPT_SLEEP_CLAUDE_MODEL", "") or "sonnet",
+                         timeout=timeout)
+        self.claude_path = claude_path
+
+    def _call(self, prompt: str, *, max_tokens: int = 1024) -> str:
+        cmd = [self.claude_path, "-p", "--output-format", "text"]
+        if self.model:
+            cmd += ["--model", self.model]
+        cmd += ["--", prompt]
+        try:
+            proc = subprocess.run(cmd, capture_output=True, text=True, timeout=self.timeout)
+        except Exception:
+            return ""
+        return (proc.stdout or "").strip()
+
+
+# ── Codex CLI backend (real @openai/codex, not the hermes wrapper) ────────────
+
+def resolve_codex_path(explicit: str = "") -> str:
+    """Find the REAL `@openai/codex` binary, skipping the hermes wrapper.
+
+    The wrapper at ~/.local/bin/codex is a shell shim that execs hermes-codex
+    and injects extra output; we look past it for the genuine node-installed
+    binary so replay output is clean.
+    """
+    if explicit:
+        return explicit
+    env = os.environ.get("SKILLOPT_SLEEP_CODEX_PATH")
+    if env:
+        return env
+    candidates = [
+        os.path.expanduser("~/.nvm/versions/node/v22.22.3/bin/codex"),
+    ]
+    # any nvm node version
+    nvm = os.path.expanduser("~/.nvm/versions/node")
+    if os.path.isdir(nvm):
+        for ver in sorted(os.listdir(nvm), reverse=True):
+            candidates.append(os.path.join(nvm, ver, "bin", "codex"))
+    for c in candidates:
+        if not c or not os.path.exists(c):
+            continue
+        try:
+            with open(c, "rb") as f:
+                head = f.read(64)
+            # skip the bash shim that execs hermes
+            if head.startswith(b"#!") and b"bash" in head:
+                continue
+        except Exception:
+            pass
+        return c
+    return "codex"  # last resort (may be the wrapper)
+
+
+class CodexCliBackend(CliBackend):
+    """Drives the real Codex CLI: `codex exec -o <file>` for clean output."""
+
+    name = "codex"
+
+    def __init__(self, model: str = "", codex_path: str = "", timeout: int = 240,
+                 sandbox: str = "read-only") -> None:
+        super().__init__(model=model or os.environ.get("SKILLOPT_SLEEP_CODEX_MODEL", ""),
+                         timeout=timeout)
+        self.codex_path = resolve_codex_path(codex_path)
+        self.sandbox = sandbox
+
+    def _call(self, prompt: str, *, max_tokens: int = 1024) -> str:
+        import tempfile
+        out_path = tempfile.NamedTemporaryFile(
+            prefix="codex_last_", suffix=".txt", delete=False
+        ).name
+        cmd = [
+            self.codex_path, "exec", "--skip-git-repo-check",
+            "--color", "never", "--sandbox", self.sandbox,
+            "-o", out_path,
+        ]
+        if self.model:
+            cmd += ["-m", self.model]
+        cmd += ["--", prompt]
+        try:
+            subprocess.run(cmd, capture_output=True, text=True, timeout=self.timeout)
+        except Exception:
+            return ""
+        try:
+            with open(out_path, encoding="utf-8") as f:
+                return f.read().strip()
+        except Exception:
+            return ""
+        finally:
+            try:
+                os.unlink(out_path)
+            except Exception:
+                pass
+
+
+def get_backend(
+    name: str,
+    *,
+    model: str = "",
+    claude_path: str = "claude",
+    codex_path: str = "",
+) -> Backend:
+    n = (name or "mock").strip().lower()
+    if n in {"claude", "anthropic", "claude_cli", "claude_code"}:
+        return ClaudeCliBackend(model=model, claude_path=claude_path)
+    if n in {"codex", "codex_cli", "openai_codex"}:
+        return CodexCliBackend(model=model, codex_path=codex_path)
     return MockBackend()

@@ -107,6 +107,7 @@ def run_sleep_cycle(
     backend = get_backend(
         cfg.get("backend", "mock"),
         model=cfg.get("model", ""),
+        codex_path=cfg.get("codex_path", ""),
     )
 
     # ── 1+2. harvest + mine (unless seed_tasks injected) ─────────────────

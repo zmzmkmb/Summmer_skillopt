@@ -34,8 +34,9 @@ from skillopt.sleep.staging import latest_staging, adopt as adopt_staging
 def _add_common(p: argparse.ArgumentParser) -> None:
     p.add_argument("--project", default="")
     p.add_argument("--scope", default="", choices=["", "all", "invoked"])
-    p.add_argument("--backend", default="", choices=["", "mock", "anthropic"])
+    p.add_argument("--backend", default="", choices=["", "mock", "claude", "codex"])
     p.add_argument("--model", default="")
+    p.add_argument("--codex-path", default="", help="path to the real @openai/codex binary")
     p.add_argument("--claude-home", default="", help="override ~/.claude (also isolates state)")
     p.add_argument("--lookback-hours", type=int, default=0)
     p.add_argument("--edit-budget", type=int, default=0)
@@ -54,6 +55,8 @@ def _cfg_from_args(args) -> Any:
         overrides["backend"] = args.backend
     if args.model:
         overrides["model"] = args.model
+    if getattr(args, "codex_path", ""):
+        overrides["codex_path"] = os.path.abspath(args.codex_path)
     if getattr(args, "claude_home", ""):
         overrides["claude_home"] = os.path.abspath(args.claude_home)
     if getattr(args, "lookback_hours", 0):

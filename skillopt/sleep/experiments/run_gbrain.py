@@ -1,0 +1,144 @@
+"""SkillOpt-Sleep — run the gbrain-evals skillopt-v1 benchmark with our engine.
+
+Reproduces gbrain's "Result 1 — skills measurably improve" scorecard
+(docs/benchmarks/2026-06-03-skillopt.md) using SkillOpt-Sleep's
+consolidate() loop and either the claude or codex backend.
+
+For each deficient seed skill:
+  1. score the held-out tasks with the ORIGINAL skill            -> before
+  2. run N consolidation nights on the training tasks (gated)     -> evolve skill
+  3. score the held-out tasks with the EVOLVED skill             -> after
+
+Held-out scoring is done locally by the rule judge (no judge API). Only the
+agent's `attempt` (and the optimizer's `reflect`) spend tokens.
+
+Usage:
+    python -m skillopt.sleep.experiments.run_gbrain --backend mock
+    python -m skillopt.sleep.experiments.run_gbrain --backend claude --seeds brief-writer --nights 2
+    python -m skillopt.sleep.experiments.run_gbrain --backend codex  --data-root /tmp/gbrain-evals/eval/data/skillopt-v1
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from typing import Dict, List, Optional
+
+from skillopt.sleep.backend import get_backend
+from skillopt.sleep.consolidate import consolidate, select_gate_score
+from skillopt.sleep.experiments.gbrain_bench import (
+    available_seeds,
+    find_data_root,
+    load_seed,
+)
+from skillopt.sleep.replay import aggregate_scores, replay_batch
+
+
+def _score(backend, tasks, skill, memory, split="holdout", metric="mixed", w=0.5):
+    sub = [t for t in tasks if t.split == split] or tasks
+    pairs = replay_batch(backend, sub, skill, memory)
+    h, s = aggregate_scores(pairs)
+    return h, s, select_gate_score(h, s, metric, w)
+
+
+def run_seed(backend, seed: str, skill: str, tasks: List, *,
+             nights: int = 3, edit_budget: int = 4,
+             limit_replay: int = 0, limit_holdout: int = 0) -> dict:
+    memory = ""
+    # optionally cap each split to control API cost / latency
+    if limit_replay or limit_holdout:
+        replay = [t for t in tasks if t.split == "replay"]
+        holdout = [t for t in tasks if t.split == "holdout"]
+        if limit_replay:
+            replay = replay[:limit_replay]
+        if limit_holdout:
+            holdout = holdout[:limit_holdout]
+        tasks = replay + holdout
+    bh, bs, bscore = _score(backend, tasks, skill, memory)
+    trace = [{"night": 0, "held_out_hard": round(bh, 3), "action": "baseline"}]
+    cur = skill
+    for night in range(1, nights + 1):
+        res = consolidate(
+            backend, tasks, cur, memory,
+            edit_budget=edit_budget, gate_metric="mixed", gate_mixed_weight=0.5,
+            evolve_skill=True, evolve_memory=False, night=night,
+        )
+        if res.accepted:
+            cur = res.new_skill
+        trace.append({
+            "night": night,
+            "held_out_hard": round(res.holdout_candidate, 3),
+            "action": res.gate_action,
+            "accepted": res.accepted,
+            "edits": [e.content for e in res.applied_edits],
+        })
+        if res.holdout_candidate >= 0.999:
+            break
+    ah, as_, ascore = _score(backend, tasks, cur, memory)
+    return {
+        "seed": seed,
+        "held_out_before": round(bh, 3),
+        "held_out_after": round(ah, 3),
+        "improved": ah > bh,
+        "nights": len(trace) - 1,
+        "trace": trace,
+        "final_skill_tail": cur[-400:],
+    }
+
+
+def main(argv=None) -> int:
+    ap = argparse.ArgumentParser(description="Run gbrain-evals skillopt-v1 with SkillOpt-Sleep")
+    ap.add_argument("--backend", default="mock", choices=["mock", "claude", "codex"])
+    ap.add_argument("--model", default="")
+    ap.add_argument("--codex-path", default="")
+    ap.add_argument("--data-root", default="", help="path to eval/data/skillopt-v1")
+    ap.add_argument("--seeds", default="", help="comma list; default = all available")
+    ap.add_argument("--nights", type=int, default=3)
+    ap.add_argument("--edit-budget", type=int, default=4)
+    ap.add_argument("--limit-replay", type=int, default=0, help="cap #training tasks (cost control)")
+    ap.add_argument("--limit-holdout", type=int, default=0, help="cap #held-out tasks (cost control)")
+    ap.add_argument("--json", action="store_true")
+    args = ap.parse_args(argv)
+
+    data_root = find_data_root(args.data_root)
+    if not data_root:
+        print("ERROR: could not find eval/data/skillopt-v1. Clone gbrain-evals and pass --data-root.",
+              file=sys.stderr)
+        return 2
+
+    seeds = [s.strip() for s in args.seeds.split(",") if s.strip()] or available_seeds(data_root)
+    backend = get_backend(args.backend, model=args.model, codex_path=args.codex_path)
+
+    results = []
+    for seed in seeds:
+        skill, tasks = load_seed(data_root, seed)
+        if not tasks:
+            continue
+        r = run_seed(backend, seed, skill, tasks, nights=args.nights,
+                     edit_budget=args.edit_budget,
+                     limit_replay=args.limit_replay, limit_holdout=args.limit_holdout)
+        results.append(r)
+        if not args.json:
+            print(f"  {seed:<18} held-out {r['held_out_before']:.2f} -> {r['held_out_after']:.2f}"
+                  f"  ({'IMPROVED' if r['improved'] else 'no change'}, {r['nights']} nights)")
+
+    n_improved = sum(1 for r in results if r["improved"])
+    summary = {
+        "benchmark": "gbrain-evals/skillopt-v1",
+        "backend": backend.name,
+        "model": args.model or "(default)",
+        "n_seeds": len(results),
+        "n_improved": n_improved,
+        "tokens_used": backend.tokens_used(),
+        "results": results,
+    }
+    if args.json:
+        print(json.dumps(summary, ensure_ascii=False, indent=2))
+    else:
+        print(f"\n=== {n_improved}/{len(results)} seeds improved on held-out "
+              f"(backend={backend.name}, ~{backend.tokens_used()} tokens) ===")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

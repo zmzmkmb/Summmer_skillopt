@@ -133,6 +133,50 @@ class TestConsolidateGate(unittest.TestCase):
         self.assertEqual(len(r2.applied_edits), 0)
 
 
+class TestRuleJudge(unittest.TestCase):
+    def test_section_and_regex(self):
+        from skillopt.sleep.judges import score_rule_judge
+        j = {"kind": "rule", "checks": [
+            {"op": "section_present", "arg": "Key Risks"},
+            {"op": "regex", "arg": r"[Cc]onfidence\s*[:=]"},
+        ]}
+        ok = "# Brief\n## Key Risks\nstuff\nConfidence: High"
+        self.assertEqual(score_rule_judge(j, ok)[0], 1.0)
+        self.assertEqual(score_rule_judge(j, "just an answer")[0], 0.0)
+
+    def test_max_chars(self):
+        from skillopt.sleep.judges import score_rule_judge
+        j = {"checks": [{"op": "max_chars", "arg": 50}]}
+        self.assertEqual(score_rule_judge(j, "x" * 10)[0], 1.0)
+        self.assertEqual(score_rule_judge(j, "x" * 100)[0], 0.0)
+
+    def test_partial_soft_score(self):
+        from skillopt.sleep.judges import score_rule_judge
+        j = {"checks": [
+            {"op": "contains", "arg": "alpha"},
+            {"op": "contains", "arg": "beta"},
+        ]}
+        h, s, _ = score_rule_judge(j, "only alpha here")
+        self.assertEqual(h, 0.0)
+        self.assertAlmostEqual(s, 0.5)
+
+
+class TestGbrainLoader(unittest.TestCase):
+    def test_loads_when_present(self):
+        from skillopt.sleep.experiments.gbrain_bench import find_data_root, load_seed
+        root = find_data_root()
+        if not root:
+            self.skipTest("gbrain-evals data not present")
+        skill, tasks = load_seed(root, "brief-writer")
+        self.assertTrue(skill)
+        self.assertTrue(any(t.split == "holdout" for t in tasks))
+        self.assertTrue(all(t.reference_kind == "rule" for t in tasks))
+        # the deficient skill must FAIL its own held-out checks (baseline 0)
+        from skillopt.sleep.judges import score_rule_judge
+        ho = [t for t in tasks if t.split == "holdout"][0]
+        self.assertEqual(score_rule_judge(ho.judge, skill)[0], 0.0)
+
+
 class TestFullCycleAndAdopt(unittest.TestCase):
     def test_cycle_stage_then_adopt_with_backup(self):
         with tempfile.TemporaryDirectory() as proj, tempfile.TemporaryDirectory() as home:

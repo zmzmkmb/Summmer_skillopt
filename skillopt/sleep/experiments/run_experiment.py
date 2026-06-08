@@ -49,12 +49,17 @@ def _score_holdout(backend, tasks: List[TaskRecord], skill: str, memory: str,
 
 
 def run(persona: str = "researcher", nights: int = 4, backend_name: str = "mock",
-        edit_budget: int = 4, seed: int = 42) -> dict:
+        edit_budget: int = 4, seed: int = 42, model: str = "", codex_path: str = "",
+        limit_tasks: int = 0) -> dict:
     from skillopt.sleep.mine import assign_splits
 
     make = PERSONAS.get(persona, researcher_persona)
-    tasks = assign_splits(make(), holdout_fraction=0.34, seed=seed)
-    backend = get_backend(backend_name)
+    items = make()
+    if limit_tasks and limit_tasks < len(items):
+        items = items[:limit_tasks]
+    tasks = assign_splits(items, holdout_fraction=0.34, seed=seed)
+    backend = get_backend(backend_name, model=model, codex_path=codex_path)
+    is_mock = (backend.name == "mock")
 
     # start from an empty managed skill + empty memory
     skill = ensure_skill_scaffold("", name="skillopt-sleep-learned",
@@ -88,26 +93,31 @@ def run(persona: str = "researcher", nights: int = 4, backend_name: str = "mock"
 
     after = _score_holdout(backend, tasks, skill, memory)
 
-    # ── gate-safety probe: inject a harmful task whose 'fix' is a bad rule ──
-    harmful_tasks = assign_splits([harmful_edit_task()] + make()[:3],
-                                  holdout_fraction=0.5, seed=seed)
-    h_before = _score_holdout(backend, harmful_tasks, skill, memory)
-    res_h = consolidate(backend, harmful_tasks, skill, memory,
-                        edit_budget=edit_budget, gate_metric="mixed",
-                        evolve_skill=True, evolve_memory=False, night=nights + 1)
-    harmful_rule_text = get_backend("mock").RULE_TEXT["__harmful__"]  # type: ignore[attr-defined]
-    harmful_rejected = (harmful_rule_text not in res_h.new_skill)
+    # ── gate-safety probe (mock only; it relies on the mock's known bad rule) ──
+    harmful_rejected = None
+    if is_mock:
+        harmful_tasks = assign_splits([harmful_edit_task()] + make()[:3],
+                                      holdout_fraction=0.5, seed=seed)
+        _ = _score_holdout(backend, harmful_tasks, skill, memory)
+        res_h = consolidate(backend, harmful_tasks, skill, memory,
+                            edit_budget=edit_budget, gate_metric="mixed",
+                            evolve_skill=True, evolve_memory=False, night=nights + 1)
+        harmful_rule_text = get_backend("mock").RULE_TEXT["__harmful__"]  # type: ignore[attr-defined]
+        harmful_rejected = (harmful_rule_text not in res_h.new_skill)
 
     result = {
         "persona": persona,
-        "backend": backend_name,
+        "backend": backend.name,
+        "model": model or "(default)",
+        "n_tasks": len(tasks),
         "nights_run": len(trace) - 1,
         "baseline_holdout": round(baseline, 4),
         "after_holdout": round(after, 4),
         "lift": round(after - baseline, 4),
         "improved": after > baseline,
-        "gate_blocks_harmful": bool(harmful_rejected),
-        "final_skill_excerpt": skill[-400:],
+        "gate_blocks_harmful": harmful_rejected,  # None for real backends
+        "tokens_used": backend.tokens_used(),
+        "final_skill_excerpt": skill[-500:],
         "trace": trace,
     }
     return result
@@ -123,23 +133,30 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="SkillOpt-Sleep validation experiment")
     ap.add_argument("--persona", default="researcher", choices=list(PERSONAS.keys()))
     ap.add_argument("--nights", type=int, default=4)
-    ap.add_argument("--backend", default="mock", choices=["mock", "anthropic"])
+    ap.add_argument("--backend", default="mock", choices=["mock", "claude", "codex"])
+    ap.add_argument("--model", default="", help="backend model override")
+    ap.add_argument("--codex-path", default="", help="path to the real @openai/codex binary")
     ap.add_argument("--edit-budget", type=int, default=4)
+    ap.add_argument("--limit-tasks", type=int, default=0, help="cap #tasks (control API cost)")
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--assert-improves", action="store_true",
-                    help="exit nonzero unless lift>0 and gate blocks harmful edit")
+                    help="exit nonzero unless lift>0 (and, for mock, gate blocks harmful edit)")
     args = ap.parse_args(argv)
 
     res = run(args.persona, nights=args.nights, backend_name=args.backend,
-              edit_budget=args.edit_budget)
+              edit_budget=args.edit_budget, model=args.model,
+              codex_path=args.codex_path, limit_tasks=args.limit_tasks)
 
     if args.json:
         print(json.dumps(res, ensure_ascii=False, indent=2))
     else:
-        print(f"=== SkillOpt-Sleep experiment: persona={res['persona']} backend={res['backend']} ===")
+        print(f"=== SkillOpt-Sleep experiment: persona={res['persona']} "
+              f"backend={res['backend']} model={res['model']} ===")
+        print(f"tasks: {res['n_tasks']}   tokens(approx): {res['tokens_used']}")
         print(f"baseline held-out : {res['baseline_holdout']}")
         print(f"after  held-out   : {res['after_holdout']}   (lift {res['lift']:+.4f})")
-        print(f"gate blocks harmful edit: {res['gate_blocks_harmful']}")
+        if res["gate_blocks_harmful"] is not None:
+            print(f"gate blocks harmful edit: {res['gate_blocks_harmful']}")
         print("trace:")
         for row in res["trace"]:
             edits = "; ".join(row.get("edits", []))[:80]
@@ -148,8 +165,11 @@ def main(argv=None) -> int:
 
     if args.assert_improves:
         _assert(res["improved"], "held-out score did not improve")
-        _assert(res["gate_blocks_harmful"], "gate failed to block harmful edit")
-        print("\nPASS: nightly consolidation improves held-out score AND gate blocks regressions.")
+        if res["gate_blocks_harmful"] is not None:
+            _assert(res["gate_blocks_harmful"], "gate failed to block harmful edit")
+            print("\nPASS: nightly consolidation improves held-out score AND gate blocks regressions.")
+        else:
+            print("\nPASS: nightly consolidation improves held-out score (real backend).")
     return 0
 
 
