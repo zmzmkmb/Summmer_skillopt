@@ -331,7 +331,13 @@ class CliBackend(Backend):
             f"{target} document so it stops failing. Each edit MUST be a short, "
             "GENERAL, reusable rule or preference (never task-specific, never an "
             "answer to a single task). If exact failing criteria are listed, your "
-            "edits MUST make future outputs satisfy every one of them. "
+            "edits MUST make future outputs satisfy every one of them.\n"
+            "IMPORTANT: your edits are APPENDED to a 'Learned preferences' block; "
+            "you CANNOT delete the existing instructions above. If the current "
+            f"{target} text conflicts with a criterion (e.g. it says 'be exhaustive' "
+            "but outputs must be under a character limit), write an explicit, "
+            "forceful OVERRIDE rule that says it supersedes the conflicting "
+            "instruction. "
             'Return ONLY a JSON array: '
             '[{"op":"add|replace|delete","content":"<rule>","anchor":"<text to replace/delete, optional>","rationale":"<why>"}].\n\n'
             f"# Current {target}\n{cur_doc}\n"
