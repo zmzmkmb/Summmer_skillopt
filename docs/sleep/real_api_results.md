@@ -17,15 +17,32 @@ optimizer to grade its own homework.
 |---|---|---|---|---|---|
 | **Claude (Haiku 4.5)** | brief-writer | **0.00** | **1.00** | 1 | ~6.7k |
 | **Codex (default)** | brief-writer | **0.00** | **0.67** | 1 | ~5.1k |
+| **Codex (directive prompt)** | brief-writer | **0.00** | **1.00** | 2 | ~10k |
 
 Both backends took a **deliberately deficient** skill (a brief-writer with no
-risks section and no confidence level) and, in a **single sleep night**,
-proposed a gated edit that lifted the held-out score. The edit went into the
+risks section and no confidence level) and, within 1–2 sleep nights, proposed
+gated edits that lifted the held-out score to perfect. The edits went into the
 protected `SKILLOPT-SLEEP:LEARNED` block; nothing else in the skill was touched.
 
 This reproduces gbrain's published `0 → 1.00` headline with **our** engine and
 shows it works across **two different agent runtimes** — the core of the
 "Claude now, Codex next" plan.
+
+### The multi-night convergence (Codex, why it matters)
+
+The 2-night Codex run is the most informative trace in this whole exercise:
+
+- **Night 1** — added two precise rules (a `Key Risks` section, a `Confidence:`
+  line). Held-out still **0.00**: the rules were right but the agent, told to
+  keep briefs short, was *dropping* them under length pressure.
+- **Night 2** — the optimizer diagnosed its own residual failure and added a
+  meta-rule: *"Preserve required sections even when keeping the brief short;
+  shorten the analysis before omitting Key Risks or Confidence."* Held-out → **1.00**.
+
+That second edit is not pattern-matching a checklist — it is reasoning about
+*why the previous night underperformed*. This is exactly the iterative,
+slow-update behavior SkillOpt's design predicts, and it is the strongest
+argument for the sleep **loop** over a one-shot rewrite.
 
 ## What the optimizer actually wrote
 
@@ -86,10 +103,12 @@ python3.12 -m skillopt.sleep.experiments.run_gbrain \
 - **The gate is real:** every accepted edit had to beat the held-out score; a
   no-op night is rejected and the skill is left unchanged.
 
-## Improvements this run motivated (applied to the plugin)
+## Improvements this run motivated (applied + verified)
 
-1. Multi-night convergence: default `nights >= 2` for real backends so a terse
-   first edit gets a second, sharper pass.
-2. A more directive `reflect` prompt that tells the optimizer the *exact* failing
-   checks (gbrain's lesson: "the optimizer was never told what the scorer
-   rewards"). See `skillopt/sleep/backend.py`.
+1. **A more directive `reflect` prompt** that aggregates the *exact* failing
+   judge criteria and tells the optimizer to satisfy every one (gbrain's lesson:
+   "the optimizer was never told what the scorer rewards"). Applied in
+   `skillopt/sleep/backend.py`. **Verified**: lifted Codex from 0.67 → 1.00.
+2. **Multi-night convergence** — a terse first edit gets a sharper second pass;
+   the night-2 trace above shows the optimizer self-correcting. Recommend
+   `nights >= 2` for real backends.

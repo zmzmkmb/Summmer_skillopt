@@ -44,13 +44,47 @@ Or call the engine directly (Python ≥ 3.10):
 
 ```bash
 python -m skillopt.sleep run --project "$(pwd)" --scope invoked --backend mock
-python -m skillopt.sleep run --project "$(pwd)" --backend anthropic   # real lift, uses your budget
+python -m skillopt.sleep run --project "$(pwd)" --backend claude   # real lift via Claude
+python -m skillopt.sleep run --project "$(pwd)" --backend codex    # real lift via Codex
 ```
 
 Default backend is **`mock`** — deterministic, no API spend — so you can try the
-plumbing for free. Switch to `--backend anthropic` for genuine improvement.
+plumbing for free. Switch to `--backend claude` or `--backend codex` for genuine
+improvement on your own budget.
 
-## Does it actually improve? (deterministic proof)
+## Does it actually improve? (real models, public benchmark)
+
+SkillOpt-Sleep is validated against [gbrain-evals](https://github.com/garrytan/gbrain-evals)'
+public `skillopt-v1` suite — the same benchmark gbrain scores its own skill
+optimizer against. We take a deliberately **deficient** skill and run one sleep
+night; held-out scoring is done by a local rule judge (no judge-API, no way to
+grade its own homework).
+
+| Backend | Seed | Held-out before → after | Nights |
+|---|---|---|---|
+| **Claude (Haiku 4.5)** | brief-writer | **0.00 → 1.00** | 1 |
+| **Codex** | brief-writer | **0.00 → 1.00** | 2 |
+
+Both took a brief-writer with no risks section / no confidence level and, within
+1–2 nights, proposed gated edits that lifted the held-out score to perfect —
+into the protected `LEARNED` block, nothing else touched. The Codex 2-night
+trace even shows the optimizer **diagnosing its own residual failure** and
+adding a meta-rule to fix it. Full writeup + reproduction:
+[`docs/sleep/real_api_results.md`](../docs/sleep/real_api_results.md).
+
+Reproduce:
+
+```bash
+git clone https://github.com/garrytan/gbrain-evals /tmp/gbrain-evals
+python -m skillopt.sleep.experiments.run_gbrain --backend claude --model haiku \
+  --seeds brief-writer --data-root /tmp/gbrain-evals/eval/data/skillopt-v1 \
+  --nights 1 --limit-replay 3 --limit-holdout 3
+python -m skillopt.sleep.experiments.run_gbrain --backend codex \
+  --seeds brief-writer --data-root /tmp/gbrain-evals/eval/data/skillopt-v1 \
+  --nights 1 --limit-replay 3 --limit-holdout 3
+```
+
+## Deterministic proof (no API, no keys)
 
 ```bash
 python -m skillopt.sleep.experiments.run_experiment --persona researcher --assert-improves

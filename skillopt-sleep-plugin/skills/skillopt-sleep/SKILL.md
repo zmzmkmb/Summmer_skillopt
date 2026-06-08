@@ -51,7 +51,7 @@ Prefer the `/sleep` command. Under the hood it calls the bundled runner:
 ```
 
 - Default backend is `mock` (deterministic, **no API spend**) — good for trying the plumbing.
-- Add `--backend anthropic` to spend the user's real budget for genuine improvement.
+- Add `--backend claude` or `--backend codex` to spend the user's real budget for genuine improvement.
 - Scope defaults to the invoked project; `--scope all` harvests every project.
 
 ## Hard rules
