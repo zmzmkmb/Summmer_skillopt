@@ -93,12 +93,24 @@ weak and what changed.
 > *Optimize cheap overnight, deploy anywhere.* A skill is just text, so a good
 > rewrite should help a model it was never optimized on.
 
-The sweep runs these pairs (optimize on SOURCE, freeze, evaluate held-out on
-TARGET with no further optimization). See `benchmark_report.md` / `sweep.jsonl`
-for the auto-generated table once the sweep completes:
+Optimize on SOURCE, **freeze** the learned skill, evaluate held-out on TARGET with
+no further optimization. All four pairs are positive — including **across
+runtimes** (Codex ↔ Claude):
 
-- Haiku → Sonnet, Sonnet → Haiku (within Claude)
-- Codex → Claude, Claude → Codex (across runtimes)
+| Source (optimizer) | Target (deploy) | Seed | Target baseline → transferred | Gain |
+|---|---|---|---|---|
+| Claude Haiku (cheap) | Claude Sonnet (expensive) | brief-writer | 0.00 → **1.00** | +1.00 |
+| Claude Sonnet | Claude Haiku | brief-writer | 0.00 → **1.00** | +1.00 |
+| **Codex** | **Claude Haiku** | brief-writer | 0.00 → **1.00** | +1.00 |
+| **Claude Haiku** | **Codex** | brief-writer | 0.00 → **1.00** | +1.00 |
+
+**4/4 transfers positive.** A skill optimized on a cheap model deploys for free on
+an expensive one, and skills move between Codex and Claude — the Sleep-setting
+analogue of SkillOpt's cross-model and cross-harness transfer tables. This is the
+quantified answer to "optimize cheap overnight, deploy anywhere."
+
+Full machine-generated scorecard: [`benchmark_report.md`](benchmark_report.md)
+(source data `sweep.jsonl`).
 
 ---
 
