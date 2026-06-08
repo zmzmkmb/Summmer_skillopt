@@ -61,7 +61,16 @@ class TaskRecord:
     judge: Dict[str, Any] = field(default_factory=dict)  # gbrain-style rule judge
     tags: List[str] = field(default_factory=list)
     source_sessions: List[str] = field(default_factory=list)
-    split: str = "replay"             # replay (train) | holdout (test)
+    # split ∈ {train, val, test}.  val + test come ONLY from real mined tasks and
+    # never overlap (val gates updates, test is the final held-out measure). train
+    # may be dream-augmented (see origin).  Legacy values replay->train,
+    # holdout->val are normalized on load.
+    split: str = "train"
+    # origin ∈ {real, dream}.  'real' = mined from the user's actual sessions;
+    # 'dream' = synthetic/augmented for the training pool. Dream tasks are NEVER
+    # allowed into val/test, which is the anti-overfitting guarantee.
+    origin: str = "real"
+    derived_from: str = ""            # for dream tasks: the real task id it varies
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)

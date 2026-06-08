@@ -63,8 +63,17 @@ def _to_task(rec: dict, *, seed: str, split: str) -> TaskRecord:
     )
 
 
-def load_seed(data_root: str, seed: str) -> Tuple[str, List[TaskRecord]]:
-    """Return (deficient_skill_md, tasks) for one gbrain seed."""
+def load_seed(data_root: str, seed: str, *, val_fraction: float = 0.34,
+              split_seed: int = 42) -> Tuple[str, List[TaskRecord]]:
+    """Return (deficient_skill_md, tasks) for one gbrain seed.
+
+    Faithful split mapping:
+      * gbrain held-out.jsonl  -> our ``test`` (the true final measure)
+      * gbrain benchmark.jsonl -> split deterministically into ``train`` + ``val``
+        (val gates updates; train drives reflect)
+    All tasks are origin='real' (gbrain provides no synthetic tasks).
+    """
+    import hashlib
     sub = SEED_DIRS.get(seed, seed)
     seed_dir = os.path.join(data_root, sub)
     skill_path = os.path.join(seed_dir, "SKILL.md")
@@ -73,10 +82,21 @@ def load_seed(data_root: str, seed: str) -> Tuple[str, List[TaskRecord]]:
         with open(skill_path, encoding="utf-8") as f:
             skill = f.read()
     tasks: List[TaskRecord] = []
+    # benchmark pool -> train/val
+    val_cut = int(round(val_fraction * 100))
     for rec in _load_jsonl(os.path.join(seed_dir, "benchmark.jsonl")):
-        tasks.append(_to_task(rec, seed=seed, split="replay"))
+        t = _to_task(rec, seed=seed, split="train")
+        bucket = int(hashlib.sha256((str(split_seed) + t.id).encode()).hexdigest(), 16) % 100
+        t.split = "val" if bucket < val_cut else "train"
+        tasks.append(t)
+    # held-out -> test
     for rec in _load_jsonl(os.path.join(seed_dir, "held-out.jsonl")):
-        tasks.append(_to_task(rec, seed=seed, split="holdout"))
+        tasks.append(_to_task(rec, seed=seed, split="test"))
+    # guarantee a non-empty val
+    if not any(t.split == "val" for t in tasks):
+        train_only = [t for t in tasks if t.split == "train"]
+        if train_only:
+            train_only[0].split = "val"
     return skill, tasks
 
 

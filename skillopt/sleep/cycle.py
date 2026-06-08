@@ -175,6 +175,7 @@ def run_sleep_cycle(
         edit_budget=cfg.get("edit_budget", 4),
         gate_metric=cfg.get("gate_metric", "mixed"),
         gate_mixed_weight=cfg.get("gate_mixed_weight", 0.5),
+        gate_mode=cfg.get("gate_mode", "on"),
         evolve_skill=cfg.get("evolve_skill", True),
         evolve_memory=cfg.get("evolve_memory", True),
         night=night,

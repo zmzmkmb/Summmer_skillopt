@@ -37,7 +37,10 @@ from skillopt.sleep.replay import aggregate_scores, replay_batch
 
 
 def _holdout_hard(backend, tasks, skill, memory="") -> float:
-    ho = [t for t in tasks if t.split == "holdout"] or tasks
+    # transfer is measured on the true held-out TEST split
+    ho = [t for t in tasks if t.split == "test"]
+    if not ho:
+        ho = [t for t in tasks if t.split in ("val", "holdout")] or tasks
     pairs = replay_batch(backend, ho, skill, memory)
     h, _s = aggregate_scores(pairs)
     return h
@@ -59,13 +62,15 @@ def _optimize(backend, skill, tasks, *, nights, edit_budget) -> str:
 def run_seed(seed, skill, tasks, *, source, target, nights, edit_budget,
              limit_replay, limit_holdout, do_direct=True) -> dict:
     if limit_replay or limit_holdout:
-        replay = [t for t in tasks if t.split == "replay"]
-        holdout = [t for t in tasks if t.split == "holdout"]
+        train = [t for t in tasks if t.split == "train"]
+        val = [t for t in tasks if t.split == "val"]
+        test = [t for t in tasks if t.split == "test"]
         if limit_replay:
-            replay = replay[:limit_replay]
+            train = train[:limit_replay]
         if limit_holdout:
-            holdout = holdout[:limit_holdout]
-        tasks = replay + holdout
+            val = val[:limit_holdout]
+            test = test[:limit_holdout]
+        tasks = train + val + test
 
     baseline_target = _holdout_hard(target, tasks, skill)
 

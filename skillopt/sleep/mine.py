@@ -126,24 +126,66 @@ def dedup_tasks(tasks: List[TaskRecord]) -> List[TaskRecord]:
 def assign_splits(
     tasks: List[TaskRecord],
     *,
-    holdout_fraction: float = 0.34,
+    val_fraction: float = 0.34,
+    test_fraction: float = 0.0,
+    holdout_fraction: float | None = None,  # legacy alias for val_fraction
     seed: int = 42,
 ) -> List[TaskRecord]:
-    """Deterministically split tasks into replay (train) / holdout (test).
+    """Deterministically split tasks into train / val / test.
 
-    Uses a stable hash of the task id so the same task always lands in the
-    same split across nights (a fixed held-out gate, like SkillOpt's D_sel).
+    Anti-overfitting contract (the user's design):
+      * ``val`` and ``test`` are drawn ONLY from REAL mined tasks (origin=='real')
+        and never overlap. val gates updates; test is the final held-out measure.
+      * ``train`` may include DREAM-augmented tasks (origin=='dream'); those are
+        NEVER placed in val/test.
+
+    A stable hash of the task id keeps the same real task in the same split across
+    nights (a fixed held-out gate, like SkillOpt's D_sel/D_test).
+
+    Back-compat: if ``test_fraction`` is 0 (default), this behaves like the old
+    two-way replay/holdout split — real tasks divide into train + val, no test.
+    ``holdout_fraction`` is accepted as an alias for ``val_fraction``.
     """
-    for t in tasks:
+    if holdout_fraction is not None:
+        val_fraction = holdout_fraction
+
+    dream = [t for t in tasks if t.origin == "dream"]
+    real = [t for t in tasks if t.origin != "dream"]
+
+    # all dream tasks go to train, unconditionally
+    for t in dream:
+        t.split = "train"
+
+    val_cut = int(round(val_fraction * 100))
+    test_cut = val_cut + int(round(test_fraction * 100))
+    for t in real:
         bucket = int(hashlib.sha256((str(seed) + t.id).encode()).hexdigest(), 16) % 100
-        t.split = "holdout" if bucket < int(holdout_fraction * 100) else "replay"
-    # guarantee both splits non-empty when possible
-    splits = {t.split for t in tasks}
-    if len(tasks) >= 2 and "holdout" not in splits:
-        tasks[-1].split = "holdout"
-    if len(tasks) >= 2 and "replay" not in splits:
-        tasks[0].split = "replay"
+        if bucket < val_cut:
+            t.split = "val"
+        elif bucket < test_cut:
+            t.split = "test"
+        else:
+            t.split = "train"
+
+    # guarantee val (the gate) is non-empty when we have >=2 real tasks
+    real_splits = {t.split for t in real}
+    if len(real) >= 2 and "val" not in real_splits:
+        real[-1].split = "val"
+    # guarantee a train pool exists (dream or real) when possible
+    if not any(t.split == "train" for t in tasks) and len(real) >= 2:
+        real[0].split = "train"
+    # if test was requested but ended up empty with >=3 real tasks, carve one
+    if test_fraction > 0 and len(real) >= 3 and not any(t.split == "test" for t in real):
+        for t in real:
+            if t.split == "train":
+                t.split = "test"
+                break
     return tasks
+
+
+def normalize_legacy_split(value: str) -> str:
+    """Map old split names to the new vocabulary."""
+    return {"replay": "train", "holdout": "val"}.get(value, value)
 
 
 def mine(

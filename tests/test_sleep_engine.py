@@ -105,13 +105,30 @@ class TestMine(unittest.TestCase):
         self.assertEqual(ok[0].outcome, "success")
 
     def test_split_stable_and_nonempty(self):
-        tasks = assign_splits(researcher_persona(), holdout_fraction=0.34, seed=42)
+        tasks = assign_splits(researcher_persona(), val_fraction=0.34, seed=42)
         splits = {t.split for t in tasks}
-        self.assertIn("replay", splits)
-        self.assertIn("holdout", splits)
+        self.assertIn("train", splits)
+        self.assertIn("val", splits)
         # stable across calls
-        again = assign_splits(researcher_persona(), holdout_fraction=0.34, seed=42)
+        again = assign_splits(researcher_persona(), val_fraction=0.34, seed=42)
         self.assertEqual([t.split for t in tasks], [t.split for t in again])
+
+    def test_dream_never_in_val_or_test(self):
+        # the anti-overfitting guarantee: origin='dream' tasks only ever land in train
+        from skillopt.sleep.types import TaskRecord
+        real = researcher_persona()
+        dream = [TaskRecord(id=f"d{i}", project="/p", intent=f"dream {i}",
+                            origin="dream", derived_from="r0") for i in range(5)]
+        tasks = assign_splits(real + dream, val_fraction=0.3, test_fraction=0.3, seed=7)
+        for t in tasks:
+            if t.origin == "dream":
+                self.assertEqual(t.split, "train")
+        # val and test contain ONLY real tasks
+        for t in tasks:
+            if t.split in ("val", "test"):
+                self.assertEqual(t.origin, "real")
+        # and val/test are disjoint (a task is in exactly one split)
+        self.assertTrue(any(t.split == "val" for t in tasks))
 
 
 class TestConsolidateGate(unittest.TestCase):
@@ -169,11 +186,13 @@ class TestGbrainLoader(unittest.TestCase):
             self.skipTest("gbrain-evals data not present")
         skill, tasks = load_seed(root, "brief-writer")
         self.assertTrue(skill)
-        self.assertTrue(any(t.split == "holdout" for t in tasks))
+        # gbrain held-out maps to our 'test'; benchmark pool to train/val
+        self.assertTrue(any(t.split == "test" for t in tasks))
+        self.assertTrue(any(t.split == "val" for t in tasks))
         self.assertTrue(all(t.reference_kind == "rule" for t in tasks))
-        # the deficient skill must FAIL its own held-out checks (baseline 0)
+        # the deficient skill must FAIL its own held-out (test) checks (baseline 0)
         from skillopt.sleep.judges import score_rule_judge
-        ho = [t for t in tasks if t.split == "holdout"][0]
+        ho = [t for t in tasks if t.split == "test"][0]
         self.assertEqual(score_rule_judge(ho.judge, skill)[0], 0.0)
 
 

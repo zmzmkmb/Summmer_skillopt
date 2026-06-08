@@ -42,7 +42,8 @@ from skillopt.sleep.types import TaskRecord
 def _score_holdout(backend, tasks: List[TaskRecord], skill: str, memory: str,
                    metric: str = "mixed", w: float = 0.5) -> float:
     from skillopt.sleep.consolidate import select_gate_score
-    holdout = [t for t in tasks if t.split == "holdout"] or tasks
+    # the persona experiment uses a 2-way split (train/val, no test); score on val
+    holdout = [t for t in tasks if t.split in ("val", "holdout")] or tasks
     pairs = replay_batch(backend, holdout, skill, memory)
     h, s = aggregate_scores(pairs)
     return select_gate_score(h, s, metric, w)

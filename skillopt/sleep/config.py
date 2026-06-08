@@ -30,10 +30,13 @@ DEFAULTS: Dict[str, Any] = {
     # ── budgets ────────────────────────────────────────────────────────────
     "max_tasks_per_night": 40,
     "max_tokens_per_night": 400_000,
-    "holdout_fraction": 0.34,     # fraction of mined tasks reserved for the gate
+    "holdout_fraction": 0.34,     # legacy alias for val_fraction
+    "val_fraction": 0.34,         # real tasks reserved to gate updates
+    "test_fraction": 0.0,         # real tasks reserved as the final held-out measure
     # ── optimizer ──────────────────────────────────────────────────────────
     "backend": "mock",            # "mock" | "claude" | "codex"
     "model": "",                  # backend-specific; "" => backend default
+    "gate_mode": "on",            # "on" (validation-gated) | "off" (greedy, no hard filter)
     "codex_path": "",             # "" => auto-detect the real @openai/codex binary
     "edit_budget": 4,             # textual learning rate (max edits/night)
     "gate_metric": "mixed",       # hard | soft | mixed (mixed best for tiny holdouts)
