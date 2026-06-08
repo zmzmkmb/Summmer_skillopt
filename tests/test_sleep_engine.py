@@ -213,6 +213,32 @@ class TestLlmMiner(unittest.TestCase):
         self.assertEqual(make_llm_miner(EmptyBackend())([digest]), [])
 
 
+class TestToolLoop(unittest.TestCase):
+    def test_tool_called_judge_via_replay(self):
+        from skillopt.sleep.backend import MockBackend
+        from skillopt.sleep.replay import replay_one, _required_tools
+        from skillopt.sleep.memory import set_learned
+        from skillopt.sleep.types import TaskRecord
+
+        task = TaskRecord(
+            id="qa1", project="/p", intent="answer the question",
+            reference_kind="rule",
+            judge={"kind": "rule", "checks": [{"op": "tool_called", "arg": "search"}]},
+        )
+        self.assertEqual(_required_tools(task), ["search"])
+        be = MockBackend()
+        # deficient skill: no instruction to search -> tool not called -> hard 0
+        deficient = "Answer from memory. Do NOT use tools."
+        r0 = replay_one(be, task, deficient, "")
+        self.assertEqual(r0.hard, 0.0)
+        self.assertEqual(r0.tools_called, [])
+        # learned rule to use ./search -> tool called -> hard 1
+        learned = set_learned(deficient, ["Before answering you MUST run ./search first."])
+        r1 = replay_one(be, task, learned, "")
+        self.assertEqual(r1.hard, 1.0)
+        self.assertEqual(r1.tools_called, ["search"])
+
+
 class TestFullCycleAndAdopt(unittest.TestCase):
     def test_cycle_stage_then_adopt_with_backup(self):
         with tempfile.TemporaryDirectory() as proj, tempfile.TemporaryDirectory() as home:

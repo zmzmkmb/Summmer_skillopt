@@ -85,6 +85,7 @@ class ReplayResult:
     fail_reason: str = ""
     task_type: str = "task"
     judge_rationale: str = ""
+    tools_called: List[str] = field(default_factory=list)
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)

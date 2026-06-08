@@ -42,6 +42,22 @@ class Backend:
     def attempt(self, task: TaskRecord, skill: str, memory: str) -> str:
         raise NotImplementedError
 
+    def attempt_with_tools(
+        self, task: TaskRecord, skill: str, memory: str, tools: List[str]
+    ) -> Tuple[str, List[str]]:
+        """Run the task while exposing real tools; return (response, tools_called).
+
+        Default: no real tool loop — fall back to plain attempt and let the
+        single-shot 'TOOL_CALL: <name>' marker convention surface intent. CLI
+        backends override this to expose a genuinely callable tool.
+        """
+        resp = self.attempt(task, skill, memory)
+        called: List[str] = []
+        for t in tools:
+            if re.search(r"(?i)\btool_call\s*:\s*%s\b" % re.escape(t), resp):
+                called.append(t)
+        return resp, called
+
     def judge(self, task: TaskRecord, response: str) -> Tuple[float, float, str]:
         raise NotImplementedError
 
@@ -156,6 +172,21 @@ class MockBackend(Backend):
             mangled = ref[:-2] if len(ref) > 3 else "unknown"
             return f"approximately {mangled} (format not applied)"
         return "(attempted, no checkable reference)"
+
+    def attempt_with_tools(self, task, skill, memory, tools):
+        # Deterministic tool model: the mock "calls" a tool iff the skill+memory
+        # contains an explicit instruction to use it (a learned rule mentioning
+        # the tool name or "search"). The deficient skill says NOT to, so
+        # baseline calls nothing; a learned "use ./search" rule flips it.
+        ctx = ((skill or "") + "\n" + (memory or "")).lower()
+        resp = self.attempt(task, skill, memory)
+        called = []
+        for t in (tools or []):
+            tl = t.lower()
+            if (f"./{tl}" in ctx or f"use {tl}" in ctx or f"run {tl}" in ctx
+                    or f"call {tl}" in ctx or f"must {tl}" in ctx):
+                called.append(t)
+        return resp, called
 
     def judge(self, task: TaskRecord, response: str) -> Tuple[float, float, str]:
         if task.reference_kind == "rule" and task.judge:
@@ -457,8 +488,69 @@ class ClaudeCliBackend(CliBackend):
                 pass
         return (proc.stdout or "").strip()
 
-
-# ── Codex CLI backend (real @openai/codex, not the hermes wrapper) ────────────
+    def attempt_with_tools(self, task, skill, memory, tools):
+        # Expose a REAL, callable `search` tool (a shell shim that logs each
+        # call) so the gbrain quick-answerer judge (tool_called=search) is
+        # validated honestly: we detect the call from the shim's log, not from
+        # a self-reported marker. Other tools are stubbed the same way.
+        import tempfile, shutil, stat
+        work = tempfile.mkdtemp(prefix="skillopt_sleep_tools_")
+        calllog = os.path.join(work, "_tool_calls.log")
+        try:
+            for tname in (tools or ["search"]):
+                shim = os.path.join(work, tname)
+                with open(shim, "w") as f:
+                    f.write(
+                        "#!/usr/bin/env bash\n"
+                        f'echo "{tname}" >> "{calllog}"\n'
+                        'echo "(search results: 3 relevant notes found; use them to answer)"\n'
+                    )
+                os.chmod(shim, os.stat(shim).st_mode | stat.S_IEXEC | stat.S_IXGRP | stat.S_IXOTH)
+            tool_hint = (
+                "You have shell tools available in the current directory: "
+                + ", ".join(f"./{t}" for t in (tools or ["search"]))
+                + ". When the skill says to look something up or search before "
+                "answering, you MUST actually run the tool (e.g. `./search \"query\"`) "
+                "via Bash before giving your final answer."
+            )
+            prompt = (
+                "You are completing a task. Apply the skill and memory rules EXACTLY, "
+                "including any rule about searching/looking up before answering. "
+                "Treat a 'Learned preferences' block as HARD CONSTRAINTS that override "
+                "earlier conflicting skill text.\n\n"
+                f"{tool_hint}\n\n"
+                f"# Skill\n{skill or '(none)'}\n\n# Memory\n{memory or '(none)'}\n\n"
+                f"# Task\n{task.intent}\n\n{task.context_excerpt}\n\n"
+                "Return ONLY the final answer text."
+            )
+            cmd = [
+                self.claude_path, "-p", "--output-format", "text",
+                "--bare", "--disable-slash-commands",
+                "--allowedTools", "Bash",
+                "--exclude-dynamic-system-prompt-sections",
+            ]
+            if self.model:
+                cmd += ["--model", self.model]
+            cmd += ["--", prompt]
+            try:
+                proc = subprocess.run(
+                    cmd, capture_output=True, text=True, timeout=self.timeout, cwd=work,
+                )
+                resp = (proc.stdout or "").strip()
+            except Exception:
+                resp = ""
+            self._tokens += len(prompt) // 4 + len(resp) // 4
+            called: List[str] = []
+            if os.path.exists(calllog):
+                with open(calllog) as f:
+                    logged = {ln.strip() for ln in f if ln.strip()}
+                called = [t for t in (tools or ["search"]) if t in logged]
+            return resp, called
+        finally:
+            try:
+                shutil.rmtree(work, ignore_errors=True)
+            except Exception:
+                pass
 
 def resolve_codex_path(explicit: str = "") -> str:
     """Find the REAL `@openai/codex` binary, skipping the hermes wrapper.
@@ -535,8 +627,67 @@ class CodexCliBackend(CliBackend):
             except Exception:
                 pass
 
-
-# ── Dual backend: target runs the task, optimizer proposes/judges edits ───────
+    def attempt_with_tools(self, task, skill, memory, tools):
+        # Codex exec runs in a sandbox with shell access; expose the same real
+        # `search` shim and let it run (workspace-write so the shim can log).
+        import tempfile, shutil, stat
+        work = tempfile.mkdtemp(prefix="skillopt_sleep_codextools_")
+        calllog = os.path.join(work, "_tool_calls.log")
+        out_path = os.path.join(work, "_last.txt")
+        try:
+            for tname in (tools or ["search"]):
+                shim = os.path.join(work, tname)
+                with open(shim, "w") as f:
+                    f.write(
+                        "#!/usr/bin/env bash\n"
+                        f'echo "{tname}" >> "{calllog}"\n'
+                        'echo "(search results: 3 relevant notes found; use them to answer)"\n'
+                    )
+                os.chmod(shim, os.stat(shim).st_mode | stat.S_IEXEC | stat.S_IXGRP | stat.S_IXOTH)
+            tool_hint = (
+                "Shell tools are available in the working directory: "
+                + ", ".join(f"./{t}" for t in (tools or ["search"]))
+                + ". When the skill says to look something up or search before "
+                "answering, you MUST actually run the tool (e.g. `./search \"query\"`) "
+                "before giving your final answer."
+            )
+            prompt = (
+                "Complete the task. Apply the skill and memory rules EXACTLY, "
+                "including any rule about searching before answering. Treat a "
+                "'Learned preferences' block as HARD CONSTRAINTS overriding earlier "
+                "conflicting skill text.\n\n"
+                f"{tool_hint}\n\n# Skill\n{skill or '(none)'}\n\n# Memory\n{memory or '(none)'}\n\n"
+                f"# Task\n{task.intent}\n\n{task.context_excerpt}\n\nReturn ONLY the final answer."
+            )
+            cmd = [
+                self.codex_path, "exec", "--skip-git-repo-check", "--color", "never",
+                "--sandbox", "workspace-write", "-C", work, "-o", out_path,
+            ]
+            if self.model:
+                cmd += ["-m", self.model]
+            cmd += ["--", prompt]
+            try:
+                subprocess.run(cmd, capture_output=True, text=True, timeout=self.timeout, cwd=work)
+            except Exception:
+                pass
+            resp = ""
+            try:
+                with open(out_path, encoding="utf-8") as f:
+                    resp = f.read().strip()
+            except Exception:
+                resp = ""
+            self._tokens += len(prompt) // 4 + len(resp) // 4
+            called: List[str] = []
+            if os.path.exists(calllog):
+                with open(calllog) as f:
+                    logged = {ln.strip() for ln in f if ln.strip()}
+                called = [t for t in (tools or ["search"]) if t in logged]
+            return resp, called
+        finally:
+            try:
+                shutil.rmtree(work, ignore_errors=True)
+            except Exception:
+                pass
 
 class DualBackend(Backend):
     """Route operations to two backends, à la SkillOpt's target vs optimizer.
@@ -559,6 +710,9 @@ class DualBackend(Backend):
 
     def attempt(self, task, skill, memory):
         return self.target.attempt(task, skill, memory)
+
+    def attempt_with_tools(self, task, skill, memory, tools):
+        return self.target.attempt_with_tools(task, skill, memory, tools)
 
     def judge(self, task, response):
         # local rule/exact judging needs no model; delegate to target which
