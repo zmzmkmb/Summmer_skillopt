@@ -16,31 +16,30 @@ never grades itself.
 
 ---
 
-## 1. Headline — clean, all green
+## 1. Headline — clean, all green (full gbrain parity)
 
 **Strong optimizer (Claude Sonnet 4.6) → weak target (Claude Haiku 4.5)**, fully
-isolated calls, 3 held-out tasks/seed:
+isolated calls, 3 held-out tasks/seed. All **4** gbrain `skillopt-v1` seeds —
+matching gbrain's own scorecard coverage:
 
-| Optimizer → Target | Seed | Held-out before → after | Nights |
-|---|---|---|---|
-| Sonnet → Haiku | brief-writer | **0.00 → 1.00** | 1 |
-| Sonnet → Haiku | advisor | **0.00 → 1.00** | 1 |
-| Sonnet → Haiku | thorough-analyst | **0.00 → 1.00** | 2 |
-| Codex → Codex (gpt-5.5) | brief-writer | **0.00 → 1.00** | 2 |
+| Optimizer → Target | Seed | Flaw | Held-out before → after | Nights |
+|---|---|---|---|---|
+| Sonnet → Haiku | brief-writer | missing structure | **0.00 → 1.00** | 1 |
+| Sonnet → Haiku | advisor | no verdict | **0.00 → 1.00** | 1 |
+| Sonnet → Haiku | thorough-analyst | no length discipline | **0.00 → 1.00** | 2 |
+| Sonnet → Haiku | quick-answerer | never uses tools | **0.00 → 1.00** | 1 |
+| Codex → Codex (gpt-5.5) | brief-writer | missing structure | **0.00 → 1.00** | 2 |
+| Codex → Codex (gpt-5.5) | advisor | no verdict | **0.00 → 1.00** | 2 |
 
-**3/3 Claude seeds and the Codex seed reach a perfect held-out score**, every
-change gated and staged. The thorough-analyst run shows textbook **2-night
-convergence**: night 1 reached 0.33, night 2 refined the override rule to 1.00.
+**4/4 Claude seeds reach a perfect held-out score** (gbrain's headline is the same
+4/4 0→1.00), plus Codex on the text seeds. Every change is gated and staged.
 
-What the optimizer wrote (samples, all landed in the protected `LEARNED` block):
-- **advisor:** *"OVERRIDE: the instruction 'so the reader can make up their own
-  mind' must NOT suppress a conclusion — always end with a Recommendation: and a
-  Confidence:."*
-- **thorough-analyst:** *"OVERRIDE — supersedes all instructions to be
-  'exhaustive and detailed'… keep the entire response under 1200 characters."*
-
-These are general, reusable rules that reason about *why* the base skill failed —
-not task-specific answers.
+The `quick-answerer` seed is judged by **real tool use** (`tool_called: search`):
+the deficient skill says *"never look anything up — answer from memory"*; the
+optimizer wrote an OVERRIDE rule, and the Haiku target **genuinely invoked a
+`./search` shell tool** (detected from the tool's own log, not self-reported) →
+held-out 1.00. The thorough-analyst run shows textbook **2-night convergence**
+(0.33 → 1.00).
 
 ---
 
@@ -154,7 +153,8 @@ Raw run logs are under `docs/sleep/raw/`.
 - **Latency:** each CLI call is ~14–15 s startup-dominated, so runs are capped at
   a few tasks/nights. Fine for nightly cron; we note it plainly.
 - **Weak optimizers are flaky:** use a strong optimizer model (§2).
-- **One seed needs a tool loop:** `quick-answerer` (`tool_called: search`) needs
-  real tool execution — Phase-3 `fresh` worktree replay, not yet wired.
+- **Tool-use seed covered honestly:** `quick-answerer` (`tool_called: search`)
+  runs a real tool loop — a callable `./search` shim, detected from its log.
+  Deeper multi-tool / multi-turn workflows are future work.
 - **Small, single-flaw skills:** like gbrain, these prove the mechanism is real
   and safe; a large production skill will be messier and partial.
