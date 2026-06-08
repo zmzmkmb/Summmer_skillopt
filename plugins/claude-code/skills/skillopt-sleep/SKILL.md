@@ -1,6 +1,6 @@
 ---
 name: skillopt-sleep
-description: "Use when the user wants their Claude agent to self-improve from past usage, asks about a nightly/offline 'sleep' or 'dream' cycle, memory/skill consolidation, or says things like '让 agent 越用越好用', 'review my past sessions', 'learn my preferences', 'consolidate what you learned', 'run the sleep cycle', or wants to schedule offline self-optimization. Drives the skillopt_sleep engine: harvest past sessions → mine recurring tasks → replay offline → consolidate validated CLAUDE.md/SKILL.md behind a held-out gate."
+description: "Use when the user wants their Claude agent to self-improve from past usage, asks about a nightly/offline 'sleep' or 'dream' cycle, memory/skill consolidation, or says things like 'make my agent better the more I use it', 'review my past sessions', 'learn my preferences', 'consolidate what you learned', 'run the sleep cycle', or wants to schedule offline self-optimization. Drives the skillopt_sleep engine: harvest past sessions -> mine recurring tasks -> replay offline -> consolidate validated CLAUDE.md/SKILL.md behind a held-out gate."
 ---
 
 # SkillOpt-Sleep: offline self-evolution for a local Claude agent
@@ -24,7 +24,7 @@ It synthesizes three ideas:
 ## When to use this skill
 
 Trigger when the user wants any of:
-- "make my agent learn from how I use it" / "越用越好用" / "remember my preferences across sessions"
+- "make my agent learn from how I use it" / "get better the more I use it" / "remember my preferences across sessions"
 - a nightly/scheduled or on-demand **offline self-improvement / dream / sleep** run
 - to **review past sessions/trajectories** and distill recurring tasks
 - to **consolidate** feedback into `CLAUDE.md` or a managed skill

@@ -23,18 +23,28 @@ from skillopt_sleep.types import SessionDigest
 
 
 # Heuristic phrases that signal the user (dis)approving of prior output.
+# English-only by default. Users whose sessions are in another language can add
+# their own phrases via the SKILLOPT_SLEEP_NEG_FEEDBACK / _POS_FEEDBACK env vars
+# (comma-separated), so the capability is extensible without hardcoding locales.
 _NEGATIVE_FEEDBACK = (
     "still broken", "still not", "still wrong", "doesn't work", "does not work",
     "not working", "that's wrong", "thats wrong", "incorrect", "wrong",
     "no,", "nope", "fix it", "didn't", "did not", "broken", "error again",
     "still failing", "still fails", "not fixed", "revert", "undo",
-    "不对", "还是不对", "还是不行", "不行", "错了", "有问题", "没修好",
 )
 _POSITIVE_FEEDBACK = (
     "thanks", "thank you", "perfect", "great", "works now", "fixed",
     "that works", "lgtm", "looks good", "nice", "awesome", "correct",
-    "完美", "可以了", "好的", "搞定", "对了", "正确", "谢谢",
 )
+
+
+def _extra_phrases(env_var: str) -> tuple:
+    raw = os.environ.get(env_var, "")
+    return tuple(p.strip().lower() for p in raw.split(",") if p.strip())
+
+
+_NEGATIVE_FEEDBACK = _NEGATIVE_FEEDBACK + _extra_phrases("SKILLOPT_SLEEP_NEG_FEEDBACK")
+_POSITIVE_FEEDBACK = _POSITIVE_FEEDBACK + _extra_phrases("SKILLOPT_SLEEP_POS_FEEDBACK")
 
 
 def _iter_jsonl(path: str) -> Iterable[Dict[str, Any]]:

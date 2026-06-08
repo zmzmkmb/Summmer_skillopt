@@ -126,7 +126,7 @@ def consolidate(
     if evolve_skill:
         if rollouts_k > 1:
             # multi-rollout contrastive reflection: run each train task K times
-            # and distill a rule from the good-vs-bad contrast (the "脑补" signal).
+            # and distill a rule from the good-vs-bad contrast (the imagination signal).
             from skillopt_sleep.rollout import multi_rollout, contrastive_reflect
             sets = [multi_rollout(backend, t, cand_skill, cand_memory, k=rollouts_k)
                     for t in train_tasks]

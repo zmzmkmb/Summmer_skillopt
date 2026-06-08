@@ -6,7 +6,7 @@ added in the four-stage refactor and how they map to the user's design.
 
 ## The mental model
 
-> Sleep = an offline "脑补推演" (imagination rollout). Re-run the user's real
+> Sleep = an offline imagination rollout. Re-run the user's real
 > tasks (and dream-augmented variants) many times, look at what went well vs
 > badly, distil durable rules, and keep only what survives a real-task check —
 > unless the user opts out of that check.
@@ -68,7 +68,8 @@ Every rollout records its `tokens` and `latency_ms`.
 `multi_objective_reward(w_acc, w_tokens, w_latency)` is a weighted reward so a
 skill can be optimised to be **cheaper and faster**, not only more accurate
 (cost terms normalised against a reference; default weights = accuracy-only, so
-existing behaviour is unchanged). This turns "越用越好用" into "越用越准、越省、越快".
+existing behaviour is unchanged). This turns "gets better the more you use it"
+into "more accurate, cheaper, and faster the more you use it".
 
 ## 7. User preferences as a prior
 

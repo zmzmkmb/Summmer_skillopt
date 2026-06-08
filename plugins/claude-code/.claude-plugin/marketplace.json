@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "skillopt-sleep",
-      "description": "Nightly offline self-evolution: harvest your past Claude Code sessions, replay recurring tasks on your own API budget, and consolidate what the agent learns into validated CLAUDE.md memory and SKILL.md skills — behind a held-out gate, staged for your review.越用越好用. Synthesizes SkillOpt (validation-gated skill optimization), Claude Dreams (offline memory consolidation), and agent sleep/consolidation.",
+      "description": "Nightly offline self-evolution: harvest your past Claude Code sessions, replay recurring tasks on your own API budget, and consolidate what the agent learns into validated CLAUDE.md memory and SKILL.md skills, behind a held-out gate, staged for your review. Synthesizes SkillOpt (validation-gated skill optimization), Claude Dreams (offline memory consolidation), and agent sleep/consolidation.",
       "author": {
         "name": "Yifan Yang"
       },
@@ -17,7 +17,7 @@
       "source": {
         "source": "git-subdir",
         "url": "https://github.com/microsoft/SkillOpt.git",
-        "path": "skillopt-sleep-plugin",
+        "path": "plugins/claude-code",
         "ref": "main"
       },
       "homepage": "https://github.com/microsoft/SkillOpt"

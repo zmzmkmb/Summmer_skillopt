@@ -7,7 +7,7 @@
 ---
 
 ## News 🔥🔥🔥
-- **[2026-06-08]** 😴 **SkillOpt-Sleep is here — plugins for Claude Code, Codex, and Copilot.** Give your local coding agent a nightly *sleep cycle*: it reviews your past sessions offline, replays your recurring tasks, and consolidates validated long-term memory + skills behind a held-out gate —越用越好用. Validated on the public [gbrain-evals](https://github.com/garrytan/gbrain-evals) `skillopt-v1` benchmark with **real Claude and Codex** (deficient skills 0.00 → 1.00 on held-out, all 4 seeds). It's an **open-source tool decoupled from the paper code**. See [`plugins/`](plugins/) and the [SkillOpt-Sleep section](#-skillopt-sleep--越用越好用-the-deployment-time-companion) below.
+- **[2026-06-08]** 😴 **SkillOpt-Sleep is here — plugins for Claude Code, Codex, and Copilot.** Give your local coding agent a nightly *sleep cycle*: it reviews your past sessions offline, replays your recurring tasks, and consolidates validated long-term memory + skills behind a held-out gate, so it gets better the more you use it. Validated on the public [gbrain-evals](https://github.com/garrytan/gbrain-evals) `skillopt-v1` benchmark with **real Claude and Codex** (deficient skills 0.00 → 1.00 on held-out, all 4 seeds). It's an **open-source tool decoupled from the paper code**. See [`plugins/`](plugins/) and the [SkillOpt-Sleep section](#-skillopt-sleep--the-deployment-time-companion) below.
 - **[2026-06-03]** 🎉 **[gbrain](https://github.com/garrytan/gbrain), [gbrain-evals](https://github.com/garrytan/gbrain-evals/blob/main/docs/benchmarks/2026-06-03-skillopt.md), and [darwin-skill](https://github.com/alchaincyf/darwin-skill) have all integrated SkillOpt.**
 - **[2026-06-02]** 🎉 **SkillOpt [v0.1.0](https://github.com/microsoft/SkillOpt/releases/tag/v0.1.0) is now available on [PyPI](https://pypi.org/project/skillopt/)!** Install with `pip install skillopt`. This initial release includes the full training loop (rollout → reflect → aggregate → select → update → evaluate), multi-backend support (OpenAI / Azure / Claude / Qwen / MiniMax), six built-in benchmarks, and WebUI dashboard.
 
@@ -51,7 +51,7 @@ https://github.com/user-attachments/assets/eb12d3bc-371c-467f-904d-91b61f339ed7
 
 ---
 
-## 😴 SkillOpt-Sleep — 越用越好用, the deployment-time companion
+## 😴 SkillOpt-Sleep — the deployment-time companion
 
 SkillOpt (above) trains a skill offline on a benchmark. **SkillOpt-Sleep**
 applies the same discipline to *your own daily usage*: it gives a local coding

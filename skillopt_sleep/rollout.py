@@ -1,6 +1,6 @@
-"""SkillOpt-Sleep — multi-rollout + contrastive reflection ("脑补推演" core).
+"""SkillOpt-Sleep — multi-rollout + contrastive reflection (the imagination core).
 
-The user's insight: let the agent re-run the SAME task many times, then look at
+The core idea: let the agent re-run the SAME task many times, then look at
 which rollouts went well vs badly and distill a rule from the *contrast*. This
 is a much stronger learning signal than a single failure, and it is the essence
 of the offline "dream/imagination" process — train-time rollouts are synthetic,
