@@ -12,8 +12,10 @@ Held-out scores are computed by the harness, not the optimizer.
 | claude:sonnet → claude:haiku | thorough-analyst | 0.00 | **1.00** | 2 | 17960 |
 | codex:default → codex:default | brief-writer | 0.00 | **1.00** | 2 | 9969 |
 | codex:default → codex:default | advisor | 0.00 | **1.00** | 2 | 6210 |
+| claude:sonnet → claude:haiku | quick-answerer | 0.00 | **1.00** | 2 | 10988 |
+| codex:default → codex:default | quick-answerer | 0.00 | **1.00** | 2 | 7347 |
 
-**5/5 configurations improved on held-out.**
+**7/7 configurations improved on held-out.**
 
 ## Cross-model transfer (optimize on SOURCE, deploy frozen on TARGET)
 
