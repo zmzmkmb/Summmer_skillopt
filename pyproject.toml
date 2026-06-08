@@ -64,7 +64,9 @@ Repository = "https://github.com/microsoft/SkillOpt"
 Issues = "https://github.com/microsoft/SkillOpt/issues"
 
 [tool.setuptools.packages.find]
-include = ["skillopt*", "scripts*"]
+# skillopt* = the research package; skillopt_sleep = the open-source Sleep tool
+# (decoupled, zero dependency on the research code).
+include = ["skillopt", "skillopt.*", "skillopt_sleep", "skillopt_sleep.*", "scripts*"]
 
 [tool.ruff]
 line-length = 120

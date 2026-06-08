@@ -7,6 +7,7 @@
 ---
 
 ## News 🔥🔥🔥
+- **[2026-06-08]** 😴 **SkillOpt-Sleep is here — plugins for Claude Code, Codex, and Copilot.** Give your local coding agent a nightly *sleep cycle*: it reviews your past sessions offline, replays your recurring tasks, and consolidates validated long-term memory + skills behind a held-out gate —越用越好用. Validated on the public [gbrain-evals](https://github.com/garrytan/gbrain-evals) `skillopt-v1` benchmark with **real Claude and Codex** (deficient skills 0.00 → 1.00 on held-out, all 4 seeds). It's an **open-source tool decoupled from the paper code**. See [`plugins/`](plugins/) and the [SkillOpt-Sleep section](#-skillopt-sleep--越用越好用-the-deployment-time-companion) below.
 - **[2026-06-03]** 🎉 **[gbrain](https://github.com/garrytan/gbrain), [gbrain-evals](https://github.com/garrytan/gbrain-evals/blob/main/docs/benchmarks/2026-06-03-skillopt.md), and [darwin-skill](https://github.com/alchaincyf/darwin-skill) have all integrated SkillOpt.**
 - **[2026-06-02]** 🎉 **SkillOpt [v0.1.0](https://github.com/microsoft/SkillOpt/releases/tag/v0.1.0) is now available on [PyPI](https://pypi.org/project/skillopt/)!** Install with `pip install skillopt`. This initial release includes the full training loop (rollout → reflect → aggregate → select → update → evaluate), multi-backend support (OpenAI / Azure / Claude / Qwen / MiniMax), six built-in benchmarks, and WebUI dashboard.
 
@@ -47,6 +48,51 @@ https://github.com/user-attachments/assets/eb12d3bc-371c-467f-904d-91b61f339ed7
 <p align="center">
   <a href="https://youtu.be/JUBMDTCiM0M"><b>▶ Watch the full demo on YouTube</b></a>
 </p>
+
+---
+
+## 😴 SkillOpt-Sleep — 越用越好用, the deployment-time companion
+
+SkillOpt (above) trains a skill offline on a benchmark. **SkillOpt-Sleep**
+applies the same discipline to *your own daily usage*: it gives a local coding
+agent a nightly **sleep cycle** that reviews your past sessions, replays your
+recurring tasks on your own API budget, and consolidates what it learns into
+**validated** long-term memory and skills — behind a held-out gate, staged for
+your review. The agent gets better the more you use it, with no weight training.
+
+It synthesizes **SkillOpt** (validation-gated bounded text edits), **Claude
+Dreams** (offline consolidation; review-then-adopt), and the **agent sleep**
+idea (short-term experience → long-term competence). One "night":
+
+```
+harvest session transcripts → mine recurring tasks → replay offline
+   → consolidate (reflect → bounded edit → GATE on real held-out tasks)
+   → stage proposal → (you) adopt
+```
+
+**Plugins for three agents** (one engine, three thin shells — see [`plugins/`](plugins/)):
+
+| Platform | Folder | Install |
+|---|---|---|
+| **Claude Code** | [`plugins/claude-code`](plugins/claude-code) | `/plugin marketplace add ./plugins/claude-code` → `/sleep` |
+| **Codex** | [`plugins/codex`](plugins/codex) | `bash plugins/codex/install.sh` → `/sleep` |
+| **Copilot** | [`plugins/copilot`](plugins/copilot) | register `plugins/copilot/mcp_server.py` as an MCP server |
+
+**Validated on real models.** On the public
+[gbrain-evals](https://github.com/garrytan/gbrain-evals) `skillopt-v1` benchmark,
+deficient skills go **0.00 → 1.00** on held-out sets with **both Claude and
+Codex** (all 4 seeds, including a real tool-use loop), cross-model transfer is
+positive, and the gate blocks regressions
+([full results](docs/sleep/FINAL_REPORT.md)).
+
+> **Open-source tool, decoupled from the research.** The engine lives in the
+> top-level [`skillopt_sleep/`](skillopt_sleep) package with **zero dependency**
+> on the paper's `skillopt/` experiment code (the validation gate is vendored).
+> Controls — optional gate, multi-rollout contrastive reflection, token/time
+> budget, multi-objective reward, user preferences, optimizer/target split — are
+> documented in [`docs/sleep/CONTROLLABLE_DREAMING.md`](docs/sleep/CONTROLLABLE_DREAMING.md).
+
+Deterministic proof (no API key): `python -m skillopt_sleep.experiments.run_experiment --persona researcher --assert-improves`.
 
 ---
 
