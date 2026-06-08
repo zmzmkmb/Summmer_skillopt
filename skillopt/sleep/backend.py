@@ -410,14 +410,21 @@ class ClaudeCliBackend(CliBackend):
         self.claude_path = claude_path
 
     def _call(self, prompt: str, *, max_tokens: int = 1024) -> str:
-        # Run ISOLATED: a clean temp cwd so the ambient project's CLAUDE.md /
-        # skills / tools do not leak into the optimizer/target call, no tools,
-        # and per-machine dynamic system-prompt sections excluded. Without this,
-        # `claude -p` answers with full Claude Code context and ignores our
-        # prompt (e.g. it lists the user's installed skills).
+        # Run ISOLATED so the ambient Claude Code environment does not leak into
+        # the optimizer/target call. Critically, the user's GLOBAL skills
+        # (~/.claude/skills) are injected regardless of cwd, so we must disable
+        # them explicitly — without this, reflect/attempt sometimes reply with a
+        # list of the user's installed skills instead of doing the task.
+        #   --bare                    skip hooks, LSP, plugins (minimal mode)
+        #   --disable-slash-commands  disable all skills
+        #   --disallowedTools '*'     no tool use
+        #   --exclude-dynamic-...     drop per-machine cwd/env/memory/git sections
+        #   cwd=<clean temp>          no project CLAUDE.md
         import tempfile
         cmd = [
             self.claude_path, "-p", "--output-format", "text",
+            "--bare",
+            "--disable-slash-commands",
             "--disallowedTools", "*",
             "--exclude-dynamic-system-prompt-sections",
         ]
