@@ -373,9 +373,20 @@ class CliBackend(Backend):
             f"{criteria_text}\n\n"
             f"# Recurring failures\n{fail_text}"
         )
-        raw = self._call(prompt, max_tokens=1024)
-        self._tokens += len(prompt) // 4 + len(raw) // 4
-        arr = _extract_json(raw, "array")
+        # Call with one retry: transient non-JSON replies otherwise waste a whole
+        # night (the gate sees no edits and rejects). A firmer second prompt
+        # recovers most of these.
+        arr = None
+        for attempt in range(2):
+            p = prompt if attempt == 0 else (
+                prompt + "\n\nIMPORTANT: your previous reply was not valid JSON. "
+                "Reply with ONLY the JSON array, no prose, no markdown fences."
+            )
+            raw = self._call(p, max_tokens=1024)
+            self._tokens += len(p) // 4 + len(raw) // 4
+            arr = _extract_json(raw, "array")
+            if isinstance(arr, list) and arr:
+                break
         edits: List[EditRecord] = []
         if isinstance(arr, list):
             for e in arr[:edit_budget]:

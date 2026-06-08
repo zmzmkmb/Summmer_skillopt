@@ -22,18 +22,26 @@ computes the score with a local rule judge — the optimizer never grades itself
 
 | Backend (target) | Optimizer | Seed | Held-out before → after | Nights |
 |---|---|---|---|---|
-| Claude Haiku 4.5 | Claude Haiku | brief-writer | **0.00 → 1.00** | 1 |
-| Claude Haiku 4.5 | Claude Haiku | advisor | **0.00 → 1.00** | 2 |
-| Claude Haiku 4.5 | Claude Haiku | thorough-analyst | **0.00 → 1.00** † | 2 |
 | Codex (gpt-5.5) | Codex | brief-writer | **0.00 → 1.00** | 2 |
+| Claude Haiku 4.5 | Claude Haiku | brief-writer | **0.00 → 1.00** | 1–2 |
+| Claude Haiku 4.5 | Claude Haiku | advisor | _recomputing clean_ ‡ | 2 |
+| Claude Haiku 4.5 | Claude Haiku | thorough-analyst | partial (see §3) | 2 |
 
-† after the override-prompt fix described in §3. Before the fix it was 0.00 → 0.00,
-and we report that honestly because it taught us the most (see §3).
+‡ **An honesty note on the Claude numbers.** Our first Claude runs were
+contaminated: `claude -p` was injecting the user's *global* skills/CLAUDE.md into
+every optimizer/target call (one reflect call literally returned a list of the
+machine's installed skills instead of JSON edits). That inflated some early
+"successes." We fixed the backend to run truly isolated (`--bare
+--disable-slash-commands --disallowedTools '*'`, clean temp cwd) and are
+recomputing every Claude cell honestly. **The Codex results were never affected**
+(the real `@openai/codex` binary runs in its own clean context) and stand as-is.
+This is precisely the class of bug gbrain warns about: "the bugs that matter only
+show up when the whole thing actually runs."
 
-**Bottom line:** across two independent agent runtimes (Claude and Codex) and
-multiple distinct skill flaws (missing structure, no verdict, no length
-discipline), the sleep cycle lifts a deficient skill to a perfect held-out score,
-with every change gated and staged for review.
+**Bottom line:** the mechanism is real — a deficient skill is lifted to a perfect
+held-out score by gated nightly edits — and it is demonstrated cleanly on Codex
+today, with Claude being re-measured under strict isolation. Every change is
+gated and staged for review.
 
 ---
 
