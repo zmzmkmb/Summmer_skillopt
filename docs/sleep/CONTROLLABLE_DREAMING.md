@@ -92,3 +92,25 @@ python -m skillopt.sleep.experiments.run_gbrain \
 
 All of this is exercised by the deterministic test suite (29 tests) and
 validated on real Claude + Codex (see `real_api_results.md` / `FINAL_REPORT.md`).
+
+## Real cross-validation of the new features (Claude ⟷ Codex)
+
+Three live runs exercised the new code paths on both runtimes (raw logs under
+`docs/sleep/raw/crosscheck_*.txt`):
+
+| # | Config | What it proves | Result |
+|---|---|---|---|
+| **A** | Claude Sonnet→Haiku, **gate=off**, **rollouts_k=2** | greedy mode + multi-rollout + 3-way split (val & test both reported) | brief-writer **test 0→1.00**, action `greedy_improved`, val=1.0 test=1.0 |
+| **B** | **Codex**, gate=on, **rollouts_k=2** | new paths on the other runtime | brief-writer **test 0→1.00**, 2-night `accept_new_best`, val+test reported |
+| **C** | Claude Sonnet→Haiku, thorough-analyst, 3 nights | **slow-update** long-term memory fires | test 0→0.33 (val gate holds nights 2–3) and the slow-update distilled a durable meta-rule |
+
+The slow-update guidance C produced is the kind of cross-night lesson the field
+is for — note it is general, not task-specific:
+
+> *"On character-constrained tasks (≤1200 chars), plan structure before writing:
+> allocate space per point explicitly and cut until the outline fits, then fill —
+> never draft freely and trim after."*
+
+Takeaways confirmed live: the **gate-off greedy path**, the **3-way val/test
+split**, **multi-rollout** on both runtimes, and the **gate-independent
+slow-update** all work with real models on both Claude and Codex.
