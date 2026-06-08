@@ -45,6 +45,7 @@ def _score(backend, tasks, skill, memory, split="test", metric="mixed", w=0.5):
 
 def run_seed(backend, seed: str, skill: str, tasks: List, *,
              nights: int = 3, edit_budget: int = 4, gate_mode: str = "on",
+             slow_update: bool = True,
              limit_replay: int = 0, limit_holdout: int = 0) -> dict:
     memory = ""
     # optionally cap each split to control API cost / latency.
@@ -63,6 +64,7 @@ def run_seed(backend, seed: str, skill: str, tasks: List, *,
     bh, bs, bscore = _score(backend, tasks, skill, memory, split="test")
     trace = [{"night": 0, "test_hard": round(bh, 3), "action": "baseline"}]
     cur = skill
+    first_night_skill = skill
     for night in range(1, nights + 1):
         res = consolidate(
             backend, tasks, cur, memory,
@@ -71,6 +73,8 @@ def run_seed(backend, seed: str, skill: str, tasks: List, *,
         )
         if res.accepted:
             cur = res.new_skill
+        if night == 1:
+            first_night_skill = cur
         # report the TEST score each night (independent of the val gate)
         th, _ts, _ = _score(backend, tasks, cur, memory, split="test")
         trace.append({
@@ -83,6 +87,27 @@ def run_seed(backend, seed: str, skill: str, tasks: List, *,
         })
         if th >= 0.999:
             break
+
+    # ── SLOW UPDATE: consolidate cross-night experience into the protected
+    # long-term field. Runs regardless of gate mode (it is what preserves
+    # long-term memory even when the gate is OFF).
+    slow_text = None
+    if nights >= 2 and slow_update:
+        try:
+            from skillopt.sleep.slow_update import run_slow_update, replace_slow_field
+            val_tasks = [t for t in tasks if t.split == "val"] or tasks
+            prev_pairs = replay_batch(backend, val_tasks, first_night_skill, memory)
+            curr_pairs = replay_batch(backend, val_tasks, cur, memory)
+            slow_text = run_slow_update(
+                backend, prev_skill=first_night_skill, curr_skill=cur,
+                prev_pairs=[(t, r) for t, r in prev_pairs],
+                curr_pairs=[(t, r) for t, r in curr_pairs],
+            )
+            if slow_text:
+                cur = replace_slow_field(cur, slow_text)
+        except Exception:
+            slow_text = None
+
     ah, as_, ascore = _score(backend, tasks, cur, memory, split="test")
     return {
         "seed": seed,
@@ -91,6 +116,7 @@ def run_seed(backend, seed: str, skill: str, tasks: List, *,
         "improved": ah > bh,
         "nights": len(trace) - 1,
         "trace": trace,
+        "slow_update": slow_text,
         "final_skill_tail": cur[-400:],
     }
 

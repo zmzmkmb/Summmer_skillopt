@@ -232,6 +232,49 @@ class TestLlmMiner(unittest.TestCase):
         self.assertEqual(make_llm_miner(EmptyBackend())([digest]), [])
 
 
+class TestSlowUpdate(unittest.TestCase):
+    def test_protected_field_roundtrip(self):
+        from skillopt.sleep.slow_update import (
+            replace_slow_field, extract_slow_field, has_slow_field,
+            SLOW_UPDATE_START, SLOW_UPDATE_END,
+        )
+        base = "# skill\nkeep me\n"
+        doc = replace_slow_field(base, "durable lesson A")
+        self.assertTrue(has_slow_field(doc))
+        self.assertIn("keep me", doc)
+        self.assertEqual(extract_slow_field(doc), "durable lesson A")
+        # replacing keeps exactly one block and preserves hand-written text
+        doc2 = replace_slow_field(doc, "durable lesson B")
+        self.assertEqual(doc2.count(SLOW_UPDATE_START), 1)
+        self.assertEqual(doc2.count(SLOW_UPDATE_END), 1)
+        self.assertEqual(extract_slow_field(doc2), "durable lesson B")
+        self.assertIn("keep me", doc2)
+
+    def test_run_slow_update_with_stub_backend(self):
+        from skillopt.sleep.backend import Backend
+        from skillopt.sleep.slow_update import run_slow_update
+        from skillopt.sleep.types import TaskRecord, ReplayResult
+
+        class StubBackend(Backend):
+            name = "stub"
+            def _call(self, prompt, *, max_tokens=1024):
+                return '{"guidance": "- keep doing X\\n- avoid regression Y"}'
+
+        t = TaskRecord(id="t1", project="/p", intent="do thing")
+        prev = [(t, ReplayResult(id="t1", hard=0.0))]  # was failing
+        curr = [(t, ReplayResult(id="t1", hard=1.0))]  # now passing (improved)
+        out = run_slow_update(StubBackend(), prev_skill="s0", curr_skill="s1",
+                              prev_pairs=prev, curr_pairs=curr)
+        # improvements alone with no regression/persistent-fail and no prior text -> None
+        self.assertIsNone(out)
+        # a regression triggers guidance
+        prev2 = [(t, ReplayResult(id="t1", hard=1.0))]
+        curr2 = [(t, ReplayResult(id="t1", hard=0.0))]
+        out2 = run_slow_update(StubBackend(), prev_skill="s0", curr_skill="s1",
+                               prev_pairs=prev2, curr_pairs=curr2)
+        self.assertIn("keep doing X", out2)
+
+
 class TestToolLoop(unittest.TestCase):
     def test_tool_called_judge_via_replay(self):
         from skillopt.sleep.backend import MockBackend
