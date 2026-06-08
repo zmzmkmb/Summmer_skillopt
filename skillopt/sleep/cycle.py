@@ -125,11 +125,22 @@ def run_sleep_cycle(
             limit=cfg.get("max_tasks_per_night", 40) * 3,
         )
         n_sessions = len(digests)
+        # When a real backend is configured, use it to mine checkable tasks from
+        # the transcripts (rubric/rule judges); otherwise fall back to the
+        # heuristic miner (no API, no checkable reference).
+        llm_miner = None
+        if cfg.get("backend", "mock") != "mock" and cfg.get("llm_mine", True):
+            try:
+                from skillopt.sleep.llm_miner import make_llm_miner
+                llm_miner = make_llm_miner(backend, max_tasks=cfg.get("max_tasks_per_night", 40))
+            except Exception:
+                llm_miner = None
         tasks = mine(
             digests,
             max_tasks=cfg.get("max_tasks_per_night", 40),
             holdout_fraction=cfg.get("holdout_fraction", 0.34),
             seed=cfg.get("seed", 42),
+            llm_miner=llm_miner,
         )
 
     # ── live skill/memory docs ───────────────────────────────────────────

@@ -24,7 +24,7 @@ import json
 import sys
 from typing import Dict, List, Optional
 
-from skillopt.sleep.backend import get_backend
+from skillopt.sleep.backend import build_backend, get_backend
 from skillopt.sleep.consolidate import consolidate, select_gate_score
 from skillopt.sleep.experiments.gbrain_bench import (
     available_seeds,
@@ -90,6 +90,10 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="Run gbrain-evals skillopt-v1 with SkillOpt-Sleep")
     ap.add_argument("--backend", default="mock", choices=["mock", "claude", "codex"])
     ap.add_argument("--model", default="")
+    ap.add_argument("--optimizer-backend", default="", help="route reflect/judge here (dual)")
+    ap.add_argument("--optimizer-model", default="")
+    ap.add_argument("--target-backend", default="", help="route attempt here (dual)")
+    ap.add_argument("--target-model", default="")
     ap.add_argument("--codex-path", default="")
     ap.add_argument("--data-root", default="", help="path to eval/data/skillopt-v1")
     ap.add_argument("--seeds", default="", help="comma list; default = all available")
@@ -107,7 +111,12 @@ def main(argv=None) -> int:
         return 2
 
     seeds = [s.strip() for s in args.seeds.split(",") if s.strip()] or available_seeds(data_root)
-    backend = get_backend(args.backend, model=args.model, codex_path=args.codex_path)
+    backend = build_backend(
+        backend=args.backend, model=args.model,
+        optimizer_backend=args.optimizer_backend, optimizer_model=args.optimizer_model,
+        target_backend=args.target_backend, target_model=args.target_model,
+        codex_path=args.codex_path,
+    )
 
     results = []
     for seed in seeds:

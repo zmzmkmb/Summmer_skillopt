@@ -464,6 +464,48 @@ class CodexCliBackend(CliBackend):
                 pass
 
 
+# ── Dual backend: target runs the task, optimizer proposes/judges edits ───────
+
+class DualBackend(Backend):
+    """Route operations to two backends, à la SkillOpt's target vs optimizer.
+
+      * attempt  -> TARGET backend (the model the skill is deployed on)
+      * reflect  -> OPTIMIZER backend (the stronger/cheaper model writing edits)
+      * judge    -> OPTIMIZER backend (graded by the optimizer when no local rule)
+
+    This lets you optimize a skill with one model and run tasks on another, and
+    is the basis of the sleep-scenario transfer experiment (optimize cheap,
+    deploy expensive — or vice-versa).
+    """
+
+    name = "dual"
+
+    def __init__(self, target: Backend, optimizer: Backend) -> None:
+        self.target = target
+        self.optimizer = optimizer
+        self.name = f"target={target.name}/optimizer={optimizer.name}"
+
+    def attempt(self, task, skill, memory):
+        return self.target.attempt(task, skill, memory)
+
+    def judge(self, task, response):
+        # local rule/exact judging needs no model; delegate to target which
+        # already short-circuits those. For rubric judging use the optimizer.
+        if task.reference_kind in {"rule", "exact"}:
+            return self.target.judge(task, response)
+        return self.optimizer.judge(task, response)
+
+    def reflect(self, failures, successes, skill, memory, **kw):
+        return self.optimizer.reflect(failures, successes, skill, memory, **kw)
+
+    def _call(self, prompt, *, max_tokens=1024):
+        # used by the LLM miner; prefer the optimizer (the "thinking" model)
+        return self.optimizer._call(prompt, max_tokens=max_tokens)  # type: ignore[attr-defined]
+
+    def tokens_used(self):
+        return self.target.tokens_used() + self.optimizer.tokens_used()
+
+
 def get_backend(
     name: str,
     *,
@@ -477,3 +519,27 @@ def get_backend(
     if n in {"codex", "codex_cli", "openai_codex"}:
         return CodexCliBackend(model=model, codex_path=codex_path)
     return MockBackend()
+
+
+def build_backend(
+    *,
+    backend: str = "mock",
+    model: str = "",
+    optimizer_backend: str = "",
+    optimizer_model: str = "",
+    target_backend: str = "",
+    target_model: str = "",
+    codex_path: str = "",
+) -> Backend:
+    """Build a single or dual backend.
+
+    If optimizer_* or target_* are given, returns a DualBackend routing
+    attempt->target and reflect/judge->optimizer. Otherwise a single backend
+    from (backend, model).
+    """
+    has_split = any([optimizer_backend, optimizer_model, target_backend, target_model])
+    if not has_split:
+        return get_backend(backend, model=model, codex_path=codex_path)
+    tgt = get_backend(target_backend or backend, model=target_model or model, codex_path=codex_path)
+    opt = get_backend(optimizer_backend or backend, model=optimizer_model or model, codex_path=codex_path)
+    return DualBackend(target=tgt, optimizer=opt)

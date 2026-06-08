@@ -41,6 +41,7 @@ DEFAULTS: Dict[str, Any] = {
     "replay_mode": "mock",        # "mock" (sandboxed prompt) | "fresh" (worktree)
     "evolve_memory": True,        # consolidate CLAUDE.md
     "evolve_skill": True,         # consolidate the managed SKILL.md
+    "llm_mine": True,             # use the backend to mine checkable tasks (real backends)
     # ── adoption / safety ──────────────────────────────────────────────────
     "auto_adopt": False,          # default: stage + require explicit `adopt`
     "managed_skill_name": "skillopt-sleep-learned",

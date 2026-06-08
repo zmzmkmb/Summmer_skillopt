@@ -177,6 +177,42 @@ class TestGbrainLoader(unittest.TestCase):
         self.assertEqual(score_rule_judge(ho.judge, skill)[0], 0.0)
 
 
+class TestLlmMiner(unittest.TestCase):
+    def test_miner_emits_checkable_tasks(self):
+        # a stub backend whose _call returns canned miner JSON => deterministic
+        from skillopt.sleep.backend import Backend
+        from skillopt.sleep.llm_miner import make_llm_miner
+
+        class StubBackend(Backend):
+            name = "stub"
+            def _call(self, prompt, *, max_tokens=1024):
+                return ('[{"intent":"write a research brief",'
+                        '"checks":[{"op":"section_present","arg":"Key Risks"}],'
+                        '"rubric":"has a risks section","satisfied":false}]')
+
+        digest = SessionDigest(session_id="s1", project="/p",
+                               user_prompts=["write a brief on X"],
+                               assistant_finals=["a brief"], n_user_turns=1)
+        miner = make_llm_miner(StubBackend())
+        tasks = miner([digest])
+        self.assertEqual(len(tasks), 1)
+        self.assertEqual(tasks[0].reference_kind, "rule")
+        self.assertEqual(tasks[0].judge["checks"][0]["op"], "section_present")
+
+    def test_miner_drops_uncheckable(self):
+        from skillopt.sleep.backend import Backend
+        from skillopt.sleep.llm_miner import make_llm_miner
+
+        class EmptyBackend(Backend):
+            name = "stub"
+            def _call(self, prompt, *, max_tokens=1024):
+                return "[]"
+
+        digest = SessionDigest(session_id="s1", project="/p",
+                               user_prompts=["chat"], n_user_turns=1)
+        self.assertEqual(make_llm_miner(EmptyBackend())([digest]), [])
+
+
 class TestFullCycleAndAdopt(unittest.TestCase):
     def test_cycle_stage_then_adopt_with_backup(self):
         with tempfile.TemporaryDirectory() as proj, tempfile.TemporaryDirectory() as home:
