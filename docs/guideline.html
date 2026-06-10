@@ -244,17 +244,18 @@
       <a href="#verify">Verify installation</a>
     </div>
     <div class="group">
-      <div class="glabel"><span class="num">3</span> Data Preparation</div>
-      <a href="#split-dir">Split directory format</a>
-      <a href="#item-schema">Item JSON schema</a>
-      <a href="#split-modes">Split modes</a>
-    </div>
-    <div class="group">
-      <div class="glabel"><span class="num">4</span> Quick Start</div>
+      <div class="glabel"><span class="num">3</span> Quick Start</div>
+      <a href="#first-demo">Your first demo</a>
       <a href="#train">Train a skill</a>
       <a href="#eval">Evaluate a skill</a>
       <a href="#outputs">Output structure</a>
       <a href="#resume">Auto-resume</a>
+    </div>
+    <div class="group">
+      <div class="glabel"><span class="num">4</span> Run on Your Own Data</div>
+      <a href="#split-dir">Split directory format</a>
+      <a href="#item-schema">Item JSON schema</a>
+      <a href="#split-modes">Split modes</a>
     </div>
     <div class="group">
       <div class="glabel"><span class="num">5</span> How It Works</div>
@@ -374,7 +375,7 @@ skillopt/           <span class="tok-c"># the package</span>
       <ul>
         <li>Python ≥ 3.10</li>
         <li>Credentials for at least one model backend (Azure OpenAI, OpenAI-compatible, Anthropic, or a local Qwen server)</li>
-        <li>Benchmark datasets are <strong>not</strong> bundled — prepare your own splits (see §3)</li>
+        <li>Benchmark datasets are <strong>not</strong> bundled — prepare your own splits (see §4)</li>
       </ul>
     </section>
 
@@ -438,49 +439,44 @@ skillopt/           <span class="tok-c"># the package</span>
 <pre><code><span class="tok-k">python</span> -c <span class="tok-s">"import skillopt; print('SkillOpt ready!')"</span></code></pre>
     </section>
 
-    <!-- ===================== 3. DATA ===================== -->
-    <section id="split-dir">
-      <h2>3.1 Split Directory Format <a class="anchor" href="#split-dir">#</a></h2>
-      <p>With <code>env.split_mode: split_dir</code> (the recommended, deterministic mode), SkillOpt reads a directory containing <code>train/</code>, <code>val/</code>, and <code>test/</code> subfolders, each holding a JSON array of task items:</p>
-<pre><code>data/my_split/
- ├─ train/items.json   <span class="tok-c"># used for rollout (the "train split")</span>
- ├─ val/items.json     <span class="tok-c"># selection split → validation gate (valid_seen)</span>
- └─ test/items.json    <span class="tok-c"># held-out final eval (valid_unseen)</span></code></pre>
-      <div class="note info"><span class="nh">Split naming</span>
-        <p>Internally the splits are referred to as <code>train</code>, <code>valid_seen</code> (validation/selection), and <code>valid_unseen</code> (test). The <code>--split</code> flag of <code>eval_only.py</code> uses these names.</p>
-      </div>
+    <!-- ===================== 3. QUICK START ===================== -->
+    <section id="first-demo">
+      <h2>3.1 Your First Demo <a class="anchor" href="#first-demo">#</a></h2>
+      <p><strong>What ships in this repo:</strong> ready-to-use configs and
+      pretrained skills (<code>ckpt/</code>) for six benchmarks, plus
+      lightweight <em>ID manifests</em> under <code>data/</code>. The manifests
+      list which examples each split uses but do <strong>not</strong> contain
+      the example contents — so for most benchmarks you materialize the data
+      once before training (see below).</p>
+      <p><strong>Fastest out-of-the-box run — ALFWorld.</strong> Its bundled
+      split (<code>data/alfworld_path_split</code>) is directly usable; you
+      only need the ALFWorld game files:</p>
+<pre><code><span class="tok-k">pip</span> install -e <span class="tok-s">".[alfworld]"</span>
+<span class="tok-k">alfworld-download</span>
+<span class="tok-k">export</span> ALFWORLD_DATA=~/.cache/alfworld   <span class="tok-c"># data root containing json_2.1.1</span>
+
+<span class="tok-k">python</span> scripts/train.py \
+    --config configs/alfworld/default.yaml \
+    --split_dir data/alfworld_path_split \
+    --azure_openai_endpoint https://your-resource.openai.azure.com/ \
+    --optimizer_model gpt-5.5 \
+    --target_model gpt-5.5</code></pre>
+      <p><strong>Other benchmarks (e.g. SearchQA)</strong> require a one-time
+      data materialization step: download the raw dataset from the source
+      listed in <a href="https://github.com/microsoft/SkillOpt/blob/main/data/README.md"><code>data/README.md</code></a>,
+      match the manifest IDs to raw examples (the README documents the lookup
+      key per benchmark), and write the resulting
+      <code>train/val/test</code> item files into a split directory. Then run
+      the commands in §3.2 with <code>--split_dir</code> pointing at it. The
+      required item fields are documented in §4.2.</p>
+      <p>To sanity-check your setup <em>without</em> training, evaluate a
+      packaged pretrained skill instead (§3.3 uses
+      <code>ckpt/searchqa/gpt5.5_skill.md</code>), or launch the monitoring
+      WebUI (§8.4).</p>
     </section>
 
-    <section id="item-schema">
-      <h2>3.2 Item JSON Schema <a class="anchor" href="#item-schema">#</a></h2>
-      <p>Required fields depend on the benchmark; consult <code>skillopt/envs/&lt;benchmark&gt;/dataloader.py</code> for the exact contract. A SearchQA item, for example:</p>
-<pre><code>[
-  {
-    <span class="tok-f">"id"</span>:       <span class="tok-s">"unique_item_id"</span>,
-    <span class="tok-f">"question"</span>: <span class="tok-s">"Who wrote the novel ..."</span>,
-    <span class="tok-f">"context"</span>:  <span class="tok-s">"[DOC] relevant passage text ..."</span>,
-    <span class="tok-f">"answers"</span>:  [<span class="tok-s">"expected answer"</span>]
-  }
-]</code></pre>
-      <div class="note warn"><span class="nh">Datasets not included</span>
-        <p>This repository ships no benchmark data. Prepare your own splits in the format above before training.</p>
-      </div>
-    </section>
-
-    <section id="split-modes">
-      <h2>3.3 Split Modes <a class="anchor" href="#split-modes">#</a></h2>
-      <div class="table-wrap"><table>
-        <thead><tr><th><code>env.split_mode</code></th><th>Behavior</th></tr></thead>
-        <tbody>
-          <tr><td><code>split_dir</code></td><td>Use a pre-built directory with explicit <code>train/val/test</code> folders (set <code>env.split_dir</code>). Deterministic and reproducible.</td></tr>
-          <tr><td><code>ratio</code></td><td>Build a deterministic split on the fly from a single <code>env.data_path</code>, using <code>split_seed</code> (and a train:val:test ratio). Convenient for quick experiments.</td></tr>
-        </tbody>
-      </table></div>
-    </section>
-
-    <!-- ===================== 4. QUICK START ===================== -->
     <section id="train">
-      <h2>4.1 Train a Skill <a class="anchor" href="#train">#</a></h2>
+      <h2>3.2 Train a Skill <a class="anchor" href="#train">#</a></h2>
 <pre><code><span class="tok-c"># Minimal SearchQA run</span>
 <span class="tok-k">python</span> scripts/train.py \
     <span class="tok-f">--config</span> configs/searchqa/default.yaml \
@@ -504,7 +500,7 @@ skillopt/           <span class="tok-c"># the package</span>
     </section>
 
     <section id="eval">
-      <h2>4.2 Evaluate a Skill <a class="anchor" href="#eval">#</a></h2>
+      <h2>3.3 Evaluate a Skill <a class="anchor" href="#eval">#</a></h2>
       <p>Evaluate any skill document (a packaged reference skill, or a trained run's <code>best_skill.md</code>) without training:</p>
 <pre><code><span class="tok-c"># Evaluate the packaged GPT-5.5 SearchQA skill on the test split</span>
 <span class="tok-k">python</span> scripts/eval_only.py \
@@ -525,7 +521,7 @@ skillopt/           <span class="tok-c"># the package</span>
     </section>
 
     <section id="outputs">
-      <h2>4.3 Output Structure <a class="anchor" href="#outputs">#</a></h2>
+      <h2>3.4 Output Structure <a class="anchor" href="#outputs">#</a></h2>
 <pre><code>outputs/&lt;run_name&gt;/
  ├─ config.json          <span class="tok-c"># flattened runtime config</span>
  ├─ history.json         <span class="tok-c"># per-step training history</span>
@@ -538,8 +534,56 @@ skillopt/           <span class="tok-c"># the package</span>
     </section>
 
     <section id="resume">
-      <h2>4.4 Auto-Resume <a class="anchor" href="#resume">#</a></h2>
+      <h2>3.5 Auto-Resume <a class="anchor" href="#resume">#</a></h2>
       <p>Each completed step persists its state to <code>runtime_state.json</code> and a <code>steps/step_XXXX/</code> directory. Re-running the <em>same command</em> against the same <code>out_root</code> detects finished work and continues from the last completed step — including epoch-boundary slow-update and meta-skill stages.</p>
+    </section>
+
+    <!-- ===================== 3. DATA ===================== -->
+    <section id="split-dir">
+      <h2>4.1 Split Directory Format <a class="anchor" href="#split-dir">#</a></h2>
+      <p><strong>Bringing your own dataset takes three steps:</strong>
+      (1) create a split directory with <code>train/ val/ test/</code> item
+      files in the format below; (2) make sure each item carries the fields
+      the closest existing benchmark adapter expects (§4.2); (3) point
+      <code>--split_dir</code> at it and train with that benchmark's config.
+      If no existing adapter matches your task shape (different rollout or
+      scoring logic), write a new benchmark adapter instead — see §7.2.</p>
+
+      <p>With <code>env.split_mode: split_dir</code> (the recommended, deterministic mode), SkillOpt reads a directory containing <code>train/</code>, <code>val/</code>, and <code>test/</code> subfolders, each holding a JSON array of task items:</p>
+<pre><code>data/my_split/
+ ├─ train/items.json   <span class="tok-c"># used for rollout (the "train split")</span>
+ ├─ val/items.json     <span class="tok-c"># selection split → validation gate (valid_seen)</span>
+ └─ test/items.json    <span class="tok-c"># held-out final eval (valid_unseen)</span></code></pre>
+      <div class="note info"><span class="nh">Split naming</span>
+        <p>Internally the splits are referred to as <code>train</code>, <code>valid_seen</code> (validation/selection), and <code>valid_unseen</code> (test). The <code>--split</code> flag of <code>eval_only.py</code> uses these names.</p>
+      </div>
+    </section>
+
+    <section id="item-schema">
+      <h2>4.2 Item JSON Schema <a class="anchor" href="#item-schema">#</a></h2>
+      <p>Required fields depend on the benchmark; consult <code>skillopt/envs/&lt;benchmark&gt;/dataloader.py</code> for the exact contract. A SearchQA item, for example:</p>
+<pre><code>[
+  {
+    <span class="tok-f">"id"</span>:       <span class="tok-s">"unique_item_id"</span>,
+    <span class="tok-f">"question"</span>: <span class="tok-s">"Who wrote the novel ..."</span>,
+    <span class="tok-f">"context"</span>:  <span class="tok-s">"[DOC] relevant passage text ..."</span>,
+    <span class="tok-f">"answers"</span>:  [<span class="tok-s">"expected answer"</span>]
+  }
+]</code></pre>
+      <div class="note warn"><span class="nh">Datasets not included</span>
+        <p>This repository ships no benchmark data. Prepare your own splits in the format above before training.</p>
+      </div>
+    </section>
+
+    <section id="split-modes">
+      <h2>4.3 Split Modes <a class="anchor" href="#split-modes">#</a></h2>
+      <div class="table-wrap"><table>
+        <thead><tr><th><code>env.split_mode</code></th><th>Behavior</th></tr></thead>
+        <tbody>
+          <tr><td><code>split_dir</code></td><td>Use a pre-built directory with explicit <code>train/val/test</code> folders (set <code>env.split_dir</code>). Deterministic and reproducible.</td></tr>
+          <tr><td><code>ratio</code></td><td>Build a deterministic split on the fly from a single <code>env.data_path</code>, using <code>split_seed</code> (and a train:val:test ratio). Convenient for quick experiments.</td></tr>
+        </tbody>
+      </table></div>
     </section>
 
     <!-- ===================== 5. HOW IT WORKS ===================== -->
@@ -749,7 +793,7 @@ skillopt/           <span class="tok-c"># the package</span>
         <tbody>
           <tr><td><code>name</code></td><td>str</td><td class="def">""</td><td>Benchmark name (<code>searchqa</code>, <code>docvqa</code>, <code>alfworld</code>, …). Selects the env module.</td></tr>
           <tr><td><code>skill_init</code></td><td>str</td><td class="def">""</td><td>Path to a seed skill (empty = start from scratch).</td></tr>
-          <tr><td><code>split_mode</code></td><td>str</td><td class="def">ratio</td><td><code>ratio</code> or <code>split_dir</code> (see §3.3).</td></tr>
+          <tr><td><code>split_mode</code></td><td>str</td><td class="def">ratio</td><td><code>ratio</code> or <code>split_dir</code> (see §4.3).</td></tr>
           <tr><td><code>split_dir</code></td><td>str</td><td class="def">""</td><td>Pre-split directory (when <code>split_mode = split_dir</code>).</td></tr>
           <tr><td><code>data_path</code></td><td>str</td><td class="def">""</td><td>Single dataset path (when <code>split_mode = ratio</code>).</td></tr>
           <tr><td><code>split_seed</code></td><td>int</td><td class="def">42</td><td>Seed for deterministic ratio splitting.</td></tr>
