@@ -445,30 +445,48 @@ skillopt/           <span class="tok-c"># the package</span>
       <p><strong>What ships in this repo:</strong> ready-to-use configs and
       pretrained skills (<code>ckpt/</code>) for six benchmarks, plus
       lightweight <em>ID manifests</em> under <code>data/</code>. The manifests
-      list which examples each split uses but do <strong>not</strong> contain
-      the example contents — so for most benchmarks you materialize the data
-      once before training (see below).</p>
-      <p><strong>Fastest out-of-the-box run — ALFWorld.</strong> Its bundled
-      split (<code>data/alfworld_path_split</code>) is directly usable; you
-      only need the ALFWorld game files:</p>
-<pre><code><span class="tok-k">pip</span> install -e <span class="tok-s">".[alfworld]"</span>
-<span class="tok-k">alfworld-download</span>
-<span class="tok-k">export</span> ALFWORLD_DATA=~/.cache/alfworld   <span class="tok-c"># data root containing json_2.1.1</span>
+      pin exactly which examples each split uses but do <strong>not</strong>
+      contain the example contents — so you materialize the data once before
+      the first run.</p>
+      <p><strong>Step 1 — materialize the SearchQA splits</strong> (one-time; downloads the ~6.5&nbsp;GB source dataset). The manifest IDs match the <code>key</code> field of the
+      <a href="https://huggingface.co/datasets/lucadiliello/searchqa">lucadiliello/searchqa</a>
+      dataset:</p>
+<pre><code><span class="tok-k">pip</span> install datasets
+<span class="tok-k">python</span> - &lt;&lt;'PY'
+import json, os
+from datasets import load_dataset
 
-<span class="tok-k">python</span> scripts/train.py \
-    --config configs/alfworld/default.yaml \
-    --split_dir data/alfworld_path_split \
+ds = load_dataset("lucadiliello/searchqa")
+by_key = {r["key"]: r for split in ds.values() for r in split}
+
+for split in ["train", "val", "test"]:
+    ids = json.load(open(f"data/searchqa_id_split/{split}/items.json"))
+    items = []
+    for x in ids:
+        r = by_key[x["id"]]
+        items.append({"id": r["key"], "question": r["question"],
+                      "context": r["context"], "answers": r["answers"]})
+    os.makedirs(f"data/searchqa_split/{split}", exist_ok=True)
+    json.dump(items, open(f"data/searchqa_split/{split}/items.json", "w"))
+    print(split, len(items))
+PY</code></pre>
+      <p><strong>Step 2 — train</strong> (4 epochs &times; batch 40; see §3.2
+      for the CLI reference):</p>
+<pre><code><span class="tok-k">python</span> scripts/train.py \
+    --config configs/searchqa/default.yaml \
+    --split_dir data/searchqa_split \
     --azure_openai_endpoint https://your-resource.openai.azure.com/ \
     --optimizer_model gpt-5.5 \
     --target_model gpt-5.5</code></pre>
-      <p><strong>Other benchmarks (e.g. SearchQA)</strong> require a one-time
-      data materialization step: download the raw dataset from the source
-      listed in <a href="https://github.com/microsoft/SkillOpt/blob/main/data/README.md"><code>data/README.md</code></a>,
-      match the manifest IDs to raw examples (the README documents the lookup
-      key per benchmark), and write the resulting
-      <code>train/val/test</code> item files into a split directory. Then run
-      the commands in §3.2 with <code>--split_dir</code> pointing at it. The
-      required item fields are documented in §4.2.</p>
+      <p>Other benchmarks follow the same pattern — materialize from the raw
+      source listed in
+      <a href="https://github.com/microsoft/SkillOpt/blob/main/data/README.md"><code>data/README.md</code></a>
+      (it documents the lookup key per benchmark), then point
+      <code>--split_dir</code> at the result. The one exception is
+      <strong>ALFWorld</strong>, whose bundled
+      <code>data/alfworld_path_split</code> works directly: just
+      <code>pip install -e ".[alfworld]" &amp;&amp; alfworld-download</code> and
+      set <code>$ALFWORLD_DATA</code>.</p>
       <p>To sanity-check your setup <em>without</em> training, evaluate a
       packaged pretrained skill instead (§3.3 uses
       <code>ckpt/searchqa/gpt5.5_skill.md</code>), or launch the monitoring
