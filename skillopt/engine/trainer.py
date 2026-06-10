@@ -76,6 +76,74 @@ from skillopt.model import (
 from skillopt.utils import compute_score, skill_hash
 
 
+# ── Skill-aware reflection: appendix flush ───────────────────────────────────
+
+def _flush_skill_aware_appendix(
+    current_skill: str,
+    all_raw_patches: list,
+    step_rec: dict,
+    step_dir: str,
+    cfg: dict,
+) -> str:
+    """Append this step's EXECUTION_LAPSE notes into the protected appendix.
+
+    Returns the (possibly) updated skill. Must be called on BOTH the normal
+    update path and the skip branches: a lapse-only step yields no body
+    patches by design (analysts return ``edits: []`` carriers), so the skip
+    paths would otherwise silently drop every note of the step.
+    """
+    step_appendix_notes: list[str] = []
+    for rp in all_raw_patches:
+        if isinstance(rp, dict):
+            step_appendix_notes.extend(extract_appendix_notes_from_result(rp))
+    if not step_appendix_notes:
+        return current_skill
+
+    before_notes = extract_appendix_notes_from_skill(current_skill)
+    current_skill = append_to_appendix_field(
+        current_skill, step_appendix_notes,
+    )
+    after_notes = extract_appendix_notes_from_skill(current_skill)
+    n_added = len(after_notes) - len(before_notes)
+    step_rec["n_execution_lapse_notes"] = len(step_appendix_notes)
+    step_rec["n_appendix_notes_added"] = n_added
+    step_rec["n_appendix_notes_total"] = len(after_notes)
+    with open(os.path.join(step_dir, "appendix_notes.json"), "w") as f:
+        json.dump(
+            {
+                "step_notes": step_appendix_notes,
+                "appendix_after": after_notes,
+            },
+            f, indent=2, ensure_ascii=False,
+        )
+    print(
+        f"    [skill-aware] +{n_added} appendix note(s) "
+        f"(total {len(after_notes)}) from {len(step_appendix_notes)} lapse signal(s)"
+    )
+    # Threshold-gated LLM consolidation (paper Eq.11): when the
+    # appendix grows past N notes, compact it with one optimizer
+    # call (dedupe / merge / shorten). 0 disables it. Any failure
+    # leaves the appendix unchanged.
+    consolidate_threshold = int(
+        cfg.get("skill_aware_consolidate_threshold", 0) or 0
+    )
+    if consolidate_threshold > 0 and len(after_notes) > consolidate_threshold:
+        compacted = consolidate_appendix_notes(
+            after_notes, chat_fn=chat_optimizer,
+        )
+        if compacted and len(compacted) < len(after_notes):
+            current_skill = append_to_appendix_field(
+                _strip_all_appendix_fields(current_skill), compacted,
+            )
+            step_rec["n_appendix_notes_consolidated"] = len(compacted)
+            step_rec["n_appendix_notes_total"] = len(compacted)
+            print(
+                f"    [skill-aware] consolidated appendix "
+                f"{len(after_notes)} -> {len(compacted)} notes"
+            )
+    return current_skill
+
+
 # ── Patch normalization ───────────────────────────────────────────────────────
 
 def _normalise_patches(
@@ -1131,6 +1199,13 @@ class ReflACTTrainer:
 
                 # ── No patches? Skip ─────────────────────────────────────
                 if not all_failure_patches and not all_success_patches:
+                    # Skill-aware: a lapse-only step has no body patches but
+                    # may still carry appendix notes — flush them BEFORE
+                    # skipping, or they would be silently dropped.
+                    if use_skill_aware:
+                        current_skill = _flush_skill_aware_appendix(
+                            current_skill, all_raw_patches, step_rec, step_dir, cfg,
+                        )
                     step_rec["action"] = "skip_no_patches"
                     step_rec["current_score"] = current_score
                     step_rec["best_score"] = best_score
@@ -1319,6 +1394,12 @@ class ReflACTTrainer:
                     is_full_rewrite_minibatch_mode(update_mode)
                     and rewrite_result is None
                 ):
+                    # Skill-aware: flush appendix notes before skipping (see
+                    # the skip_no_patches branch above).
+                    if use_skill_aware:
+                        current_skill = _flush_skill_aware_appendix(
+                            current_skill, all_raw_patches, step_rec, step_dir, cfg,
+                        )
                     step_rec["action"] = "skip_no_rewrite"
                     step_rec["current_score"] = current_score
                     step_rec["best_score"] = best_score
@@ -1423,53 +1504,9 @@ class ReflACTTrainer:
                 # best_skill. Body candidate evaluation already happened above
                 # and is unaffected.
                 if use_skill_aware:
-                    step_appendix_notes: list[str] = []
-                    for rp in all_raw_patches:
-                        if isinstance(rp, dict):
-                            step_appendix_notes.extend(extract_appendix_notes_from_result(rp))
-                    if step_appendix_notes:
-                        before_notes = extract_appendix_notes_from_skill(current_skill)
-                        current_skill = append_to_appendix_field(
-                            current_skill, step_appendix_notes,
-                        )
-                        after_notes = extract_appendix_notes_from_skill(current_skill)
-                        n_added = len(after_notes) - len(before_notes)
-                        step_rec["n_execution_lapse_notes"] = len(step_appendix_notes)
-                        step_rec["n_appendix_notes_added"] = n_added
-                        step_rec["n_appendix_notes_total"] = len(after_notes)
-                        with open(os.path.join(step_dir, "appendix_notes.json"), "w") as f:
-                            json.dump(
-                                {
-                                    "step_notes": step_appendix_notes,
-                                    "appendix_after": after_notes,
-                                },
-                                f, indent=2, ensure_ascii=False,
-                            )
-                        print(
-                            f"    [skill-aware] +{n_added} appendix note(s) "
-                            f"(total {len(after_notes)}) from {len(step_appendix_notes)} lapse signal(s)"
-                        )
-                        # Threshold-gated LLM consolidation (paper Eq.11): when the
-                        # appendix grows past N notes, compact it with one optimizer
-                        # call (dedupe / merge / shorten). 0 disables it. Any failure
-                        # leaves the appendix unchanged.
-                        consolidate_threshold = int(
-                            cfg.get("skill_aware_consolidate_threshold", 0) or 0
-                        )
-                        if consolidate_threshold > 0 and len(after_notes) > consolidate_threshold:
-                            compacted = consolidate_appendix_notes(
-                                after_notes, chat_fn=chat_optimizer,
-                            )
-                            if compacted and len(compacted) < len(after_notes):
-                                current_skill = append_to_appendix_field(
-                                    _strip_all_appendix_fields(current_skill), compacted,
-                                )
-                                step_rec["n_appendix_notes_consolidated"] = len(compacted)
-                                step_rec["n_appendix_notes_total"] = len(compacted)
-                                print(
-                                    f"    [skill-aware] consolidated appendix "
-                                    f"{len(after_notes)} -> {len(compacted)} notes"
-                                )
+                    current_skill = _flush_skill_aware_appendix(
+                        current_skill, all_raw_patches, step_rec, step_dir, cfg,
+                    )
 
                 if gate_metric == "hard":
                     score_label = f"hard={cand_hard:.4f}"
