@@ -380,6 +380,15 @@ skillopt/           <span class="tok-c"># the package</span>
 
     <section id="install">
       <h2>2.2 Install the Package <a class="anchor" href="#install">#</a></h2>
+      <p><strong>Option A — from PyPI:</strong></p>
+<pre><code><span class="tok-k">pip</span> install skillopt
+
+<span class="tok-c"># Optional extras:</span>
+<span class="tok-k">pip</span> install skillopt[alfworld]   <span class="tok-c"># ALFWorld benchmark</span>
+<span class="tok-k">pip</span> install skillopt[webui]      <span class="tok-c"># Gradio monitoring dashboard</span>
+<span class="tok-k">pip</span> install skillopt[claude]     <span class="tok-c"># Claude model backend</span>
+</code></pre>
+      <p><strong>Option B — from source (for development):</strong></p>
 <pre><code><span class="tok-k">git</span> clone https://github.com/microsoft/SkillOpt.git
 <span class="tok-k">cd</span> SkillOpt
 <span class="tok-k">pip</span> install -e .
@@ -708,6 +717,9 @@ skillopt/           <span class="tok-c"># the package</span>
           <tr><td><code>slow_update_gate_with_selection</code></td><td>bool</td><td class="def">false</td><td>—</td><td><code>false</code> = force-inject guidance; <code>true</code> = gate it on the selection split (see §5.4).</td></tr>
           <tr><td><code>longitudinal_pair_policy</code></td><td>str</td><td class="def">mixed</td><td>—</td><td><code>mixed</code> / <code>changed</code> / <code>unchanged</code> — which comparison pairs to keep.</td></tr>
           <tr><td><code>use_meta_skill</code></td><td>bool</td><td class="def">true</td><td>Meta-learning</td><td>Enable cross-epoch optimizer memory.</td></tr>
+          <tr><td><code>use_skill_aware_reflection</code></td><td>bool</td><td class="def">false</td><td>—</td><td>EmbodiSkill-style failure routing: <code>SKILL_DEFECT</code> (rule wrong/missing &rarr; gated body edit) vs <code>EXECUTION_LAPSE</code> (valid rule not followed &rarr; reminder appended to a protected appendix region that step-level edits never modify). Off = baseline-identical; resolved process-wide, works on every benchmark. Not supported with <code>rewrite_from_suggestions</code> / full-rewrite modes.</td></tr>
+          <tr><td><code>skill_aware_appendix_source</code></td><td>str</td><td class="def">both</td><td>—</td><td><code>both</code> (success analyst may also re-emphasize rules) / <code>failure_only</code> (paper-faithful S_app: failure side only).</td></tr>
+          <tr><td><code>skill_aware_consolidate_threshold</code></td><td>int</td><td class="def">0</td><td>—</td><td><code>&gt;0</code>: LLM-compact the appendix once it exceeds N notes (experimental); <code>0</code> = off.</td></tr>
         </tbody>
       </table></div>
     </section>
