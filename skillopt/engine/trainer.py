@@ -32,6 +32,17 @@ from skillopt.optimizer.lr_autonomous import decide_autonomous_learning_rate
 from skillopt.optimizer.rewrite import rewrite_skill_from_suggestions
 from skillopt.optimizer.scheduler import build_scheduler
 from skillopt.optimizer.skill import apply_patch_with_report
+from skillopt.optimizer.appendix import (
+    append_to_appendix_field,
+    extract_appendix_notes as extract_appendix_notes_from_skill,
+    inject_empty_appendix_field,
+    _strip_all_appendix_fields,
+)
+from skillopt.optimizer.skill_aware import (
+    configure_skill_aware_reflection,
+    consolidate_appendix_notes,
+    extract_appendix_notes as extract_appendix_notes_from_result,
+)
 from skillopt.optimizer.slow_update import (
     build_comparison_pairs,
     extract_slow_update_field,
@@ -48,6 +59,7 @@ from skillopt.optimizer.update_modes import (
     short_item_summary,
 )
 from skillopt.model import (
+    chat_optimizer,
     configure_azure_openai,
     configure_claude_code_exec,
     configure_codex_exec,
@@ -838,6 +850,20 @@ class ReflACTTrainer:
 
         _save_skill(out_root, 0, skill_init)
 
+        # ── Skill-aware reflection: ensure the protected appendix (S_app)
+        # region exists on the working skill. Only current_skill carries the
+        # appendix; best_skill stays a faithful val-best snapshot (same policy
+        # as slow_update). No-op when the region already exists (resume-safe).
+        use_skill_aware = cfg.get("use_skill_aware_reflection", False)
+        # Publish the toggle process-wide so run_minibatch_reflect resolves it
+        # from config for EVERY env adapter — no per-benchmark wiring needed.
+        configure_skill_aware_reflection(
+            use_skill_aware,
+            cfg.get("skill_aware_appendix_source", "both"),
+        )
+        if use_skill_aware:
+            current_skill = inject_empty_appendix_field(current_skill)
+
         def _persist_runtime_state(last_completed_step: int) -> None:
             _save_runtime_state(
                 out_root,
@@ -1388,6 +1414,62 @@ class ReflACTTrainer:
                     gate.action == "force_accept" and best_step == global_step
                 ):
                     best_origin = current_origin
+
+                # ── Skill-aware reflection: flush execution-lapse reminders ──
+                # After the gate has settled current_skill, append this step's
+                # EXECUTION_LAPSE notes into the protected appendix (S_app).
+                # This bypasses the gate by design (the paper writes appendix
+                # reminders directly) and only touches current_skill, never
+                # best_skill. Body candidate evaluation already happened above
+                # and is unaffected.
+                if use_skill_aware:
+                    step_appendix_notes: list[str] = []
+                    for rp in all_raw_patches:
+                        if isinstance(rp, dict):
+                            step_appendix_notes.extend(extract_appendix_notes_from_result(rp))
+                    if step_appendix_notes:
+                        before_notes = extract_appendix_notes_from_skill(current_skill)
+                        current_skill = append_to_appendix_field(
+                            current_skill, step_appendix_notes,
+                        )
+                        after_notes = extract_appendix_notes_from_skill(current_skill)
+                        n_added = len(after_notes) - len(before_notes)
+                        step_rec["n_execution_lapse_notes"] = len(step_appendix_notes)
+                        step_rec["n_appendix_notes_added"] = n_added
+                        step_rec["n_appendix_notes_total"] = len(after_notes)
+                        with open(os.path.join(step_dir, "appendix_notes.json"), "w") as f:
+                            json.dump(
+                                {
+                                    "step_notes": step_appendix_notes,
+                                    "appendix_after": after_notes,
+                                },
+                                f, indent=2, ensure_ascii=False,
+                            )
+                        print(
+                            f"    [skill-aware] +{n_added} appendix note(s) "
+                            f"(total {len(after_notes)}) from {len(step_appendix_notes)} lapse signal(s)"
+                        )
+                        # Threshold-gated LLM consolidation (paper Eq.11): when the
+                        # appendix grows past N notes, compact it with one optimizer
+                        # call (dedupe / merge / shorten). 0 disables it. Any failure
+                        # leaves the appendix unchanged.
+                        consolidate_threshold = int(
+                            cfg.get("skill_aware_consolidate_threshold", 0) or 0
+                        )
+                        if consolidate_threshold > 0 and len(after_notes) > consolidate_threshold:
+                            compacted = consolidate_appendix_notes(
+                                after_notes, chat_fn=chat_optimizer,
+                            )
+                            if compacted and len(compacted) < len(after_notes):
+                                current_skill = append_to_appendix_field(
+                                    _strip_all_appendix_fields(current_skill), compacted,
+                                )
+                                step_rec["n_appendix_notes_consolidated"] = len(compacted)
+                                step_rec["n_appendix_notes_total"] = len(compacted)
+                                print(
+                                    f"    [skill-aware] consolidated appendix "
+                                    f"{len(after_notes)} -> {len(compacted)} notes"
+                                )
 
                 if gate_metric == "hard":
                     score_label = f"hard={cand_hard:.4f}"
