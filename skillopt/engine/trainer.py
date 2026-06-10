@@ -918,10 +918,6 @@ class ReflACTTrainer:
 
         _save_skill(out_root, 0, skill_init)
 
-        # ── Skill-aware reflection: ensure the protected appendix (S_app)
-        # region exists on the working skill. Only current_skill carries the
-        # appendix; best_skill stays a faithful val-best snapshot (same policy
-        # as slow_update). No-op when the region already exists (resume-safe).
         use_skill_aware = cfg.get("use_skill_aware_reflection", False)
         # Publish the toggle process-wide so run_minibatch_reflect resolves it
         # from config for EVERY env adapter — no per-benchmark wiring needed.
@@ -1496,13 +1492,6 @@ class ReflACTTrainer:
                 ):
                     best_origin = current_origin
 
-                # ── Skill-aware reflection: flush execution-lapse reminders ──
-                # After the gate has settled current_skill, append this step's
-                # EXECUTION_LAPSE notes into the protected appendix (S_app).
-                # This bypasses the gate by design (the paper writes appendix
-                # reminders directly) and only touches current_skill, never
-                # best_skill. Body candidate evaluation already happened above
-                # and is unaffected.
                 if use_skill_aware:
                     current_skill = _flush_skill_aware_appendix(
                         current_skill, all_raw_patches, step_rec, step_dir, cfg,
