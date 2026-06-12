@@ -44,11 +44,11 @@ finds the engine and a Python >= 3.10 automatically.
 ```bash
 # point at the repo if it isn't auto-detected from CWD:
 export SKILLOPT_SLEEP_REPO=/path/to/SkillOpt-Sleep
-
 bash "$SKILLOPT_SLEEP_REPO/plugins/run-sleep.sh" status --project "$(pwd)"
 bash "$SKILLOPT_SLEEP_REPO/plugins/run-sleep.sh" harvest --project "$(pwd)"
 bash "$SKILLOPT_SLEEP_REPO/plugins/run-sleep.sh" dry-run --project "$(pwd)" --backend mock
 bash "$SKILLOPT_SLEEP_REPO/plugins/run-sleep.sh" run --project "$(pwd)" --backend codex
+bash "$SKILLOPT_SLEEP_REPO/plugins/run-sleep.sh" run --project "$(pwd)" --source codex  # harvest from Codex Desktop
 bash "$SKILLOPT_SLEEP_REPO/plugins/run-sleep.sh" adopt --project "$(pwd)"
 ```
 
@@ -56,6 +56,8 @@ Actions are `status`, `harvest`, `dry-run`, `run`, and `adopt`.
 
 - Default backend is `mock`, which is deterministic and spends no API budget.
 - `--backend codex` uses the user's Codex budget for real improvement.
+- `--source codex` reads Codex Desktop archived sessions from `~/.codex/archived_sessions`;
+  use `--codex-home /path/to/.codex` if the archive lives elsewhere.
 - Keep `dry-run --backend mock` as the first smoke check unless the user
   explicitly asked for a real optimization run.
 
