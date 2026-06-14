@@ -41,7 +41,8 @@ class Backend:
     # Optional user preferences (free text) injected into reflect as a prior.
     preferences: str = ""
 
-    def attempt(self, task: TaskRecord, skill: str, memory: str) -> str:
+    def attempt(self, task: TaskRecord, skill: str, memory: str,
+                sample_id: int = 0) -> str:
         raise NotImplementedError
 
     def attempt_with_tools(
@@ -151,7 +152,8 @@ class MockBackend(Backend):
                     out.append(key)
         return out
 
-    def attempt(self, task: TaskRecord, skill: str, memory: str) -> str:
+    def attempt(self, task: TaskRecord, skill: str, memory: str,
+                sample_id: int = 0) -> str:
         ctx = (skill or "") + "\n" + (memory or "")
         rules = self._required_rules(task)
         # The "__harmful__" rule models a bad edit: even when present it makes
@@ -191,6 +193,13 @@ class MockBackend(Backend):
         return resp, called
 
     def judge(self, task: TaskRecord, response: str) -> Tuple[float, float, str]:
+        if task.reference_kind == "answer" and task.judge:
+            try:
+                from skillopt_sleep.experiments.real_eval import score_answer_judge
+            except ImportError:
+                score_answer_judge = None  # research evaluators not bundled
+            if score_answer_judge is not None:
+                return score_answer_judge(task.judge, response)
         if task.reference_kind == "rule" and task.judge:
             from skillopt_sleep.judges import score_rule_judge
             return score_rule_judge(task.judge, response)
@@ -253,6 +262,43 @@ def _extract_json(raw: str, kind: str):
         return None
 
 
+def _task_guardrail(pairs) -> str:
+    """Build an 'output contract' the optimizer must not violate.
+
+    ``pairs`` is a list of (TaskRecord, ReplayResult). We surface the benchmark's
+    own rollout system prompt (TaskRecord.system) plus a short, explicit list of
+    invariants, so the optimizer cannot learn rules that the evaluator can never
+    honor (the SpreadsheetBench failure mode: a learned "return ```vba```" or
+    "ask the user for the range" rule scores 0 because the harness runs only
+    ```python``` openpyxl and cannot answer questions).
+
+    Returns "" when no task carries a system contract (e.g. mined daily cases),
+    so non-benchmark runs are unchanged.
+    """
+    sys_txt = ""
+    for t, _ in pairs:
+        s = getattr(t, "system", "") or ""
+        if s.strip():
+            sys_txt = s.strip()
+            break
+    if not sys_txt:
+        return ""
+    # the system prompt can be long; keep the rules portion concise for the optimizer
+    contract = sys_txt
+    if len(contract) > 900:
+        contract = contract[:900] + " …"
+    invariants = (
+        "- Do NOT change the required output format or programming language.\n"
+        "- Do NOT tell the agent to ask the user a question or request more info; "
+        "it must always produce a best-effort answer from what is given.\n"
+        "- Keep every rule consistent with the contract above."
+    )
+    return (
+        "\n# Task output contract (rules MUST obey this — violating it scores 0)\n"
+        f"{contract}\n{invariants}\n"
+    )
+
+
 class CliBackend(Backend):
     """Common logic for real CLI-driven backends (claude / codex).
 
@@ -283,24 +329,55 @@ class CliBackend(Backend):
         return out
 
     # operations -----------------------------------------------------------
-    def attempt(self, task: TaskRecord, skill: str, memory: str) -> str:
+    def attempt(self, task: TaskRecord, skill: str, memory: str,
+                sample_id: int = 0) -> str:
+        # sample_id distinguishes repeated rollouts of the SAME (task, skill,
+        # memory) in the cache key. Without it the attempt cache collapses all
+        # K dream rollouts into one cached response (spread always 0), which
+        # silently disables contrastive reflection. sample_id=0 keeps the old
+        # key format so gate re-scoring still benefits from the cache.
+        if task.system:
+            # Benchmark carries its own (research-repo) rollout system prompt.
+            # Use it verbatim with a neutral skill/memory section — this both
+            # keeps scoring faithful and avoids the aggressive "OVERRIDE / HARD
+            # CONSTRAINT" phrasing below, which Azure's content filter flags as a
+            # jailbreak (HTTP 400) and silently zeroes the rollout.
+            skill_section = f"## Skill\n{skill.strip()}\n\n" if skill.strip() else ""
+            mem_section = f"## Memory\n{memory.strip()}\n\n" if memory.strip() else ""
+            system = task.system.replace("{skill_section}", skill_section)
+            if "{skill_section}" not in task.system and skill_section:
+                system = skill_section + system
+            body = task.intent + ("\n\n" + task.context_excerpt if task.context_excerpt else "")
+            prompt = f"{system}{mem_section}\n{body}"
+            salt = f"s{sample_id}:" if sample_id else ""
+            key = "attempt:" + salt + skill_hash(prompt)
+            return self._cached_call(key, prompt, max_tokens=512)
+        # generic path (mined daily-case tasks): neutral, content-filter-safe
+        # wording. Apply the skill/memory as guidance, not as adversarial
+        # "OVERRIDE everything" directives.
         prompt = (
-            "You are completing a recurring task for a user. Apply the skill and "
-            "memory rules EXACTLY, including any output-format requirements. If the "
-            "skill contains a 'Learned preferences' block, treat those rules as "
-            "HARD CONSTRAINTS that OVERRIDE anything earlier in the skill they "
-            "conflict with (e.g. an explicit length limit overrides 'be "
-            "exhaustive'). Satisfy every such constraint even at the cost of "
-            "brevity or detail.\n\n"
+            "Complete the following task for the user. Follow the skill and memory "
+            "guidance below, including any output-format and length requirements. "
+            "When a 'Learned preferences' rule sets an explicit limit (e.g. a length "
+            "cap), prefer that rule over more general advice it refines.\n\n"
             f"# Skill\n{skill or '(none)'}\n\n# Memory\n{memory or '(none)'}\n\n"
             f"# Task\n{task.intent}\n\n{task.context_excerpt}\n\n"
             "Return ONLY the final answer text, nothing else."
         )
         # cache on (task, skill, memory) so identical hold-out re-scoring is free
-        key = "attempt:" + skill_hash(prompt)
+        salt = f"s{sample_id}:" if sample_id else ""
+        key = "attempt:" + salt + skill_hash(prompt)
         return self._cached_call(key, prompt, max_tokens=512)
 
     def judge(self, task: TaskRecord, response: str) -> Tuple[float, float, str]:
+        # real-benchmark correctness judge (searchqa/livemath/spreadsheet) — local
+        if task.reference_kind == "answer" and task.judge:
+            try:
+                from skillopt_sleep.experiments.real_eval import score_answer_judge
+            except ImportError:
+                score_answer_judge = None  # research evaluators not bundled
+            if score_answer_judge is not None:
+                return score_answer_judge(task.judge, response)
         # gbrain-style rule judge: scored locally, no API spend
         if task.reference_kind == "rule" and task.judge:
             from skillopt_sleep.judges import score_rule_judge
@@ -389,6 +466,13 @@ class CliBackend(Backend):
                 "\n# User preferences (honor these as priors when writing rules)\n"
                 + str(self.preferences).strip()
             )
+        # Task GUARDRAIL: the optimizer must not invent rules that violate the
+        # task's hard constraints (e.g. SpreadsheetBench answers MUST be a
+        # ```python``` openpyxl block — a learned "return ```vba```" or "ask the
+        # user for the range" rule scores 0 because the harness can't run VBA and
+        # can't ask questions). We surface the benchmark's own rollout system
+        # prompt (carried on TaskRecord.system) so proposed rules stay in-bounds.
+        guard_text = _task_guardrail(failures)
         prompt = (
             "You are SkillOpt's optimizer. The agent keeps failing the recurring "
             f"tasks below. Propose at most {edit_budget} bounded edits to the "
@@ -406,9 +490,15 @@ class CliBackend(Backend):
             "but outputs must be under a character limit), write an explicit, "
             "forceful OVERRIDE rule stating it supersedes the conflicting "
             "instruction, and put the hard requirement first.\n"
+            "HARD CONSTRAINT: every rule you write MUST be consistent with the "
+            "'Task output contract' below (if shown). NEVER propose a rule that "
+            "changes the required output format/language, tells the agent to ask "
+            "the user a question, or otherwise violates that contract — such a "
+            "rule scores ZERO because the evaluator cannot honor it.\n"
             'Return ONLY a JSON array: '
             '[{"op":"add|replace|delete","content":"<rule>","anchor":"<text to replace/delete, optional>","rationale":"<why>"}].\n\n'
             f"# Current {target}\n{cur_doc}\n"
+            f"{guard_text}"
             f"{criteria_text}\n"
             f"{pref_text}\n\n"
             f"# Recurring failures\n{fail_text}"
@@ -717,8 +807,8 @@ class DualBackend(Backend):
         self.optimizer = optimizer
         self.name = f"target={target.name}/optimizer={optimizer.name}"
 
-    def attempt(self, task, skill, memory):
-        return self.target.attempt(task, skill, memory)
+    def attempt(self, task, skill, memory, sample_id: int = 0):
+        return self.target.attempt(task, skill, memory, sample_id=sample_id)
 
     def attempt_with_tools(self, task, skill, memory, tools):
         return self.target.attempt_with_tools(task, skill, memory, tools)
@@ -741,18 +831,211 @@ class DualBackend(Backend):
         return self.target.tokens_used() + self.optimizer.tokens_used()
 
 
+# ── Azure OpenAI backend (gpt-5.x via managed identity) ───────────────────────
+
+# Endpoint -> deployments, from the intern's avail_api.md. The backend picks the
+# first endpoint that hosts the requested deployment.
+_AZURE_ENDPOINTS = {
+    "https://oaidr9.openai.azure.com/": {"gpt-5.5", "gpt-5.4", "gpt-5.4-mini", "gpt-5.4-nano", "o3"},
+    "https://t2vgoaigpt4o6.openai.azure.com/": {"gpt-5.5", "gpt-4o-mini", "o3", "o4-mini"},
+    "https://oaidr21.openai.azure.com/": {"gpt-5.5", "o3", "o4-mini"},
+    "https://searchagent5.cognitiveservices.azure.com/": {"gpt-5.4-mini", "gpt-4o-mini"},
+    "https://t2vgoaigpt4o.openai.azure.com/": {"gpt-5.4", "gpt-5.4-nano", "gpt-5.2", "gpt-5.1", "o3", "o4-mini"},
+}
+_AZURE_MI_CLIENT_ID = "8cafa2b1-a2a7-4ad9-814a-ffe4aed7e800"
+
+
+class AzureOpenAIBackend(CliBackend):
+    """Drives Azure OpenAI gpt-5.x deployments via managed identity.
+
+    Mirrors the intern's blog_1 setup (avail_api.md): managed-identity auth, the
+    same endpoints/deployments. Reuses CliBackend's attempt/judge/reflect prompts
+    and JSON parsing; only _call() differs. openai + azure-identity are lazy
+    imported so the mock/CLI paths stay dependency-free.
+    """
+
+    name = "azure"
+
+    def __init__(self, deployment: str = "", endpoint: str = "", timeout: int = 180,
+                 api_version: str = "2024-12-01-preview") -> None:
+        super().__init__(model=deployment or "gpt-5.5", timeout=timeout)
+        self.deployment = deployment or "gpt-5.5"
+        self.endpoint = endpoint or self._endpoint_for(self.deployment)
+        self.api_version = api_version
+        self.name = f"azure:{self.deployment}"
+        self._client = None
+
+    @staticmethod
+    def _endpoint_for(deployment: str) -> str:
+        for ep, deps in _AZURE_ENDPOINTS.items():
+            if deployment in deps:
+                return ep
+        return "https://oaidr9.openai.azure.com/"
+
+    def _get_client(self):
+        if self._client is None:
+            from azure.identity import ManagedIdentityCredential, get_bearer_token_provider
+            from openai import AzureOpenAI
+            cred = ManagedIdentityCredential(client_id=_AZURE_MI_CLIENT_ID)
+            tp = get_bearer_token_provider(cred, "https://cognitiveservices.azure.com/.default")
+            self._client = AzureOpenAI(
+                azure_endpoint=self.endpoint, azure_ad_token_provider=tp,
+                api_version=self.api_version, max_retries=4,
+            )
+        return self._client
+
+    def _call(self, prompt: str, *, max_tokens: int = 1024, retries: int = 5) -> str:
+        """Call the deployment with bounded retries.
+
+        IMPORTANT: transient failures (429 rate-limit, timeouts, 5xx) must NOT be
+        silently turned into an empty string — an empty response scores 0 and
+        deflates every baseline/after measure. We retry with exponential backoff
+        (mirroring the research repo's retries=5) and only return "" after the
+        budget is exhausted. ``time``/``random`` are used for backoff; both are
+        available here (this is library code, not a Workflow script sandbox).
+        """
+        import random as _r
+        import time as _t
+
+        client = self._get_client()
+        last_exc = None
+        for attempt in range(max(1, retries)):
+            try:
+                resp = client.chat.completions.create(
+                    model=self.deployment,
+                    messages=[{"role": "user", "content": prompt}],
+                    max_completion_tokens=16384,
+                )
+                text = (resp.choices[0].message.content or "").strip()
+                try:
+                    u = resp.usage
+                    self._tokens += (getattr(u, "prompt_tokens", 0) or 0) + (getattr(u, "completion_tokens", 0) or 0)
+                except Exception:
+                    pass
+                if text:
+                    return text
+                # empty but no exception: model genuinely returned nothing — one
+                # quick retry can help (reasoning models occasionally yield empty)
+                last_exc = "empty-response"
+            except Exception as e:  # noqa: BLE001
+                last_exc = e
+            # backoff before next try (skip after the final attempt)
+            if attempt < retries - 1:
+                _t.sleep(min(8.0, (2 ** attempt) * 0.5) + _r.random() * 0.4)
+        return ""
+
+
+class AzureResponsesBackend(AzureOpenAIBackend):
+    """gpt-5.x via the **Responses API** on the high-throughput gpt4v endpoints.
+
+    Differs from AzureOpenAIBackend in three ways, all required by the enhanced
+    experiment:
+      * Auth via ``AzureCliCredential`` (the logged-in user), not Managed Identity
+        — the gpt4v-scus/swc accounts grant the data role to the CLI principal.
+      * Calls ``client.responses.create`` (the /responses API) instead of
+        chat.completions — these deployments are Responses-only.
+      * Round-robins across multiple endpoints for parallel throughput; each
+        worker thread binds a client for one endpoint (picked by thread index)
+        so concurrent replay spreads load across all endpoints.
+
+    A single shared ``AzureCliCredential`` token provider is reused across all
+    endpoint clients (the token is cached + auto-refreshed by the provider).
+    """
+
+    name = "azure-responses"
+
+    # the two parallel /responses endpoints (user-provided), both hosting gpt-5.5
+    _RESP_ENDPOINTS = [
+        "https://gpt4v-scus.openai.azure.com/",
+        "https://gpt4v-swc.openai.azure.com/",
+    ]
+
+    def __init__(self, deployment: str = "", endpoints: Optional[List[str]] = None,
+                 timeout: int = 180, api_version: str = "2025-04-01-preview") -> None:
+        super().__init__(deployment=deployment, endpoint=(endpoints or self._RESP_ENDPOINTS)[0],
+                         timeout=timeout, api_version=api_version)
+        self.endpoints = list(endpoints or self._RESP_ENDPOINTS)
+        self.name = f"azure-responses:{self.deployment}"
+        self._token_provider = None
+        self._clients: dict = {}      # endpoint -> AzureOpenAI client
+        import threading as _thr
+        self._lock = _thr.Lock()
+        self._rr = 0                  # round-robin counter
+
+    def _get_provider(self):
+        if self._token_provider is None:
+            from azure.identity import AzureCliCredential, get_bearer_token_provider
+            self._token_provider = get_bearer_token_provider(
+                AzureCliCredential(), "https://cognitiveservices.azure.com/.default")
+        return self._token_provider
+
+    def _client_for(self, endpoint: str):
+        cl = self._clients.get(endpoint)
+        if cl is None:
+            from openai import AzureOpenAI
+            cl = AzureOpenAI(
+                azure_endpoint=endpoint, azure_ad_token_provider=self._get_provider(),
+                api_version=self.api_version, max_retries=2,
+            )
+            self._clients[endpoint] = cl
+        return cl
+
+    def _next_endpoint(self) -> str:
+        # round-robin so concurrent calls spread across all endpoints
+        with self._lock:
+            ep = self.endpoints[self._rr % len(self.endpoints)]
+            self._rr += 1
+        return ep
+
+    def _call(self, prompt: str, *, max_tokens: int = 1024, retries: int = 5) -> str:
+        import random as _r
+        import time as _t
+        last = None
+        base_ep = self._next_endpoint()           # this call's primary endpoint
+        base_idx = self.endpoints.index(base_ep)
+        for attempt in range(max(1, retries)):
+            # on retry, fail over to the other endpoint(s)
+            ep = self.endpoints[(base_idx + attempt) % len(self.endpoints)]
+            try:
+                client = self._client_for(ep)
+                resp = client.responses.create(
+                    model=self.deployment, input=prompt,
+                    max_output_tokens=16384,
+                )
+                text = (getattr(resp, "output_text", "") or "").strip()
+                try:
+                    u = resp.usage
+                    self._tokens += (getattr(u, "input_tokens", 0) or 0) + (getattr(u, "output_tokens", 0) or 0)
+                except Exception:
+                    pass
+                if text:
+                    return text
+                last = "empty-response"
+            except Exception as e:  # noqa: BLE001
+                last = e
+            if attempt < retries - 1:
+                _t.sleep(min(8.0, (2 ** attempt) * 0.5) + _r.random() * 0.4)
+        return ""
+
+
 def get_backend(
     name: str,
     *,
     model: str = "",
     claude_path: str = "claude",
     codex_path: str = "",
+    azure_endpoint: str = "",
 ) -> Backend:
     n = (name or "mock").strip().lower()
     if n in {"claude", "anthropic", "claude_cli", "claude_code"}:
         return ClaudeCliBackend(model=model, claude_path=claude_path)
     if n in {"codex", "codex_cli", "openai_codex"}:
         return CodexCliBackend(model=model, codex_path=codex_path)
+    if n in {"azure", "azure_openai", "aoai"}:
+        return AzureOpenAIBackend(deployment=model, endpoint=azure_endpoint)
+    if n in {"azure-responses", "azure_responses", "aoai-responses", "responses"}:
+        eps = [e.strip() for e in azure_endpoint.split(",") if e.strip()] or None
+        return AzureResponsesBackend(deployment=model, endpoints=eps)
     return MockBackend()
 
 
@@ -765,6 +1048,7 @@ def build_backend(
     target_backend: str = "",
     target_model: str = "",
     codex_path: str = "",
+    azure_endpoint: str = "",
     preferences: str = "",
 ) -> Backend:
     """Build a single or dual backend.
@@ -776,11 +1060,13 @@ def build_backend(
     """
     has_split = any([optimizer_backend, optimizer_model, target_backend, target_model])
     if not has_split:
-        be = get_backend(backend, model=model, codex_path=codex_path)
+        be = get_backend(backend, model=model, codex_path=codex_path, azure_endpoint=azure_endpoint)
         be.preferences = preferences
         return be
-    tgt = get_backend(target_backend or backend, model=target_model or model, codex_path=codex_path)
-    opt = get_backend(optimizer_backend or backend, model=optimizer_model or model, codex_path=codex_path)
+    tgt = get_backend(target_backend or backend, model=target_model or model,
+                      codex_path=codex_path, azure_endpoint=azure_endpoint)
+    opt = get_backend(optimizer_backend or backend, model=optimizer_model or model,
+                      codex_path=codex_path, azure_endpoint=azure_endpoint)
     opt.preferences = preferences  # reflect runs on the optimizer
     dual = DualBackend(target=tgt, optimizer=opt)
     dual.preferences = preferences
