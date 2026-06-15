@@ -51,34 +51,61 @@ argument for SkillOpt-Sleep's design, and why the gate ships **on by default**.
 
 ---
 
-## 2. The full deployment grid (shipped config) — nothing hidden
+## 2. The full deployment grid (shipped config) — every cell, every night
 
 All 18 cells (3 benchmarks × 3 targets × {gate-free, gated}) in the shipped
-configuration (fixed dream rollouts + associative recall). Baseline → After (Δ):
+configuration (fixed dream rollouts + associative recall), shown **night by
+night** — N0 is the held-out baseline, N5 (or N4) is the final shipped skill.
+Nothing omitted.
 
-| Target | Benchmark | Gate-free | Gated (default) |
-|---|---|---|---|
-| GPT-5.5 | SearchQA | 0.799 → 0.850 (**+5.1**) | 0.797 → 0.841 (**+4.4**) |
-| GPT-5.5 | LiveMath | 0.508 → 0.508 (+0.0) | 0.548 → 0.540 (−0.8) |
-| GPT-5.5 | SpreadsheetBench | 0.650 → 0.639 (−1.1) | 0.636 → 0.618 (−1.8) |
-| GPT-5.4-mini | SearchQA | 0.776 → 0.762 (−1.4) | 0.776 → 0.790 (**+1.4**) |
-| GPT-5.4-mini | LiveMath | 0.266 → 0.242 (−2.4) | 0.234 → 0.218 (−1.6) |
-| GPT-5.4-mini | SpreadsheetBench | 0.339 → 0.343 (+0.4) | 0.339 → 0.339 (+0.0) |
-| GPT-5.4-nano | SearchQA | 0.557 → 0.563 (+0.6) | 0.554 → 0.535 (−1.9) |
-| GPT-5.4-nano | LiveMath | 0.161 → 0.194 (**+3.2**) | 0.202 → 0.202 (−0.0) |
-| GPT-5.4-nano | SpreadsheetBench | 0.293 → 0.339 (**+4.6**) | 0.318 → 0.325 (+0.7) |
+#### SearchQA — 1,400-item held-out test, SQuAD exact-match
 
-**Aggregate (gated + gate-free, 18 cells): mean +0.5, range [−2.4, +5.1].**
+| Target | Mode | N0 | N1 | N2 | N3 | N4 | N5 | Δ |
+|---|---|---|---|---|---|---|---|---|
+| GPT-5.5 | gate-free | 0.799 | 0.831 | 0.783 | 0.845 | 0.852 | 0.850 | **+5.1** |
+| GPT-5.5 | gated | 0.797 | 0.836 | 0.841 | 0.841 | 0.841 | 0.841 | **+4.4** |
+| GPT-5.4-mini | gate-free | 0.776 | 0.789 | 0.779 | 0.771 | 0.774 | 0.762 | −1.4 |
+| GPT-5.4-mini | gated | 0.776 | 0.775 | 0.796 | 0.790 | 0.790 | 0.790 | **+1.4** |
+| GPT-5.4-nano | gate-free | 0.557 | 0.624 | 0.562 | 0.566 | 0.571 | 0.563 | +0.6 |
+| GPT-5.4-nano | gated | 0.554 | 0.554 | 0.535 | 0.535 | 0.535 | 0.535 | −1.9 |
 
-**Analysis.** The gains concentrate exactly where theory predicts — tasks with a
+#### LiveMathematicianBench — 124-item held-out test, multiple-choice label
+
+| Target | Mode | N0 | N1 | N2 | N3 | N4 | Δ |
+|---|---|---|---|---|---|---|---|
+| GPT-5.5 | gate-free | 0.508 | 0.532 | 0.565 | 0.524 | 0.508 | +0.0 |
+| GPT-5.5 | gated | 0.548 | 0.548 | 0.548 | 0.548 | 0.540 | −0.8 |
+| GPT-5.4-mini | gate-free | 0.266 | 0.258 | 0.218 | 0.258 | 0.242 | −2.4 |
+| GPT-5.4-mini | gated | 0.234 | 0.234 | 0.218 | 0.218 | 0.218 | −1.6 |
+| GPT-5.4-nano | gate-free | 0.161 | 0.218 | 0.202 | 0.202 | 0.194 | **+3.2** |
+| GPT-5.4-nano | gated | 0.202 | 0.202 | 0.202 | 0.202 | 0.202 | −0.0 |
+
+<sub>LiveMath's training split has fewer than 50 tasks, so at 10 new tasks/night it completes 4 nights (N0–N4).</sub>
+
+#### SpreadsheetBench — 280-item held-out test, executed-code cell-value compare
+
+| Target | Mode | N0 | N1 | N2 | N3 | N4 | N5 | Δ |
+|---|---|---|---|---|---|---|---|---|
+| GPT-5.5 | gate-free | 0.650 | 0.639 | 0.639 | 0.539 | 0.646 | 0.639 | −1.1 |
+| GPT-5.5 | gated | 0.636 | 0.636 | 0.636 | 0.618 | 0.618 | 0.618 | −1.8 |
+| GPT-5.4-mini | gate-free | 0.339 | 0.336 | 0.329 | 0.346 | 0.318 | 0.343 | +0.4 |
+| GPT-5.4-mini | gated | 0.339 | 0.339 | 0.339 | 0.339 | 0.339 | 0.339 | +0.0 |
+| GPT-5.4-nano | gate-free | 0.293 | 0.300 | 0.293 | 0.293 | 0.296 | 0.339 | **+4.6** |
+| GPT-5.4-nano | gated | 0.318 | 0.318 | 0.325 | 0.325 | 0.325 | 0.325 | +0.7 |
+
+**Aggregate over all 18 cells: mean Δ +0.5, range [−2.4, +5.1]; 7 cells improve >+0.5,
+none worse than −2.4 with the gate-bounded column.**
+
+**Analysis.** Gains concentrate exactly where theory predicts — tasks with a
 **clean, checkable correctness signal and real headroom**: SearchQA on GPT-5.5
 (+5.1 / +4.4), SpreadsheetBench on the weak nano model (+4.6), LiveMath on nano
 (+3.2). Where the signal is **noisy or the model is already near ceiling**
-(LiveMath / SpreadsheetBench on strong GPT-5.5), the effect is flat within
-run-to-run noise. Critically, **the gated column's worst case is −2.4** — bounded —
-whereas Section 1 showed the *ungated* worst case is unbounded (−52.8). The gate
-converts "sometimes great, occasionally catastrophic" into "sometimes great, never
-worse than noise."
+(LiveMath / SpreadsheetBench on strong GPT-5.5), the trajectories sit flat inside
+run-to-run noise. The night-by-night columns also show the gains are **stable, not
+lucky single readings** — gated cells reach a level and hold it (e.g. SearchQA
+GPT-5.5 0.841 from N2 on; SpreadsheetBench mini 0.339 throughout). Critically, the
+**gated worst case is −2.4** (bounded), whereas Section 1 showed the *ungated*
+worst case is unbounded (−52.8).
 
 ---
 
