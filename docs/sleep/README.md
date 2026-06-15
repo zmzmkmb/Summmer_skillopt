@@ -53,6 +53,10 @@ correctness signal; the validation gate still governs what ships.
 
 ## Results
 
+> 📊 **Full study — the complete 18-cell deployment grid, replay-policy ablations,
+> night-by-night progression, the gate-safety stress test, and analysis — is in
+> [`docs/sleep/RESULTS.md`](RESULTS.md).** The highlights:
+
 **Protocol (identical for every row below).** 5 nights × 10 new real "today" tasks
 per night; the full held-out **test** split is scored before night 1 (baseline) and
 after night 5 (after); optimizer = GPT-5.5; single seed (42); run through the exact
