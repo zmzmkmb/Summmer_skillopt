@@ -53,23 +53,38 @@ correctness signal; the validation gate still governs what ships.
 
 ## Results
 
-- **End-to-end on real agents.** On the public
-  [gbrain-evals](https://github.com/garrytan/gbrain-evals) `skillopt-v1` benchmark,
-  deficient seed skills go **0.00 → 1.00** on held-out sets with **both Claude and
-  Codex** (all 4 seeds, including a real tool-use loop).
-- **Experience replay scales the gain on a clean signal** (deployment protocol:
-  5 nights × 10 new real tasks/night, full held-out test, GPT-5.5, gated):
+**Protocol (identical for every row below).** 5 nights × 10 new real "today" tasks
+per night; the full held-out **test** split is scored before night 1 (baseline) and
+after night 5 (after); optimizer = GPT-5.5; single seed (42); run through the exact
+shipped engine (`skillopt_sleep.dream.dream_consolidate`). Numbers are absolute
+held-out accuracy; **Δ** = `after − baseline` in percentage points.
 
-  | Config | Δ vs baseline |
-  |---|---|
-  | `recall_k=10, dream_rollouts=5` | +3.1 pts |
-  | `recall_k=20, dream_rollouts=5` | **+4.5 pts** |
-  | full-history replay (reference) | +5.6 pts |
+**(a) End-to-end on real agents — [gbrain-evals](https://github.com/garrytan/gbrain-evals) `skillopt-v1`.**
+Deficient seed skills go **0.00 → 1.00** on the held-out set with **both Claude Code
+and Codex** as the target agent (all 4 seeds, including a real tool-use loop).
 
-  A second benchmark (SpreadsheetBench, GPT-5.4-nano, gate-free) gives **+3.6 pts**.
-- **Honest scope.** Gains are real where tasks recur and have a checkable correctness
-  signal; on saturated or noisy tasks the effect is flat within run-to-run noise
-  (±1–2 pts, single seed). The validation gate keeps the downside bounded — keep it on.
+**(b) Experience replay scales the gain — SearchQA** (1,400-item held-out test,
+SQuAD exact-match; target = GPT-5.5; **validation-gated**):
+
+| Replay config (`dream_rollouts=5`) | Baseline → After | Δ (pts) |
+|---|---|---|
+| `recall_k=10` | 0.802 → 0.834 | +3.1 |
+| `recall_k=20` | 0.803 → 0.848 | **+4.5** |
+| full-history replay *(reference, not a shipping default)* | 0.796 → 0.851 | +5.6 |
+| `recall_k=10`, `dream_rollouts=8` *(more dreaming, same recall)* | 0.798 → 0.835 | +3.7 |
+
+The gain rises monotonically with how much relevant past experience is recalled. The
+same SearchQA cell **without** the gate (`recall_k=10`) is 0.808 → 0.839 (+3.1).
+
+**(c) Second benchmark — SpreadsheetBench** (280-item held-out test; the agent's
+generated openpyxl code is executed and compared cell-by-cell to a golden workbook;
+target = GPT-5.4-nano; gate-free + the output-contract guardrail): 0.279 → 0.314 (**+3.6**).
+
+**(d) Honest scope.** These gains hold where tasks recur and have a checkable
+correctness signal. On saturated or noisy benchmarks (e.g. a strong model already
+near ceiling) the effect is **flat within run-to-run noise** — single-seed baseline
+variance here is ±1–2 pts, so treat sub-~1.5 pt differences as noise. The validation
+gate keeps the worst case bounded; keep it **on** by default.
 
 ## Learn more
 
