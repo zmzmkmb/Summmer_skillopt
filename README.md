@@ -80,7 +80,7 @@ harvest session transcripts → mine recurring tasks → replay offline
 | Platform | Folder | Install |
 |---|---|---|
 | **Claude Code** | [`plugins/claude-code`](plugins/claude-code) | `/plugin marketplace add ./plugins/claude-code` → `/skillopt-sleep` |
-| **Codex** | [`plugins/codex`](plugins/codex) | `bash plugins/codex/install.sh` → `/skillopt-sleep` |
+| **Codex** | [`plugins/codex`](plugins/codex) | `bash plugins/codex/install.sh` → `skillopt-sleep` skill |
 | **Copilot** | [`plugins/copilot`](plugins/copilot) | register `plugins/copilot/mcp_server.py` as an MCP server |
 
 **Validated on real models.** On the public
