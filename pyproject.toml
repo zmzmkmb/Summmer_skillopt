@@ -40,6 +40,8 @@ alfworld = ["alfworld>=0.4.0", "gymnasium>=0.29.0"]
 claude = ["claude-agent-sdk>=0.1.0"]
 # Qwen local model backend (via vLLM)
 qwen = ["vllm>=0.4.0"]
+# SearchQA data materialization
+searchqa = ["datasets>=2.18.0"]
 # Documentation site
 docs = ["mkdocs-material>=9.5.0", "mkdocstrings[python]>=0.24.0"]
 # WebUI dashboard
