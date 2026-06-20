@@ -30,12 +30,17 @@ if [ -z "${REPO_ROOT:-}" ]; then
 fi
 
 PY=""
-for cand in python3.12 python3.11 python3.10 python3; do
-  if command -v "$cand" >/dev/null 2>&1; then
-    ver="$("$cand" -c 'import sys; print("%d%d" % sys.version_info[:2])' 2>/dev/null || echo 0)"
-    if [ "${ver:-0}" -ge 310 ]; then PY="$cand"; break; fi
-  fi
-done
+# Allow explicit Python override (useful on macOS with old system Python).
+if [ -n "${SKILLOPT_SLEEP_PYTHON:-}" ]; then
+  PY="$SKILLOPT_SLEEP_PYTHON"
+else
+  for cand in python3.12 python3.11 python3.10 python3; do
+    if command -v "$cand" >/dev/null 2>&1; then
+      ver="$("$cand" -c 'import sys; print("%d%d" % sys.version_info[:2])' 2>/dev/null || echo 0)"
+      if [ "${ver:-0}" -ge 310 ]; then PY="$cand"; break; fi
+    fi
+  done
+fi
 if [ -z "$PY" ]; then
   echo "[sleep] ERROR: need Python >= 3.10 (found none)." >&2
   exit 1
