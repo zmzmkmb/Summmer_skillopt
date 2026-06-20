@@ -144,6 +144,14 @@ def run_sleep_cycle(
         _progress(cfg, f"using {len(tasks)} seeded tasks")
     else:
         since = state.last_harvest_for(project)
+        # On first run (no prior harvest), apply lookback_hours so we don't
+        # scan the entire transcript history and trigger massive LLM mining.
+        if since is None:
+            lookback_hours = cfg.get("lookback_hours", 72)
+            if lookback_hours and lookback_hours > 0:
+                import time
+                cutoff = time.time() - lookback_hours * 3600
+                since = _now_iso(cutoff)
         max_tasks = cfg.get("max_tasks_per_night", 40)
         max_sessions = cfg.get("max_sessions_per_night", 0) or max_tasks * 3
         candidate_limit = max_tasks
