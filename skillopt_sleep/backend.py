@@ -553,6 +553,38 @@ class ClaudeCliBackend(CliBackend):
                          timeout=timeout)
         self.claude_path = claude_path
 
+    # Known CLI error prefixes that indicate auth or config failures.
+    # When detected, we log a warning so the user doesn't mistake a
+    # broken auth for "nothing to optimize" (issue #68).
+    # Keep these specific to avoid false positives on normal model output.
+    _CLI_ERROR_MARKERS = (
+        "Not logged in",
+        "Please run /login",
+        "Authentication required",
+        "Invalid API key",
+        "Unauthorized: invalid x-api-key",
+    )
+
+    def _detect_cli_error(self, stdout: str, stderr: str) -> None:
+        """Log a warning if CLI output looks like an auth/config error.
+
+        Only checks stderr and short stdout (< 300 chars) to avoid
+        false-positives on legitimate model responses that mention
+        auth-related terms.
+        """
+        import logging
+        # Long stdout is almost certainly a real model response, not an error.
+        check_stdout = stdout if len(stdout) < 300 else ""
+        combined = check_stdout + "\n" + stderr
+        for marker in self._CLI_ERROR_MARKERS:
+            if marker in combined:
+                logging.getLogger("skillopt_sleep").warning(
+                    "Claude CLI returned a likely auth error: %s",
+                    combined[:200].replace("\n", " "),
+                )
+                self.last_call_error = combined[:500]
+                return
+
     def _call(self, prompt: str, *, max_tokens: int = 1024) -> str:
         # Run ISOLATED so the ambient Claude Code environment does not leak into
         # the optimizer/target call. Critically, the user's GLOBAL skills
@@ -560,14 +592,17 @@ class ClaudeCliBackend(CliBackend):
         # them explicitly — without this, reflect/attempt sometimes reply with a
         # list of the user's installed skills instead of doing the task.
         #   --bare                    skip hooks, LSP, plugins (minimal mode)
+        #                             Only safe with ANTHROPIC_API_KEY auth;
+        #                             breaks subscription-token auth (#68).
         #   --disable-slash-commands  disable all skills
         #   --disallowedTools '*'     no tool use
         #   --exclude-dynamic-...     drop per-machine cwd/env/memory/git sections
         #   cwd=<clean temp>          no project CLAUDE.md
         import tempfile
-        cmd = [
-            self.claude_path, "-p", "--output-format", "text",
-            "--bare",
+        cmd = [self.claude_path, "-p", "--output-format", "text"]
+        if os.environ.get("ANTHROPIC_API_KEY"):
+            cmd.append("--bare")
+        cmd += [
             "--disable-slash-commands",
             "--disallowedTools", "*",
             "--exclude-dynamic-system-prompt-sections",
@@ -588,7 +623,9 @@ class ClaudeCliBackend(CliBackend):
                 shutil.rmtree(clean_cwd, ignore_errors=True)
             except Exception:
                 pass
-        return (proc.stdout or "").strip()
+        out = (proc.stdout or "").strip()
+        self._detect_cli_error(out, proc.stderr or "")
+        return out
 
     def attempt_with_tools(self, task, skill, memory, tools):
         # Expose a REAL, callable `search` tool (a shell shim that logs each
@@ -625,9 +662,11 @@ class ClaudeCliBackend(CliBackend):
                 f"# Task\n{task.intent}\n\n{task.context_excerpt}\n\n"
                 "Return ONLY the final answer text."
             )
-            cmd = [
-                self.claude_path, "-p", "--output-format", "text",
-                "--bare", "--disable-slash-commands",
+            cmd = [self.claude_path, "-p", "--output-format", "text"]
+            if os.environ.get("ANTHROPIC_API_KEY"):
+                cmd.append("--bare")
+            cmd += [
+                "--disable-slash-commands",
                 "--allowedTools", "Bash",
                 "--exclude-dynamic-system-prompt-sections",
             ]
@@ -639,6 +678,7 @@ class ClaudeCliBackend(CliBackend):
                     cmd, capture_output=True, text=True, timeout=self.timeout, cwd=work,
                 )
                 resp = (proc.stdout or "").strip()
+                self._detect_cli_error(resp, proc.stderr or "")
             except Exception:
                 resp = ""
             self._tokens += len(prompt) // 4 + len(resp) // 4
