@@ -294,7 +294,9 @@ def harvest(
         if not _project_matches(d.project or "", scope, invoked_project):
             continue
         if since_iso and d.ended_at and d.ended_at < since_iso:
-            continue
+            # Files are sorted newest-first by mtime; once we see one that
+            # is older than the cutoff, all remaining files are older too.
+            break
         digests.append(d)
         if limit and len(digests) >= limit:
             break

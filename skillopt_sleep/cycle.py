@@ -150,7 +150,8 @@ def run_sleep_cycle(
             lookback_hours = cfg.get("lookback_hours", 72)
             if lookback_hours and lookback_hours > 0:
                 import time
-                cutoff = time.time() - lookback_hours * 3600
+                ref_time = clock if clock is not None else time.time()
+                cutoff = ref_time - lookback_hours * 3600
                 since = _now_iso(cutoff)
         max_tasks = cfg.get("max_tasks_per_night", 40)
         max_sessions = cfg.get("max_sessions_per_night", 0) or max_tasks * 3
