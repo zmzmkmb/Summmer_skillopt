@@ -556,19 +556,26 @@ class ClaudeCliBackend(CliBackend):
     # Known CLI error prefixes that indicate auth or config failures.
     # When detected, we log a warning so the user doesn't mistake a
     # broken auth for "nothing to optimize" (issue #68).
+    # Keep these specific to avoid false positives on normal model output.
     _CLI_ERROR_MARKERS = (
         "Not logged in",
         "Please run /login",
         "Authentication required",
-        "API key",
-        "Unauthorized",
-        "Invalid API",
+        "Invalid API key",
+        "Unauthorized: invalid x-api-key",
     )
 
     def _detect_cli_error(self, stdout: str, stderr: str) -> None:
-        """Log a warning if CLI output looks like an auth/config error."""
+        """Log a warning if CLI output looks like an auth/config error.
+
+        Only checks stderr and short stdout (< 300 chars) to avoid
+        false-positives on legitimate model responses that mention
+        auth-related terms.
+        """
         import logging
-        combined = stdout + "\n" + stderr
+        # Long stdout is almost certainly a real model response, not an error.
+        check_stdout = stdout if len(stdout) < 300 else ""
+        combined = check_stdout + "\n" + stderr
         for marker in self._CLI_ERROR_MARKERS:
             if marker in combined:
                 logging.getLogger("skillopt_sleep").warning(
