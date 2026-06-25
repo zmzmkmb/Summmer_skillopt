@@ -28,6 +28,7 @@ from skillopt.model import (
     configure_azure_openai,
     configure_claude_code_exec,
     configure_codex_exec,
+    configure_qwen_chat,
     set_reasoning_effort,
     set_target_backend,
     set_target_deployment,
@@ -400,6 +401,20 @@ def main() -> None:
         use_sdk=cfg.get("claude_code_exec_use_sdk", None),
         effort=cfg.get("claude_code_exec_effort", cfg.get("reasoning_effort", "medium")),
         max_thinking_tokens=cfg.get("claude_code_exec_max_thinking_tokens", 16384),
+    )
+    configure_qwen_chat(
+        base_url=cfg.get("qwen_chat_base_url") or None,
+        api_key=cfg.get("qwen_chat_api_key") or None,
+        temperature=cfg.get("qwen_chat_temperature"),
+        timeout_seconds=cfg.get("qwen_chat_timeout_seconds"),
+        max_tokens=cfg.get("qwen_chat_max_tokens"),
+        enable_thinking=cfg.get("qwen_chat_enable_thinking"),
+        target_base_url=cfg.get("target_qwen_chat_base_url") or None,
+        target_api_key=cfg.get("target_qwen_chat_api_key") or None,
+        target_temperature=cfg.get("target_qwen_chat_temperature"),
+        target_timeout_seconds=cfg.get("target_qwen_chat_timeout_seconds"),
+        target_max_tokens=cfg.get("target_qwen_chat_max_tokens"),
+        target_enable_thinking=cfg.get("target_qwen_chat_enable_thinking"),
     )
     set_reasoning_effort(cfg.get("reasoning_effort", "") or None)
 
