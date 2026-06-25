@@ -36,14 +36,13 @@ import sys
 
 # ── constants ─────────────────────────────────────────────────────────────────
 
-REPO_ROOT = (
+REPO_ROOT = os.path.expanduser(
     os.environ.get("SKILLOPT_SLEEP_REPO")
     or os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 )
 PLUGIN_DIR = os.path.dirname(os.path.abspath(__file__))
-CLAUDE_HOME = os.environ.get(
-    "SKILLOPT_DEVIN_CLAUDE_HOME",
-    os.path.expanduser("~/.skillopt-sleep-devin"),
+CLAUDE_HOME = os.path.expanduser(
+    os.environ.get("SKILLOPT_DEVIN_CLAUDE_HOME", "~/.skillopt-sleep-devin")
 )
 MANAGED_SKILL_NAME = os.environ.get("SKILLOPT_MANAGED_SKILL", "skillopt-sleep-learned")
 PROTOCOL_VERSION = "2024-11-05"
