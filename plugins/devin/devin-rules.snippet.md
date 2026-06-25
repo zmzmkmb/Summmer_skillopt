@@ -8,6 +8,7 @@ server. Use these tools to improve your long-term skills over time:
 - **`sleep_run`** — run a full cycle; stages a proposal for review
 - **`sleep_adopt`** — apply the staged proposal to `.devin/skills/skillopt-sleep-learned/SKILL.md`
 - **`sleep_harvest`** — debug: list the recurring tasks mined from recent sessions
+- **`sleep_schedule`** / **`sleep_unschedule`** — install/remove a nightly cron run
 
 When a user asks about the sleep cycle, skill evolution, or improving your
 long-term memory, prefer calling these tools over explaining the concept.

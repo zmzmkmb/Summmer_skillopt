@@ -58,6 +58,9 @@ Requires Python ≥ 3.10. No third-party packages — the server is pure stdlib.
 | `sleep_run` | full cycle; stages a proposal for review |
 | `sleep_adopt` | apply the staged proposal; syncs skill to the workspace |
 | `sleep_harvest` | debug: list the recurring tasks mined |
+| `sleep_schedule` | install a nightly cron entry (`--hour` / `--minute`) |
+| `sleep_unschedule` | remove the nightly cron entry |
 
 Default backend is `mock` (no API spend); `--backend claude|codex` uses your own
-budget. Same engine as the other plugins — all call `python -m skillopt_sleep`.
+budget. Same engine and `sleep_*` interface as the other plugins — all call
+`python -m skillopt_sleep`.

@@ -33,19 +33,30 @@ class TestDevinMcpSchema(unittest.TestCase):
     def test_tools_are_the_sleep_interface(self):
         names = {t["name"] for t in mcp_server.TOOLS}
         self.assertEqual(names, {"sleep_status", "sleep_dry_run", "sleep_run",
-                                 "sleep_adopt", "sleep_harvest"})
+                                 "sleep_adopt", "sleep_harvest",
+                                 "sleep_schedule", "sleep_unschedule"})
 
     def test_actions_map_to_engine_subcommands(self):
         expected = {"sleep_status": "status", "sleep_dry_run": "dry-run",
                     "sleep_run": "run", "sleep_adopt": "adopt",
-                    "sleep_harvest": "harvest"}
+                    "sleep_harvest": "harvest", "sleep_schedule": "schedule",
+                    "sleep_unschedule": "unschedule"}
         for t in mcp_server.TOOLS:
             self.assertEqual(t["action"], expected[t["name"]])
 
     def test_backends_in_enum(self):
         backends = mcp_server._TOOL_SCHEMA["properties"]["backend"]["enum"]
-        for b in ["mock", "claude", "codex"]:
+        for b in ["mock", "claude", "codex", "copilot"]:
             self.assertIn(b, backends)
+
+    def test_schema_has_key_engine_params(self):
+        # parity with plugins/copilot's schema (tests/test_plugin_sync.py)
+        props = set(mcp_server._TOOL_SCHEMA["properties"].keys())
+        for param in {"project", "backend", "scope", "source", "model",
+                      "tasks_file", "target_skill_path", "max_sessions",
+                      "max_tasks", "lookback_hours", "auto_adopt", "json",
+                      "edit_budget", "hour", "minute"}:
+            self.assertIn(param, props)
 
 
 class TestClaudeHomeExpansion(unittest.TestCase):
