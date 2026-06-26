@@ -97,13 +97,10 @@ python -m skillopt_webui.app
 ## Citation
 
 ```bibtex
-@misc{yang2026skilloptexecutivestrategyselfevolving,
-      title={SkillOpt: Executive Strategy for Self-Evolving Agent Skills}, 
-      author={Yifan Yang and Ziyang Gong and Weiquan Huang and Qihao Yang and Ziwei Zhou and Zisu Huang and Yan Li and Xuemei Gao and Qi Dai and Bei Liu and Kai Qiu and Yuqing Yang and Dongdong Chen and Xue Yang and Chong Luo},
-      year={2026},
-      eprint={2605.23904},
-      archivePrefix={arXiv},
-      primaryClass={cs.AI},
-      url={https://arxiv.org/abs/2605.23904}
+@article{yang2026skillopt,
+  title={Skillopt: Executive strategy for self-evolving agent skills},
+  author={Yang, Yifan and Gong, Ziyang and Huang, Weiquan and Yang, Qihao and Zhou, Ziwei and Huang, Zisu and Li, Yan and Gao, Xuemei and Dai, Qi and Liu, Bei and others},
+  journal={arXiv preprint arXiv:2605.23904},
+  year={2026}
 }
 ```
