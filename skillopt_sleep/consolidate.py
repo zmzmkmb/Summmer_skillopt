@@ -9,7 +9,7 @@ validation gate, vendored self-contained in ``skillopt_sleep.gate``.
 from __future__ import annotations
 
 import os
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import List, Optional, Tuple
 
 from skillopt_sleep.backend import Backend
@@ -36,6 +36,10 @@ class ConsolidationResult:
     rejected_edits: List[EditRecord]
     holdout_baseline: float
     holdout_candidate: float
+    # ── observability (so a 0.0->0.0 night is self-diagnosing, not a black box) ──
+    holdout_detail: List[dict] = field(default_factory=list)  # per val task: hard/soft/resp/why
+    reflect_raw: str = ""        # the optimizer's last raw reply (empty => reflect produced nothing)
+    call_error: str = ""         # backend's last call error (timeout/auth/empty)
 
 
 def _split(tasks: List[TaskRecord]) -> Tuple[List[TaskRecord], List[TaskRecord]]:
@@ -59,6 +63,25 @@ def _split(tasks: List[TaskRecord]) -> Tuple[List[TaskRecord], List[TaskRecord]]
     if not train:
         train = val
     return train, val
+
+
+def _holdout_detail(pairs: List[Tuple[TaskRecord, ReplayResult]]) -> List[dict]:
+    """Per-task held-out evidence so a 0.0 night explains itself: was the
+    response empty (backend call failed) or non-empty-but-failing-checks
+    (judge too strict / edit didn't help)? The two need opposite fixes."""
+    out: List[dict] = []
+    for t, r in pairs:
+        resp = r.response or ""
+        out.append({
+            "id": t.id,
+            "reference_kind": t.reference_kind,
+            "hard": r.hard,
+            "soft": r.soft,
+            "response_len": len(resp),
+            "response_head": resp[:200],
+            "why": (r.fail_reason or r.judge_rationale or "")[:200],
+        })
+    return out
 
 
 def consolidate(
@@ -87,6 +110,7 @@ def consolidate(
     """
     train_tasks, val_tasks = _split(tasks)
     gate_off = str(gate_mode).strip().lower() in {"off", "none", "false", "greedy"}
+    holdout_detail: List[dict] = []
 
     # ── baseline on the VAL slice (the gate reference) ────────────────────
     # When the gate is OFF the user has opted out of holding out a validation set
@@ -98,6 +122,7 @@ def consolidate(
     else:
         base_pairs = replay_batch(backend, val_tasks, skill, memory)
         base_hard, base_soft = aggregate_scores(base_pairs)
+        holdout_detail = _holdout_detail(base_pairs)
     base_score = select_gate_score(base_hard, base_soft, gate_metric, gate_mixed_weight)
 
     # ── reflect over TRAIN-split failures/successes ───────────────────────
@@ -235,4 +260,7 @@ def consolidate(
         rejected_edits=all_rejected,
         holdout_baseline=base_hard,
         holdout_candidate=final_hard,
+        holdout_detail=holdout_detail,
+        reflect_raw=getattr(backend, "last_reflect_raw", "") or "",
+        call_error=getattr(backend, "last_call_error", "") or "",
     )

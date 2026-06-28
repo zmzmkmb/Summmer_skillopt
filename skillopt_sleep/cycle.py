@@ -276,6 +276,28 @@ def run_sleep_cycle(
             live_memory_path=live_memory_path,
             report_md=report_md,
         )
+        # Observability: persist per-task held-out evidence + optimizer/codex errors so a
+        # 0.0->0.0 night self-explains (empty responses vs failing checks vs no edits) — the
+        # cycle previously captured none of this, making the gate a black box (#learning-stall).
+        try:
+            import json as _json
+            with open(os.path.join(staging_dir, "diagnostics.json"), "w", encoding="utf-8") as _fh:
+                _json.dump({
+                    "night": night,
+                    "backend": cfg.get("backend"),
+                    "gate_mode": cfg.get("gate_mode"),
+                    "n_tasks": len(tasks),
+                    "baseline_score": result.baseline_score,
+                    "candidate_score": result.candidate_score,
+                    "accepted": result.accepted,
+                    "n_applied_edits": len(result.applied_edits),
+                    "n_rejected_edits": len(result.rejected_edits),
+                    "call_error": getattr(result, "call_error", ""),
+                    "reflect_raw_head": (getattr(result, "reflect_raw", "") or "")[:1200],
+                    "holdout_detail": getattr(result, "holdout_detail", []),
+                }, _fh, indent=2)
+        except Exception:
+            pass
         state.set_last_harvest(project, started)
         state.record_night({
             "night": night, "accepted": result.accepted,

@@ -520,6 +520,10 @@ class CliBackend(Backend):
             arr = _extract_json(raw, "array")
             if isinstance(arr, list) and arr:
                 break
+        # Expose the last raw optimizer reply so a no-edits night is diagnosable:
+        # a 0.0->0.0 gate with zero edits is otherwise indistinguishable from
+        # "nothing to learn" (the cycle persists this in diagnostics.json).
+        self.last_reflect_raw = raw or ""
         edits: List[EditRecord] = []
         if isinstance(arr, list):
             for e in arr[:edit_budget]:
@@ -750,9 +754,11 @@ class CodexCliBackend(CliBackend):
             os.path.abspath(os.path.expanduser(project_dir)) if project_dir else ""
         )
 
-    def _call(self, prompt: str, *, max_tokens: int = 1024) -> str:
+    def _call_once(self, prompt: str, *, max_tokens: int = 1024) -> str:
+        """One codex exec attempt: returns the response text, or "" on
+        timeout/exception/empty-output (with last_call_error set). ``_call``
+        wraps this with retries so a transient failure is NOT silently scored 0."""
         import tempfile
-        self.last_call_error = ""
         out_path = tempfile.NamedTemporaryFile(
             prefix="codex_last_", suffix=".txt", delete=False
         ).name
@@ -793,12 +799,57 @@ class CodexCliBackend(CliBackend):
             stderr = (proc.stderr or "").strip() if proc is not None else ""
             if proc is not None and proc.returncode != 0 and not self.last_call_error:
                 self.last_call_error = f"codex exec exited {proc.returncode}: {stderr[:500]}"
+            # Do NOT return the CLI's error text as if it were a model response: it
+            # pollutes rollout/judge/reflect and gets silently scored 0, hiding the
+            # real cause (e.g. an expired codex auth token surfacing as a 9k-char 401).
+            # Surface it via last_call_error and return empty instead.
+            if self.last_call_error:
+                return ""
             return stdout or stderr
         finally:
             try:
                 os.unlink(out_path)
             except Exception:
                 pass
+
+    # Fatal codex failures that will NOT recover on retry — fail fast + loud so a
+    # 0.0 night reads as "codex auth/model/version problem" not "nothing to learn".
+    # Covers: auth (re-login), and 400 config errors like an unsupported model on a
+    # ChatGPT account or a model that needs a newer codex CLI (upgrade).
+    _AUTH_MARKERS = (
+        "401 Unauthorized", "refresh_token_reused", "token_expired",
+        "Please log out and sign in", "Not logged in", "Please run /login",
+        "authentication token is expired", "Unauthorized: invalid",
+        "is not supported when using Codex", "requires a newer version of Codex",
+    )
+
+    def _call(self, prompt: str, *, max_tokens: int = 1024, retries: int = 3) -> str:
+        """Retry transient empties/timeouts instead of silently returning "".
+
+        An empty reply scores 0 on every judge, which deflates the held-out
+        baseline AND blocks the candidate from ever improving — making a flaky
+        backend indistinguishable from "nothing to learn". The Azure backend
+        already guards this way (AzureOpenAIBackend._call); codex now does too.
+        Auth errors are NOT retried (hopeless until the user re-logs-in).
+        """
+        import logging
+        import random as _r
+        import time as _t
+        out = ""
+        for attempt in range(max(1, retries)):
+            self.last_call_error = ""
+            out = self._call_once(prompt, max_tokens=max_tokens)
+            if out:
+                return out
+            err = self.last_call_error or ""
+            if any(m in err for m in self._AUTH_MARKERS):
+                logging.getLogger("skillopt_sleep").error(
+                    "codex auth error — re-login required (`codex login`): %s", err[:200]
+                )
+                break  # fail fast: retrying a 401 just burns calls
+            if attempt < retries - 1:
+                _t.sleep(min(6.0, (2 ** attempt) * 0.5) + _r.random() * 0.3)
+        return out
 
     def attempt_with_tools(self, task, skill, memory, tools):
         # Codex exec runs in a sandbox with shell access; expose the same real

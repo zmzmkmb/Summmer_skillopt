@@ -22,6 +22,8 @@ data/*
 outputs/
 logs/
 external/
+# SkillOpt-Sleep runtime state (staging proposals, config, diagnostics, cron logs)
+.skillopt-sleep/
 
 /BabyVision/
 /MMRB/
