@@ -486,6 +486,18 @@ class TestConsolidateGate(unittest.TestCase):
         self.assertTrue(res.accepted)
         self.assertGreater(res.candidate_score, res.baseline_score)
 
+    def test_consolidate_records_holdout_detail(self):
+        # observability: a 0.0 night must carry per-task evidence (was empty
+        # response vs failing checks?) so it is diagnosable, not a black box.
+        be = MockBackend()
+        tasks = assign_splits(researcher_persona(), holdout_fraction=0.34, seed=42)
+        res = consolidate(be, tasks, set_learned("", []), "", edit_budget=4,
+                          gate_metric="mixed", night=1)
+        self.assertTrue(res.holdout_detail)  # non-empty per-task rows
+        row = res.holdout_detail[0]
+        for k in ("id", "hard", "soft", "response_len", "why"):
+            self.assertIn(k, row)
+
     def test_no_op_when_already_optimal(self):
         be = MockBackend()
         tasks = assign_splits(programmer_persona(), holdout_fraction=0.34, seed=1)
@@ -612,6 +624,24 @@ class TestMultiObjectiveAndPrefs(unittest.TestCase):
                    [], "skill", "", edit_budget=2, evolve_skill=True, evolve_memory=False)
         self.assertIn("British English", captured["prompt"])
 
+    def test_reflect_records_last_raw(self):
+        # the optimizer's raw reply must be retained so a no-edits night is
+        # diagnosable (empty/non-JSON reflect vs genuinely no failures).
+        from skillopt_sleep.backend import CliBackend
+        from skillopt_sleep.types import ReplayResult
+
+        class CapBackend(CliBackend):
+            name = "cap"
+            def _call(self, prompt, *, max_tokens=1024):
+                return '[{"op":"add","content":"a learned rule","rationale":"x"}]'
+
+        be = CapBackend()
+        t = TaskRecord(id="t", project="/p", intent="x", reference_kind="rule",
+                       judge={"checks": [{"op": "contains", "arg": "z"}]})
+        be.reflect([(t, ReplayResult(id="t", hard=0.0, fail_reason="failed: contains=z"))],
+                   [], "skill", "", edit_budget=2, evolve_skill=True, evolve_memory=False)
+        self.assertIn("a learned rule", be.last_reflect_raw)
+
     def test_replay_records_cost(self):
         from skillopt_sleep.backend import MockBackend
         from skillopt_sleep.replay import replay_one
@@ -653,6 +683,89 @@ class TestCodexBackend(unittest.TestCase):
             self.assertEqual(kwargs["cwd"], expected_project)
             self.assertIn("-C", cmd)
             self.assertEqual(cmd[cmd.index("-C") + 1], expected_project)
+
+    def test_codex_call_retries_transient_failure_not_silent_zero(self):
+        """A transient timeout must be RETRIED, not silently returned as "" — an
+        empty reply scores 0 on every judge and zeroes the held-out baseline,
+        making a flaky backend look identical to 'nothing to learn'."""
+        import subprocess as _sp
+
+        from skillopt_sleep.backend import CodexCliBackend
+
+        calls = {"n": 0}
+
+        def fake_run(cmd, **kwargs):
+            calls["n"] += 1
+            if calls["n"] == 1:
+                raise _sp.TimeoutExpired(cmd, kwargs.get("timeout", 1))
+            out_path = cmd[cmd.index("-o") + 1]
+            with open(out_path, "w", encoding="utf-8") as f:
+                f.write("real answer")
+
+            class Proc:
+                returncode = 0
+                stdout = ""
+                stderr = ""
+
+            return Proc()
+
+        backend = CodexCliBackend(codex_path="codex")
+        with mock.patch("skillopt_sleep.backend.subprocess.run", side_effect=fake_run), \
+             mock.patch("time.sleep", lambda *_a, **_k: None):
+            out = backend._call("hello")
+        self.assertEqual(out, "real answer")     # recovered on retry
+        self.assertGreaterEqual(calls["n"], 2)   # proves it did not silently return "" once
+
+    def test_codex_auth_error_surfaces_not_scored_as_response(self):
+        """An auth 401 must become a clear last_call_error + EMPTY response (not the
+        9k-char error text scored as a 0 'answer'), and must NOT be retried — the
+        exact failure that silently stalled learning (refresh_token_reused)."""
+        from skillopt_sleep.backend import CodexCliBackend
+
+        calls = {"n": 0}
+
+        def fake_run(cmd, **kwargs):
+            calls["n"] += 1
+            out_path = cmd[cmd.index("-o") + 1]
+            open(out_path, "w").close()  # empty output file (codex wrote nothing)
+
+            class Proc:
+                returncode = 1
+                stdout = ""
+                stderr = "ERROR codex_core::auth: 401 Unauthorized: refresh_token_reused"
+
+            return Proc()
+
+        be = CodexCliBackend(codex_path="codex")
+        with mock.patch("skillopt_sleep.backend.subprocess.run", side_effect=fake_run), \
+             mock.patch("time.sleep", lambda *_a, **_k: None):
+            out = be._call("hi")
+        self.assertEqual(out, "")                                   # NOT the error text
+        self.assertIn("refresh_token_reused", be.last_call_error)   # surfaced for the operator
+        self.assertEqual(calls["n"], 1)                             # failed fast, no wasted retries
+
+    def test_codex_attempt_with_tools_surfaces_error_not_silent(self):
+        """A failed tool-rollout (non-zero codex exec) on the tool path must set
+        last_call_error and return an empty response — not a silent empty->0 the
+        diagnostics can't see (the gap a _call-only fix would otherwise leave)."""
+        from skillopt_sleep.backend import CodexCliBackend
+
+        def fake_run(cmd, **kwargs):
+            class Proc:
+                returncode = 1
+                stdout = ""
+                stderr = "ERROR codex_core::auth: 401 Unauthorized: refresh_token_reused"
+            return Proc()  # writes nothing to out_path -> empty response
+
+        be = CodexCliBackend(codex_path="codex")
+        task = TaskRecord(id="t", project="/p", intent="answer the question",
+                          reference_kind="rule",
+                          judge={"checks": [{"op": "tool_called", "arg": "search"}]})
+        with mock.patch("skillopt_sleep.backend.subprocess.run", side_effect=fake_run):
+            resp, called = be.attempt_with_tools(task, "", "", ["search"])
+        self.assertEqual(resp, "")                     # no leaked error text as a "response"
+        self.assertIn("exited 1", be.last_call_error)  # failure surfaced for diagnostics
+        self.assertEqual(called, [])                   # no tool actually ran
 
 
 class TestMultiRolloutAndBudget(unittest.TestCase):
