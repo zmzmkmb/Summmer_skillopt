@@ -582,9 +582,10 @@ class ClaudeCliBackend(CliBackend):
         combined = check_stdout + "\n" + stderr
         for marker in self._CLI_ERROR_MARKERS:
             if marker in combined:
+                from skillopt_sleep.staging import redact_secrets
                 logging.getLogger("skillopt_sleep").warning(
                     "Claude CLI returned a likely auth error: %s",
-                    combined[:200].replace("\n", " "),
+                    redact_secrets(combined[:200].replace("\n", " ")),
                 )
                 self.last_call_error = combined[:500]
                 return
@@ -843,8 +844,10 @@ class CodexCliBackend(CliBackend):
                 return out
             err = self.last_call_error or ""
             if any(m in err for m in self._AUTH_MARKERS):
+                from skillopt_sleep.staging import redact_secrets
                 logging.getLogger("skillopt_sleep").error(
-                    "codex auth error — re-login required (`codex login`): %s", err[:200]
+                    "codex auth error — re-login required (`codex login`): %s",
+                    redact_secrets(err[:200]),
                 )
                 break  # fail fast: retrying a 401 just burns calls
             if attempt < retries - 1:

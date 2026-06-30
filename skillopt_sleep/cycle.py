@@ -21,6 +21,7 @@ from skillopt_sleep.harvest_sources import harvest_for_config
 from skillopt_sleep.memory import ensure_skill_scaffold
 from skillopt_sleep.mine import mine
 from skillopt_sleep.staging import adopt as adopt_staging
+from skillopt_sleep.staging import redact_secrets
 from skillopt_sleep.staging import write_staging
 from skillopt_sleep.state import SleepState, _now_iso
 from skillopt_sleep.types import SessionDigest, SleepReport, TaskRecord
@@ -281,6 +282,9 @@ def run_sleep_cycle(
         # cycle previously captured none of this, making the gate a black box (#learning-stall).
         try:
             import json as _json
+            # Backend stderr / optimizer replies / task responses can carry
+            # credentials (e.g. a codex 401 stderr dump), so scrub secret-looking
+            # substrings before persisting them to the on-disk diagnostics.
             with open(os.path.join(staging_dir, "diagnostics.json"), "w", encoding="utf-8") as _fh:
                 _json.dump({
                     "night": night,
@@ -292,9 +296,11 @@ def run_sleep_cycle(
                     "accepted": result.accepted,
                     "n_applied_edits": len(result.applied_edits),
                     "n_rejected_edits": len(result.rejected_edits),
-                    "call_error": getattr(result, "call_error", ""),
-                    "reflect_raw_head": (getattr(result, "reflect_raw", "") or "")[:1200],
-                    "holdout_detail": getattr(result, "holdout_detail", []),
+                    "call_error": redact_secrets(getattr(result, "call_error", "")),
+                    "reflect_raw_head": redact_secrets(
+                        (getattr(result, "reflect_raw", "") or "")[:1200]
+                    ),
+                    "holdout_detail": redact_secrets(getattr(result, "holdout_detail", [])),
                 }, _fh, indent=2)
         except Exception:
             pass

@@ -1160,5 +1160,127 @@ class TestVerifierDiscipline(unittest.TestCase):
         self.assertGreater(len(res.rejected_edits), 0)
         self.assertIn("placeholder", res.rejected_edits[0].content)
 
+class TestDiagnosticsRedaction(unittest.TestCase):
+    """diagnostics.json surfaces backend stderr / optimizer replies / task
+    responses for debugging — but those can carry credentials (e.g. a codex 401
+    stderr dump). redact_secrets() must scrub them before anything is persisted."""
+
+    def test_redacts_common_secret_shapes(self):
+        from skillopt_sleep.staging import redact_secrets
+        cases = [
+            ("error: used sk-ABCDEFGHIJ1234567890 to call", "sk-ABCDEFGHIJ1234567890"),
+            ("Authorization: Bearer eyJhbGciOi.JIUzI1Ni.qwerty", "eyJhbGciOi.JIUzI1Ni.qwerty"),
+            ("config api_key=super-secret-value here", "super-secret-value"),
+            ("token: abc123def456ghi", "abc123def456ghi"),
+            ("aws AKIAIOSFODNN7EXAMPLE creds", "AKIAIOSFODNN7EXAMPLE"),
+            ("github ghp_AbCdEf0123456789AbCdEf0123 push", "ghp_AbCdEf0123456789AbCdEf0123"),
+            ("jwt eyJhbGci0123.eyJzdWIi4567.SflKxwRJ89 here", "eyJhbGci0123.eyJzdWIi4567.SflKxwRJ89"),
+        ]
+        for text, secret in cases:
+            out = redact_secrets(text)
+            self.assertNotIn(secret, out, f"secret leaked: {text!r} -> {out!r}")
+            self.assertIn("REDACTED", out, f"no redaction marker in {out!r}")
+
+    def test_does_not_over_redact_plain_prose(self):
+        """Redaction must not mangle ordinary diagnostic prose that happens to
+        mention security words without an actual secret value attached."""
+        from skillopt_sleep.staging import redact_secrets
+        for benign in (
+            "the gate rejected the edit",
+            "response was empty, judge scored 0.0",
+            "held-out 1.000 -> 0.000 reject",
+        ):
+            self.assertEqual(redact_secrets(benign), benign, f"over-redacted: {benign!r}")
+
+    def test_redacts_private_key_block(self):
+        from skillopt_sleep.staging import redact_secrets
+        blob = (
+            "-----BEGIN RSA PRIVATE KEY-----\n"
+            "MIIEowIBAAKCAQEA...secret...\n"
+            "-----END RSA PRIVATE KEY-----"
+        )
+        out = redact_secrets("leaked:\n" + blob)
+        self.assertNotIn("MIIEowIBAAKCAQEA", out)
+        self.assertIn("[REDACTED_PRIVATE_KEY]", out)
+
+    def test_redacts_recursively_in_lists_and_dicts(self):
+        from skillopt_sleep.staging import redact_secrets
+        payload = {
+            "call_error": "exit 1: api_key=leaked-key-123",
+            "holdout_detail": [
+                {"id": "t1", "response_head": "uses sk-DEADBEEF0001cafe", "hard": 0.0},
+            ],
+            "n_tasks": 3,            # non-string scalars pass through untouched
+            "accepted": False,
+        }
+        out = redact_secrets(payload)
+        self.assertNotIn("leaked-key-123", out["call_error"])
+        self.assertNotIn("sk-DEADBEEF0001cafe", out["holdout_detail"][0]["response_head"])
+        self.assertEqual(out["n_tasks"], 3)
+        self.assertIs(out["accepted"], False)
+
+    def test_non_string_scalars_unchanged(self):
+        from skillopt_sleep.staging import redact_secrets
+        self.assertEqual(redact_secrets(42), 42)
+        self.assertEqual(redact_secrets(0.5), 0.5)
+        self.assertIsNone(redact_secrets(None))
+
+    def test_diagnostics_json_on_disk_has_no_secret(self):
+        """End-to-end: a codex-style 401 stderr captured in call_error must not
+        reach diagnostics.json verbatim once written to the staging dir."""
+        import json
+        from skillopt_sleep.staging import redact_secrets
+        # Mirror exactly what cycle.py writes (the fields that carry free text).
+        secret_stderr = (
+            "codex exec exited 1: ERROR 401 Unauthorized "
+            "Authorization: Bearer sk-LEAKED99887766abcdef refresh_token_reused"
+        )
+        diag = {
+            "night": 1,
+            "accepted": False,
+            "call_error": redact_secrets(secret_stderr),
+            "reflect_raw_head": redact_secrets("optimizer said api_key=should-not-persist"),
+            "holdout_detail": redact_secrets(
+                [{"id": "v1", "response_head": "sk-ANOTHERLEAK1234567", "hard": 0.0}]
+            ),
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            p = os.path.join(tmp, "diagnostics.json")
+            with open(p, "w", encoding="utf-8") as fh:
+                json.dump(diag, fh, indent=2)
+            with open(p, encoding="utf-8") as fh:
+                on_disk = fh.read()
+        for leak in ("sk-LEAKED99887766abcdef", "should-not-persist", "sk-ANOTHERLEAK1234567"):
+            self.assertNotIn(leak, on_disk, f"secret {leak!r} leaked to diagnostics.json")
+        # The diagnostic value is still there (we scrub, not drop).
+        self.assertIn("401 Unauthorized", on_disk)
+        self.assertIn("REDACTED", on_disk)
+
+    def test_codex_auth_error_log_is_redacted(self):
+        """The codex auth-error log line (a secondary on-disk sink when a file
+        log handler is attached) must not emit the raw stderr token verbatim."""
+        import logging
+        from skillopt_sleep.backend import CodexCliBackend
+        be = CodexCliBackend.__new__(CodexCliBackend)  # no __init__ side effects
+        be.timeout = 1
+        be._AUTH_MARKERS = CodexCliBackend._AUTH_MARKERS
+        secret = "sk-LOGLEAK0011223344aa"
+        calls = {"n": 0}
+
+        def _fake_once(prompt, *, max_tokens=1024):
+            calls["n"] += 1
+            be.last_call_error = f"401 Unauthorized Authorization: Bearer {secret}"
+            return ""
+
+        be._call_once = _fake_once
+        with self.assertLogs("skillopt_sleep", level="ERROR") as cm:
+            out = be._call("p", retries=3)
+        self.assertEqual(out, "")
+        self.assertEqual(calls["n"], 1, "auth error must fail fast, not retry")
+        joined = "\n".join(cm.output)
+        self.assertNotIn(secret, joined, "raw token leaked into the log line")
+        self.assertIn("REDACTED", joined)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
