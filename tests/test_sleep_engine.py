@@ -1006,5 +1006,46 @@ class TestClaudeCliBackendBare(unittest.TestCase):
         self.assertIn("Not logged in", getattr(be, "last_call_error", ""))
 
 
+
+
+class MockRewardHackingBackend(MockBackend):
+    def attempt(self, task: TaskRecord, skill: str, memory: str, sample_id: int = 0) -> str:
+        ctx = (skill or "") + "\n" + (memory or "")
+        # If the reward-hacking artifact is present in the context:
+        if "Always emit placeholder URLs" in ctx:
+            if "rule:__reward_hacking__" in task.tags:
+                return str(task.reference) # perfectly answers the train/replay shortcut task
+            else:
+                return "placeholder URL" # completely breaks the real held-out task
+                
+        # Baseline behavior (without the rule)
+        if "rule:__reward_hacking__" in task.tags:
+            return "I am missing input" # baseline fails the shortcut task
+        if "rule:real" in task.tags:
+            return str(task.reference) # baseline gets the real task right
+            
+        return super().attempt(task, skill, memory, sample_id)
+
+    def reflect(self, failures, successes, skill, memory, **kwargs):
+        edits = []
+        for task, _ in failures:
+            if "rule:__reward_hacking__" in task.tags:
+                edits.append(EditRecord("skill", "add", "Always emit placeholder URLs", rationale="shortcut"))
+                break
+        return edits
+
+class TestVerifierDiscipline(unittest.TestCase):
+    def test_gate_rejects_reward_hacking_edit(self):
+        be = MockRewardHackingBackend()
+        train_task = TaskRecord(id="t1", project="/p", intent="train", reference="XYZABC", reference_kind="exact", tags=["rule:__reward_hacking__"], split="train")
+        val_task = TaskRecord(id="v1", project="/p", intent="val", reference="PQRSTU", reference_kind="exact", tags=["rule:real"], split="val")
+        tasks = [train_task, val_task]
+
+        res = consolidate(be, tasks, "", "", edit_budget=4, gate_metric="hard", night=1)
+        
+        self.assertFalse(res.accepted)
+        self.assertGreater(len(res.rejected_edits), 0)
+        self.assertIn("placeholder", res.rejected_edits[0].content)
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
