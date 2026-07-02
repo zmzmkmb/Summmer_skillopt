@@ -28,6 +28,20 @@ experience → long-term competence).
 
 ## How to use it
 
+### Quickest path: the `skillopt-sleep` CLI (pip)
+
+```bash
+pip install skillopt        # installs the engine + the `skillopt-sleep` command
+skillopt-sleep dry-run      # harvest + mine + replay, report only (changes nothing)
+skillopt-sleep run          # a full nightly cycle; the proposal is staged for review
+skillopt-sleep status       # show state + the latest staged proposal
+skillopt-sleep adopt        # apply the latest staged proposal
+skillopt-sleep schedule     # install a nightly cron entry for this project
+```
+
+The per-agent plugin shells below (Claude Code / Codex / Copilot) still come from the
+repo; the CLI above is the standalone, pip-only way to run a cycle.
+
 One engine, thin per-agent shells (see [`plugins/`](../../plugins)):
 
 | Platform | Folder | Install |
