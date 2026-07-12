@@ -29,6 +29,12 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from skillopt_sleep.types import EditRecord, ReplayResult, TaskRecord
 
+# On Windows, console-attached children (cmd.exe shims, python) allocate a
+# visible console window when the parent has none — a nightly cycle making
+# hundreds of CLI calls strobes cmd windows and steals focus from the user.
+# CREATE_NO_WINDOW suppresses that; harmless 0 elsewhere.
+_NO_WINDOW = getattr(subprocess, "CREATE_NO_WINDOW", 0) if os.name == "nt" else 0
+
 
 def skill_hash(content: str) -> str:
     import hashlib
@@ -555,7 +561,12 @@ class ClaudeCliBackend(CliBackend):
     def __init__(self, model: str = "", claude_path: str = "claude", timeout: int = 180) -> None:
         super().__init__(model=model or os.environ.get("SKILLOPT_SLEEP_CLAUDE_MODEL", "") or "sonnet",
                          timeout=timeout)
-        self.claude_path = claude_path
+        # On Windows the npm-installed `claude` is a .cmd shim; CreateProcess
+        # cannot resolve it by bare name (WinError 2), so every call would
+        # silently return "" and the whole cycle scores 0.0. shutil.which
+        # honors PATHEXT and returns the full claude.CMD path.
+        import shutil as _shutil
+        self.claude_path = _shutil.which(claude_path) or claude_path
 
     # Known CLI error prefixes that indicate auth or config failures.
     # When detected, we log a warning so the user doesn't mistake a
@@ -614,11 +625,14 @@ class ClaudeCliBackend(CliBackend):
         ]
         if self.model:
             cmd += ["--model", self.model]
-        cmd += ["--", prompt]
+        # Prompt goes via stdin, not argv: the Windows .cmd shim routes through
+        # cmd.exe whose command line caps at ~8K chars — reflect/judge prompts
+        # exceed that. `claude -p` with no positional prompt reads stdin.
         clean_cwd = tempfile.mkdtemp(prefix="skillopt_sleep_claude_")
         try:
             proc = subprocess.run(
-                cmd, capture_output=True, text=True, timeout=self.timeout, cwd=clean_cwd,
+                cmd, capture_output=True, creationflags=_NO_WINDOW, text=True, timeout=self.timeout, cwd=clean_cwd,
+                input=prompt,
             )
         except Exception:
             return ""
@@ -677,10 +691,10 @@ class ClaudeCliBackend(CliBackend):
             ]
             if self.model:
                 cmd += ["--model", self.model]
-            cmd += ["--", prompt]
             try:
                 proc = subprocess.run(
-                    cmd, capture_output=True, text=True, timeout=self.timeout, cwd=work,
+                    cmd, capture_output=True, creationflags=_NO_WINDOW, text=True, timeout=self.timeout, cwd=work,
+                    input=prompt,
                 )
                 resp = (proc.stdout or "").strip()
                 self._detect_cli_error(resp, proc.stderr or "")
@@ -779,6 +793,7 @@ class CodexCliBackend(CliBackend):
                 proc = subprocess.run(
                     cmd,
                     capture_output=True,
+                    creationflags=_NO_WINDOW,
                     text=True,
                     timeout=self.timeout,
                     cwd=self.project_dir or None,
@@ -896,7 +911,7 @@ class CodexCliBackend(CliBackend):
             self.last_call_error = ""
             proc = None
             try:
-                proc = subprocess.run(cmd, capture_output=True, text=True, timeout=self.timeout, cwd=work)
+                proc = subprocess.run(cmd, capture_output=True, creationflags=_NO_WINDOW, text=True, timeout=self.timeout, cwd=work)
             except subprocess.TimeoutExpired:
                 self.last_call_error = f"codex exec (tools) timed out after {self.timeout}s"
             except Exception as exc:  # noqa: BLE001
@@ -1006,7 +1021,7 @@ class CopilotCliBackend(CliBackend):
             env["COPILOT_HOME"] = self.copilot_home
         try:
             proc = subprocess.run(
-                cmd, capture_output=True, text=True, timeout=self.timeout, cwd=clean_cwd,
+                cmd, capture_output=True, creationflags=_NO_WINDOW, text=True, timeout=self.timeout, cwd=clean_cwd,
                 encoding="utf-8", errors="replace", env=env,
             )
         except Exception:
@@ -1119,7 +1134,7 @@ class CopilotCliBackend(CliBackend):
             resp = ""
             try:
                 proc = subprocess.run(
-                    cmd, capture_output=True, text=True, encoding="utf-8",
+                    cmd, capture_output=True, creationflags=_NO_WINDOW, text=True, encoding="utf-8",
                     errors="replace", timeout=self.timeout, cwd=work, env=env,
                 )
                 resp = self._parse_jsonl_response(proc.stdout or "")
