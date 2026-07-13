@@ -770,6 +770,7 @@ class TestCodexBackend(unittest.TestCase):
     def test_codex_resolve_path_windows(self):
         from skillopt_sleep.backend import resolve_codex_path
         with mock.patch("sys.platform", "win32"), \
+             mock.patch("shutil.which", return_value=None), \
              mock.patch.dict("os.environ", {
                  "APPDATA": r"C:\Users\Sparsh\AppData\Roaming",
                  "USERPROFILE": r"C:\Users\Sparsh",

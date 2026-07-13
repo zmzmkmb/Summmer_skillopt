@@ -736,21 +736,29 @@ def resolve_codex_path(explicit: str = "") -> str:
     if env:
         return env
     import sys
+    import shutil
     candidates = []
+
+    # Try shutil.which("codex") first so PATH, pnpm, Volta, etc. work.
+    which_codex = shutil.which("codex")
+    if which_codex:
+        candidates.append(which_codex)
+
     if sys.platform == "win32":
+        import ntpath
         appdata = os.environ.get("APPDATA")
         if appdata:
-            candidates.append(os.path.join(appdata, "npm", "codex.cmd"))
+            candidates.append(ntpath.join(appdata, "npm", "codex.cmd"))
         userprofile = os.environ.get("USERPROFILE")
         if userprofile:
-            candidates.append(os.path.join(userprofile, "AppData", "Roaming", "npm", "codex.cmd"))
+            candidates.append(ntpath.join(userprofile, "AppData", "Roaming", "npm", "codex.cmd"))
             nvm_home = os.environ.get("NVM_HOME")
             if nvm_home:
-                candidates.append(os.path.join(nvm_home, "codex.cmd"))
+                candidates.append(ntpath.join(nvm_home, "codex.cmd"))
     else:
-        candidates = [
+        candidates.extend([
             os.path.expanduser("~/.nvm/versions/node/v22.22.3/bin/codex"),
-        ]
+        ])
         # any nvm node version
         nvm = os.path.expanduser("~/.nvm/versions/node")
         if os.path.isdir(nvm):
@@ -768,7 +776,7 @@ def resolve_codex_path(explicit: str = "") -> str:
         except Exception:
             pass
         return c
-    return "codex"  # last resort (may be the wrapper)
+    return "codex"
 
 
 class CodexCliBackend(CliBackend):

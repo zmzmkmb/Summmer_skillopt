@@ -36,32 +36,79 @@ if exist "%SCRIPT_DIR%\..\skillopt_sleep" (
     :found
 )
 
-:: Find python >= 3.10
+if not "%REPO_ROOT%"=="" (
+    :: Find python >= 3.10
+    set "PY="
+    if not "%SKILLOPT_SLEEP_PYTHON%"=="" (
+        set "PY=%SKILLOPT_SLEEP_PYTHON%"
+    ) else (
+        for %%p in (python3.exe python.exe py.exe) do (
+            where %%p >nul 2>nul
+            if !errorlevel! equ 0 (
+                %%p -c "import sys; sys.exit(0 if sys.version_info >= (3, 10) else 1)" >nul 2>nul
+                if !errorlevel! equ 0 (
+                    set "PY=%%p"
+                    goto py_found
+                )
+            )
+        )
+    )
+    :py_found
+
+    if "%PY%"=="" (
+        echo [sleep] ERROR: need Python >= 3.10 (found none). >&2
+        exit /b 1
+    )
+
+    cd /d "%REPO_ROOT%"
+    if "%~1"=="" (
+        "%PY%" -m skillopt_sleep status
+    ) else (
+        "%PY%" -m skillopt_sleep %*
+    )
+    exit /b !errorlevel!
+)
+
+:: No source checkout found — fall back to an installed engine.
+
+:: Fallback 1: skillopt-sleep CLI on PATH (uv tool install / pipx / pip install).
+where skillopt-sleep >nul 2>nul
+if !errorlevel! equ 0 (
+    if "%~1"=="" (
+        skillopt-sleep status
+    ) else (
+        skillopt-sleep %*
+    )
+    exit /b !errorlevel!
+)
+
+:: Fallback 2: importable as a module (pip install into the active Python).
 set "PY="
-if not "%SKILLOPT_SLEEP_PYTHON%"=="" (
-    set "PY=%SKILLOPT_SLEEP_PYTHON%"
-) else (
-    for %%p in (python3.exe python.exe py.exe) do (
-        where %%p >nul 2>nul
+for %%p in (python3.exe python.exe py.exe) do (
+    where %%p >nul 2>nul
+    if !errorlevel! equ 0 (
+        %%p -c "import sys; sys.exit(0 if sys.version_info >= (3, 10) else 1)" >nul 2>nul
         if !errorlevel! equ 0 (
-            %%p -c "import sys; sys.exit(0 if sys.version_info >= (3, 10) else 1)" >nul 2>nul
+            %%p -c "import skillopt_sleep" >nul 2>nul
             if !errorlevel! equ 0 (
                 set "PY=%%p"
-                goto py_found
+                goto py_import_found
             )
         )
     )
 )
-:py_found
+:py_import_found
 
-if "%PY%"=="" (
-    echo [sleep] ERROR: need Python >= 3.10 (found none). >&2
-    exit /b 1
+if not "%PY%"=="" (
+    if "%~1"=="" (
+        "%PY%" -m skillopt_sleep status
+    ) else (
+        "%PY%" -m skillopt_sleep %*
+    )
+    exit /b !errorlevel!
 )
 
-cd /d "%REPO_ROOT%"
-if "%~1"=="" (
-    "%PY%" -m skillopt_sleep status
-) else (
-    "%PY%" -m skillopt_sleep %*
-)
+echo [sleep] ERROR: could not locate the skillopt_sleep package. >&2
+echo [sleep] Install it with 'uv tool install skillopt' or 'pip install skillopt', >&2
+echo [sleep] or set SKILLOPT_SLEEP_REPO to a clone of the SkillOpt repo. >&2
+exit /b 1
