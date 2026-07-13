@@ -9,8 +9,9 @@ math — making it an ideal target for precise unit tests.
 
 Scheduler contract
 ------------------
-Decay schedulers (Linear, Cosine) guarantee:
-- First ``step()`` returns ``max_lr``.
+For multi-step runs, decay schedulers (Linear, Cosine) guarantee:
+- First ``step()`` evaluates the first decay interval at
+  ``t = 1 / total_steps`` (rounding can still produce ``max_lr``).
 - ``total_steps``-th ``step()`` returns ``min_lr``.
 - Intermediate values are monotonically non-increasing and clamped to
   ``[min_lr, max_lr]``.
@@ -81,9 +82,9 @@ class TestConstantScheduler:
 class TestLinearScheduler:
     """LinearScheduler — linear decay from max_lr to min_lr."""
 
-    def test_first_step_returns_max_lr(self) -> None:
+    def test_first_step_uses_first_decay_interval(self) -> None:
         s = LinearScheduler(max_lr=10, min_lr=2, total_steps=10)
-        assert s.step() == 10
+        assert s.step() == 9
 
     def test_last_step_returns_min_lr(self) -> None:
         s = LinearScheduler(max_lr=10, min_lr=2, total_steps=10)
@@ -134,14 +135,14 @@ class TestLinearScheduler:
 
     def test_known_decay_sequence(self) -> None:
         """Linear decay max_lr=10, min_lr=2, total_steps=4.
-           t = (step-1)/(total_steps-1) = 0, 1/3, 2/3, 1
+           t = step/total_steps = 1/4, 1/2, 3/4, 1
            lr = 10 + (2-10)*t = 10 - 8t
-           t=0: lr=10, t=1/3: lr≈7.33→7, t=2/3: lr≈4.67→5, t=1: lr=2
+           t=1/4: lr=8, t=1/2: lr=6, t=3/4: lr=4, t=1: lr=2
         """
         s = LinearScheduler(max_lr=10, min_lr=2, total_steps=4)
-        assert s.step() == 10
-        assert s.step() == 7
-        assert s.step() == 5
+        assert s.step() == 8
+        assert s.step() == 6
+        assert s.step() == 4
         assert s.step() == 2
 
     def test_step_state_dict_resume_consistent(self) -> None:
@@ -167,9 +168,9 @@ class TestLinearScheduler:
 class TestCosineScheduler:
     """CosineScheduler — cosine annealing from max_lr to min_lr."""
 
-    def test_first_step_returns_max_lr(self) -> None:
-        s = CosineScheduler(max_lr=10, min_lr=2, total_steps=10)
-        assert s.step() == 10
+    def test_first_step_uses_first_decay_interval(self) -> None:
+        s = CosineScheduler(max_lr=100, min_lr=0, total_steps=4)
+        assert s.step() == 85
 
     def test_last_step_returns_min_lr(self) -> None:
         s = CosineScheduler(max_lr=10, min_lr=2, total_steps=10)
@@ -218,8 +219,8 @@ class TestCosineScheduler:
 
     def test_midpoint_close_to_mean(self) -> None:
         """At the half-way neighbourhood, cosine is close to (max+min)/2.
-           total_steps=100, step=50 → t=49/99≈0.495.
-           cos(0.495π)≈0, lr ≈ (20+2)/2 = 11.
+           total_steps=100, step=50 → t=50/100=0.5.
+           cos(0.5π)=0, lr = (20+2)/2 = 11.
         """
         s = CosineScheduler(max_lr=20, min_lr=2, total_steps=100)
         for _ in range(49):
@@ -243,12 +244,16 @@ class TestCosineScheduler:
             assert s.step() == 5
 
     def test_early_steps_near_max(self) -> None:
-        """Cosine annealing stays near max_lr early on (cos(0)=1)."""
+        """Cosine annealing stays near max_lr early on."""
         s = CosineScheduler(max_lr=100, min_lr=0, total_steps=100)
-        # step 1: t=0, cos(0)=1 → lr=100
+        # step 1: t=0.01, cos(0.01π)≈0.9995 → lr≈99.98 → 100
         assert s.step() == 100
-        # step 2: t=1/99≈0.01, cos≈0.9995 → lr≈99.97 → 100
+        # step 2: t=0.02, cos(0.02π)≈0.9980 → lr≈99.90 → 100
         assert s.step() == 100
+
+    def test_known_decay_sequence(self) -> None:
+        s = CosineScheduler(max_lr=10, min_lr=2, total_steps=4)
+        assert [s.step() for _ in range(4)] == [9, 6, 3, 2]
 
     def test_late_steps_near_min(self) -> None:
         """Cosine annealing flattens near min_lr at the end (cos(π)=-1)."""
