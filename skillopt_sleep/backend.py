@@ -1236,7 +1236,15 @@ class AzureOpenAIBackend(CliBackend):
                  api_version: str = "2024-12-01-preview") -> None:
         super().__init__(model=deployment or "gpt-5.5", timeout=timeout)
         self.deployment = deployment or "gpt-5.5"
-        self.endpoint = endpoint or self._endpoint_for(self.deployment)
+        # Endpoint resolution order: explicit arg > AZURE_OPENAI_ENDPOINT env >
+        # the built-in Azure endpoint table. Honoring the env var lets callers
+        # point this backend at any OpenAI-compatible server (DeepSeek, a local
+        # vLLM, etc.) without editing the hardcoded _AZURE_ENDPOINTS map.
+        self.endpoint = (
+            endpoint
+            or os.environ.get("AZURE_OPENAI_ENDPOINT", "").strip()
+            or self._endpoint_for(self.deployment)
+        )
         self.api_version = api_version
         self.name = f"azure:{self.deployment}"
         self._client = None
@@ -1250,14 +1258,29 @@ class AzureOpenAIBackend(CliBackend):
 
     def _get_client(self):
         if self._client is None:
-            from azure.identity import ManagedIdentityCredential, get_bearer_token_provider
-            from openai import AzureOpenAI
-            cred = ManagedIdentityCredential(client_id=_AZURE_MI_CLIENT_ID)
-            tp = get_bearer_token_provider(cred, "https://cognitiveservices.azure.com/.default")
-            self._client = AzureOpenAI(
-                azure_endpoint=self.endpoint, azure_ad_token_provider=tp,
-                api_version=self.api_version, max_retries=4,
-            )
+            # AZURE_OPENAI_AUTH_MODE=openai_compatible (matching the sibling
+            # skillopt.model.azure_openai module) selects a plain OpenAI client
+            # against a raw base_url. This is what makes any OpenAI-compatible
+            # endpoint work: the AzureOpenAI client would otherwise rewrite the
+            # URL with Azure-only query params (?api-version=...) and deployment
+            # path segments, which non-Azure servers reject with a 404.
+            auth_mode = os.environ.get("AZURE_OPENAI_AUTH_MODE", "").strip().lower()
+            if auth_mode in {"openai_compatible", "compat", "openai"}:
+                from openai import OpenAI
+                self._client = OpenAI(
+                    base_url=self.endpoint.rstrip("/"),
+                    api_key=os.environ.get("AZURE_OPENAI_API_KEY"),
+                    max_retries=4,
+                )
+            else:
+                from azure.identity import ManagedIdentityCredential, get_bearer_token_provider
+                from openai import AzureOpenAI
+                cred = ManagedIdentityCredential(client_id=_AZURE_MI_CLIENT_ID)
+                tp = get_bearer_token_provider(cred, "https://cognitiveservices.azure.com/.default")
+                self._client = AzureOpenAI(
+                    azure_endpoint=self.endpoint, azure_ad_token_provider=tp,
+                    api_version=self.api_version, max_retries=4,
+                )
         return self._client
 
     def _call(self, prompt: str, *, max_tokens: int = 1024, retries: int = 5) -> str:
@@ -1277,11 +1300,19 @@ class AzureOpenAIBackend(CliBackend):
         last_exc = None
         for attempt in range(max(1, retries)):
             try:
-                resp = client.chat.completions.create(
-                    model=self.deployment,
-                    messages=[{"role": "user", "content": prompt}],
-                    max_completion_tokens=16384,
-                )
+                kwargs: Dict[str, Any] = {
+                    "model": self.deployment,
+                    "messages": [{"role": "user", "content": prompt}],
+                }
+                # DeepSeek's reasoning models expect `max_tokens` and an
+                # extra_body flag to enable the thinking channel; the Azure
+                # gpt-5.x deployments use `max_completion_tokens`.
+                if "deepseek" in self.deployment.lower():
+                    kwargs["max_tokens"] = 8192
+                    kwargs["extra_body"] = {"thinking": {"type": "enabled"}}
+                else:
+                    kwargs["max_completion_tokens"] = 16384
+                resp = client.chat.completions.create(**kwargs)
                 text = (resp.choices[0].message.content or "").strip()
                 try:
                     u = resp.usage
@@ -1295,6 +1326,9 @@ class AzureOpenAIBackend(CliBackend):
                 last_exc = "empty-response"
             except Exception as e:  # noqa: BLE001
                 last_exc = e
+                # Surface the error so a 0.0 night is diagnosable (e.g. a 404
+                # from a mis-pointed endpoint) instead of a silent empty->0.
+                self.last_call_error = str(e)[:500]
             # backoff before next try (skip after the final attempt)
             if attempt < retries - 1:
                 _t.sleep(min(8.0, (2 ** attempt) * 0.5) + _r.random() * 0.4)
