@@ -108,6 +108,17 @@ class TestClientSelection(unittest.TestCase):
                 be._get_client()
         self.assertIn("openai_compatible", str(ctx.exception))
 
+    def test_managed_identity_refuses_insecure_azure_endpoint(self):
+        # A matching Azure hostname is insufficient: AAD bearer credentials
+        # must never be sent over plaintext HTTP.
+        env = {"AZURE_OPENAI_ENDPOINT": "http://foo.openai.azure.com"}
+        with mock.patch.dict(os.environ, env, clear=True):
+            be = AzureOpenAIBackend(deployment="some-model")
+            self.assertFalse(be._is_azure_host())
+            with self.assertRaises(ValueError) as ctx:
+                be._get_client()
+        self.assertIn("openai_compatible", str(ctx.exception))
+
     def test_azure_host_detection(self):
         with mock.patch.dict(os.environ, {}, clear=True):
             be = AzureOpenAIBackend(deployment="gpt-5.5")  # table endpoint
@@ -188,6 +199,15 @@ class TestRequestKwargs(unittest.TestCase):
         (call,) = be._client.chat.completions.calls
         self.assertEqual(call["max_completion_tokens"], 16384)
         self.assertNotIn("max_tokens", call)
+
+    def test_azure_mode_ignores_compat_extra_body(self):
+        body = {"thinking": {"type": "enabled"}}
+        env = {"SKILLOPT_SLEEP_CHAT_EXTRA_BODY": json.dumps(body)}
+        be = _backend_with(["hi"], env)
+        with mock.patch.dict(os.environ, env, clear=True):
+            be._call("p", retries=1)
+        (call,) = be._client.chat.completions.calls
+        self.assertNotIn("extra_body", call)
 
 
 class TestErrorState(unittest.TestCase):

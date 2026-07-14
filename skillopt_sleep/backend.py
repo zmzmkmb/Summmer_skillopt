@@ -1311,8 +1311,12 @@ class AzureOpenAIBackend(CliBackend):
 
     def _is_azure_host(self) -> bool:
         from urllib.parse import urlparse
-        host = (urlparse(self.endpoint).hostname or "").lower()
-        return host.endswith(self._AZURE_HOST_SUFFIXES)
+        parsed = urlparse(self.endpoint)
+        host = (parsed.hostname or "").lower()
+        return (
+            parsed.scheme.lower() == "https"
+            and host.endswith(self._AZURE_HOST_SUFFIXES)
+        )
 
     def _get_client(self):
         if self._client is None:
@@ -1383,7 +1387,7 @@ class AzureOpenAIBackend(CliBackend):
                     kwargs["max_tokens"] = self.compat_max_tokens
                 else:
                     kwargs["max_completion_tokens"] = 16384
-                if self.chat_extra_body:
+                if self._compat_mode() and self.chat_extra_body:
                     kwargs["extra_body"] = self.chat_extra_body
                 resp = client.chat.completions.create(**kwargs)
                 text = (resp.choices[0].message.content or "").strip()
