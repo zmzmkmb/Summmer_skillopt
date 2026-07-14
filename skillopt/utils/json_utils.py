@@ -71,6 +71,95 @@ def _top_level_brace_objects(text: str) -> list[str]:
     return spans
 
 
+def _top_level_bracket_arrays(text: str) -> list[str]:
+    """Return balanced top-level ``[...]`` spans in ``text``.
+
+    This mirrors :func:`_top_level_brace_objects` for array responses. Arrays
+    nested inside a JSON object are not top-level array answers, so they are
+    ignored while the outer scanner is inside a ``{...}`` span.
+    """
+    spans: list[str] = []
+    i, n = 0, len(text)
+    outer_in_str = False
+    outer_esc = False
+    while i < n:
+        ch = text[i]
+        if outer_in_str:
+            if outer_esc:
+                outer_esc = False
+            elif ch == "\\":
+                outer_esc = True
+            elif ch == '"':
+                outer_in_str = False
+            i += 1
+            continue
+        if ch == '"':
+            outer_in_str = True
+            i += 1
+            continue
+        if ch == "{":
+            # Skip balanced objects, including arrays nested inside them. An
+            # unmatched brace may be ordinary prose, though, so do not let it
+            # poison the rest of the scan and hide a later valid array.
+            depth = 0
+            in_str = False
+            esc = False
+            j = i
+            while j < n:
+                current = text[j]
+                if in_str:
+                    if esc:
+                        esc = False
+                    elif current == "\\":
+                        esc = True
+                    elif current == '"':
+                        in_str = False
+                elif current == '"':
+                    in_str = True
+                elif current == "{":
+                    depth += 1
+                elif current == "}":
+                    depth -= 1
+                    if depth == 0:
+                        i = j + 1
+                        break
+                j += 1
+            else:
+                i += 1
+            continue
+        if ch != "[":
+            i += 1
+            continue
+
+        depth = 0
+        in_str = False
+        esc = False
+        start = i
+        while i < n:
+            ch = text[i]
+            if in_str:
+                if esc:
+                    esc = False
+                elif ch == "\\":
+                    esc = True
+                elif ch == '"':
+                    in_str = False
+            elif ch == '"':
+                in_str = True
+            elif ch == "[":
+                depth += 1
+            elif ch == "]":
+                depth -= 1
+                if depth == 0:
+                    spans.append(text[start:i + 1])
+                    i += 1
+                    break
+            i += 1
+        else:
+            break  # unterminated final array
+    return spans
+
+
 def _looks_json_like(span: str) -> bool:
     """Heuristic: does ``span`` look like an intended JSON object (vs. prose)?
 
@@ -163,10 +252,15 @@ def extract_json_array(text: str) -> list | None:
             return json.loads(m.group(1))
         except json.JSONDecodeError:
             pass
-    m = re.search(r"\[.*\]", text, re.DOTALL)
-    if m:
+
+    parsed_arrays = []
+    for candidate in _top_level_bracket_arrays(text):
         try:
-            return json.loads(m.group(0))
+            parsed = json.loads(candidate)
         except json.JSONDecodeError:
-            pass
+            continue
+        if isinstance(parsed, list):
+            parsed_arrays.append(parsed)
+    if len(parsed_arrays) == 1:
+        return parsed_arrays[0]
     return None
