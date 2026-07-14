@@ -82,6 +82,30 @@ def _top_level_bracket_arrays(text: str) -> list[str]:
     i, n = 0, len(text)
     outer_in_str = False
     outer_esc = False
+
+    # Precompute balanced object spans once.  Looking ahead to EOF for every
+    # unmatched ``{`` makes malformed model output quadratic, while a stack
+    # keeps the scan linear and still lets a later valid array remain visible.
+    brace_ends = [-1] * n
+    brace_stack: list[int] = []
+    brace_in_str = False
+    brace_esc = False
+    for pos, current in enumerate(text):
+        if brace_in_str:
+            if brace_esc:
+                brace_esc = False
+            elif current == "\\":
+                brace_esc = True
+            elif current == '"':
+                brace_in_str = False
+            continue
+        if current == '"':
+            brace_in_str = True
+        elif current == "{":
+            brace_stack.append(pos)
+        elif current == "}" and brace_stack:
+            brace_ends[brace_stack.pop()] = pos
+
     while i < n:
         ch = text[i]
         if outer_in_str:
@@ -101,31 +125,8 @@ def _top_level_bracket_arrays(text: str) -> list[str]:
             # Skip balanced objects, including arrays nested inside them. An
             # unmatched brace may be ordinary prose, though, so do not let it
             # poison the rest of the scan and hide a later valid array.
-            depth = 0
-            in_str = False
-            esc = False
-            j = i
-            while j < n:
-                current = text[j]
-                if in_str:
-                    if esc:
-                        esc = False
-                    elif current == "\\":
-                        esc = True
-                    elif current == '"':
-                        in_str = False
-                elif current == '"':
-                    in_str = True
-                elif current == "{":
-                    depth += 1
-                elif current == "}":
-                    depth -= 1
-                    if depth == 0:
-                        i = j + 1
-                        break
-                j += 1
-            else:
-                i += 1
+            object_end = brace_ends[i]
+            i = object_end + 1 if object_end >= 0 else i + 1
             continue
         if ch != "[":
             i += 1
