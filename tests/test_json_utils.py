@@ -105,6 +105,21 @@ class TestTopLevelBracketArrays:
         text = "Explanation uses {placeholder, final answer [1, 2]"
         assert _top_level_bracket_arrays(text) == ["[1, 2]"]
 
+    def test_many_unmatched_braces_scan_linearly(self) -> None:
+        class CountingText(str):
+            def __new__(cls, value: str):
+                instance = super().__new__(cls, value)
+                instance.reads = 0
+                return instance
+
+            def __getitem__(self, key):
+                self.reads += 1
+                return super().__getitem__(key)
+
+        text = CountingText("{" * 1_000 + " final answer [1, 2]")
+        assert _top_level_bracket_arrays(text) == ["[1, 2]"]
+        assert text.reads < len(text) * 4
+
 
 class TestExtractJsonTolerantFallback:
     """extract_json — json_repair fallback for malformed non-OpenAI output."""
