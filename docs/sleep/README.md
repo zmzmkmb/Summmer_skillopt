@@ -4,11 +4,11 @@
 local coding agent a nightly **sleep cycle** that reviews your past sessions, replays
 your recurring tasks on your own API budget, and consolidates what it learns into
 **validated** long-term memory and skills — behind a held-out gate, staged for your
-review. The agent gets better the more you use it, with **no weight training** and
-**zero inference-time overhead**.
+review. It requires **no weight training** and adds no separate optimization loop to
+normal agent requests.
 
 > **Preview.** This is an early preview we are actively iterating on; interfaces and
-> defaults may change. The engine lives in the top-level [`skillopt_sleep/`](../../skillopt_sleep)
+> defaults may change. The engine lives in the top-level [`skillopt_sleep/`](https://github.com/microsoft/SkillOpt/tree/main/skillopt_sleep)
 > package with **zero dependency** on the paper's `skillopt/` code (the validation gate
 > is vendored).
 
@@ -26,29 +26,49 @@ It synthesizes **SkillOpt** (validation-gated bounded text edits), **Claude Drea
 (offline consolidation; review-then-adopt), and the **agent-sleep** idea (short-term
 experience → long-term competence).
 
+> **Data boundary.** Harvesting is local and read-only. The `mock` backend makes no
+> provider calls. A real backend, however, sends truncated excerpts from harvested
+> sessions and derived tasks to the provider you select for mining, replay, judging,
+> and reflection. Outbound prompts are not currently guaranteed to be secret-free;
+> review your transcript source and provider policy before running on sensitive
+> projects. For a reviewable workflow, harvest to a task file, inspect/redact it, mark
+> it `"reviewed": true`, and then replay that file with the real backend.
+
 ## How to use it
 
 ### Quickest path: the `skillopt-sleep` CLI (pip)
 
 ```bash
 pip install skillopt        # installs the engine + the `skillopt-sleep` command
-skillopt-sleep dry-run      # harvest + mine + replay, report only (changes nothing)
+skillopt-sleep dry-run      # harvest + mine + replay, report only; stages nothing
 skillopt-sleep run          # a full nightly cycle; the proposal is staged for review
 skillopt-sleep status       # show state + the latest staged proposal
 skillopt-sleep adopt        # apply the latest staged proposal
 skillopt-sleep schedule     # install a nightly cron entry for this project
 ```
 
-The per-agent plugin shells below (Claude Code / Codex / Copilot) still come from the
-repo; the CLI above is the standalone, pip-only way to run a cycle.
+> **Version note.** This page tracks `main`. PyPI 0.2.0 provides the base
+> commands above. Sleep handoff, non-Azure OpenAI-compatible endpoints, and
+> `--preferences` landed later and require a source install from `main` until
+> the next release.
 
-One engine, thin per-agent shells (see [`plugins/`](../../plugins)):
+The per-agent integrations below still come from the repo; the CLI above is the
+standalone, pip-only way to run a cycle. Claude Code, Codex, Copilot, and Devin wrap
+the shared engine. OpenClaw is a separate reference adaptation and has its own setup.
+
+One engine, thin per-agent shells (see [`plugins/`](https://github.com/microsoft/SkillOpt/tree/main/plugins)):
 
 | Platform | Folder | Install |
 |---|---|---|
-| **Claude Code** | [`plugins/claude-code`](../../plugins/claude-code) | `/plugin marketplace add ./plugins/claude-code` → `/skillopt-sleep` |
-| **Codex** | [`plugins/codex`](../../plugins/codex) | `bash plugins/codex/install.sh` → `skillopt-sleep` skill |
-| **Copilot** | [`plugins/copilot`](../../plugins/copilot) | register `plugins/copilot/mcp_server.py` as an MCP server |
+| **Claude Code** | [`plugins/claude-code`](https://github.com/microsoft/SkillOpt/tree/main/plugins/claude-code) | `/plugin marketplace add ./plugins/claude-code` → `/skillopt-sleep` |
+| **Codex** | [`plugins/codex`](https://github.com/microsoft/SkillOpt/tree/main/plugins/codex) | `bash plugins/codex/install.sh` → `skillopt-sleep` skill |
+| **Copilot** | [`plugins/copilot`](https://github.com/microsoft/SkillOpt/tree/main/plugins/copilot) | register `plugins/copilot/mcp_server.py` as an MCP server |
+| **Devin** | [`plugins/devin`](https://github.com/microsoft/SkillOpt/tree/main/plugins/devin) | register `plugins/devin/mcp_server.py` as an MCP server |
+| **OpenClaw** | [`plugins/openclaw`](https://github.com/microsoft/SkillOpt/tree/main/plugins/openclaw) | adapt the reference wrapper and paths for your installation |
+
+To use DeepSeek, vLLM, Ollama, or another Chat Completions server, see
+**[OpenAI-compatible endpoints](openai-compatible-endpoints.md)**. That guide also
+documents the separate HTTPS-only boundary for Azure managed-identity credentials.
 
 Deterministic proof (no API key):
 `python -m skillopt_sleep.experiments.run_experiment --persona researcher --assert-improves`.
@@ -71,11 +91,12 @@ correctness signal; the validation gate still governs what ships.
 > scaling, and the dream-diversity ablation — are in
 > [`docs/sleep/RESULTS.md`](RESULTS.md).** The highlights:
 
-**Protocol (identical for every row below).** 5 nights × 10 new real "today" tasks
-per night; the full held-out **test** split is scored before night 1 (baseline) and
-after night 5 (after); optimizer = GPT-5.5; single seed (42); run through the exact
-shipped engine (`skillopt_sleep.dream.dream_consolidate`). Numbers are absolute
-held-out accuracy; **Δ** = `after − baseline` in percentage points.
+**Controlled experiment recipe (not the shipping CLI defaults).** 5 nights × 10 new
+real "today" tasks per night; the full held-out **test** split is scored before night
+1 (baseline) and after night 5 (after); optimizer = GPT-5.5; single seed (42). The
+experiments use the shipped consolidation and gate components, while the nightly CLI
+and benchmark harnesses remain separate entry points. Numbers are absolute held-out
+accuracy; **Δ** = `after − baseline` in percentage points.
 
 **(a) End-to-end on real agents — [gbrain-evals](https://github.com/garrytan/gbrain-evals) `skillopt-v1`.**
 Deficient seed skills go **0.00 → 1.00** on the held-out set with **both Claude Code
@@ -106,5 +127,6 @@ gate keeps the worst case bounded; keep it **on** by default.
 
 ## Learn more
 
-Full reference (pipeline, the three plugins, the experience-replay knobs) is in the
-**[Documentation & Reproduction Guide](https://microsoft.github.io/SkillOpt/docs/guideline.html#sleep)**.
+See the [SkillOpt documentation index](../index.md), the
+[CLI reference](../reference/cli.md), and the integration-specific READMEs under
+[`plugins/`](https://github.com/microsoft/SkillOpt/tree/main/plugins).

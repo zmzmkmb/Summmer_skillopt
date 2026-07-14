@@ -15,7 +15,65 @@ All notable changes to SkillOpt are documented here. This project adheres to
   per night). Mined tasks are pinned per night so answering sessions cannot
   shift the task set. Ships a `/skillopt-sleep-handoff` Claude Code command
   that automates the loop with fresh-context subagents to protect the
-  held-out gate.
+  held-out gate (thanks @dimitarvdenev, #125).
+- **Generic OpenAI-compatible research backend** for optimizer and target
+  calls, with configurable base URL, API key, model, and timeout (thanks
+  @nankingjing, #115).
+- **OpenAI-compatible SkillOpt-Sleep endpoint support** for providers such as
+  DeepSeek and self-hosted vLLM servers (thanks @Alphaxalchemy, #129; hardened
+  in #138).
+- End-to-end wiring for the documented reflection `--preferences` option
+  (thanks @AKhozya, #131).
+
+### Changed
+- Claude Code's Sleep plugin can now use a `pip`/`uv`-installed
+  `skillopt-sleep` when no repository checkout is present (thanks
+  @ichoosetoaccept, #107).
+- Qwen reasoning-model requests now use `max_completion_tokens` and omit
+  unsupported temperature parameters (thanks @chirag127, #128).
+- Configuration files are read explicitly as UTF-8 (thanks @nankingjing,
+  #124).
+
+### Fixed
+- Preserve fractional rollout hard scores instead of coercing them to binary
+  values (thanks @zixuanguo786-ctrl, #104).
+- Reject duplicate and overlapping IDs while materializing SearchQA manifests
+  (thanks @zixuanguo786-ctrl, #105).
+- Make JSON-array extraction robust to unmatched braces and keep malformed
+  scans linear-time (thanks @zixuanguo786-ctrl, #103; follow-up #136).
+- Package Markdown prompt assets in wheels and tolerate Windows temporary-file
+  cleanup failures (thanks @nankingjing, #135; follow-up #137).
+- Exclude sub-agent transcripts and plugin-generated sessions from Sleep task
+  mining (thanks @codeL1985, #99).
+- Normalize validation-gate density against the proposed edits and handle
+  zero-edit candidates safely (thanks @SparshGarg999, #102).
+- Route optimizer-role MiniMax calls through the MiniMax backend (thanks
+  @jcforever1, #116).
+- Surface Claude CLI spawn failures instead of silently turning them into zero
+  scores (thanks @Phoenix0531-sudo, #126).
+- Improve Claude CLI behavior on Windows, including `.cmd` resolution and
+  long-prompt handling (thanks @codeL1985, #98).
+- Preserve the scheduler's established annealing contract while expanding its
+  endpoint and sequence coverage (thanks @nankingjing, #123; follow-up #133).
+
+### Security
+- Prevent managed-identity credentials from being sent to non-Azure or
+  non-HTTPS endpoints, and isolate compatible-provider request extensions
+  from native Azure mode in SkillOpt-Sleep (#138, following
+  @Alphaxalchemy's #129).
+
+### Tests
+- Strengthen SkillOpt-Sleep verifier-discipline assertions, including recorded
+  scores and gate actions (thanks @Tanmay9223, #96).
+- Add focused coverage for the validation-gate decision core and edit-budget
+  schedulers (thanks @nankingjing, #122, #123).
+
+### Acknowledgements 🙏
+Thank you to the contributors behind this unreleased work:
+@AKhozya, @Alphaxalchemy, @Phoenix0531-sudo, @SparshGarg999,
+@Tanmay9223, @chirag127, @codeL1985, @dimitarvdenev,
+@ichoosetoaccept, @jcforever1, @nankingjing, and
+@zixuanguo786-ctrl.
 
 ## [0.2.0] — 2026-07-02
 
