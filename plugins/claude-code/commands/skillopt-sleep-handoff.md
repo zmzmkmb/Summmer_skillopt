@@ -21,10 +21,11 @@ isolated context so the validation gate stays honest.
 
 Repeat until the engine exits 0 (done) — at most 8 rounds:
 
-1. **Run the engine** via the bundled runner:
+1. **Run the engine** via the bundled runner. Split `$ARGUMENTS` into the action
+   and remaining options, and preserve those options on every resumed round:
 
    ```bash
-   "${CLAUDE_PLUGIN_ROOT}/scripts/sleep.sh" <action> --backend handoff --project "$(pwd)" --scope invoked
+   "${CLAUDE_PLUGIN_ROOT}/scripts/sleep.sh" <action> --backend handoff --project "$(pwd)" --scope invoked <remaining options>
    ```
 
    - exit 0 → the night is complete; go to "Finish" below.
@@ -49,10 +50,13 @@ Repeat until the engine exits 0 (done) — at most 8 rounds:
 
 ## Finish
 
-- `Read` the `report.md` in the staging dir the engine printed and show
-  the user: held-out baseline → candidate score, the gate decision, the
-  proposed edits, and where the proposal is staged.
-- Tell the user nothing live changed; offer `/skillopt-sleep adopt`.
+- For `run`, if the engine prints a staging directory, `Read` its `report.md`
+  and show the user: held-out baseline → candidate score, the gate decision,
+  the proposed edits, and where the proposal is staged. If an accepted proposal
+  was staged, tell the user nothing live changed and offer
+  `/skillopt-sleep adopt`.
+- For `dry-run`, no staging directory or `report.md` is created; summarize the
+  final stdout instead.
 - The engine archives `.skillopt-sleep-handoff/` on a completed real run;
   do not delete it yourself.
 
@@ -65,3 +69,6 @@ Repeat until the engine exits 0 (done) — at most 8 rounds:
   set. Do not edit that file.
 - If a batch looks like it contains secrets or content the user would not
   want re-processed, stop and ask before answering.
+- Handoff files apply pattern-based secret redaction, but that is not a
+  guarantee that prompts are free of sensitive data. Treat the pending batch as
+  private user data and do not copy it into chat, logs, or commits.

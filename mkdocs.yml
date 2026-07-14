@@ -47,6 +47,10 @@ nav:
     - Training Loop: guide/training-loop.md
     - Skill Document: guide/skill-document.md
     - Deep Learning Analogy: guide/dl-analogy.md
+  - SkillOpt-Sleep:
+    - Overview: sleep/README.md
+    - OpenAI-compatible Endpoints: sleep/openai-compatible-endpoints.md
+    - Results: sleep/RESULTS.md
   - Extension Guides:
     - Add a New Benchmark: guide/new-benchmark.md
     - Local Environment Smoke Tests: guide/local-env-smoke.md

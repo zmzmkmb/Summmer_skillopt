@@ -54,13 +54,25 @@ Requires Python ≥ 3.10. No third-party packages — the server is pure stdlib.
 | Tool | What it does |
 |---|---|
 | `sleep_status` | nights run so far + latest staged proposal |
-| `sleep_dry_run` | preview cycle — no staging, no changes |
+| `sleep_dry_run` | preview cycle — no staging; a real backend still makes provider calls |
 | `sleep_run` | full cycle; stages a proposal for review |
 | `sleep_adopt` | apply the staged proposal; syncs skill to the workspace |
 | `sleep_harvest` | debug: list the recurring tasks mined |
 | `sleep_schedule` | install a nightly cron entry (`--hour` / `--minute`) |
 | `sleep_unschedule` | remove the nightly cron entry |
 
-Default backend is `mock` (no API spend); `--backend claude|codex` uses your own
-budget. Same engine and `sleep_*` interface as the other plugins — all call
-`python -m skillopt_sleep`.
+Default backend is `mock` (no API spend); the `claude`, `codex`, and `copilot`
+backends use the corresponding authenticated CLI and budget. The seven tools
+call the same `python -m skillopt_sleep` actions as the other shared-engine
+integrations.
+
+## Data boundary
+
+The Devin harvester reads local ATIF transcripts, agentmemory, and skill files
+and converts them into the engine's session format. The `mock` backend keeps
+that workflow local. A real backend sends truncated excerpts and derived tasks
+to the selected provider for mining, replay, judging, and reflection. The
+conversion step is not a guarantee that outbound prompts contain no secrets;
+review sensitive sources and provider policy before enabling a real backend.
+See the [shared data-boundary guidance](../README.md#data-boundary) and
+[implemented CLI reference](../README.md#supported-cli-surface).
