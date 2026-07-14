@@ -72,12 +72,14 @@ def main() -> None:
         # OpenAI-compatible path — see docs/sleep/openai-compatible-endpoints.md
         backend = "azure_openai"
         env["PYTHONIOENCODING"] = "utf-8"
-        for prefix in ("", "OPTIMIZER_", "TARGET_"):
-            env[f"{prefix}AZURE_OPENAI_AUTH_MODE"] = "openai_compatible"
-            env[f"{prefix}AZURE_OPENAI_ENDPOINT"] = PROVIDER_ENDPOINT
-            env[f"{prefix}AZURE_OPENAI_API_KEY"] = env["DEEPSEEK_API_KEY"]
-        env["TARGET_DEPLOYMENT"] = PROVIDER_MODEL
-        env["OPTIMIZER_DEPLOYMENT"] = PROVIDER_MODEL
+        env["AZURE_OPENAI_AUTH_MODE"] = "openai_compatible"
+        env["AZURE_OPENAI_ENDPOINT"] = PROVIDER_ENDPOINT
+        env["AZURE_OPENAI_API_KEY"] = env["DEEPSEEK_API_KEY"]
+        # Provider-specific request fields are opt-in, never inferred from the
+        # model name. For DeepSeek reasoning models, enable the thinking channel:
+        env.setdefault("SKILLOPT_SLEEP_CHAT_EXTRA_BODY",
+                       json.dumps({"thinking": {"type": "enabled"}}))
+        env.setdefault("SKILLOPT_SLEEP_COMPAT_MAX_TOKENS", "8192")
     else:
         # OPTIONAL, UNVERIFIED fallback: route the `claude` CLI backend through a
         # local Anthropic-compatible proxy (e.g. LiteLLM) to reach Gemini. There
@@ -93,7 +95,10 @@ def main() -> None:
                 "--model", PROVIDER_MODEL, "--project", PROJECT_DIR]
 
     print(f"Running: {' '.join(args)}")
-    subprocess.run(args, env=env, check=False)
+    # Propagate the child's exit code so supervisors (watchdog.py, systemd,
+    # Task Scheduler) see a failed sleep run as a failure, not a success.
+    proc = subprocess.run(args, env=env, check=False)
+    sys.exit(proc.returncode)
 
 
 if __name__ == "__main__":

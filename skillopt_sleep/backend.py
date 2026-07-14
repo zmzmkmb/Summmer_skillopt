@@ -1222,15 +1222,32 @@ _AZURE_MI_CLIENT_ID = "8cafa2b1-a2a7-4ad9-814a-ffe4aed7e800"
 
 
 class AzureOpenAIBackend(CliBackend):
-    """Drives Azure OpenAI gpt-5.x deployments via managed identity.
+    """Drives Azure OpenAI gpt-5.x deployments via managed identity, or any
+    OpenAI-compatible chat-completions server via explicit compat auth.
 
     Mirrors the intern's blog_1 setup (avail_api.md): managed-identity auth, the
     same endpoints/deployments. Reuses CliBackend's attempt/judge/reflect prompts
     and JSON parsing; only _call() differs. openai + azure-identity are lazy
     imported so the mock/CLI paths stay dependency-free.
+
+    OpenAI-compatible mode (opt-in, matching skillopt.model.azure_openai):
+      * AZURE_OPENAI_AUTH_MODE=openai_compatible selects a plain ``openai.OpenAI``
+        client with AZURE_OPENAI_API_KEY against AZURE_OPENAI_ENDPOINT.
+      * SKILLOPT_SLEEP_COMPAT_MAX_TOKENS (int, default 8192) caps completion
+        length via the standard ``max_tokens`` parameter in compat mode.
+      * SKILLOPT_SLEEP_CHAT_EXTRA_BODY (JSON object) is passed as ``extra_body``
+        for provider-specific request fields (e.g. DeepSeek's
+        ``{"thinking": {"type": "enabled"}}``). Nothing provider-specific is
+        inferred from model names.
     """
 
     name = "azure"
+
+    _COMPAT_MODES = {"openai_compatible", "compat", "openai"}
+    # Hosts the managed-identity (AAD bearer token) path may talk to. A custom
+    # endpoint outside these domains must use explicit compat auth — we never
+    # send Azure credentials to an arbitrary host.
+    _AZURE_HOST_SUFFIXES = (".openai.azure.com", ".cognitiveservices.azure.com")
 
     def __init__(self, deployment: str = "", endpoint: str = "", timeout: int = 180,
                  api_version: str = "2024-12-01-preview") -> None:
@@ -1248,6 +1265,9 @@ class AzureOpenAIBackend(CliBackend):
         self.api_version = api_version
         self.name = f"azure:{self.deployment}"
         self._client = None
+        # Opt-in request knobs (read once; see class docstring).
+        self.compat_max_tokens = self._read_compat_max_tokens()
+        self.chat_extra_body = self._read_chat_extra_body()
 
     @staticmethod
     def _endpoint_for(deployment: str) -> str:
@@ -1255,6 +1275,44 @@ class AzureOpenAIBackend(CliBackend):
             if deployment in deps:
                 return ep
         return "https://oaidr9.openai.azure.com/"
+
+    @classmethod
+    def _compat_mode(cls) -> bool:
+        return os.environ.get("AZURE_OPENAI_AUTH_MODE", "").strip().lower() in cls._COMPAT_MODES
+
+    @staticmethod
+    def _read_compat_max_tokens() -> int:
+        raw = os.environ.get("SKILLOPT_SLEEP_COMPAT_MAX_TOKENS", "").strip()
+        try:
+            val = int(raw) if raw else 8192
+            return val if val > 0 else 8192
+        except ValueError:
+            import logging
+            logging.getLogger("skillopt_sleep").warning(
+                "ignoring non-integer SKILLOPT_SLEEP_COMPAT_MAX_TOKENS=%r", raw)
+            return 8192
+
+    @staticmethod
+    def _read_chat_extra_body() -> Optional[Dict[str, Any]]:
+        raw = os.environ.get("SKILLOPT_SLEEP_CHAT_EXTRA_BODY", "").strip()
+        if not raw:
+            return None
+        try:
+            parsed = json.loads(raw)
+        except ValueError:
+            parsed = None
+        if isinstance(parsed, dict) and parsed:
+            return parsed
+        import logging
+        logging.getLogger("skillopt_sleep").warning(
+            "ignoring SKILLOPT_SLEEP_CHAT_EXTRA_BODY: not a non-empty JSON object: %r",
+            raw[:100])
+        return None
+
+    def _is_azure_host(self) -> bool:
+        from urllib.parse import urlparse
+        host = (urlparse(self.endpoint).hostname or "").lower()
+        return host.endswith(self._AZURE_HOST_SUFFIXES)
 
     def _get_client(self):
         if self._client is None:
@@ -1264,8 +1322,7 @@ class AzureOpenAIBackend(CliBackend):
             # endpoint work: the AzureOpenAI client would otherwise rewrite the
             # URL with Azure-only query params (?api-version=...) and deployment
             # path segments, which non-Azure servers reject with a 404.
-            auth_mode = os.environ.get("AZURE_OPENAI_AUTH_MODE", "").strip().lower()
-            if auth_mode in {"openai_compatible", "compat", "openai"}:
+            if self._compat_mode():
                 from openai import OpenAI
                 self._client = OpenAI(
                     base_url=self.endpoint.rstrip("/"),
@@ -1273,6 +1330,17 @@ class AzureOpenAIBackend(CliBackend):
                     max_retries=4,
                 )
             else:
+                # Security guard: the managed-identity path attaches an Azure AD
+                # bearer token to every request. Refuse to do that for a custom
+                # non-Azure endpoint — leaking a live AAD token to an arbitrary
+                # host must be impossible by (mis)configuration.
+                if not self._is_azure_host():
+                    raise ValueError(
+                        "azure_openai backend: refusing to send Azure managed-identity "
+                        f"credentials to non-Azure endpoint {self.endpoint!r}. For "
+                        "OpenAI-compatible servers set AZURE_OPENAI_AUTH_MODE="
+                        "openai_compatible and AZURE_OPENAI_API_KEY."
+                    )
                 from azure.identity import ManagedIdentityCredential, get_bearer_token_provider
                 from openai import AzureOpenAI
                 cred = ManagedIdentityCredential(client_id=_AZURE_MI_CLIENT_ID)
@@ -1298,20 +1366,25 @@ class AzureOpenAIBackend(CliBackend):
 
         client = self._get_client()
         last_exc = None
-        for attempt in range(max(1, retries)):
+        n_attempts = max(1, retries)
+        for attempt in range(n_attempts):
             try:
                 kwargs: Dict[str, Any] = {
                     "model": self.deployment,
                     "messages": [{"role": "user", "content": prompt}],
                 }
-                # DeepSeek's reasoning models expect `max_tokens` and an
-                # extra_body flag to enable the thinking channel; the Azure
-                # gpt-5.x deployments use `max_completion_tokens`.
-                if "deepseek" in self.deployment.lower():
-                    kwargs["max_tokens"] = 8192
-                    kwargs["extra_body"] = {"thinking": {"type": "enabled"}}
+                # Provider-neutral request shape: compat mode speaks the
+                # standard OpenAI-compatible contract (`max_tokens`); the Azure
+                # gpt-5.x deployments require `max_completion_tokens`. Any
+                # provider-specific body fields are opt-in via
+                # SKILLOPT_SLEEP_CHAT_EXTRA_BODY (see class docstring) — never
+                # inferred from the model name.
+                if self._compat_mode():
+                    kwargs["max_tokens"] = self.compat_max_tokens
                 else:
                     kwargs["max_completion_tokens"] = 16384
+                if self.chat_extra_body:
+                    kwargs["extra_body"] = self.chat_extra_body
                 resp = client.chat.completions.create(**kwargs)
                 text = (resp.choices[0].message.content or "").strip()
                 try:
@@ -1320,6 +1393,9 @@ class AzureOpenAIBackend(CliBackend):
                 except Exception:
                     pass
                 if text:
+                    # A recovered retry must not leave a stale error behind:
+                    # last_call_error always reflects the LATEST outcome.
+                    self.last_call_error = ""
                     return text
                 # empty but no exception: model genuinely returned nothing — one
                 # quick retry can help (reasoning models occasionally yield empty)
@@ -1330,8 +1406,15 @@ class AzureOpenAIBackend(CliBackend):
                 # from a mis-pointed endpoint) instead of a silent empty->0.
                 self.last_call_error = str(e)[:500]
             # backoff before next try (skip after the final attempt)
-            if attempt < retries - 1:
+            if attempt < n_attempts - 1:
                 _t.sleep(min(8.0, (2 ** attempt) * 0.5) + _r.random() * 0.4)
+        if last_exc == "empty-response":
+            # All attempts "succeeded" HTTP-wise but carried no text — say so,
+            # otherwise a run of empty completions is indistinguishable from a
+            # never-called backend in diagnostics.
+            self.last_call_error = (
+                f"{self.deployment}: empty response on all {n_attempts} attempts"
+            )
         return ""
 
 
