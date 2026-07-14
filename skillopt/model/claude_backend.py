@@ -243,11 +243,12 @@ def _assistant_message_schema_wrapper() -> str:
 
 def _run_claude_print(*, system: str, prompt: str, model: str, tools: list[dict[str, Any]] | None, tool_choice: str | dict[str, Any] | None, return_message: bool, timeout: int | None, attachments: list[dict[str, Any]] | None = None) -> tuple[str, dict[str, Any], dict[str, int]]:
     effort = _normalize_reasoning_effort(REASONING_EFFORT)
-    # Use mkdtemp + manual rmtree to avoid WinError 32 on Windows
-    # where the spawned claude/node subprocess still holds a handle
-    # to the temp directory when the context manager tries to clean up.
-    temp_dir = tempfile.mkdtemp(prefix="skillopt_claude_")
-    try:
+    # A lingering claude/node handle can make Windows cleanup raise WinError 32.
+    # Python 3.10+ supports suppressing cleanup failures while retaining
+    # TemporaryDirectory's normal lifecycle and best-effort removal behavior.
+    with tempfile.TemporaryDirectory(
+        prefix="skillopt_claude_", ignore_cleanup_errors=True,
+    ) as temp_dir:
         copied_attachments = _copy_attachments_to_temp(attachments or [], temp_dir)
         prompt_for_cli = _append_attachment_instructions(prompt, copied_attachments)
         cmd = [CLAUDE_BIN, "-p", "--output-format", "json", "--permission-mode", CLAUDE_PERMISSION_MODE, "--add-dir", temp_dir]
@@ -291,8 +292,6 @@ def _run_claude_print(*, system: str, prompt: str, model: str, tools: list[dict[
         raw_text, result_event = _extract_result(stream)
         usage_info = _usage_from_result(result_event)
         return raw_text, result_event or {}, usage_info
-    finally:
-        shutil.rmtree(temp_dir, ignore_errors=True)
 
 
 def _compat_message_from_payload(payload: Any) -> CompatAssistantMessage:
