@@ -190,7 +190,7 @@ not via a base class subclass. Supported values (as of this writing):
 | `qwen_chat` | ✓ | ✓ |
 | `minimax_chat` | ✓ | ✓ |
 | `openai_compatible` | ✓ | ✓ |
-| `codex_exec` | — | ✓ |
+| `codex_exec` | ✓ | ✓ |
 | `claude_code_exec` | — | ✓ |
 
 See `skillopt/model/backend_config.py` for the live whitelist and

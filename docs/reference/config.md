@@ -16,7 +16,7 @@ selecting the generic OpenAI-compatible backend.
 | `claude_chat` | ✓ | ✓ |
 | `qwen_chat` | ✓ | ✓ |
 | `minimax_chat` | ✓ | ✓ |
-| `codex_exec` | — | ✓ |
+| `codex_exec` | ✓ | ✓ |
 | `claude_code_exec` | — | ✓ |
 
 MiniMax currently has one shared deployment. `model.minimax_model` is applied
@@ -28,7 +28,7 @@ MiniMax optimizer model and a different target model.
 | `model.backend` | str | `azure_openai` | Backward-compatible high-level run label |
 | `model.optimizer` | str | `gpt-5.5` | Optimizer deployment/model |
 | `model.target` | str | `gpt-5.5` | Target deployment/model |
-| `model.optimizer_backend` | str | `openai_chat` | Optimizer client path; chat backends only |
+| `model.optimizer_backend` | str | `openai_chat` | Optimizer client path; chat backends plus `codex_exec` |
 | `model.target_backend` | str | `openai_chat` | Target client path; chat or exec backend |
 | `model.reasoning_effort` | str | `medium` | Shared reasoning effort |
 | `model.rewrite_reasoning_effort` | str | empty | Optional full-rewrite effort override |
