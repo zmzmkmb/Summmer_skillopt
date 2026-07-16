@@ -12,13 +12,13 @@ import uuid
 from typing import Any
 from urllib.parse import unquote, urlparse
 
+from skillopt.model.backend_config import get_codex_exec_config
 from skillopt.model.common import (
     CompatAssistantMessage,
     CompatToolCall,
     CompatToolFunction,
-    tracker,
+    TokenTracker,
 )
-from skillopt.model.backend_config import get_codex_exec_config
 
 
 CODEX_BIN = os.environ.get("CODEX_CLI_BIN", "codex")
@@ -29,6 +29,7 @@ OPTIMIZER_DEPLOYMENT = os.environ.get("OPTIMIZER_DEPLOYMENT", "gpt-4o")
 TARGET_DEPLOYMENT = os.environ.get("TARGET_DEPLOYMENT", "gpt-4o")
 
 REASONING_EFFORT: str | None = None
+tracker = TokenTracker()
 
 
 def _default_working_directory() -> str:

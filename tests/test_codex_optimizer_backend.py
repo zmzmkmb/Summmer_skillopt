@@ -251,6 +251,35 @@ def test_token_summary_merges_codex_once_with_existing_backends(
     assert summary["_total"]["total_tokens"] == 36
 
 
+def test_codex_usage_is_not_double_counted_by_shared_tracker(
+    isolate_backend_state: tuple[Any, Any, Any, Any],
+) -> None:
+    model_module, _backend_config, codex_backend, _azure_openai = isolate_backend_state
+    from skillopt.model import claude_backend
+
+    model_module.reset_token_tracker()
+    try:
+        assert codex_backend.tracker is not claude_backend.tracker
+
+        codex_backend.tracker.record("optimizer", 11, 13)
+        summary = model_module.get_token_summary()
+
+        assert summary["optimizer"] == {
+            "calls": 1,
+            "prompt_tokens": 11,
+            "completion_tokens": 13,
+            "total_tokens": 24,
+        }
+        assert summary["_total"] == {
+            "calls": 1,
+            "prompt_tokens": 11,
+            "completion_tokens": 13,
+            "total_tokens": 24,
+        }
+    finally:
+        model_module.reset_token_tracker()
+
+
 def test_reset_token_tracker_resets_codex_and_existing_backends(
     monkeypatch: pytest.MonkeyPatch,
     isolate_backend_state: tuple[Any, Any, Any, Any],
