@@ -378,7 +378,7 @@ def run_batch(
         res["fail_reason"] = f"error: {type(exc).__name__}: {exc}"
         return res
 
-    with open(results_path, "a") as outf:
+    with open(results_path, "a", encoding="utf-8") as outf:
         ex = ThreadPoolExecutor(max_workers=workers)
         try:
             futs = {
