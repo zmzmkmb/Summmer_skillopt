@@ -332,7 +332,7 @@ def run_alfworld_batch(
         if pred_dir:
             conv_dir = os.path.join(pred_dir, task_id)
             os.makedirs(conv_dir, exist_ok=True)
-            with open(os.path.join(conv_dir, "conversation.json"), "w") as f:
+            with open(os.path.join(conv_dir, "conversation.json"), "w", encoding="utf-8") as f:
                 json.dump(conversations[i], f, ensure_ascii=False, indent=2)
 
     return results

@@ -399,7 +399,7 @@ def cmd_status(args) -> int:
             print(f"[sleep] latest staged proposal: {latest}")
             rp = os.path.join(latest, "report.md")
             if os.path.exists(rp):
-                with open(rp) as f:
+                with open(rp, encoding="utf-8") as f:
                     print("\n" + f.read())
         else:
             print("[sleep] no staged proposals yet.")

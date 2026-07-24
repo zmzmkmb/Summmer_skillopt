@@ -78,7 +78,7 @@ def _cfg_key(c: Dict[str, Any]) -> str:
 def _load_done(out_path: str) -> set:
     done = set()
     if os.path.exists(out_path):
-        with open(out_path) as f:
+        with open(out_path, encoding="utf-8") as f:
             for line in f:
                 try:
                     row = json.loads(line)
@@ -91,7 +91,7 @@ def _load_done(out_path: str) -> set:
 
 def _append(out_path: str, row: Dict[str, Any]) -> None:
     os.makedirs(os.path.dirname(out_path) or ".", exist_ok=True)
-    with open(out_path, "a") as f:
+    with open(out_path, "a", encoding="utf-8") as f:
         f.write(json.dumps(row, ensure_ascii=False) + "\n")
 
 

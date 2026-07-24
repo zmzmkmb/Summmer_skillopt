@@ -42,7 +42,7 @@ class SleepState:
     def load(cls, path: str) -> "SleepState":
         if os.path.exists(path):
             try:
-                with open(path) as f:
+                with open(path, encoding="utf-8") as f:
                     data = json.load(f)
                 merged = dict(DEFAULT_STATE)
                 merged.update(data if isinstance(data, dict) else {})
@@ -54,7 +54,7 @@ class SleepState:
     def save(self) -> None:
         os.makedirs(os.path.dirname(self.path), exist_ok=True)
         tmp = self.path + ".tmp"
-        with open(tmp, "w") as f:
+        with open(tmp, "w", encoding="utf-8") as f:
             json.dump(self.data, f, ensure_ascii=False, indent=2)
         os.replace(tmp, self.path)
 
