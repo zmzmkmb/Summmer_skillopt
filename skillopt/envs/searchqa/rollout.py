@@ -440,7 +440,7 @@ def run_batch(
             max_completion_tokens,
         )
 
-    with open(results_path, "a") as outf:
+    with open(results_path, "a", encoding="utf-8") as outf:
         ex = ThreadPoolExecutor(max_workers=workers)
         try:
             futs = {ex.submit(_run_one, it): it for it in pending}
