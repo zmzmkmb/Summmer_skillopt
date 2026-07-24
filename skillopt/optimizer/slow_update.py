@@ -233,7 +233,7 @@ def save_comparison_pairs(pairs: list[dict], out_path: str) -> None:
             "prev": p["prev"],
             "curr": p["curr"],
         })
-    with open(out_path, "w") as f:
+    with open(out_path, "w", encoding="utf-8") as f:
         json.dump(slim, f, ensure_ascii=False, indent=2)
 
 

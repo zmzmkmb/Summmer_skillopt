@@ -156,7 +156,7 @@ def _write_file(path: str, content: str, work_dir: str) -> str:
         parent = os.path.dirname(full_path)
         if parent:
             os.makedirs(parent, exist_ok=True)
-        with open(full_path, "w") as f:
+        with open(full_path, "w", encoding="utf-8") as f:
             f.write(content)
         return f"File written: {full_path} ({len(content)} chars)"
     except Exception as e:  # noqa: BLE001

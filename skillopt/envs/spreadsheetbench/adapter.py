@@ -149,7 +149,7 @@ class SpreadsheetBenchAdapter(EnvAdapter):
                 diagnostic_trace_context_by_id=kwargs.get("diagnostic_trace_context_by_id"),
             )
 
-        with open(results_path, "w") as f:
+        with open(results_path, "w", encoding="utf-8") as f:
             for r in results:
                 f.write(json.dumps(r, ensure_ascii=False) + "\n")
 
