@@ -27,7 +27,7 @@ from dataclasses import dataclass
 from typing import Literal
 
 
-GateAction = Literal["accept_new_best", "accept", "reject"]
+GateAction = Literal["accept_new_best", "accept", "reject", "annealing_accept"]
 GateMetric = Literal["hard", "soft", "mixed"]
 
 
@@ -215,6 +215,162 @@ def evaluate_gate(
             best_score=best_score,
             best_step=best_step,
         )
+    return GateResult(
+        action="reject",
+        current_skill=current_skill,
+        current_score=current_score,
+        best_skill=best_skill,
+        best_score=best_score,
+        best_step=best_step,
+    )
+
+
+# ── Annealing temperature schedule ──────────────────────────────────────────
+
+def compute_temperature(
+    step: int,
+    total_steps: int,
+    T0: float = 0.02,
+    cooling_rate: float = 0.92,
+    T_min: float = 0.001,
+) -> float:
+    """Exponential cooling schedule for simulated annealing.
+
+    Parameters
+    ----------
+    step
+        Current step index (0-based).
+    total_steps
+        Total steps in the training run.
+    T0
+        Initial temperature. Units are in gate-score space (0..1).
+        Default 0.02 ≈ 4 selection items out of 200.
+    cooling_rate
+        Per-step multiplicative decay. Lower = faster cooling.
+        0.92 → T halves roughly every 8 steps.
+    T_min
+        Floor temperature. Annealing effectively off below this.
+    """
+    import math
+
+    # Exponential decay with a minimum floor
+    T = T0 * (cooling_rate ** step)
+
+    # Linear ramp-down in the last 20% of steps to ensure near-zero at end
+    warm_frac = 0.8
+    if step >= warm_frac * total_steps and total_steps > 0:
+        remaining = total_steps - int(warm_frac * total_steps)
+        if remaining > 0:
+            pos = step - int(warm_frac * total_steps)
+            ramp = 1.0 - (pos / remaining)
+            T = T * max(0.0, ramp)
+
+    return max(T_min, T)
+
+
+def _metropolis_accept(
+    candidate_score: float,
+    current_score: float,
+    temperature: float,
+) -> bool:
+    """Metropolis criterion: accept a worse candidate with probability.
+
+    p = exp((candidate - current) / T)
+
+    Returns True if the worse candidate should be accepted.
+    """
+    import math
+    import random
+
+    if temperature <= 1e-9:
+        return False
+    delta = candidate_score - current_score  # negative
+    p = math.exp(delta / temperature)
+    return random.random() < p
+
+
+# ── Gate with simulated annealing ──────────────────────────────────────────
+
+def evaluate_gate_with_annealing(
+    candidate_skill: str,
+    cand_hard: float,
+    current_skill: str,
+    current_score: float,
+    best_skill: str,
+    best_score: float,
+    best_step: int,
+    global_step: int,
+    temperature: float,
+    *,
+    cand_soft: float = 0.0,
+    metric: GateMetric = "hard",
+    mixed_weight: float = 0.5,
+    use_semantic_density: bool = False,
+    semantic_density_weight: float = 0.05,
+    leading_words: list[str] | None = None,
+) -> GateResult:
+    """Gate decision with simulated annealing for exploration.
+
+    Extends ``evaluate_gate`` with a Metropolis-criterion acceptance path:
+    when ``candidate_score <= current_score`` but the gap is small relative
+    to the current temperature, the candidate may still be accepted as the
+    new *current* skill (but NOT as the new *best* skill).  This lets the
+    optimizer escape local optima that the strict gate would trap it in.
+
+    Key invariants
+    --------------
+    * ``best_skill`` / ``best_score`` are **never** updated on an
+      annealing accept — only on genuine ``accept_new_best``.
+    * ``current_skill`` / ``current_score`` are always kept in sync.
+    * When temperature drops to zero the gate behaves identically to
+      ``evaluate_gate``.
+
+    Parameters are the same as ``evaluate_gate``, plus ``temperature``.
+    """
+    cand_score = select_gate_score(
+        cand_hard,
+        cand_soft,
+        metric,
+        mixed_weight,
+        skill_content=candidate_skill,
+        use_semantic_density=use_semantic_density,
+        semantic_density_weight=semantic_density_weight,
+        leading_words=leading_words,
+    )
+
+    # 1) Genuine improvement — same as strict gate
+    if cand_score > current_score:
+        if cand_score > best_score:
+            return GateResult(
+                action="accept_new_best",
+                current_skill=candidate_skill,
+                current_score=cand_score,
+                best_skill=candidate_skill,
+                best_score=cand_score,
+                best_step=global_step,
+            )
+        return GateResult(
+            action="accept",
+            current_skill=candidate_skill,
+            current_score=cand_score,
+            best_skill=best_skill,
+            best_score=best_score,
+            best_step=best_step,
+        )
+
+    # 2) Not an improvement — try annealing
+    if _metropolis_accept(cand_score, current_score, temperature):
+        # Annealing accept: explore worse territory BUT keep best_skill safe
+        return GateResult(
+            action="annealing_accept",
+            current_skill=candidate_skill,
+            current_score=cand_score,
+            best_skill=best_skill,
+            best_score=best_score,
+            best_step=best_step,
+        )
+
+    # 3) Reject
     return GateResult(
         action="reject",
         current_skill=current_skill,

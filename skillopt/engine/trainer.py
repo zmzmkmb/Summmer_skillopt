@@ -24,7 +24,7 @@ from collections import defaultdict
 
 from skillopt.datasets.base import BatchSpec
 from skillopt.envs.base import EnvAdapter
-from skillopt.evaluation.gate import GateResult, evaluate_gate, select_gate_score
+from skillopt.evaluation.gate import GateResult, evaluate_gate, evaluate_gate_with_annealing, compute_temperature, select_gate_score
 from skillopt.gradient.aggregate import merge_patches
 from skillopt.optimizer.meta_skill import run_meta_skill
 from skillopt.optimizer.clip import rank_and_select
@@ -999,6 +999,19 @@ class ReflACTTrainer:
                if slow_gate_with_selection
                else "force-accept (unconditional)")
         )
+        use_annealing = bool(cfg.get("use_annealing", False) or
+                             cfg.get("annealing", False))
+        annealing_T0 = float(cfg.get("annealing_T0", 0.02))
+        annealing_cooling_rate = float(cfg.get("annealing_cooling_rate", 0.92))
+        annealing_T_min = float(cfg.get("annealing_T_min", 0.001))
+        if use_annealing:
+            print(
+                "  [annealing] enabled  "
+                f"T0={annealing_T0}  cooling={annealing_cooling_rate}  "
+                f"T_min={annealing_T_min}  total_steps={total_steps}"
+            )
+        else:
+            print("  [annealing] disabled (strict gate)")
         if current_score < 0:
             print(f"\n{'='*60}")
             print("  BASELINE — evaluate initial skill on Selection set (valid_seen)")
@@ -1453,22 +1466,51 @@ class ReflACTTrainer:
                 step_rec["selection_hard"] = cand_hard
                 step_rec["selection_soft"] = cand_soft
 
-                gate = evaluate_gate(
-                    candidate_skill=candidate_skill,
-                    cand_hard=cand_hard,
-                    current_skill=current_skill,
-                    current_score=current_score,
-                    best_skill=best_skill,
-                    best_score=best_score,
-                    best_step=best_step,
-                    global_step=global_step,
-                    cand_soft=cand_soft,
-                    metric=gate_metric,
-                    mixed_weight=gate_mixed_weight,
-                    use_semantic_density=use_semantic_density,
-                    semantic_density_weight=semantic_density_weight,
-                    leading_words=leading_words,
-                ) if use_gate else None
+                gate = None
+                if use_gate:
+                    if use_annealing:
+                        T = compute_temperature(
+                            step=global_step - 1,
+                            total_steps=total_steps,
+                            T0=annealing_T0,
+                            cooling_rate=annealing_cooling_rate,
+                            T_min=annealing_T_min,
+                        )
+                        gate = evaluate_gate_with_annealing(
+                            candidate_skill=candidate_skill,
+                            cand_hard=cand_hard,
+                            current_skill=current_skill,
+                            current_score=current_score,
+                            best_skill=best_skill,
+                            best_score=best_score,
+                            best_step=best_step,
+                            global_step=global_step,
+                            temperature=T,
+                            cand_soft=cand_soft,
+                            metric=gate_metric,
+                            mixed_weight=gate_mixed_weight,
+                            use_semantic_density=use_semantic_density,
+                            semantic_density_weight=semantic_density_weight,
+                            leading_words=leading_words,
+                        )
+                        step_rec["annealing_temperature"] = T
+                    else:
+                        gate = evaluate_gate(
+                            candidate_skill=candidate_skill,
+                            cand_hard=cand_hard,
+                            current_skill=current_skill,
+                            current_score=current_score,
+                            best_skill=best_skill,
+                            best_score=best_score,
+                            best_step=best_step,
+                            global_step=global_step,
+                            cand_soft=cand_soft,
+                            metric=gate_metric,
+                            mixed_weight=gate_mixed_weight,
+                            use_semantic_density=use_semantic_density,
+                            semantic_density_weight=semantic_density_weight,
+                            leading_words=leading_words,
+                        )
                 cand_gate_score = select_gate_score(
                     cand_hard, cand_soft, gate_metric, gate_mixed_weight,
                     skill_content=candidate_skill,
@@ -1507,7 +1549,7 @@ class ReflACTTrainer:
                 best_skill = gate.best_skill
                 best_score = gate.best_score
                 best_step = gate.best_step
-                if gate.action in {"accept", "accept_new_best", "force_accept"}:
+                if gate.action in {"accept", "accept_new_best", "force_accept", "annealing_accept"}:
                     current_origin = f"step_{global_step:04d}"
                 if gate.action == "accept_new_best" or (
                     gate.action == "force_accept" and best_step == global_step
@@ -1542,6 +1584,15 @@ class ReflACTTrainer:
                     print(
                         f"    [6/6 EVALUATE] FORCE-ACCEPT (gate disabled) "
                         f"{score_label}"
+                    )
+                elif gate.action == "annealing_accept":
+                    T_info = step_rec.get("annealing_temperature", "?")
+                    if isinstance(T_info, float):
+                        T_info = f"{T_info:.4f}"
+                    print(
+                        f"    [6/6 EVALUATE] ANNEALING-ACCEPT "
+                        f"{score_label} <= current={prev_current:.4f}  "
+                        f"(T={T_info})"
                     )
                 else:
                     print(
@@ -1854,22 +1905,50 @@ class ReflACTTrainer:
                                     slow_sel_hard, slow_sel_soft,
                                 )
 
-                            slow_gate = evaluate_gate(
-                                candidate_skill=slow_candidate,
-                                cand_hard=slow_sel_hard,
-                                current_skill=current_skill,
-                                current_score=current_score,
-                                best_skill=best_skill,
-                                best_score=best_score,
-                                best_step=best_step,
-                                global_step=global_step,
-                                cand_soft=slow_sel_soft,
-                                metric=gate_metric,
-                                mixed_weight=gate_mixed_weight,
-                                use_semantic_density=use_semantic_density,
-                                semantic_density_weight=semantic_density_weight,
-                                leading_words=leading_words,
-                            )
+                            slow_gate = None
+                            if use_annealing:
+                                # At epoch boundaries, use current step for temperature
+                                T_slow = compute_temperature(
+                                    step=global_step - 1,
+                                    total_steps=total_steps,
+                                    T0=annealing_T0,
+                                    cooling_rate=annealing_cooling_rate,
+                                    T_min=annealing_T_min,
+                                )
+                                slow_gate = evaluate_gate_with_annealing(
+                                    candidate_skill=slow_candidate,
+                                    cand_hard=slow_sel_hard,
+                                    current_skill=current_skill,
+                                    current_score=current_score,
+                                    best_skill=best_skill,
+                                    best_score=best_score,
+                                    best_step=best_step,
+                                    global_step=global_step,
+                                    temperature=T_slow,
+                                    cand_soft=slow_sel_soft,
+                                    metric=gate_metric,
+                                    mixed_weight=gate_mixed_weight,
+                                    use_semantic_density=use_semantic_density,
+                                    semantic_density_weight=semantic_density_weight,
+                                    leading_words=leading_words,
+                                )
+                            else:
+                                slow_gate = evaluate_gate(
+                                    candidate_skill=slow_candidate,
+                                    cand_hard=slow_sel_hard,
+                                    current_skill=current_skill,
+                                    current_score=current_score,
+                                    best_skill=best_skill,
+                                    best_score=best_score,
+                                    best_step=best_step,
+                                    global_step=global_step,
+                                    cand_soft=slow_sel_soft,
+                                    metric=gate_metric,
+                                    mixed_weight=gate_mixed_weight,
+                                    use_semantic_density=use_semantic_density,
+                                    semantic_density_weight=semantic_density_weight,
+                                    leading_words=leading_words,
+                                )
                             slow_result["selection_hard"] = slow_sel_hard
                             slow_result["selection_soft"] = slow_sel_soft
                             slow_result["action"] = slow_gate.action
@@ -1880,7 +1959,7 @@ class ReflACTTrainer:
                             best_skill = slow_gate.best_skill
                             best_score = slow_gate.best_score
                             best_step = slow_gate.best_step
-                            if slow_gate.action in {"accept", "accept_new_best"}:
+                            if slow_gate.action in {"accept", "accept_new_best", "annealing_accept"}:
                                 current_origin = (
                                     f"slow_update_epoch_{epoch:02d}"
                                 )
@@ -1896,6 +1975,13 @@ class ReflACTTrainer:
                                     f"    [slow gate] ACCEPT "
                                     f"hard={slow_sel_hard:.4f} > "
                                     f"current={prev_current:.4f}"
+                                )
+                            elif slow_gate.action == "annealing_accept":
+                                print(
+                                    f"    [slow gate] ANNEALING-ACCEPT "
+                                    f"hard={slow_sel_hard:.4f} <= "
+                                    f"current={prev_current:.4f}  "
+                                    f"(T={T_slow:.4f})"
                                 )
                             else:
                                 print(
@@ -2306,7 +2392,8 @@ class ReflACTTrainer:
 
         # ── Global summary ───────────────────────────────────────────────
         total_wall = time.time() - t_loop_start
-        n_accept = sum(1 for h in history if "accept" in h.get("action", ""))
+        n_accept = sum(1 for h in history if h.get("action") in {"accept", "accept_new_best"})
+        n_annealing = sum(1 for h in history if h.get("action") == "annealing_accept")
         n_reject = sum(1 for h in history if h.get("action") == "reject")
         n_skip = sum(1 for h in history if h.get("action") == "skip_no_patches")
 
@@ -2320,7 +2407,8 @@ class ReflACTTrainer:
                 epoch_stats.append({
                     "epoch": e,
                     "steps": [h["step"] for h in epoch_records],
-                    "accepts": sum(1 for h in epoch_records if "accept" in h.get("action", "")),
+                    "accepts": sum(1 for h in epoch_records if h.get("action") in {"accept", "accept_new_best"}),
+                    "annealing_accepts": sum(1 for h in epoch_records if h.get("action") == "annealing_accept"),
                     "rejects": sum(1 for h in epoch_records if h.get("action") == "reject"),
                     "skips": sum(1 for h in epoch_records if h.get("action") == "skip_no_patches"),
                     "best_score_at_epoch_end": epoch_records[-1].get("best_score", 0.0),
@@ -2341,6 +2429,7 @@ class ReflACTTrainer:
             "best_origin": best_origin,
             "total_steps": len(history),
             "total_accepts": n_accept,
+            "total_annealing_accepts": n_annealing,
             "total_rejects": n_reject,
             "total_skips": n_skip,
             "epoch_stats": epoch_stats,
@@ -2371,13 +2460,16 @@ class ReflACTTrainer:
         print(f"{'='*60}")
         print(
             f"  steps={len(history)} accept={n_accept} "
+            f"(annealing={n_annealing}) "
             f"reject={n_reject} skip={n_skip}"
         )
         print(f"  best_score={best_score:.4f} (step {best_step})  wall={total_wall:.0f}s")
         if epoch_stats:
             for es in epoch_stats:
                 print(
-                    f"    epoch {es['epoch']}: accept={es['accepts']} reject={es['rejects']} "
+                    f"    epoch {es['epoch']}: accept={es['accepts']} "
+                    f"(annealing={es.get('annealing_accepts',0)}) "
+                    f"reject={es['rejects']} "
                     f"best={es['best_score_at_epoch_end']:.4f}"
                 )
         if baseline_test_hard is not None:
