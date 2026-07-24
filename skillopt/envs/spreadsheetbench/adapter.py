@@ -109,7 +109,7 @@ class SpreadsheetBenchAdapter(EnvAdapter):
         # Resume support
         if os.path.exists(results_path):
             existing: list[dict] = []
-            with open(results_path) as f:
+            with open(results_path, encoding="utf-8") as f:
                 for line in f:
                     try:
                         existing.append(json.loads(line))

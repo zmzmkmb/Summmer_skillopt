@@ -114,7 +114,7 @@ def _read_trajectory(rollout_dir: str, task_id: str) -> str:
     if not os.path.exists(conv_path):
         return "(trajectory not available)"
     try:
-        with open(conv_path) as f:
+        with open(conv_path, encoding="utf-8") as f:
             conversation = json.load(f)
     except Exception:
         return "(trajectory read error)"

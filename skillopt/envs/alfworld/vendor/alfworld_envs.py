@@ -14,7 +14,7 @@ from alfworld.agents.environment import get_environment
 
 def load_config_file(path):
     assert os.path.exists(path), f"Invalid config file: {path}"
-    with open(path) as reader:
+    with open(path, encoding="utf-8") as reader:
         config = yaml.safe_load(reader)
     return config
 

@@ -16,7 +16,7 @@ from typing import Any, Dict, List
 def _load(path: str) -> List[Dict[str, Any]]:
     rows = []
     if os.path.exists(path):
-        with open(path) as f:
+        with open(path, encoding="utf-8") as f:
             for line in f:
                 line = line.strip()
                 if line:
@@ -122,7 +122,7 @@ def main(argv=None) -> int:
         return 1
     md = render(rows)
     os.makedirs(os.path.dirname(args.out) or ".", exist_ok=True)
-    with open(args.out, "w") as f:
+    with open(args.out, "w", encoding="utf-8") as f:
         f.write(md)
     print(f"wrote {args.out} ({len(rows)} rows)")
     return 0

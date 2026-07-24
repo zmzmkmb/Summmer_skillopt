@@ -172,7 +172,7 @@ def _auto_verify(work_dir: str) -> str:
     sol_path = os.path.join(work_dir, "solution.py")
     output_path = None
     if os.path.exists(sol_path):
-        with open(sol_path) as f:
+        with open(sol_path, encoding="utf-8") as f:
             for line in f:
                 stripped = line.strip()
                 if stripped.startswith("OUTPUT_PATH"):
