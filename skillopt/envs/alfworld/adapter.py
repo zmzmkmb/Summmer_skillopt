@@ -355,7 +355,7 @@ class ALFWorldAdapter(EnvAdapter):
                 result_ids=getattr(env_manager, "_skillopt_result_ids", None),
             )
 
-        with open(results_path, "w") as f:
+        with open(results_path, "w", encoding="utf-8") as f:
             for r in results:
                 f.write(json.dumps(r, ensure_ascii=False) + "\n")
 
