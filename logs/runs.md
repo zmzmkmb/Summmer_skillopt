@@ -7,4 +7,17 @@
 | 003 | 0725 | main | **模拟退火 Gate**: use_annealing=true, T0=0.02, gated slow update | deepseek-v4-flash | qwen-flash | val 0.6250→0.7300, test 0.6336→0.7214, final 退化到 0.7107, 6 accept+5 annealing/29 reject | `outputs/searchqa_annealing` | ⚠️ 退火有效（5次触发），但 Step 24 退火接受劣解后无法恢复，导致 final 退化 |
 | 004 | 0725 | main | **RAG TF-IDF**: use_rag=true, method=tfidf, top_k=5, budget=2000, gated slow update | deepseek-v4-flash | qwen-flash | val 0.6200→0.7300, test 0.6321→**0.7250**, final=best 零退化, 5 accept/32 reject/3 skip, 31M token | `outputs/searchqa_rag` | ✅🏆 TF-IDF 检索有效 |
 | 005 | 0725 | main | **RAG Random 对照**: use_rag=true, method=random, top_k=5, budget=2000 | deepseek-v4-flash | qwen-flash | val 0.6100→0.7300, test 0.6293→0.7193, final=best, 6 accept/34 reject, 34M token | `outputs/searchqa_rag_random` | 🔬 TF-IDF 领先随机 +0.0057，确认检索有增量收益 |
-| 006 | 0726 | main | **RAG Core Only**: method=core_only, 无动态规则 | deepseek-v4-flash | qwen-flash | val 0.6050→**0.7350**, test→**0.7336**, final=best, Step 4 之后全部 reject | `outputs/searchqa_rag_coreonly` | 🔬🏆 Core Only 意外最高分！说明核心规则是主要收益来源，动态规则当前粒度太粗 |
+| 006 | 0726 | main | **RAG Core Only**: method=core_only, 无动态规则 | deepseek-v4-flash | qwen-flash | val 0.6050→**0.7350**, test→**0.7336**, final=best, Step 4 之后全部 reject | `outputs/searchqa_rag_coreonly` | 🔬 Core Only 训练分最高，但训练轨迹≠推理能力 |
+
+---
+## 推理消融（固定原子化规则库，无训练，仅推理选择方式不同）
+
+| ID | 方法 | Top-K | Test Hard | 说明 |
+|------|------|:--:|:--:|------|
+| A01 | Core Only | — | 0.7229 | 纯核心规则（6条） |
+| A02 | Core + Random | 5 | 0.7379 | 随机选5条动态规则 |
+| **A03** | **Core + TF-IDF** | **5** | **0.7400** | 🏆 原子化 RAG 最优 |
+| A04 | Core + TF-IDF | 3 | 0.7364 | |
+| A05 | Core + TF-IDF | 8 | 0.7343 | 太多规则=引入噪声 |
+
+> 结论：原子化（24条→6 core + 18 dynamic）让动态规则从不拖后腿变成正向增益。TF-IDF > Random +0.002，Top-5 最优。
