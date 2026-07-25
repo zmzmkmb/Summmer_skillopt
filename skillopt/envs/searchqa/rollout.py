@@ -15,11 +15,15 @@ import os
 import time
 from collections import Counter
 from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
+from typing import TYPE_CHECKING
 
 from skillopt.envs.searchqa.evaluator import evaluate
 from skillopt.model import chat_target, is_target_exec_backend
 from skillopt.model.codex_harness import prepare_workspace, render_skill_md, run_target_exec
 from skillopt.prompts import load_prompt
+
+if TYPE_CHECKING:
+    from skillopt.rag_rule_selector import RuleMemory
 
 # ── Prompt templates ─────────────────────────────────────────────────────────
 
@@ -60,6 +64,36 @@ def _build_system(skill_content: str) -> str:
     else:
         skill_section = ""
     return load_prompt("rollout_system", env="searchqa").format(skill_section=skill_section)
+
+
+def _build_active_skill(
+    skill_content: str,
+    question: str,
+    rule_selector: "RuleMemory | None" = None,
+) -> str:
+    """Build the effective skill text for a specific query.
+
+    When *rule_selector* is provided and has dynamic rules, returns
+    ``core_rules + top-K retrieved dynamic rules``.  Otherwise returns
+    the full skill unchanged.
+    """
+    if rule_selector is None or rule_selector.n_dynamic == 0:
+        return skill_content
+    core = rule_selector.core_rules_text
+    dynamic = rule_selector.retrieve(question)
+    if dynamic.strip():
+        return (core + "\n\n" + dynamic).strip()
+    return core if core.strip() else skill_content
+
+
+def _build_system_for_query(
+    skill_content: str,
+    question: str,
+    rule_selector: "RuleMemory | None" = None,
+) -> str:
+    """Build the system prompt, optionally with per-query rule retrieval."""
+    active = _build_active_skill(skill_content, question, rule_selector)
+    return _build_system(active)
 
 
 def _build_user(
@@ -160,6 +194,7 @@ def process_one(
     diagnostic_trace_context: str = "",
     exec_timeout: int = 120,
     max_completion_tokens: int = 16384,
+    rule_selector: "RuleMemory | None" = None,
 ) -> dict:
     """Process a single QA item: run agent + evaluate.
 
@@ -212,9 +247,10 @@ def process_one(
             system = ""
             user = ""
             for turn in range(max_turns):
+                active_skill = _build_active_skill(skill_content, question, rule_selector)
                 response, raw, system, user = _run_codex_once(
                     pred_dir=pred_dir,
-                    skill_content=skill_content,
+                    skill_content=active_skill,
                     question=question,
                     context=context,
                     model=_llm.TARGET_DEPLOYMENT,
@@ -264,7 +300,7 @@ def process_one(
                 json.dump(conversation, f, ensure_ascii=False, indent=2)
             return result
 
-        system = _build_system(skill_content)
+        system = _build_system_for_query(skill_content, question, rule_selector)
         user = _build_user(
             question,
             context,
@@ -369,6 +405,7 @@ def run_batch(
     diagnostic_instruction: str = "",
     diagnostic_trace_context_by_id: dict[str, str] | None = None,
     task_timeout: int = 600,
+    rule_selector: "RuleMemory | None" = None,
 ) -> list[dict]:
     """Run QA agent on all items with ThreadPoolExecutor. Resume-aware."""
     task_timeout = max(int(task_timeout), int(exec_timeout) + 60)
@@ -438,6 +475,7 @@ def run_batch(
             (diagnostic_trace_context_by_id or {}).get(str(item["id"]), ""),
             exec_timeout,
             max_completion_tokens,
+            rule_selector=rule_selector,
         )
 
     with open(results_path, "a", encoding="utf-8") as outf:

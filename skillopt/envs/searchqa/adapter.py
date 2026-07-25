@@ -90,6 +90,7 @@ class SearchQAAdapter(EnvAdapter):
             diagnostic_instruction=kwargs.get("diagnostic_instruction", ""),
             diagnostic_trace_context_by_id=kwargs.get("diagnostic_trace_context_by_id"),
             task_timeout=self.exec_timeout,
+            rule_selector=kwargs.get("rule_selector"),
         )
 
     def get_task_types(self) -> list[str]:
