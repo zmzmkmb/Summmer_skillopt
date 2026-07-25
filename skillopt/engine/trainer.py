@@ -26,6 +26,7 @@ from skillopt.datasets.base import BatchSpec
 from skillopt.envs.base import EnvAdapter
 from skillopt.evaluation.gate import GateResult, evaluate_gate, evaluate_gate_with_annealing, compute_temperature, select_gate_score
 from skillopt.gradient.aggregate import merge_patches
+from skillopt.rag_rule_selector import RuleMemory
 from skillopt.optimizer.meta_skill import run_meta_skill
 from skillopt.optimizer.clip import rank_and_select
 from skillopt.optimizer.lr_autonomous import decide_autonomous_learning_rate
@@ -1012,6 +1013,17 @@ class ReflACTTrainer:
             )
         else:
             print("  [annealing] disabled (strict gate)")
+        # ── RAG rule retrieval config ─────────────────────────────────
+        use_rag = bool(cfg.get("use_rag", False))
+        rag_top_k = int(cfg.get("rag_top_k", 5))
+        rag_token_budget = int(cfg.get("rag_token_budget", 2000))
+        if use_rag:
+            print(
+                "  [rag] enabled  "
+                f"top_k={rag_top_k}  token_budget={rag_token_budget}"
+            )
+        else:
+            print("  [rag] disabled (full skill)")
         if current_score < 0:
             print(f"\n{'='*60}")
             print("  BASELINE — evaluate initial skill on Selection set (valid_seen)")
@@ -1147,9 +1159,19 @@ class ReflACTTrainer:
                     # ① ROLLOUT ────────────────────────────────────────────
                     t_phase = time.time()
                     print(f"    [1/6 ROLLOUT] train items={train_n} (from pool, batch_seed={batch_seed})")
+                    train_rs = None
+                    if use_rag:
+                        try:
+                            train_rs = RuleMemory(
+                                current_skill, top_k=rag_top_k,
+                                token_budget=rag_token_budget,
+                            )
+                        except Exception:
+                            pass
                     rollout_results = adapter.rollout(
                         train_env, current_skill, rollout_dir,
                         use_eval_feedback=True,
+                        rule_selector=train_rs,
                     )
                     r_hard, r_soft = compute_score(rollout_results)
                     total_rollout_time += time.time() - t_phase
@@ -1459,7 +1481,19 @@ class ReflACTTrainer:
                     )
                     print(f"    [6/6 EVALUATE] selection items={sel_n}")
                     sel_eval_dir = os.path.join(step_dir, "selection_eval")
-                    sel_results = adapter.rollout(sel_env, candidate_skill, sel_eval_dir)
+                    eval_rs = None
+                    if use_rag:
+                        try:
+                            eval_rs = RuleMemory(
+                                candidate_skill, top_k=rag_top_k,
+                                token_budget=rag_token_budget,
+                            )
+                        except Exception:
+                            pass
+                    sel_results = adapter.rollout(
+                        sel_env, candidate_skill, sel_eval_dir,
+                        rule_selector=eval_rs,
+                    )
                     cand_hard, cand_soft = compute_score(sel_results)
                     sel_cache[cand_hash] = (cand_hard, cand_soft)
 

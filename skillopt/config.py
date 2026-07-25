@@ -138,6 +138,10 @@ _FLATTEN_MAP: dict[str, str] = {
     "env.name": "env",
     "env.skill_init": "skill_init",
     "env.out_root": "out_root",
+    "env.use_rag": "use_rag",
+    "env.rag_top_k": "rag_top_k",
+    "env.rag_method": "rag_method",
+    "env.rag_token_budget": "rag_token_budget",
 }
 
 
