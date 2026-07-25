@@ -10,7 +10,7 @@
 |------|-----|
 | Benchmark | SearchQA（纯文本 QA） |
 | 数据集 | train=400 / val=200 / test=1400 |
-| **Optimizer（反思模型）** | `deepseek-chat` via DeepSeek API |
+| **Optimizer（反思模型）** | `deepseek-v4-flash` via DeepSeek API |
 | **Target（执行模型）** | `qwen-flash` via 阿里云 DashScope |
 | Backend | `openai_compatible`（双模型独立配置） |
 | edit_budget（学习率） | **4**（每步最多 4 条编辑） |

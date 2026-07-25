@@ -19,7 +19,7 @@
 | | 实验 1 (#001, baseline) | 实验 2 (#002, gated) |
 |------|------|------|
 | **slow_update_gate_with_selection** | `false`（默认，force-accept） | `true`（论文对齐） |
-| **Optimizer** | deepseek-chat | deepseek-chat |
+| **Optimizer** | deepseek-v4-flash | deepseek-v4-flash |
 | **Target** | qwen-flash | qwen-flash |
 | **Benchmark** | SearchQA | SearchQA |
 | **edit_budget** | 4, cosine | 4, cosine |
