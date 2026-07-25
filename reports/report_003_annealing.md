@@ -48,7 +48,7 @@ T0 = 0.02 ≈ 4 条 val 题的分数
 
 | | #001 baseline | #002 gated | #003 退火 |
 |------|:--:|:--:|:--:|
-| **Optimizer** | deepseek-chat | deepseek-chat | **deepseek-v4-flash** |
+| **Optimizer** | deepseek-v4-flash | deepseek-v4-flash | **deepseek-v4-flash** |
 | **Target** | qwen-flash | qwen-flash | qwen-flash |
 | **slow_update_gate_with_selection** | false | true | true |
 | **use_annealing** | false | false | **true (T0=0.02)** |
@@ -142,17 +142,9 @@ Final test: best=0.7214, final=0.7107 (退化 -0.0107)
 
 **根因**：退火接受劣解后，`current_score` 被永久降到了 0.725。后续所有候选只需 > 0.725 即 accept。但问题是模型组合的上限大约就是 0.730，优化器很难再生成超越这个水平的编辑。于是出现了和 #001 类似的退化——不过这次不是因为 slow update force-accept，而是因为退火接受了一个无法恢复的劣解。
 
-### 7.2 deepseek-v4-flash vs deepseek-chat
+### 7.2 模型一致性
 
-#003 用 v4-flash 替代 chat。对比：
-
-| | deepseek-chat (#002) | deepseek-v4-flash (#003) |
-|------|:--:|:--:|
-| Epoch 1 编辑数 | 10 patches, 6 groups | 13 patches, 6 groups |
-| Accept 数 | 6 | 6 + 5 annealing |
-| 峰值 | 0.7157 | 0.7214 |
-
-v4-flash 更多编辑但质量相当，且 API 价格更低。
+三轮均使用 `deepseek-v4-flash`（早期 API 接受 `deepseek-chat` 作为别名），是同一个模型。
 
 ---
 
@@ -192,7 +184,6 @@ v4-flash 更多编辑但质量相当，且 API 价格更低。
 |------|------|
 | **退火机制有效** | 打破了 tie-reject，允许了探索，Step 8-10-16 是从退火探索中恢复并冲击新高的典型案例 |
 | **当前实现有缺陷** | 退火 accept 永久降低 current_score，导致 Step 24 后无法恢复，final 退化 |
-| **deepseek-v4-flash 可用** | 作为 optimizer 质量接近 deepseek-chat，但价格更低 |
 | **最佳配置仍是 #002** | `slow_update_gate_with_selection=true`, `use_annealing=false` — 零退化、可复现 |
 
 ### 三跑最终排名
