@@ -113,7 +113,7 @@ class AtomicRM:
         else:
             return ""
 
-        selected = sorted(indices)
+        selected = list(indices)  # preserve relevance rank order
         parts = []; used = 0
         for i in selected:
             t = DYNAMIC_RULES[i].text
