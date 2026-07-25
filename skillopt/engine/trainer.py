@@ -1017,10 +1017,11 @@ class ReflACTTrainer:
         use_rag = bool(cfg.get("use_rag", False))
         rag_top_k = int(cfg.get("rag_top_k", 5))
         rag_token_budget = int(cfg.get("rag_token_budget", 2000))
+        rag_method = str(cfg.get("rag_method", "tfidf")).strip().lower()
         if use_rag:
             print(
                 "  [rag] enabled  "
-                f"top_k={rag_top_k}  token_budget={rag_token_budget}"
+                f"method={rag_method}  top_k={rag_top_k}  token_budget={rag_token_budget}"
             )
         else:
             print("  [rag] disabled (full skill)")
@@ -1165,6 +1166,7 @@ class ReflACTTrainer:
                             train_rs = RuleMemory(
                                 current_skill, top_k=rag_top_k,
                                 token_budget=rag_token_budget,
+                                method=rag_method,
                             )
                         except Exception:
                             pass

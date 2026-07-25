@@ -89,10 +89,10 @@ class RuleMemory:
         self._core_rules = [r for r in self._rules if r.is_core]
         self._dynamic_rules = [r for r in self._rules if not r.is_core]
 
-        # Embed dynamic rules
+        # Embed dynamic rules (skip for methods that don't need TF-IDF)
         self._vectorizer: TfidfVectorizer | None = None
         self._rule_matrix: np.ndarray | None = None
-        if self._dynamic_rules:
+        if self._dynamic_rules and method in ("tfidf",):
             self._build_embeddings()
 
     # ── Properties ────────────────────────────────────────────────────────
@@ -137,17 +137,18 @@ class RuleMemory:
         k = top_k if top_k is not None else self.top_k
         budget = token_budget if token_budget is not None else self.token_budget
 
-        if not self._dynamic_rules or self._vectorizer is None or self._rule_matrix is None:
+        if not self._dynamic_rules:
             return ""
 
         k = min(k, len(self._dynamic_rules))
 
-        # Vectorize query and score
-        query_vec = self._vectorizer.transform([query])
-        sims = cosine_similarity(query_vec, self._rule_matrix).flatten()
-
-        # Top-K by similarity
-        indices = np.argsort(sims)[::-1][:k]
+        # Select rule indices based on method
+        if self.method == "random":
+            indices = self._random_select(k, query)
+        elif self.method == "core_only":
+            return ""
+        else:
+            indices = self._tfidf_select(k, query)
 
         # Sort by original index for logical ordering
         selected = sorted(indices, key=lambda i: self._dynamic_rules[i].index)
@@ -258,3 +259,28 @@ class RuleMemory:
             stop_words="english",
         )
         self._rule_matrix = self._vectorizer.fit_transform(texts)
+
+    # ── Selection strategies ─────────────────────────────────────────────
+
+    def _tfidf_select(self, k: int, query: str) -> list[int]:
+        """Select top-K rules by TF-IDF cosine similarity to query."""
+        if self._vectorizer is None or self._rule_matrix is None:
+            return list(range(min(k, len(self._dynamic_rules))))
+        query_vec = self._vectorizer.transform([query])
+        sims = cosine_similarity(query_vec, self._rule_matrix).flatten()
+        indices: list[int] = list(np.argsort(sims)[::-1][:k])
+        return indices
+
+    def _random_select(self, k: int, query: str) -> list[int]:
+        """Select K rules at random (fixed seed per query for reproducibility)."""
+        import hashlib
+        import random as _rand
+
+        if not self._dynamic_rules:
+            return []
+        n = len(self._dynamic_rules)
+        k = min(k, n)
+        # Deterministic seed per query so same query always gets the same random rules
+        seed = int(hashlib.md5(query.encode("utf-8")).hexdigest()[:8], 16)
+        rng = _rand.Random(seed)
+        return list(rng.sample(range(n), k))
