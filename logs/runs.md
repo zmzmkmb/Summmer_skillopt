@@ -10,7 +10,7 @@
 | 006 | 0726 | main | **RAG Core Only**: method=core_only, 无动态规则 | deepseek-v4-flash | qwen-flash | val 0.6050→**0.7350**, test→**0.7336**, final=best, Step 4 之后全部 reject | `outputs/searchqa_rag_coreonly` | 🔬 Core Only 训练分最高，但训练轨迹≠推理能力 |
 
 ---
-## 推理消融（固定原子化规则库，无训练，仅推理选择方式不同）
+## 推理消融 — 单次运行（固定原子化规则库，无训练，仅推理选择方式不同）
 
 | ID | 方法 | Top-K | Test Hard | 说明 |
 |------|------|:--:|:--:|------|
@@ -20,4 +20,18 @@
 | A04 | Core + TF-IDF | 3 | 0.7364 | |
 | A05 | Core + TF-IDF | 8 | 0.7343 | 太多规则=引入噪声 |
 
-> 结论：原子化（24条→6 core + 18 dynamic）让动态规则从不拖后腿变成正向增益。TF-IDF > Random +0.002，Top-5 最优。
+## 推理消融 — 3-Seed 稳定性验证
+
+| 方法 | Mean±Std | Min | Max | vs Core Δ | McNemar p |
+|------|:--:|:--:|:--:|:--:|:--:|
+| Core Only | 0.7279±0.0026 | 0.7250 | 0.7300 | — | — |
+| Random Top-5 | 0.7305±0.0023 | 0.7279 | 0.7321 | +0.003 | 不显著 |
+| Semantic Top-5 | 0.7310±0.0032 | 0.7279 | 0.7343 | +0.003 | 不显著 |
+| **TF-IDF Top-5** | **0.7386±0.0037** | 0.7364 | 0.7429 | **+0.011** | 与 Core Only 在部分 run 显著 |
+
+> - TF-IDF 持续领先。语义向量 (all-MiniLM-L6-v2) 对关键词匹配任务反而不如 TF-IDF
+> - Random 方差更大 (0.0054)，TF-IDF 更稳定
+> - 目标模型输出波动 (std~0.003) 是主要噪声源
+> - 已保存逐题结果到 `outputs/ablation_per_item.json`
+
+> 结论：原子化（24条→6 core + 18 dynamic）是 RAG 生效的关键前提。TF-IDF 检索在 SearchQA 这类关键词匹配任务上最优，语义向量无额外增益。
