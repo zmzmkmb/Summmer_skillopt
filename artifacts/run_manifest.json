@@ -1,0 +1,17 @@
+{
+  "target_model": "qwen-flash",
+  "optimizer_model": "deepseek-v4-flash",
+  "dataset_split": "valid_unseen",
+  "item_count": 1400,
+  "method": "expanded-trigger TF-IDF Top-5",
+  "top_k": 5,
+  "budget_type": "characters",
+  "budget": 2000,
+  "concurrency": 48,
+  "n_repeated_runs": 3,
+  "mean_hard": 0.7376,
+  "std_hard": 0.0036,
+  "git_commit": "41a14ba32ae4a97c2a2c563a9e9c845044c00d68",
+  "run_timestamp": "2026-07-26",
+  "note": "TF-IDF/CoreOnly/Semantic runs differ only by API output noise, Random differs by retrieval seed"
+}

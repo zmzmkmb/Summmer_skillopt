@@ -59,7 +59,9 @@
 
 ---
 
-## 四、3-Seed 稳定性验证 — 四方法对比
+## 四、3 次独立重复推理（3-Run Repeated Inference）— 四方法对比
+
+> 注：TF-IDF、Core Only 和 Semantic 分支中检索结果固定，不同 run 间差异仅来自 qwen-flash API 输出波动，故称"3 次独立重复推理"而非"3-Seed 实验"。
 
 固定 Top-K=5, budget=2000，每方法跑 3 个随机种子，McNemar 配对检验。
 

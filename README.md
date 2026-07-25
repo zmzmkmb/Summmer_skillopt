@@ -1,3 +1,73 @@
+# Atomic Skill Retrieval for SkillOpt
+
+> **暑期实训项目 | 2026-07-24 ~ 07-26**
+>
+> 基于 Microsoft SkillOpt，研究 SearchQA 场景下原子化规则记忆与 Query 级稀疏检索。
+
+## 做了什么
+
+1. **发现并修复 Validation Gate 假停滞** — `slow_update_gate_with_selection=false` 导致 force-accept 污染当前 skill 但不更新分数
+2. **验证模拟退火的局限性** — Metropolis 退火有效但引入新退化路径
+3. **证明粗粒度 RAG 是噪声源** — 动态规则以"大段文本"形式存在时检索无效
+4. **实现原子化规则库** — 8 Core + 16 Dynamic，trigger/text 解耦，TF-IDF Top-5 检索
+5. **完成 30+ 次推理消融** — Random/TF-IDF/Semantic/Dual/Keyword，3 次独立重复推理 + McNemar 检验
+
+## 核心结果
+
+| 版本 | 方法 | Test |
+|------|------|:--:|
+| Phase 2 (性能最优) | 6C+18D, text-only TF-IDF | **0.7386 ± 0.0037** |
+| Phase 3 (架构规范) | 8C+16D, expanded-trigger TF-IDF, trigger/text 解耦 | **0.7376 ± 0.0036** |
+
+> 两版本差值 0.0010 处于 qwen-flash 输出波动范围内（std≈0.003）。Phase 3 在保持性能的同时实现检索触发与执行规则解耦。
+
+## 最终框架
+
+```
+8 条 Core（始终激活）：output format, safety, all-clue matching, answer type, phrase completion, inference
+16 条 Dynamic（TF-IDF Top-5 检索）：extraction, disambiguation, entity normalization, question types, special patterns
++ 2000-character instruction budget
++ Gated Slow Update (slow_update_gate_with_selection=true)
++ relevance-rank order retrieval
+= 零退化，完全可复现
+```
+
+## 快速入口
+
+```bash
+# 复现最终结果（1400 条 test，3 次重复推理）
+python scripts/retrieval_ablation.py \
+  --split valid_unseen --limit 0 --methods tfidf \
+  --top-k 5 --budget 2000 --n-seeds 3 --workers 48
+
+# 查看规则
+cat skillopt/rule_atomizer.py
+```
+
+| 文件 | 说明 |
+|------|------|
+| `reports/report_008_final.md` | 结项报告 |
+| `reports/report_005_atomized_ablation.md` | 原子化消融 + 多 run 验证 |
+| `reports/report_002_slowupdate_comparison.md` | Gate 假停滞诊断 |
+| `skillopt/rule_atomizer.py` | 原子规则库 (8C+16D) |
+| `scripts/retrieval_ablation.py` | 推理消融脚本 |
+| `artifacts/final_results.csv` | 逐题预测结果 |
+| `artifacts/run_manifest.json` | 运行配置记录 |
+
+## 明确结论
+
+| ✅ 做 | ❌ 不做 |
+|------|------|
+| 原子化规则库 + Core/Dynamic 分离 | LSTM 遗忘门 |
+| TF-IDF Top-5 检索 | 模拟退火 |
+| trigger/text 解耦 | Boolean 硬过滤 / 双通道软融合 / 关键词加分 |
+| gated slow update | 语义向量 (all-MiniLM-L6-v2 无增益) |
+
+---
+
+## 基于的原始项目
+
+> 以下为 Microsoft SkillOpt 原始 README。
 # SkillOpt: Executive Strategy for Self-Evolving Agent Skills
 
 *Train agent skills like you train neural networks — with epochs, (mini-)batchsize, learning rates, and validation gates — but without touching model weights.*
