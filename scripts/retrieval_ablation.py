@@ -28,6 +28,9 @@ from skillopt.envs.searchqa.rollout import _build_system, _build_user
 from skillopt.model import chat_target
 from skillopt.rule_atomizer import CORE_RULES, DYNAMIC_RULES, DYNAMIC_TEXTS
 
+# Full-text vectors for dual-channel retrieval
+DYNAMIC_FULL_TEXTS: list[str] = [r.text for r in DYNAMIC_RULES]
+
 
 @dataclass
 class RunResult:
@@ -40,19 +43,32 @@ class RunResult:
 
 
 class AtomicRM:
-    """Fixed atomized rule memory with optional semantic embeddings."""
+    """Fixed atomized rule memory with dual-channel TF-IDF support.
+
+    Parameters
+    ----------
+    lambda_trigger : float
+        Weight on trigger-channel TF-IDF. 1.0=pure trigger, 0.0=pure text.
+        Only used when method == "dual".
+    """
 
     def __init__(self, top_k: int = 5, token_budget: int = 2000,
-                 method: str = "tfidf", seed: int = 0, _semantic_sims=None):
+                 method: str = "tfidf", seed: int = 0, _semantic_sims=None,
+                 lambda_trigger: float = 0.5):
         self.top_k = top_k
         self.token_budget = token_budget
         self.method = method
         self.seed = seed
+        self.lambda_trigger = lambda_trigger
         self.core_text = "\n\n".join(r.text for r in CORE_RULES)
 
-        # Build TF-IDF
+        # Build TF-IDF on triggers
         self._tfidf = TfidfVectorizer(max_features=2048, ngram_range=(1, 2), stop_words="english")
         self._tfidf_matrix = self._tfidf.fit_transform(DYNAMIC_TEXTS)
+
+        # Build TF-IDF on full rule texts (for dual-channel)
+        self._text_tfidf = TfidfVectorizer(max_features=2048, ngram_range=(1, 2), stop_words="english")
+        self._text_tfidf_matrix = self._text_tfidf.fit_transform(DYNAMIC_FULL_TEXTS)
 
         # Build semantic embeddings (lazy)
         self._semantic_matrix = _semantic_sims
@@ -72,6 +88,20 @@ class AtomicRM:
             qv = self._tfidf.transform([query])
             sims = cosine_similarity(qv, self._tfidf_matrix).flatten()
             indices = list(np.argsort(sims)[::-1][:k])
+        elif self.method == "dual":
+            # Trigger channel
+            qv_t = self._tfidf.transform([query])
+            sims_t = cosine_similarity(qv_t, self._tfidf_matrix).flatten()
+            # Text channel
+            qv_x = self._text_tfidf.transform([query])
+            sims_x = cosine_similarity(qv_x, self._text_tfidf_matrix).flatten()
+            # Normalize each to [0,1] then fuse
+            for sims in (sims_t, sims_x):
+                mn, mx = sims.min(), sims.max()
+                if mx - mn > 1e-9:
+                    sims -= mn; sims /= (mx - mn)
+            combined = self.lambda_trigger * sims_t + (1 - self.lambda_trigger) * sims_x
+            indices = list(np.argsort(combined)[::-1][:k])
         elif self.method == "semantic" and self._semantic_matrix is not None:
             q_emb = _semantic_encode(query)
             sims = cosine_similarity([q_emb], self._semantic_matrix)[0]
@@ -134,14 +164,15 @@ def _build_semantic_embeddings():
 # ── Build RM per method ─────────────────────────────────────────────────
 
 def build_rm(method: str, top_k: int, budget: int, seed: int,
-             semantic_matrix=None) -> Any:
+             semantic_matrix=None, lambda_trigger: float = 0.5) -> Any:
     if method == "core_only":
         class _RM:
             def build_skill(self, q):
                 return "\n\n".join(r.text for r in CORE_RULES)
         return _RM()
     return AtomicRM(top_k=top_k, token_budget=budget, method=method,
-                    seed=seed, _semantic_sims=semantic_matrix)
+                    seed=seed, _semantic_sims=semantic_matrix,
+                    lambda_trigger=lambda_trigger)
 
 
 def infer_one(item: dict, rm) -> dict:
@@ -197,6 +228,8 @@ def parse_args():
     p.add_argument("--n-seeds", type=int, default=3)
     p.add_argument("--limit", type=int, default=0)
     p.add_argument("--workers", type=int, default=48)
+    p.add_argument("--lambda-trigger", type=float, default=0.5,
+                   help="Weight on trigger channel for dual method (0.0=text-only, 1.0=trigger-only)")
     return p.parse_args()
 
 
@@ -219,7 +252,8 @@ def main():
     for method in args.methods:
         for seed in range(args.n_seeds):
             t0 = time.time()
-            rm = build_rm(method, args.top_k, args.budget, seed, sem_matrix)
+            rm = build_rm(method, args.top_k, args.budget, seed, sem_matrix,
+                          lambda_trigger=args.lambda_trigger)
             with ThreadPoolExecutor(max_workers=args.workers) as ex:
                 batch = [ex.submit(infer_one, item, rm) for item in items]
                 batch = [f.result() for f in batch]
