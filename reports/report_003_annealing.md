@@ -184,7 +184,7 @@ Final test: best=0.7214, final=0.7107 (退化 -0.0107)
 |------|------|
 | **退火机制有效** | 打破了 tie-reject，允许了探索，Step 8-10-16 是从退火探索中恢复并冲击新高的典型案例 |
 | **当前实现有缺陷** | 退火 accept 永久降低 current_score，导致 Step 24 后无法恢复，final 退化 |
-| **最佳配置仍是 #002** | `slow_update_gate_with_selection=true`, `use_annealing=false` — 零退化、可复现 |
+| **最佳配置** | 见 #005 最终框架：原子化规则库 + TF-IDF Top-5 + gated slow update = 0.7386±0.0037 |
 
 ### 三跑最终排名
 
