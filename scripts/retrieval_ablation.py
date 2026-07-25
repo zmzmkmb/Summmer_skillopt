@@ -54,12 +54,13 @@ class AtomicRM:
 
     def __init__(self, top_k: int = 5, token_budget: int = 2000,
                  method: str = "tfidf", seed: int = 0, _semantic_sims=None,
-                 lambda_trigger: float = 0.5):
+                 lambda_trigger: float = 0.5, gamma: float = 0.0):
         self.top_k = top_k
         self.token_budget = token_budget
         self.method = method
         self.seed = seed
         self.lambda_trigger = lambda_trigger
+        self.gamma = gamma
         self.core_text = "\n\n".join(r.text for r in CORE_RULES)
 
         # Build TF-IDF on triggers
@@ -84,9 +85,12 @@ class AtomicRM:
             seed = int(hashlib.md5(query.encode()).hexdigest()[:8], 16) + self.seed
             rng = _random.Random(seed)
             indices = rng.sample(range(len(DYNAMIC_RULES)), k)
-        elif self.method == "tfidf":
+        elif self.method in ("tfidf", "keyword"):
             qv = self._tfidf.transform([query])
             sims = cosine_similarity(qv, self._tfidf_matrix).flatten()
+            # Keyword soft-bonus if gamma > 0
+            if self.method == "keyword" and self.gamma > 0:
+                sims = self._apply_keyword_bonus(query, sims)
             indices = list(np.argsort(sims)[::-1][:k])
         elif self.method == "dual":
             # Trigger channel
@@ -116,6 +120,22 @@ class AtomicRM:
             if used + len(t) > self.token_budget and parts: break
             parts.append(t); used += len(t) + 1
         return "\n".join(parts)
+
+    def _apply_keyword_bonus(self, query: str, sims: np.ndarray) -> np.ndarray:
+        """Add γ × K(r,q) to TF-IDF scores. K = fraction of rule keywords found in query."""
+        import re as _re
+        q_words = set(_re.findall(r'[a-zA-Z]{2,}', query.lower()))
+        result = sims.copy()
+        for i, rule in enumerate(DYNAMIC_RULES):
+            if not rule.keywords:
+                continue
+            kw_set = set(k.lower() for k in rule.keywords)
+            if not kw_set:
+                continue
+            hit = len(kw_set & q_words)
+            K = hit / len(kw_set)
+            result[i] += self.gamma * K
+        return result
 
     def build_skill(self, query: str) -> str:
         d = self.retrieve(query)
@@ -164,7 +184,8 @@ def _build_semantic_embeddings():
 # ── Build RM per method ─────────────────────────────────────────────────
 
 def build_rm(method: str, top_k: int, budget: int, seed: int,
-             semantic_matrix=None, lambda_trigger: float = 0.5) -> Any:
+             semantic_matrix=None, lambda_trigger: float = 0.5,
+             gamma: float = 0.0) -> Any:
     if method == "core_only":
         class _RM:
             def build_skill(self, q):
@@ -172,7 +193,7 @@ def build_rm(method: str, top_k: int, budget: int, seed: int,
         return _RM()
     return AtomicRM(top_k=top_k, token_budget=budget, method=method,
                     seed=seed, _semantic_sims=semantic_matrix,
-                    lambda_trigger=lambda_trigger)
+                    lambda_trigger=lambda_trigger, gamma=gamma)
 
 
 def infer_one(item: dict, rm) -> dict:
@@ -230,6 +251,8 @@ def parse_args():
     p.add_argument("--workers", type=int, default=48)
     p.add_argument("--lambda-trigger", type=float, default=0.5,
                    help="Weight on trigger channel for dual method (0.0=text-only, 1.0=trigger-only)")
+    p.add_argument("--gamma", type=float, default=0.0,
+                   help="Keyword soft-bonus weight for keyword method")
     return p.parse_args()
 
 
@@ -253,7 +276,7 @@ def main():
         for seed in range(args.n_seeds):
             t0 = time.time()
             rm = build_rm(method, args.top_k, args.budget, seed, sem_matrix,
-                          lambda_trigger=args.lambda_trigger)
+                          lambda_trigger=args.lambda_trigger, gamma=args.gamma)
             with ThreadPoolExecutor(max_workers=args.workers) as ex:
                 batch = [ex.submit(infer_one, item, rm) for item in items]
                 batch = [f.result() for f in batch]
