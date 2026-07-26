@@ -187,7 +187,7 @@ def main():
 
     # Test with initial skill
     skill = "Solve spreadsheet tasks using Python and openpyxl. Write clean, correct code."
-    n = 50
+    n = 400
     results = []
     t0 = time.time()
     with ThreadPoolExecutor(max_workers=8) as ex:
