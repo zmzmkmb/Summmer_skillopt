@@ -92,12 +92,16 @@ LiveMath 的 177 题同时测试三层能力：
 
 ### 5.5 核心发现
 
-> **LiveMath 上的地板效应是测量伪影，不是数学能力缺失。** 加入元判断提示后，qwen-flash 在两类子问题上均达到 72%。瓶颈在于模型未意识到题目是元选择格式（A="选项之一正确但可证更强结论"），而非无法理解数学内容。
+> **LiveMath 上的地板效应是测量伪影，不是数学能力缺失。** 加入元判断提示后，qwen-flash 在两类子问题上均达到 72%。瓶颈在于模型未意识到题目是元选择格式，而非无法理解数学内容。
+
+### 5.6 SkillOpt 训练适配问题
+
+在 SkillOpt 训练 pipeline 中，skill 被 SearchQA adapter 的 `_build_system` 包裹为 "You are an expert QA agent + CONTEXT/Document" 格式，元判断提示被埋没，val baseline 仍为 0。LiveMath 需要在 SkillOpt 框架中配置专用 adapter 和系统 prompt 模板，而非复用 SearchQA 的格式。
 
 这意味着：
-- LiveMath **可以** 用作 SkillOpt 训练集（加入元判断规则后，qwen-flash 能在 18 条 val 上拿到 ~35% 正确，不再为零）
-- 初始 skill 应包含任务格式说明，而非通用数学解题 prompt
-- 真正的能力上限层次是：MATH 子类型 > META 子类型（纯数学判断 vs 元选择判断）
+- LiveMath SkillOpt 训练**尚未完成**，需要 task-specific adapter
+- 直接的 meta-hint prompt（不经 SearchQA 模板）能让 qwen-flash 达到 72%
+- **当前不适合写入 SkillOpt 训练集，但适合作为 prompt-level meta-reasoning 检测基准**
 
 ---
 
@@ -140,11 +144,29 @@ LiveMath 的 177 题同时测试三层能力：
 
 ---
 
-## 八、最终架构
+## 八、最终架构 & 项目结项
 
-```
-原子化规则库 + Core/Dynamic 分离 + TF-IDF Top-5 + Gated Slow Update
-= 零退化，跨 Target 迁移有效，跨任务迁移需任务特异性规则
-```
+### 已解决的问题
 
-LSTM、遗忘门、语义向量、模拟退火继续后移。当前阶段的真正瓶颈已在 SearchQA 上被充分研究和解决，但在其他任务类型上需要任务特异性规则库。
+| 问题 | 结论 |
+|------|------|
+| Validation Gate 假停滞 | `slow_update_gate_with_selection=true` 永久解决 |
+| 粗粒度 RAG = 噪声源 | 原子化后动态规则从不拖后腿变正增益 |
+| 原子化 RAG 的最大优化空间 | Top-5 TF-IDF = 当前最佳，0.002 级别的改善在检测极限下 |
+| 模拟退火 | 有效但引入新退化路径，已废弃 |
+| 语义向量 vs TF-IDF | 关键词任务上 TF-IDF > Semantic |
+| LSTM/遗忘门 | 永久推迟 |
+
+### 确认成立的前提条件
+
+| 条件 | 证据 |
+|------|------|
+| 原子化规则 (6→24 条可独立检索的规则) | SearchQA 完整消融链 |
+| Target 模型在任务上有基础能力 (≥30%) | SearchQA ✓，LiveMath ✓(prompt 修正后)，MMLU ✗(天花板) |
+| TF-IDF 检索在关键词任务上 **持续** 优于 Random | 3 次重复推理，方向一致 |
+
+### 三大约束
+
+1. **检测上限**：单规则效应 < qwen-flash 输出噪声 (std≈0.003)，~0.002 级别改善不可测
+2. **内容迁移上限**：跨任务时只有元策略层迁移 (Δ≈0.02)，内容知识需要任务特异性训练
+3. **训练适配上限**：不同任务需各自的系统 prompt 模板，不可共用 SearchQA 的 adapter
