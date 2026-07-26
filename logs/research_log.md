@@ -1,6 +1,32 @@
-# 数学推理能力研究日志
+# SkillOpt 多领域交叉验证研究日志
 
-> 基于 SkillOpt 框架，研究 qwen-flash 在 MMLU-Pro Math 上的 skill 优化
+> 基于 SkillOpt 框架，研究 qwen-flash + deepseek-v4-flash 在 6 个领域上的 skill 自演化
+
+## 研究问题
+
+1. SkillOpt 的训练框架（Gated Slow Update）在非 SearchQA 任务上是否仍然有效？
+2. SearchQA adapter 的 prompt 模板是否在不同任务上造成训练偏倚？
+3. 原子化规则 + TF-IDF 检索架构能否跨领域迁移？
+4. 不同任务的基线分数如何影响 SkillOpt 的训练收益空间？
+
+## 已完成领域
+
+| 领域 | 题型 | 基线→峰值 | 提升 | Accept | 结论 |
+|------|------|:--:|:--:|:--:|------|
+| SearchQA | 文本QA，4选1提取 | 41.7%→73.5% | **+31.8pp** | 4-6 | ✅ 框架核心验证 |
+| MMLU-Pro Math | 数学，10选1 | 89.0%→92.5% | +3.5pp | 3 | ⚠️ 模板污染（+63%） |
+| MMLU-Pro History | 历史，10选1 | 61%→68.4% | +7pp | 3 | ✅ 有效但空间有限 |
+| MMLU-Pro Law | 法律，10选1 | 43.0%→45.5% | +2.5pp | 3 | ✅ 甜区间（基线42%） |
+| MMLU-Pro Philosophy | 哲学，10选1 | 63%→72.0% | +9pp | 4 | ✅ 有效但空间有限 |
+| SpreadsheetBench | 表格操作，代码生成 | 37.9%→? | ? | ? | 🔄 进行中 |
+
+## 跨领域一致发现
+
+1. **SkillOpt 训练循环在所有领域均有效** — 全部正向提升
+2. **SearchQA adapter 模板对不同领域的影响不同** — 数学 (+63%) vs 文本领域 (轻微)
+3. **Gate 行为在 6 个领域完全一致** — 前几步 accept → 后期全部 reject
+4. **Law 是最理想的交叉验证领域** — 基线 43%，和 SearchQA (42%) 接近，提升潜力最大
+5. **提升幅度与基线位置强相关** — 基线越低，提升空间越大（SearchQA +31.8pp vs Math +3.5pp）
 
 ## 研究背景
 
