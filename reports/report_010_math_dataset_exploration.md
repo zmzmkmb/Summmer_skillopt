@@ -54,6 +54,20 @@ SkillOpt 训练结果：90.5% → 93.0%（仅 +2.5%），13 步后（共 80 步�
 
 **这意味着：用当前 SkillOpt 管道测任何 MMLU 系数学数据集，基线都会偏高，无法获得有效的训练信号。**
 
+### 3.5 MMLU-Pro Math — Skip训练，直接推理消融（100题）
+
+绕过 SkillOpt pipeline，直接使用 SearchQA 的 8C+16D 原子规则：
+
+| 配置 | 正确率 | Δ vs No-skill |
+|------|:--:|:--:|
+| No skill | **26.0%** | — |
+| Core Only (SearchQA 规则) | 14.0% | **-12.0%** 🚫 |
+| Core + TF-IDF Top-5 | 15.0% | **-11.0%** 🚫 |
+
+> **SearchQA 原子规则对数学有毒害。** "从文档中提取答案"、"使用 `<answer>` 标签验证"、"在上下文中查找"这些规则在数学选择题上直接误导模型。Core Only 比无规则还差 12 分。
+
+**跨任务内容级规则不迁移 — 最终确认。** 仅有元策略层（step-by-step、验证答案）可迁移 ~0.02。
+
 ---
 
 ## 四、结论
@@ -62,11 +76,12 @@ SkillOpt 训练结果：90.5% → 93.0%（仅 +2.5%），13 步后（共 80 步�
 |------|------|
 | MMLU 数学适合交叉验证吗？ | **不适合** — 全线天花板 |
 | LiveMath 适合交叉验证吗？ | **不适合** — 地板效应，需专用 adapter |
-| MMLU-Pro Math 适合交叉验证吗？ | **数据可行**（原始 40%），**管道不可行**（模板污染至 90.5%） |
-| 当前 SkillOpt 能否在数学上做有效交叉验证？ | **否** — 所有候选数据集或被管道污染（MMLU 系），或有地板效应（LiveMath），或无法加载（MATH） |
+| MMLU-Pro Math 适合交叉验证吗？ | **数据可行**（原始 26%），**规则不可行**（SearchQA 规则有毒：-12%） |
+| SearchQA 规则跨任务迁移吗？ | **内容级不迁移**（-12%），仅元策略级可迁移（~+0.02） |
+| 跨 Target 迁移成立吗？ | **成立** — TF-IDF Top-5 在 qwen-flash 和 qwen-plus 上均有效 |
 
 ## 五、要真正在数学上做交叉验证需要
 
-1. **使用 SkillOpt 的 livemathematicianbench adapter 或新建数学专用 adapter**，而非复用 SearchQA 的 prompt 模板
+1. **数学专用原子规则库** — 不是 SearchQA 的"查找文档/提取答案"规则
 2. **或使用开放式答案的数据集**（如 MATH），评分用 exact match 而非选项标签
-3. **或直接以 MMLU-Pro 的原始 prompt（40%）作为推理消融基线**，跳过 SkillOpt 训练管道，仅做推理层面的检索方法对比
+3. **LiveMath 需要专用 adapter 和 prompt 模板** — 当前 SearchQA adapter 的 QA 格式对其无效
