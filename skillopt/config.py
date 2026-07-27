@@ -142,6 +142,15 @@ _FLATTEN_MAP: dict[str, str] = {
     "env.rag_top_k": "rag_top_k",
     "env.rag_method": "rag_method",
     "env.rag_token_budget": "rag_token_budget",
+    # MOAR (Multi-Objective Atomic Rule selection) config keys
+    "env.moar_pop_size": "moar_pop_size",
+    "env.moar_generations": "moar_generations",
+    "env.moar_crossover_p": "moar_crossover_p",
+    "env.moar_mutation_p": "moar_mutation_p",
+    "env.moar_weights": "moar_weights",
+    "env.moar_selection_mode": "moar_selection_mode",
+    "env.moar_utility_method": "moar_utility_method",
+    "env.moar_utility_decay": "moar_utility_decay",
 }
 
 

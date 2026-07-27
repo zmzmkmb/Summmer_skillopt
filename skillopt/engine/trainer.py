@@ -1167,6 +1167,8 @@ class ReflACTTrainer:
                                 current_skill, top_k=rag_top_k,
                                 token_budget=rag_token_budget,
                                 method=rag_method,
+                                moar_utility_path=os.path.join(
+                                    out_root, "moar_utility.json"),
                             )
                         except Exception:
                             pass
@@ -1177,6 +1179,9 @@ class ReflACTTrainer:
                     )
                     r_hard, r_soft = compute_score(rollout_results)
                     total_rollout_time += time.time() - t_phase
+                    # MOAR: feed back rollouts to update per-rule utilities
+                    if hasattr(train_rs, 'update_utilities'):
+                        train_rs.update_utilities(rollout_results)
                     all_rollout_results.extend(rollout_results)
                     print(f"    [1/6 done] hard={r_hard:.4f} soft={r_soft:.4f}")
 
@@ -1489,6 +1494,9 @@ class ReflACTTrainer:
                             eval_rs = RuleMemory(
                                 candidate_skill, top_k=rag_top_k,
                                 token_budget=rag_token_budget,
+                                method=rag_method,
+                                moar_utility_path=os.path.join(
+                                    out_root, "moar_utility.json"),
                             )
                         except Exception:
                             pass
@@ -1497,6 +1505,9 @@ class ReflACTTrainer:
                         rule_selector=eval_rs,
                     )
                     cand_hard, cand_soft = compute_score(sel_results)
+                    # MOAR: feed back selection eval to update per-rule utilities
+                    if hasattr(eval_rs, 'update_utilities'):
+                        eval_rs.update_utilities(sel_results)
                     sel_cache[cand_hash] = (cand_hard, cand_soft)
 
                 step_rec["selection_hard"] = cand_hard
