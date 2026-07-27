@@ -1,16 +1,40 @@
-# Atomic Skill Retrieval for SkillOpt
+# SkillOpt — Task-Context-Aware Dual-Timescale Skill Optimization
 
-> **暑期实训项目 | 2026-07-24 ~ 07-26**
+> **Target**: Factual QA, Knowledge Reasoning, and Tool-Execution Tasks
 >
-> 基于 Microsoft SkillOpt，研究 SearchQA 场景下原子化规则记忆与 Query 级稀疏检索。
+> 基于 Microsoft SkillOpt 的独立研究分支，探索原子化规则记忆、双时间尺度更新与跨领域技能迁移。
+
+## 当前进展
+
+| 任务族 | 领域 | 基线→最佳 test | 提升 | 状态 |
+|------|------|:--:|:--:|:--:|
+| **Factual QA** | SearchQA | 41.7%→73.9% | +31.8pp | ✅ 验证完成 |
+| **Knowledge Reasoning** | MMLU-Pro Law | 34.4%→38.4% | +4.0pp | ✅ 验证完成 |
+| **Knowledge Reasoning** | MMLU-Pro Philosophy | 56.8%→66.4% | +9.6pp | ✅ 验证完成（含 fast+slow） |
+| **Knowledge Reasoning** | MMLU-Pro Math | 88.0%→89.5% | +1.5pp | ✅ 天花板接近 |
+| **Knowledge Reasoning** | MMLU-Pro History | 61%→68.4% | +7pp | ✅ 旧 adapter 验证 |
+| **Tool-Execution** | SpreadsheetBench | 35.5% baseline | — | 🔄 基线测完，训练待接入 |
+
+### 最新里程碑（2026-07-27）
+
+- ✅ **修复 MMLU-Pro pipeline 两个关键 bug**（analyst 输出协议 + trajectory 上下文缺失）
+- ✅ **Step-level optimizer 确认有效**（修复后每步 3-4 patch，Philosophy step 1 gate accept）
+- ✅ **Fast + slow update 双时间尺度验证**（report #013）
+- ✅ **Unit tests**: 26 pass, evaluator / analyst schema / trajectory context
 
 ## 做了什么
 
-1. **发现并修复 Validation Gate 假停滞** — `slow_update_gate_with_selection=false` 导致 force-accept 污染当前 skill 但不更新分数
-2. **验证模拟退火的局限性** — Metropolis 退火有效但引入新退化路径
-3. **证明粗粒度 RAG 是噪声源** — 动态规则以"大段文本"形式存在时检索无效
-4. **实现原子化规则库** — 8 Core + 16 Dynamic，trigger/text 解耦，TF-IDF Top-5 检索
-5. **完成 30+ 次推理消融** — Random/TF-IDF/Semantic/Dual/Keyword，3 次独立重复推理 + McNemar 检验
+1. **搭建 MMLU-Pro 独立 adapter** — 纯格式约束，不依赖 SearchQA 模板
+2. **发现并修复两个 pipeline bug** — analyst 协议不兼容 + trajectory 上下文缺失
+3. **验证 fast/slow 双时间尺度更新** — step-level patches + epoch-level slow_update
+4. **多领域跨领域验证** — 6 domains, SearchQA + MMLU-Pro (Math/Law/History/Philosophy) + SpreadsheetBench
+5. **原子化规则检索** — 8 Core + 16 Dynamic，trigger/text 解耦，TF-IDF Top-5 检索
+
+---
+
+# Archived: SearchQA Summer Project (2026-07-24 ~ 07-26)
+
+> 以下为暑期实训期间的 SearchQA 原子化检索实验归档。当前研究方向已转向多任务族双时间尺度优化。
 
 ## 核心结果
 
