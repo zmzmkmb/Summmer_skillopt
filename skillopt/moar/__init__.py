@@ -121,13 +121,14 @@ class MOAREngine:
         def fitness(population: np.ndarray) -> np.ndarray:
             return compute_objectives(population, qv, cache, utilities, bd, tk)
 
-        # Run NSGA-II
+        # Run NSGA-II with both budget and top-K constraints
         rng = np.random.RandomState(seed) if seed is not None else np.random.RandomState()
         pareto_chroms, pareto_objs = optimize(
             fitness,
             n_vars=n_rules,
             budget=budget,
             token_costs=self._cache.token_costs,
+            top_k=min(top_k, n_rules),
             config=self._nsga2_cfg,
             rng=rng,
         )
@@ -141,6 +142,13 @@ class MOAREngine:
 
         # Extract selected indices
         indices = [int(i) for i in np.where(best_chrom > 0.5)[0]]
+
+        # Enforce both constraints (defence-in-depth: NSGA-II should guarantee these)
+        total_chars = int(sum(self._cache.token_costs[i] for i in indices))
+        assert len(indices) <= top_k, \
+            f"top-K violated: {len(indices)} > {top_k}"
+        assert total_chars <= budget or len(indices) <= 1, \
+            f"budget violated: {total_chars} > {budget} with {len(indices)} rules"
 
         # If we got fewer than top_k rules and budget allows, fill with
         # highest relevance+utility rules

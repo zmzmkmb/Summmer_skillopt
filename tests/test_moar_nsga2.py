@@ -111,14 +111,20 @@ class TestConstraintViolations:
     def test_no_violation(self):
         pop = np.array([[1, 0, 0], [0, 1, 0]])
         costs = np.array([100, 200, 300])
-        viol = _constraint_violations(pop, 500, costs)
+        viol = _constraint_violations(pop, 500, costs, top_k=5)
         assert np.all(viol == 0)
 
-    def test_violation(self):
+    def test_budget_violation(self):
         pop = np.array([[1, 1, 1]])
         costs = np.array([100, 200, 300])
-        viol = _constraint_violations(pop, 300, costs)
-        assert viol[0] == 300  # 600 - 300
+        viol = _constraint_violations(pop, 300, costs, top_k=5)
+        assert viol[0] == 300  # 600 - 300 = budget violation
+
+    def test_topk_violation(self):
+        pop = np.array([[1, 1, 0]])
+        costs = np.array([10, 20, 30])
+        viol = _constraint_violations(pop, 500, costs, top_k=1)
+        assert viol[0] == 100  # (2-1) * 100 penalty
 
 
 class TestNSGA2Full:
@@ -188,8 +194,10 @@ class TestNSGA2Full:
 class TestPopulationInit:
     def test_sparse_init(self):
         rng = np.random.RandomState(42)
-        pop = _init_population(50, 20, rng)
+        pop = _init_population(50, 20, top_k=5, rng=rng)
         assert pop.shape == (50, 20)
-        # Should be sparse — average ~5 selected out of 20
+        # All individuals should respect top_K=5
+        assert np.all(pop.sum(axis=1) <= 5)
+        # Should be somewhat sparse
         avg = pop.mean()
-        assert 0.1 <= avg <= 0.4  # roughly 2-8 rules on average
+        assert 0.05 <= avg <= 0.3  # roughly 1-6 rules on average

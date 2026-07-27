@@ -40,6 +40,7 @@ def optimize(
     n_vars: int,
     budget: int,
     token_costs: np.ndarray,
+    top_k: int = 0,
     config: NSGA2Config | None = None,
     rng: np.random.RandomState | None = None,
     callback=None,
@@ -55,9 +56,11 @@ def optimize(
     n_vars : int
         Number of dynamic rules (chromosome length).
     budget : int
-        Token budget constraint.
+        Character budget constraint (applied to dynamic rules portion).
     token_costs : np.ndarray
-        Shape ``(n_vars,)`` — token length per rule for constraint checks.
+        Shape ``(n_vars,)`` — character length per rule for constraint checks.
+    top_k : int
+        Hard constraint on max number of selected rules (0 = no limit).
     config : NSGA2Config | None
         Algorithm hyperparameters (uses defaults if None).
     rng : np.random.RandomState | None
@@ -76,10 +79,12 @@ def optimize(
     if n_vars == 0:
         return np.empty((0, 0)), np.empty((0, 0))
 
+    actual_top_k = top_k if top_k > 0 else n_vars  # 0 = no limit
+
     # ── Initialise ───────────────────────────────────────────────────────
-    pop = _init_population(cfg.pop_size, n_vars, rng)
+    pop = _init_population(cfg.pop_size, n_vars, actual_top_k, rng)
     obj = fitness_func(pop)
-    violations = _constraint_violations(pop, budget, token_costs)
+    violations = _constraint_violations(pop, budget, token_costs, actual_top_k)
     for gen_idx in range(cfg.generations):
         # ── Rank & distance ──────────────────────────────────────────────
         fronts = _non_dominated_sort(obj, violations)
@@ -87,9 +92,9 @@ def optimize(
 
         # ── Create offspring ─────────────────────────────────────────────
         offspring = _create_offspring(pop, obj, fronts, crowd, violations,
-                                       budget, token_costs, cfg, rng)
+                                       budget, token_costs, actual_top_k, cfg, rng)
         off_obj = fitness_func(offspring)
-        off_violations = _constraint_violations(offspring, budget, token_costs)
+        off_violations = _constraint_violations(offspring, budget, token_costs, actual_top_k)
 
         # ── Elitist environmental selection ──────────────────────────────
         merged = np.vstack([pop, offspring])
@@ -118,14 +123,20 @@ def optimize(
 # ── Initialisation ───────────────────────────────────────────────────────────
 
 
-def _init_population(pop_size: int, n_vars: int, rng: np.random.RandomState) -> np.ndarray:
+def _init_population(pop_size: int, n_vars: int, top_k: int,
+                     rng: np.random.RandomState) -> np.ndarray:
     """Random binary population, biased toward sparse selections.
 
-    Each gene is 1 with probability min(0.25, 5/n_vars) so initial solutions
-    select ~5 rules on average, avoiding all-zero or all-one chromosomes.
+    Each gene is 1 with probability min(0.25, top_k/n_vars) so initial solutions
+    select ~top_k/2 rules on average, respecting the top-K constraint.
     """
-    p = min(0.25, 5.0 / max(n_vars, 1))
-    return (rng.rand(pop_size, n_vars) < p).astype(np.float64)
+    p = min(0.25, max(1, top_k) / max(n_vars, 1))
+    pop = (rng.rand(pop_size, n_vars) < p).astype(np.float64)
+    # Repair any individual that exceeds top_k
+    for i in range(pop_size):
+        if np.sum(pop[i]) > top_k:
+            pop[i] = _repair_topk(pop[i], top_k, rng)
+    return pop
 
 
 # ── Non-dominated sorting ────────────────────────────────────────────────────
@@ -322,10 +333,14 @@ def _create_offspring(
     violations: np.ndarray,
     budget: int,
     token_costs: np.ndarray,
+    top_k: int,
     config: NSGA2Config,
     rng: np.random.RandomState,
 ) -> np.ndarray:
-    """Generate offspring via tournament selection, crossover, mutation."""
+    """Generate offspring via tournament selection, crossover, mutation.
+
+    Repairs both budget and top-K constraints on each offspring.
+    """
     pop_size, n_vars = population.shape
     offspring = np.empty((pop_size, n_vars))
 
@@ -339,7 +354,11 @@ def _create_offspring(
         c1 = _bit_flip_mutation(c1, config.mutation_p, rng)
         c2 = _bit_flip_mutation(c2, config.mutation_p, rng)
 
-        # Repair: if offspring exceeds budget, drop lowest-scoring rules
+        # Repair: top-K first, then budget (order matters)
+        if np.sum(c1) > top_k:
+            c1 = _repair_topk(c1, top_k, rng)
+        if np.sum(c2) > top_k:
+            c2 = _repair_topk(c2, top_k, rng)
         if np.dot(c1, token_costs) > budget:
             c1 = _repair_budget(c1, token_costs, budget, rng)
         if np.dot(c2, token_costs) > budget:
@@ -408,10 +427,36 @@ def _constraint_violations(
     population: np.ndarray,
     budget: int,
     token_costs: np.ndarray,
+    top_k: int = 0,
 ) -> np.ndarray:
-    """Compute token budget violations for the population.
+    """Compute combined constraint violations for the population.
 
-    violation = max(0, sum(token_costs) - budget) per individual.
+    Returns sum of two violation components:
+    - budget_violation = max(0, sum(token_costs) - budget)
+    - top_k_violation = max(0, n_selected - top_k) * penalty_weight
+
+    The penalty weight ensures top-K and budget violations are comparable
+    in magnitude for the NSGA-II feasibility-first dominance logic.
     """
-    costs = population @ token_costs  # shape (pop_size,)
-    return np.maximum(0.0, costs - budget)
+    costs = population @ token_costs
+    budget_viol = np.maximum(0.0, costs - budget)
+    n_selected = population.sum(axis=1)
+    topk_viol = np.maximum(0.0, n_selected - top_k) * 100.0  # per-rule penalty
+    return budget_viol + topk_viol
+
+
+def _repair_topk(
+    chrom: np.ndarray,
+    top_k: int,
+    rng: np.random.RandomState,
+) -> np.ndarray:
+    """Drop randomly selected rules until |S| <= top_k."""
+    selected = np.where(chrom > 0.5)[0]
+    if len(selected) <= top_k:
+        return chrom
+    # Drop in random order
+    rng.shuffle(selected)
+    repaired = chrom.copy()
+    to_drop = len(selected) - top_k
+    repaired[selected[:to_drop]] = 0.0
+    return repaired

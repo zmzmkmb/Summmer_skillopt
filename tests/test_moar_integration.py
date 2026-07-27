@@ -132,6 +132,25 @@ class TestMOARFallback:
         assert isinstance(result, str)
 
 
+class TestTopKConstraint:
+    """Regression: NSGA-II must respect top-K hard constraint."""
+
+    def test_retrieve_respects_topk(self):
+        rm = RuleMemory(MOCK_SKILL, method="moar",
+                         moar_pop_size=20, moar_generations=10)
+        for k in [1, 2, 3, 5]:
+            result = rm.retrieve("test query", top_k=k, token_budget=5000)
+            n_rules = result.count("## ")
+            assert n_rules <= k, f"top-K violated: {n_rules} > {k}"
+
+    def test_combined_constraints(self):
+        rm = RuleMemory(MOCK_SKILL, method="moar",
+                         moar_pop_size=20, moar_generations=10)
+        result = rm.retrieve("extract entities from text",
+                              top_k=2, token_budget=200)
+        assert len(result) <= 210 and result.count("## ") <= 2
+
+
 class TestConfigPassthrough:
     def test_moar_config_keys_accepted(self):
         """Verify that MOAR config kwargs are accepted without error."""
