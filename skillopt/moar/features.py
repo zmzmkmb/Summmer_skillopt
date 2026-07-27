@@ -2,13 +2,20 @@
 
 Precomputes static features (token costs, pairwise similarities, TF-IDF matrix)
 and computes per-query objectives for a population of binary chromosomes.
+
+Token costs are computed via :mod:`skillopt.moar.tokenizer` (tiktoken) when
+``use_tokenizer=True``, falling back to character length otherwise.
 """
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
+
+if TYPE_CHECKING:
+    from skillopt.moar.tokenizer import TokenCounter
 
 
 @dataclass
@@ -18,22 +25,27 @@ class FeatureCache:
     Attributes
     ----------
     token_costs : np.ndarray
-        Shape ``(n_rules,)`` — character length of each dynamic rule's full_text.
+        Shape ``(n_rules,)`` — real token count per dynamic rule (or character
+        length when no tokenizer is available).
     pairwise_sims : np.ndarray
         Shape ``(n_rules, n_rules)`` — cosine similarity between rule embeddings.
     rule_embeddings : np.ndarray
         Shape ``(n_rules, n_features)`` — dense TF-IDF matrix.
+    _tokenizer_used : bool
+        True if token costs were computed via a real tokenizer.
     """
     token_costs: np.ndarray         # (n_rules,)
     pairwise_sims: np.ndarray       # (n_rules, n_rules)
     rule_embeddings: np.ndarray     # (n_rules, n_features)
     _cached_triu: np.ndarray | None = None  # upper-triangle for fast redundancy
+    _tokenizer_used: bool = False
 
     @classmethod
     def from_arrays(
         cls,
         rule_texts: list[str],
         rule_embeddings: np.ndarray,
+        token_counter: "TokenCounter | None" = None,
     ) -> "FeatureCache":
         """Build cache from rule texts and a pre-built TF-IDF matrix.
 
@@ -43,9 +55,19 @@ class FeatureCache:
             Full text of each dynamic rule.
         rule_embeddings : np.ndarray
             Dense TF-IDF matrix of shape ``(n_rules, n_features)``.
+        token_counter : TokenCounter | None
+            If provided, use real token counts via tiktoken.
+            If None, fall back to character length.
         """
         n = len(rule_texts)
-        token_costs = np.array([len(t) for t in rule_texts], dtype=np.float64)
+        if token_counter is not None:
+            token_costs = np.array(
+                token_counter.count_batch(rule_texts), dtype=np.float64
+            )
+            tokenizer_used = True
+        else:
+            token_costs = np.array([len(t) for t in rule_texts], dtype=np.float64)
+            tokenizer_used = False
 
         if n <= 1:
             pairwise_sims = np.zeros((n, n))
@@ -62,6 +84,7 @@ class FeatureCache:
             pairwise_sims=pairwise_sims,
             rule_embeddings=rule_embeddings,
             _cached_triu=triu,
+            _tokenizer_used=tokenizer_used,
         )
 
 

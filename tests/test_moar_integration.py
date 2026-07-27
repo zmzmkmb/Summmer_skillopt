@@ -108,7 +108,6 @@ class TestMOARUtilityPersistence:
                              moar_utility_path=path,
                              moar_utility_method="precision")
 
-            # Run multiple correct queries — should increase utility
             for i in range(5):
                 q = f"extract answer {i}"
                 rm.retrieve(q, top_k=3, token_budget=1000)
@@ -118,7 +117,9 @@ class TestMOARUtilityPersistence:
 
             utils = rm._tracker.compute_utilities()
             # Some rules should have been selected and been correct
-            total_sel = sum(s.selected_count for s in rm._tracker._stats)
+            total_sel = sum(
+                s.selected_count for s in rm._tracker._stats.values()
+            )
             assert total_sel > 0, "No rules were selected in 5 queries"
 
 

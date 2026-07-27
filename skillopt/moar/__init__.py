@@ -343,6 +343,11 @@ class MOARMemory:
         ``"precision"``, ``"laplace"``, or ``"idf"``.
     moar_utility_decay : float
         Exponential decay factor (1.0 = no decay).
+    moar_tokenizer : str
+        tiktoken encoding name for real token counting ("" = use char length).
+        Default ``"cl100k_base"`` is a good approximation for Qwen/GPT-4 family.
+    moar_frozen : bool
+        If True, utility updates are no-ops (test-set isolation).
     """
 
     def __init__(
@@ -360,6 +365,8 @@ class MOARMemory:
         moar_selection_mode: str = "weighted_sum",
         moar_utility_method: str = "precision",
         moar_utility_decay: float = 1.0,
+        moar_tokenizer: str = "cl100k_base",
+        moar_frozen: bool = False,
         **__,
     ) -> None:
         # Import parent here to avoid circular import at module level
@@ -372,22 +379,45 @@ class MOARMemory:
             method="tfidf",
         )
 
+        # ── Token counter (real tokenizer) ────────────────────────────────
+        token_counter = None
+        tokenizer_used = False
+        if moar_tokenizer:
+            try:
+                from skillopt.moar.tokenizer import get_counter
+                token_counter = get_counter(moar_tokenizer)
+                tokenizer_used = True
+            except Exception:
+                pass  # fallback to char length
+
         # ── Build feature cache ──────────────────────────────────────────
         if self._parent.n_dynamic > 0:
             rule_texts = [r.full_text for r in self._parent.dynamic_rules]
             self._cache = FeatureCache.from_arrays(
                 rule_texts,
                 self._parent._rule_matrix,
+                token_counter=token_counter,
             )
         else:
             self._cache = FeatureCache.from_arrays([], np.empty((0, 0)))
 
-        # ── Utility tracker ──────────────────────────────────────────────
+        # ── Utility tracker with stable rule IDs ─────────────────────────
         self._tracker = UtilityTracker(
-            n_rules=self._parent.n_dynamic,
             persistence_path=moar_utility_path,
             decay=float(moar_utility_decay),
+            frozen=bool(moar_frozen),
         )
+        if self._parent.n_dynamic > 0:
+            self._tracker.register_rules(
+                [r.full_text for r in self._parent.dynamic_rules]
+            )
+
+        # Log tokenizer mode
+        cost_kind = "tokens" if tokenizer_used else "chars"
+        if self._parent.n_dynamic > 0:
+            avg_cost = float(np.mean(self._cache.token_costs))
+            print(f"  [moar] {cost_kind} mode, avg={avg_cost:.0f} {cost_kind}/rule, "
+                  f"frozen={moar_frozen}", flush=True)
 
         # ── Parse weights ────────────────────────────────────────────────
         try:
