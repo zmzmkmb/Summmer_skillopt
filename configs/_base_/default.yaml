@@ -100,4 +100,18 @@ env:
   data_path: ""
   split_output_dir: ""
   exec_timeout: 120      # per target model/code-agent call timeout in seconds
+  # RAG config
+  use_rag: false
+  rag_top_k: 5
+  rag_method: tfidf       # tfidf | random | core_only | moar
+  rag_token_budget: 2000
+  # MOAR (Multi-Objective Atomic Rule selection) — only used when rag_method=moar
+  moar_pop_size: 50
+  moar_generations: 30
+  moar_crossover_p: 0.9
+  moar_mutation_p: 0.10
+  moar_weights: "0.4,0.3,0.2,0.1"
+  moar_selection_mode: weighted_sum
+  moar_utility_method: precision
+  moar_utility_decay: 1.0
   out_root: ""

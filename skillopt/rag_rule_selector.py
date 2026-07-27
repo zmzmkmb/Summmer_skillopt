@@ -46,6 +46,15 @@ class Rule:
 class RuleMemory:
     """Parse, embed, and retrieve rules from a skill markdown document.
 
+    Supports multiple retrieval methods via the ``method`` parameter:
+
+    - ``"tfidf"`` (default): TF-IDF cosine similarity top-K.
+    - ``"random"``: deterministic random selection per query.
+    - ``"core_only"``: only core rules, no dynamic retrieval.
+    - ``"moar"``: Multi-Objective Atomic Rule selection via NSGA-II.
+      When ``method="moar"``, ``__new__`` returns a :class:`~skillopt.moar.MOARMemory`
+      instance that supports ``update_utilities()`` for per-rule utility feedback.
+
     Parameters
     ----------
     skill_content
@@ -70,6 +79,17 @@ class RuleMemory:
         "extraction strategy",
     ]
 
+    def __new__(cls, skill_content: str, top_k: int = 5,
+                token_budget: int = 2000, method: str = "tfidf", **kwargs):
+        """Factory: when ``method="moar"``, return a :class:`MOARMemory` instance."""
+        if method == "moar":
+            from skillopt.moar import MOARMemory  # lazy import
+            return MOARMemory(
+                skill_content, top_k=top_k, token_budget=token_budget,
+                method=method, **kwargs,
+            )
+        return super().__new__(cls)
+
     def __init__(
         self,
         skill_content: str,
@@ -77,6 +97,10 @@ class RuleMemory:
         token_budget: int = 2000,
         method: str = "tfidf",
     ) -> None:
+        # __new__ may have already returned a MOARMemory — skip double init
+        if type(self).__name__ != "RuleMemory":
+            return
+
         self.skill_content = skill_content
         self.top_k = top_k
         self.token_budget = token_budget
