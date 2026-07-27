@@ -1,6 +1,6 @@
 # Journal Experiments Log
 
-> **Last updated**: 2026-07-28 00:30
+> **Last updated**: 2026-07-28 00:20
 > Target: qwen-flash (DashScope) | Optimizer: deepseek-v4-flash (DeepSeek)
 
 ---
@@ -16,47 +16,54 @@
 
 ---
 
-## Fix 2: Law Fast/Slow 四组消融 ✅ (partial)
+## Fix 2: Fast/Slow 四组消融
 
-| Method | Steps | Val Baseline | Best Val | Val Δ | Test Baseline | Best Test | Test Δ | Gate Accepts | Skill Chars | Status |
+### Law (660 train / 165 val / 276 test) ✅
+
+| Method | Steps | Val Baseline | Best Val | Val Δ | Test Baseline | Best Test | Test Δ | Gate Accepts | Skill | Status |
 |------|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|------|
-| **Initial** | — | 33.33% | 33.33% | — | 34.42% | 34.42% | — | — | 323 | ✅ |
+| **Initial** | — | 33.33% | — | — | 34.42% | — | — | — | 323 | ✅ |
 | **Slow-only** | 68/68 | 38.79% | 41.82% | +3.03pp | 34.42% | **38.41%** | **+3.99pp** | 1 slow (epoch 3) | 376 | ✅ |
 | **Fast-only** | 43/68 | 33.33% | 40.61% | +7.28pp | 34.42% | 35.87% | +1.45pp | 4 step (1,3,7,32) | 18,156 | ⚠️ 截断 |
 | **Fast+Slow** | 26/68 | 32.73% | 36.97% | +4.24pp | 34.42% | 34.42% | 0.00pp | 3 step (3,15,16) | 14,602 | ⚠️ 截断 |
 
-### Key findings:
-1. **Slow-only wins**: best test gain (+3.99pp) with most compact skill (376 chars)
-2. **Fast-only overfits**: val +7.28pp but test only +1.45pp — val/test gap 4.74pp, skill 18K chars
-3. **Fast+Slow too early**: stopped at step 26, never reached slow_update
-4. **165-item val set is too noisy** for gate-based early stopping
+**结论**: Slow_update 用 48× 更少字符（376 vs 18,156）达到更好 test 增益（+3.99pp vs +1.45pp）。Step-level optimizer 在 Law 上过拟合：val/test 差距 4.74pp，165 题 val 集噪声过大。
 
-### Infrastructure issues:
-- DeepSeek API balance exhausted at step 37 (402 Insufficient Balance), recovered ~2h later
-- Fast-only resumed from step 37, stopped at step 43 by 11 consecutive rejects
-- Fast+Slow auto-stopped at step 26 by 10 consecutive rejects
-- Test evals manually run via `eval_only.py`
+### Philosophy (299 train / 75 val / 125 test) 🔄
+
+| Method | Steps | Best Val | Gate Accepts | Status |
+|------|:--:|:--:|:--:|------|
+| **Initial** | — | 56.80% (test) | — | ✅ |
+| **Slow-only** | 32/32 | 62.67% | 2 slow (epoch 2,4) | ✅ from `mmlupro_philosophy_true` |
+| **Fast-only** | 1/32 | 58.67% (baseline) | 0 | 🔄 running |
+| **Fast+Slow** | — | — | — | ⬜ |
+
+### Math 🔲
+### History 🔲
 
 ---
 
 ## Fix 3: Greedy + Exact baselines ✅
 
 - `scripts/moar_baselines.py`: standalone comparison tool
-- Greedy: incremental weighted selection, 1.6ms/query, avg 2.0 rules
-- Exact: brute-force 2^n enumeration (n=8 → 218 subsets), 2.4ms/query, avg 1.0 rule
+- Greedy: 1.6ms/query, avg 2.0 rules selected
+- Exact (2^8=218 subsets): 2.4ms/query, avg 1.0 rule
 - Commit: `5021b40`
 
 ---
 
-## Fix 4: 规则库规模缩放实验 ❌ (not started)
+## Fix 4: 规则库规模缩放实验 ⬜
 
 ---
 
-## Next steps (blocked by API budget):
+## 实验环境
 
-1. [ ] Re-run Law Fast-only with larger val set (to fix overfitting)
-2. [ ] Philosophy Fast/Slow ablation (299 train / 75 val)
-3. [ ] Math Fast/Slow ablation (800 train / 200 val)
-4. [ ] Multi-seed (seed=43, 44)
-5. [ ] MOAR + BM25 baseline
-6. [ ] Rule library scaling (16→50→200)
+| 项目 | 值 |
+|------|:--|
+| Target 模型 | qwen-flash (DashScope) |
+| Optimizer 模型 | deepseek-v4-flash (DeepSeek) |
+| Adapter | `skillopt/envs/mmlupro/` (pure, no SearchQA template) |
+| Initial skill | `skillopt/envs/mmlupro/initial_skill.md` (323 chars) |
+| Config | `configs/mmlupro/default.yaml` |
+| Seed | 42 |
+| 日志目录 | `logs/journal_experiments.md` |
