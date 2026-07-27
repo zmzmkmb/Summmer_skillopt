@@ -48,6 +48,24 @@ from skillopt.prompts import load_prompt
 from skillopt.utils import extract_json
 
 
+# ── Skill deduplication ────────────────────────────────────────────────────────
+
+def _strip_skill_section(text: str) -> str:
+	"""Remove ``## Skill`` block from a target system prompt.
+
+	The skill content is already provided once via ``## Current Skill`` in the
+	analyst user message.  Removing it from per-trajectory system prompts avoids
+	duplicating the same skill up to (minibatch_size + 1) times, which would
+	inflate token costs and bias the analyst against deleting or correcting rules.
+	"""
+	import re
+	# Match from "## Skill\n" through the next "## " heading (or end of text)
+	text = re.sub(r'\n*## Skill\n.*?(?=\n## |\Z)', '', text, flags=re.DOTALL)
+	# Collapse runs of blank lines created by the removal
+	text = re.sub(r'\n{3,}', '\n\n', text)
+	return text.strip()
+
+
 # ── Trajectory formatting ────────────────────────────────────────────────────
 
 
@@ -165,12 +183,16 @@ def fmt_minibatch_trajectories(
             )
 
         # ── Append target context (what the agent saw) ──────────────
+        # Strip skill section to avoid duplicating it N times (once per
+        # trajectory) when it already appears once via "Current Skill".
         target_prompt = item.get("target_system_prompt", "")
         if not target_prompt:
             prompt_path = os.path.join(prediction_dir, tid, "target_system_prompt.txt")
             if os.path.exists(prompt_path):
                 with open(prompt_path, encoding="utf-8") as f:
                     target_prompt = f.read()
+        if target_prompt:
+            target_prompt = _strip_skill_section(target_prompt)
         if target_prompt:
             header += (
                 f"\n#### Target System Prompt\n"

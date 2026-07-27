@@ -1,7 +1,7 @@
 _base_: ../_base_/default.yaml
 
 # MMLU-Pro — pure adapter (no SearchQA template, no baked-in strategy)
-# Uses skillopt/envs/mmlupro/initial_skill.md (76 chars, format-only)
+# Uses skillopt/envs/mmlupro/initial_skill.md (runtime-computed length)
 
 model:
   optimizer: deepseek-v4-flash
