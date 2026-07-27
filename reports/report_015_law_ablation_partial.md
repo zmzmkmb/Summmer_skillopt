@@ -19,47 +19,45 @@
 
 ## 四组对比
 
-| 方法 | slow_update | 状态 | Last Step | Best Val | Best Test | Gate Accepts | Skill 增长 |
-|------|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
-| **Initial** | — | ✅ | — | 33.33% | 34.42% | — | 323 chars |
-| **Fast-only** | ✗ | ⚠️ 截断 | 37/68 | **40.61%** | 待测 | **4** (step 1,3,7,32) | 323→18,156 |
-| **Slow-only** | ✓ (step patches=0) | ✅ 完整 | 68/68 | 41.82% | 38.41% | 1 (slow epoch 3) | 323→376 |
-| **Fast+Slow** | ✓ | ⚠️ 截断 | 26/68 | 36.97% | 待测 | 3 (step 3,15,16) | 323→14,655 |
+| 方法 | Steps | Best Val | Δ Val | Best Test | Δ Test | Gate Accepts | Skill | 停止原因 |
+|------|:--:|:--:|:--:|:--:|:--:|:--:|:--:|------|
+| **Initial** | — | 33.33% | — | 34.42% | — | — | 323 | — |
+| **Fast-only** | 43/68 | **40.61%** | **+7.28pp** | **35.87%** | **+1.45pp** | 4 step | 18,156 | 连续11 reject |
+| **Slow-only**† | 68/68 | 41.82% | +8.49pp | 38.41% | +3.99pp | 1 slow | 376 | 完成 |
+| **Fast+Slow** | 26/68 | 36.97% | +3.64pp | 34.42% | 0.00pp | 3 step | 14,602 | 连续10 reject |
 
-> **Slow-only** 来自 `outputs/mmlupro_law_true`（pipeline bug 未修复版本，step patches 为 0，仅 slow_update epoch 3 接受）。
-> **Fast-only** 和 **Fast+Slow** 来自修复后代码。
+> † Slow-only: 来自 pipeline bug 修复前的 `mmlupro_law_true`。Step patches 被 bug 阻断为 0，仅 epoch-level slow_update 产生增益。
+> Fast-only 和 Fast+Slow 在修复后代码上运行。Test eval 手动补跑。
 
 ---
 
 ## 关键发现
 
-### 1. Step-level optimizer 在 Law 上有效
+### 1. Slow-only 是当前最佳方案
 
-**Fast-only 仅靠 step-level patches（无 slow update）在 val 上从 33.33%→40.61%（+7.28pp），4 次 gate accept。**
+**Slow-only test +3.99pp（34.42%→38.41%），val +8.49pp**，且 skill 仅增长 53 chars。
 
-```
-Step  1: val=33.94%  ACCEPT  skill 323→6518
-Step  3: val=36.36%  ACCEPT  skill 6518→10950
-Step  7: val=40.00%  ACCEPT  (epoch 1 内)
-Step 32: val=40.61%  ACCEPT  (epoch 2 内)
-```
+### 2. Step-level optimizer 有提升但过拟合严重
 
-这确认了 pipeline 修复后 step-level optimizer 确实能产生有意义的规则。
+Fast-only val +7.28pp（33.33%→40.61%），但 test 仅 +1.45pp（34.42%→35.87%）。**Val/test 差距达 4.74pp**，skill 膨胀 56×（323→18,156 chars）。
 
-### 2. Fast+Slow 增益较小但可能未充分收敛
+可能原因：
+- 165 题 val set 太小，噪声大，gate 接受的是噪声改善而非真正泛化
+- 18K chars 的技能可能超过了 qwen-flash 的有效使用上限
+- 需要更大的 val set 或更严格的 gate 来防止过拟合
 
-Fast+Slow 从 32.73%→36.97%（仅 +4.24pp），低于 Fast-only。可能原因：
-- 实验被截断在 step 26/68，epoch 2 的 slow_update 还没运行
-- Slow_update 与 step patches 的互动需要更多 epoch 才能体现
-- Fast+Slow 的 val 基线略低（32.73% vs Fast-only 的 33.33%），噪声效应
+### 3. Fast+Slow 未收敛
 
-### 3. Slow-only 的 val 最高但 test 增益有限
+截断太早（step 26/68，未经历任何 slow_update），test 无变化（34.42% = baseline）。
 
-Slow-only val 达到 41.82%（slow_update epoch 3 accept），但 test 仅 38.41%（+3.99pp from baseline 34.42%）。**Val/test 差距达 3.4pp**——这是 Law 165 题 val set 噪声过大的另一个证据。
+### 4. Slow_update 产生更紧凑、更泛化的技能
 
-### 4. Skill 膨胀问题
+| | Skill 长度 | Val | Test | Val/Test 差距 |
+|------|:--:|:--:|:--:|:--:|
+| Slow-only | 376 chars | 41.82% | 38.41% | 3.41pp |
+| Fast-only | 18,156 chars | 40.61% | 35.87% | **4.74pp** |
 
-Fast-only skill 从 323→18,156 chars（56× 膨胀）——质量待检验。
+Slow_update 用 48× 更少的字符达到了更好的 test 性能，且 val/test 差距更小。
 
 ---
 
@@ -75,7 +73,8 @@ Fast-only skill 从 323→18,156 chars（56× 膨胀）——质量待检验。
 
 ## 下一步
 
-1. 充值 DeepSeek 后：跑 Fast-only + Fast+Slow 的 test eval
-2. 补 Philosophy + Math 的 Fast/Slow 消融（需 API）
-3. 多 seed 重复（seed=43, 44）
-4. 分析 Fast-only skill（18156 chars）的规则质量
+1. **充值后完成**: Fast-only + Fast+Slow 正式完成到 4 epochs（或至少经历 slow_update）
+2. **补 Philosophy + Math 消融**
+3. **多 seed 重复** (seed=43, 44)
+4. **更大的 val set**: 165 题噪声太大，考虑扩大 selection set
+5. **防止 skill 膨胀**: 对 step-level update 添加 skill 长度惩罚或 edit budget 衰减
