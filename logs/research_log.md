@@ -59,11 +59,14 @@ SearchQA adapter 的 prompt 模板可能在不同任务上造成训练偏倚：
 | | Math | Law | Philosophy |
 |------|:--:|:--:|:--:|
 | 数据量 | train=800, val=200, test=351 | train=660, val=165, test=276 | train=299, val=75, test=125 |
-| 基线 val | 49.00% | 38.79% | 58.67% |
-| 基线 test | — | 34.42% | 56.80% |
+| 基线 val (selection) | 49.00% | 38.79% | 58.67% |
+| 基线 test (valid_unseen) | **88.03%** | 34.42% | 56.80% |
 | **最佳 val** | **89.00%** (epoch 2 slow_update) | **41.82%** (epoch 3 slow_update) | **62.67%** (epoch 4 slow_update) |
-| **最佳 test** | **0.00%** ⚠️ | **38.41%** | **63.20%** |
-| Test 提升 | — | **+4.0pp** | **+6.4pp** |
+| **最佳 test** | **89.46%** (re-eval 2026-07-27) | **38.41%** | **60.80%** (re-eval) |
+| Test 提升 | **+1.43pp** | **+3.99pp** | **+4.00pp** |
+
+> ⚠️ Math val/test 存在显著差异（49% vs 88%）——selection set (valid_seen) 和 test set (valid_unseen) 不同。
+> selection 使用 200 题、Gate 用 hard 指标；test 使用 351 题。test 初始基线已接近天花板，slow_update 增益有限。
 | Step-level patches | 0 | 0 | 0 |
 | Step-level accepts | 0 | 0 | 0 |
 | Slow_update accepts | 1 (epoch 2) | 1 (epoch 3) | 2 (epoch 2, 4) |
@@ -129,9 +132,11 @@ SearchQA adapter 的 prompt 模板可能在不同任务上造成训练偏倚：
    - Law: slow_update epoch 3 注入法律特化 guidance → test +4.0pp
    - Philosophy: slow_update epoch 2+4 注入哲学特化 guidance → test +6.4pp
 
-3. **Math test=0% bug** — slow_update guidance 改变了模型输出格式，evaluator 无法解析答案
-   - val evaluation 正常（89%），但 test 评估全部失败
-   - 需要检查 slow_update 注入的 guidance 是否破坏了答案格式
+3. **Math test=0% bug** — DIAGNOSED 2026-07-27: 非格式问题，而是 API 连接错误
+   - 测试阶段 351/351 对 qwen-flash 的 API 调用全部失败: "Connection error after 3 retries"
+   - 所有 response 为空 → predicted="" → hard=0
+   - 重新 eval（API 可达时）: 初始 skill test=88.03%, best skill test=89.46% (+1.43pp)
+   - Val 评估（89%）正确 — 训练时 API 可达
 
 4. **New adapter + slow_update 在文本领域优于旧 adapter**
    - Law: 新 test 38.4% vs 旧 val 45.5%（不可直接比较，但新 adapter test 是干净的）
@@ -192,9 +197,34 @@ SearchQA adapter 的 prompt 模板可能在不同任务上造成训练偏倚：
 
 | 优先级 | 方向 | 理由 |
 |------|------|------|
-| ⭐⭐⭐ | **修复 Math test bug** | slow_update guidance 能拉回 89% val 但 test 评估崩了 |
-| ⭐⭐⭐ | **混合 adapter** | SearchQA 模板+纯 initial_skill — 有 step patches 也有 slow_update |
+| ⭐⭐⭐ | **小数据验证 step patches 修复** | P0 修复后先跑 Law/Philosophy 40 train/30 val 确认 analyst 能产出 patches |
+| ⭐⭐⭐ | **四组消融实验** | Initial / Fast-only / Slow-only / Fast+Slow — 分解两种更新机制的贡献 |
 | ⭐⭐⭐ | **SpreadsheetBench 接入训练循环** | 35% 基线，空间最大 |
-| ⭐⭐ | **History 补跑纯 adapter** | 增加对比数据点 |
-| ⭐ | 更大的 val 集 | 降低 selection 评估噪声 |
-| 💡 | **Slow update 可能比 step patches 更有效** | 本次实验所有 gain 均来自 slow_update
+| ⭐⭐ | **History 补跑** | 增加对比数据点 |
+| ⭐ | 更大 val 集 | 降低 selection 评估噪声 |
+
+## P0 Bugfix 记录（2026-07-27）
+
+### Bug 1: MMLU-Pro rollout 不写 trajectory 上下文字段
+
+**影响**: analyst 只看到 "B"（答案字母），看不到题目、选项、gold answer、system prompt。
+
+**修复** (`skillopt/envs/mmlupro/rollout.py`):
+- 保存 `target_system_prompt.txt` 和 `target_user_prompt.txt` 到磁盘
+- 在 `conversation.json` 末尾追加 eval detail（question, predicted, gold, EM）
+- result dict 新增 `task_description`、`reference_text`、`task_type`、`domain`、`subject`
+- `fail_reason` 从空字符串改为 "Wrong answer: predicted 'X', expected 'Y'"
+
+### Bug 2: MMLU-Pro analyst prompt 输出协议不兼容
+
+**影响**: prompt 要求 `[{op, content, anchor, rationale}]`（JSON 数组），但 `reflect.py:340-350` 解析器要求 `{"patch": {"reasoning": "...", "edits": [...]}}`。即使模型正确生成编辑，也因 `"patch" in result` 对 list 为 False 而被静默丢弃。
+
+**修复** (`skillopt/envs/mmlupro/prompts/analyst_error.md`, `analyst_success.md`):
+- 改为 SkillOpt 标准格式：`{"batch_size": ..., "failure_summary": [...], "patch": {"reasoning": "...", "edits": [{"op": "append|insert_after|replace|delete", ...}]}}`
+- 编辑操作名从 `add/replace/delete` 改为 `append/insert_after/replace/delete`
+
+### Bug 3: Math test=0%（API 连接错误）
+
+**影响**: 训练结束后 test eval 阶段 351/351 API 调用全部 Connection error，response 为空 → hard=0。
+
+**诊断**: 非 evaluator 格式问题，非 skill 格式问题。重新 eval（API 可达）：初始 88.03%, best 89.46%。
