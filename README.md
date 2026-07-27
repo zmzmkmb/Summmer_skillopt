@@ -38,7 +38,7 @@
 | Law | 34.42% | 38.41% | +3.99pp | Slow update |
 | Math | 88.03% | 89.46% | +1.43pp | Slow update (天花板) |
 
-> **Philosophy step 1 首次 gate accept**: pipeline bug 修复后单步 test +5.60pp。所有增益来自 epoch-level slow update。
+> Philosophy 首个 step-level gate accept（修复 pipeline bug 后）：单步 test +5.60pp。后续 slow update 完成了进一步技能整合。由于尚未进行 Fast-only 与 Slow-only 严格消融，目前无法精确分解二者对最终 +9.60pp 增益的独立贡献。
 
 ### ④ SpreadsheetBench 基线
 
