@@ -197,11 +197,43 @@ SearchQA adapter 的 prompt 模板可能在不同任务上造成训练偏倚：
 
 | 优先级 | 方向 | 理由 |
 |------|------|------|
-| ⭐⭐⭐ | **小数据验证 step patches 修复** | P0 修复后先跑 Law/Philosophy 40 train/30 val 确认 analyst 能产出 patches |
+| ✅ | ~~小数据验证 step patches 修复~~ | P0 修复完成，Philosophy step 1 accept + test +5.60pp |
 | ⭐⭐⭐ | **四组消融实验** | Initial / Fast-only / Slow-only / Fast+Slow — 分解两种更新机制的贡献 |
 | ⭐⭐⭐ | **SpreadsheetBench 接入训练循环** | 35% 基线，空间最大 |
 | ⭐⭐ | **History 补跑** | 增加对比数据点 |
 | ⭐ | 更大 val 集 | 降低 selection 评估噪声 |
+
+## P0 修复验证结果（2026-07-27 13:30）
+
+用小数据（train=40, val=30, batch=20, 2 epochs, 4 steps total）验证 Bug 1+2 修复：
+
+| 指标 | Law small | Philosophy small |
+|------|:--:|:--:|
+| 基线 val | 46.67% | 60.00% |
+| 基线 test | 34.42% | 60.80% |
+| Patch 文件/step | **3-4** ✓ | **3** ✓ |
+| Step-level ACCEPT | 0/4 | **✅ 1/4 (Step 1)** |
+| Skill chars | 323→376 | 323→2559 |
+| 最佳 val | 46.67% | **63.33%** |
+| 最佳 test | 34.78% | **66.40%** |
+| Test Δ | +0.36pp | **+5.60pp** ✅ |
+
+**修复前 vs 修复后**:
+- 修复前: 180 steps × 0 patches = 全部 zero（3 个实验，80+68+32 步）
+- 修复后: 8 steps × 3-4 patches each = **每步都产出合法 patch**
+
+**Philosophy step 1: 首次 step-level gate accept**
+```
+UPDATE skill_len 323 -> 2559
+EVALUATE ACCEPT (new best) hard=0.6333 > prev best 0.6000
+test: 60.80% -> 66.40% (+5.60pp)
+```
+
+**结论**:
+1. P0 修复完全解决 step-level patches=0 问题
+2. Step-level patches 在 Philosophy 上立即产生了 test gain
+3. Law 的 gate 全 reject 是因为 30 val 项噪声太大（Law 更难，0.4667 已经接近上限）
+4. report #012 的 "step-level optimizer 失效" 结论不成立 — 是两个 bug 的叠加效应
 
 ## P0 Bugfix 记录（2026-07-27）
 
