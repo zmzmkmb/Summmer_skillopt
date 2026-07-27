@@ -1,91 +1,87 @@
-# SkillOpt — Task-Context-Aware Dual-Timescale Skill Optimization
+# SkillOpt — LLM Agent 技能自演化与多目标规则选择
 
-> **Target**: Factual QA, Knowledge Reasoning, and Tool-Execution Tasks
+> 暑期实训项目 | 2026-07-13 ~ 2026-07-27
 >
-> 基于 Microsoft SkillOpt 的独立研究分支，探索原子化规则记忆、双时间尺度更新与跨领域技能迁移。
-
-## 当前进展
-
-| 任务族 | 领域 | 基线→最佳 test | 提升 | 状态 |
-|------|------|:--:|:--:|:--:|
-| **Factual QA** | SearchQA | 41.7%→73.9% | +31.8pp | ✅ 验证完成 |
-| **Knowledge Reasoning** | MMLU-Pro Law | 34.4%→38.4% | +4.0pp | ✅ 验证完成 |
-| **Knowledge Reasoning** | MMLU-Pro Philosophy | 56.8%→66.4% | +9.6pp | ✅ 验证完成（含 fast+slow） |
-| **Knowledge Reasoning** | MMLU-Pro Math | 88.0%→89.5% | +1.5pp | ✅ 天花板接近 |
-| **Knowledge Reasoning** | MMLU-Pro History | 61%→68.4% | +7pp | ✅ 旧 adapter 验证 |
-| **Tool-Execution** | SpreadsheetBench | 35.5% baseline | — | 🔄 基线测完，训练待接入 |
-
-### 最新里程碑（2026-07-27）
-
-- ✅ **修复 MMLU-Pro pipeline 两个关键 bug**（analyst 输出协议 + trajectory 上下文缺失）
-- ✅ **Step-level optimizer 确认有效**（修复后每步 3-4 patch，Philosophy step 1 gate accept）
-- ✅ **Fast + slow update 双时间尺度验证**（report #013）
-- ✅ **Unit tests**: 26 pass, evaluator / analyst schema / trajectory context
-
-## 做了什么
-
-1. **搭建 MMLU-Pro 独立 adapter** — 纯格式约束，不依赖 SearchQA 模板
-2. **发现并修复两个 pipeline bug** — analyst 协议不兼容 + trajectory 上下文缺失
-3. **验证 fast/slow 双时间尺度更新** — step-level patches + epoch-level slow_update
-4. **多领域跨领域验证** — 6 domains, SearchQA + MMLU-Pro (Math/Law/History/Philosophy) + SpreadsheetBench
-5. **原子化规则检索** — 8 Core + 16 Dynamic，trigger/text 解耦，TF-IDF Top-5 检索
+> 基于 Microsoft SkillOpt，研究原子化规则记忆、双时间尺度更新、多领域技能迁移与多目标规则选择。
+>
+> **结项报告**: [SUMMER_FINAL_REPORT.md](SUMMER_FINAL_REPORT.md)
 
 ---
 
-# Archived: SearchQA Summer Project (2026-07-24 ~ 07-26)
+## 实验结果总览
 
-> 以下为暑期实训期间的 SearchQA 原子化检索实验归档。当前研究方向已转向多任务族双时间尺度优化。
+> ⚠️ 以下结果来自不同实验阶段、adapter 版本和数据规模。各表内部条件一致，**表间不可直接横比**。
 
-## 核心结果
+### ① SearchQA 正式实验（8C+16D, TF-IDF Top-5, 3 轮重复）
 
-| 版本 | 方法 | Test |
-|------|------|:--:|
-| Phase 2 (性能最优) | 6C+18D, text-only TF-IDF | **0.7386 ± 0.0037** |
-| Phase 3 (架构规范) | 8C+16D, expanded-trigger TF-IDF, trigger/text 解耦 | **0.7376 ± 0.0036** |
+| 方法 | Test Accuracy | 备注 |
+|------|:--:|------|
+| No Skill | ~0.4170 | 基线 |
+| Full Skill | ~0.7350 | 13k+ chars |
+| Phase 2 (6C+18D, text-only TF-IDF) | **0.7386 ± 0.0037** | 性能最优 |
+| Phase 3 (8C+16D, trigger/text 解耦) | **0.7376 ± 0.0036** | 架构规范 |
 
-> 两版本差值 0.0010 处于 qwen-flash 输出波动范围内（std≈0.003）。Phase 3 在保持性能的同时实现检索触发与执行规则解耦。
+### ② MMLU-Pro 探索性结果（SearchQA adapter 复用）
 
-## 最终框架
+| 领域 | 基线 val | 最佳 val | 提升 | 说明 |
+|------|:--:|:--:|:--:|------|
+| Math | 89.0% | 92.5% | +3.5pp | +63% 模板增益，天花板接近 |
+| History | 61.0% | 68.4% | +7pp | 有效 |
+| Law | 43.0% | 45.5% | +2.5pp | 甜区间 |
+| Philosophy | 63.0% | 72.0% | +9pp | 有效 |
 
-```
-8 条 Core（始终激活）：output format, safety, all-clue matching, answer type, phrase completion, inference
-16 条 Dynamic（TF-IDF Top-5 检索）：extraction, disambiguation, entity normalization, question types, special patterns
-+ 2000-character instruction budget
-+ Gated Slow Update (slow_update_gate_with_selection=true)
-+ relevance-rank order retrieval
-= 零退化，完全可复现
-```
+### ③ 管线修复验证（纯 MMLU-Pro adapter, 修复后, 2026-07-27）
+
+| 领域 | test 基线 | test 最佳 | Δ | 改进来源 |
+|------|:--:|:--:|:--:|------|
+| Philosophy | 56.80% | **66.40%** | **+9.60pp** | Step-level accept + slow update |
+| Law | 34.42% | 38.41% | +3.99pp | Slow update |
+| Math | 88.03% | 89.46% | +1.43pp | Slow update (天花板) |
+
+> **Philosophy step 1 首次 gate accept**: pipeline bug 修复后单步 test +5.60pp。所有增益来自 epoch-level slow update。
+
+### ④ SpreadsheetBench 基线
+
+| 指标 | 值 | 状态 |
+|------|:--:|:--:|
+| 400 题 Mean hard | 0.355 | 基线完成 |
+| 执行成功率 | ~62% | — |
+| 训练循环 | 未接入 | 后续工作 |
+
+### ⑤ MOAR: 多目标原子规则选择（扩展原型）🆕
+
+| 方法 | Test Accuracy (1400 题) | 说明 |
+|------|:--:|------|
+| Core Only | 62.79% | 仅 1 条核心规则 |
+| TF-IDF Top-5 | 66.86% | 当前基线 |
+| **MOAR (NSGA-II)** | **69.07%** | 原型，待正式验证 |
+
+> **MOAR 状态**: 方法原型已完成（34 个子模块测试通过，训练管线集成）。当前仅测试了 8 条动态规则——大规模规则库 + 多 seed 验证作为后续期刊工作。详见 [report #014](reports/report_014_moar_comparison.md)。
+
+---
+
+## 主要技术工作
+
+1. **Gate 修复 + 退火分析**: 发现并修复 validation gate 假停滞，证明 Metropolis 退火局限性
+2. **原子化规则库**: 8C+16D, trigger/text 解耦, TF-IDF Top-5 检索 — 零退化
+3. **Pipeline bug 修复** (2026-07-27): analyst 输出协议不兼容 + trajectory 上下文缺失 — 修复后 step-level optimizer 确认有效
+4. **MMLU-Pro 独立 adapter**: 纯格式约束，不依赖 SearchQA 模板
+5. **多领域验证**: SearchQA + MMLU-Pro (Math/Law/History/Philosophy) + SpreadsheetBench
+6. **MOAR 原型**: NSGA-II 多目标进化算法，同时优化相关性/效用/成本/冗余
+7. **测试**: 60+ tests pass (MOAR 34, MMLU-Pro 26)
 
 ## 快速入口
 
 ```bash
-# 复现最终结果（1400 条 test，3 次重复推理）
-python scripts/retrieval_ablation.py \
-  --split valid_unseen --limit 0 --methods tfidf \
-  --top-k 5 --budget 2000 --n-seeds 3 --workers 48
+# 复现 SearchQA 最终结果
+python scripts/retrieval_ablation.py --split valid_unseen --limit 0 --methods tfidf
 
-# 查看规则
-cat skillopt/rule_atomizer.py
+# MOAR 对照实验
+python scripts/moar_searchqa_eval.py --skill outputs/searchqa_rag/best_skill.md --limit 500
+
+# 运行所有测试
+pytest tests/ -v
 ```
-
-| 文件 | 说明 |
-|------|------|
-| `reports/report_008_final.md` | 结项报告 |
-| `reports/report_005_atomized_ablation.md` | 原子化消融 + 多 run 验证 |
-| `reports/report_002_slowupdate_comparison.md` | Gate 假停滞诊断 |
-| `skillopt/rule_atomizer.py` | 原子规则库 (8C+16D) |
-| `scripts/retrieval_ablation.py` | 推理消融脚本 |
-| `artifacts/final_results.csv` | 逐题预测结果 |
-| `artifacts/run_manifest.json` | 运行配置记录 |
-
-## 明确结论
-
-| ✅ 做 | ❌ 不做 |
-|------|------|
-| 原子化规则库 + Core/Dynamic 分离 | LSTM 遗忘门 |
-| TF-IDF Top-5 检索 | 模拟退火 |
-| trigger/text 解耦 | Boolean 硬过滤 / 双通道软融合 / 关键词加分 |
-| gated slow update | 语义向量 (all-MiniLM-L6-v2 无增益) |
 
 ---
 
