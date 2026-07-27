@@ -97,3 +97,51 @@ Math slow_update (epoch 2) 产出的 guidance（3472 chars）包含了针对 10 
 3. **Slow update 独立有效** — 是当前纯 adapter 的唯一改进来源
 4. **混合方案最有前景** — SearchQA adapter（给分析器 context）+ slow_update（epoch 级高质量 guidance）
 5. **Math test bug 需修复** — slow_update guidance 破坏了 output format
+
+---
+
+## 附录：P0 实现错误修正及验证（2026-07-27）
+
+### A. 本报告结论的错误
+
+报告正文第 1-2 条结论：
+
+> 1. SearchQA adapter 模板不是污染 — 它对分析器理解任务至关重要
+> 2. 纯 initial_skill 下 step-level 优化器失效 — 分析器需要任务 context 才能产出规则
+
+**在代码审查后发现这两个结论均不成立**。step-level patches=0 的根本原因是两个确定性的实现 bug：
+
+| Bug | 位置 | 影响 |
+|-----|------|------|
+| **Bug 1: 轨迹上下文缺失** | `rollout.py:67` | Analyst 只看到答案字母 "B"，看不到题目、选项、gold answer、system prompt |
+| **Bug 2: 输出协议不兼容** | `analyst_error.md` / `analyst_success.md` | Prompt 要求 JSON 数组 `[{op,...}]`，但 `reflect.py:344` 只接受 `{"patch": {"reasoning": "...", "edits": [...]}}`。模型正确生成的编辑因 `"patch" in result` 对 list 为 False 而被静默丢弃 |
+| **Bug 3: Math test=0%** | 非代码 bug | 训练后 test eval 阶段 API 连接全部失败 (351/351 Connection error) |
+
+### B. 修复验证结果
+
+复现环境：Law + Philosophy，小数据（train=40, val=30），batch=20，2 epochs，4 steps。
+
+| 指标 | 修复前 | 修复后 |
+|------|:--:|:--:|
+| Step-level patches | 0/180 steps | **3-4 patches per step** ✓ |
+| Philosophy gate accept | 0 | **Step 1 ACCEPT** ✓ |
+| Philosophy test Δ | 仅 slow_update | **Step 1 +5.60pp** ✅ |
+| Law gate accept | 0 | 0（30-item val 噪声太大） |
+
+**修复前 3 个实验 180 步全部 zero patches；修复后每步都产出合法 patch。**
+
+### C. 修正后的结论
+
+1. **Step-level optimizer 可以产出规则** — Bug 由输出协议不兼容 + 轨迹上下文缺失导致，不是 adapter 问题
+2. **纯 initial_skill 下 step-level 优化器依然有效** — Philosophy step 1 产出了 6 个高质量编辑，直接带来 +5.60pp test gain
+3. **SearchQA 模板的作用需重新评估** — 模板确实提供了 task context，但现有代码无法区分 "context 内容帮助" 和 "输出协议的确定性崩溃"。修复后用纯 adapter 重新做四组消融才能判断
+4. **Slow update 独立有效** — Law +4.0pp, Philosophy +4.0pp 仅来自 slow_update。修复后 slow_update + step patches 可能更好
+5. **Math test 重跑结果：初始 88.03%, 最佳 89.46% (+1.43pp)** — 基线已接近天花板，增益确实有限
+
+### D. 修复 Commits
+
+| Commit | 内容 |
+|--------|------|
+| `5c70cae` | P0 fix: rollout trajectory context + analyst output protocol |
+| `8dac6a4` | P1: Math test=0% 诊断 + test re-eval |
+| `0ed38f7` | P0 verification: step patches confirmed |
