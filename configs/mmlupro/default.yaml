@@ -1,0 +1,57 @@
+_base_: ../_base_/default.yaml
+
+# MMLU-Pro — pure adapter (no SearchQA template, no baked-in strategy)
+# Uses skillopt/envs/mmlupro/initial_skill.md (76 chars, format-only)
+
+model:
+  optimizer: deepseek-v4-flash
+  target: qwen-flash
+  optimizer_backend: openai_compatible
+  target_backend: openai_compatible
+  reasoning_effort: medium
+  rewrite_reasoning_effort: ""
+  rewrite_max_completion_tokens: 64000
+
+train:
+  num_epochs: 4
+  train_size: 0          # auto-derive from dataset split
+  batch_size: 40
+  accumulation: 1
+  seed: 42
+
+gradient:
+  minibatch_size: 8
+  merge_batch_size: 8
+  analyst_workers: 16
+  max_analyst_rounds: 3
+  failure_only: false
+
+optimizer:
+  learning_rate: 4
+  min_learning_rate: 2
+  lr_scheduler: cosine
+  lr_control_mode: fixed
+  skill_update_mode: patch
+  use_slow_update: true
+  slow_update_samples: 20
+  slow_update_gate_with_selection: true
+  longitudinal_pair_policy: mixed
+  use_meta_skill: true
+  use_skill_aware_reflection: false
+
+evaluation:
+  use_gate: true
+  sel_env_num: 0
+  test_env_num: 0
+  eval_test: true
+
+env:
+  name: mmlupro
+  skill_init: skillopt/envs/mmlupro/initial_skill.md
+  split_mode: split_dir
+  split_dir: ""               # set per-task via --cfg-options
+  max_turns: 1
+  max_completion_tokens: 16384
+  workers: 24
+  limit: 0
+  exec_timeout: 120
