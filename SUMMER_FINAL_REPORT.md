@@ -6,7 +6,7 @@
 >
 > **仓库**: https://github.com/zmzmkmb/Summmer_skillopt
 >
-> **结项版本**: `summer-project-final-v1.0` (commit `b5748e1`)
+> **结项版本**: `summer-project-final-v1.0` (commit `57747da`)
 
 ---
 
@@ -73,7 +73,7 @@
 
 基于 NSGA-II 的多目标进化算法，同时优化：
 - 查询相关性、历史效用、上下文成本、规则冗余
-- 在 token 预算约束下进行 Pareto 优化
+- 在字符长度预算约束下进行 Pareto 优化
 - 34 个子模块测试通过，训练管线完整集成
 
 > **状态**: 方法原型已完成。大规模基准验证作为后续期刊研究工作。
@@ -104,13 +104,14 @@
 
 ### 管线修复验证（纯 MMLU-Pro adapter, 2026-07-27）
 
-| 领域 | 基线 test | 最佳 test | 提升 | 来源 |
+| 领域 | 基线 test | 最佳 test | 提升 | 改进来源 |
 |------|:--:|:--:|:--:|------|
-| Law | 34.42% | 38.41% | **+3.99pp** | Slow update only |
-| Philosophy | 56.80% | 66.40% | **+9.60pp** | Fast+Slow update |
-| Math | 88.03% | 89.46% | **+1.43pp** | Slow update (天花板) |
+| Law | 34.42% | 38.41% | **+3.99pp** | Epoch-level slow update |
+| Philosophy | 56.80% | 66.40% | **+9.60pp** | Fast + slow update |
+| Math | 88.03% | 89.46% | **+1.43pp** | Epoch-level slow update (天花板) |
 
-> Philosophy step 1 是项目首个 step-level gate accept（修复 pipeline bug 后），单步 test +5.60pp。
+> Philosophy 首个 step-level gate accept（修复 pipeline bug 后）：单步 test +5.60pp。后续慢更新完成了进一步的技能整合。
+> 由于尚未进行 Fast-only 与 Slow-only 的严格消融实验，目前无法精确分解二者对最终 9.60pp 增益的独立贡献。
 
 ### SpreadsheetBench 基线（2026-07-25）
 
@@ -124,13 +125,14 @@
 
 ### MOAR 对照实验（1400 题, SearchQA 全量 test, 2026-07-27）
 
-| 方法 | Accuracy |
-|------|:--:|
-| Core Only | 62.79% |
-| TF-IDF Top-5 | 66.86% |
-| **MOAR (原型)** | **69.07%** |
+| 方法 | Accuracy | 动态规则字符数 | 完整系统 Prompt 字符数 |
+|------|:--:|:--:|:--:|
+| Core Only | 62.79% | 0 | 513 |
+| TF-IDF Top-5 | 66.86% | ~1,405 | ~1,918 |
+| **MOAR (原型)** | **69.07%** | ~1,599 | ~2,112 |
 
-> MOAR 在当前 skill（13772 chars, 8 dynamic rules）上达到 full skill（~13k chars）的 93.5% 性能。
+> 2,000-character 预算仅作用于检索得到的动态规则拼接部分，不包含 Core 规则和系统提示模板。
+> 因此完整系统 Prompt 可超过 2,000 字符。两者均未突破各自的预期范围。
 
 ---
 
@@ -151,8 +153,8 @@
 ## 六、已知限制
 
 1. **MOAR 规则库规模**: 当前仅测试 8 条动态规则，NSGA-II 的规模优势未被验证
-2. **MOAR Top-K 约束**: 当前染色体仅受 token 预算约束，未硬限制 top-K
-3. **Token 成本**: 当前用字符数估计，未使用真实 tokenizer
+2. **MOAR Top-K 约束**: 当前染色体仅受字符长度预算约束，未硬限制 top-K
+3. **字符成本**: 当前用 `len(rule_text)` 估计，未使用真实 tokenizer
 4. **规则效用归因**: 所有同批次选中规则共享相同 credit
 5. **Fast/Slow 消融**: 四组正式对比尚未完成（仅小规模验证）
 6. **SpreadsheetBench**: 仅完成基线，训练未进行
@@ -169,7 +171,7 @@
 
 ### 待完成工作（按优先级）
 
-1. 修正 MOAR Top-K 约束、token 计费、效用归因
+1. 修正 MOAR 字符预算约束、效用归因和规则稳定 ID
 2. 完成 Fast/Slow 四组消融（至少 MMLU-Pro 3 domain × 3 seed）
 3. 完成 TF-IDF / BM25 / Greedy / Exact / MOAR 公平比较
 4. 扩大规则库规模（16→50→100→200→500）
@@ -180,8 +182,7 @@
 
 ### 目标期刊
 
-- 四区（Soft Computing, Applied Intelligence 等）：完成 1-5 后具备可行性
-- 三区（同档提升）：完成 1-8 后具备可行性
+目标为人工智能、智能系统或软计算方向的 JCR 三区/四区期刊。具体投稿期刊根据投稿年度最新分区、收稿范围及实验完成度综合确定。
 
 ---
 
