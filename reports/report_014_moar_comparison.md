@@ -20,7 +20,7 @@ Score(q,r) = α·R_rel + β·R_utility + γ·R_coverage − λ·R_redundancy −
 | 数据 | SearchQA test set (1400 items, valid_unseen) |
 | 目标模型 | qwen-flash (DashScope) |
 | Top-K | 5 |
-| Token 预算 | 2000 chars |
+| 字符预算 | 2000 characters（仅作用于检索的动态规则拼接部分） |
 | NSGA-II 参数 | pop=30, gen=15 (smoke); pop=50, gen=30 (full) |
 | 目标权重 | [0.4, 0.3, 0.2, 0.1] (relevance, utility, cost, redundancy) |
 
@@ -30,11 +30,13 @@ Score(q,r) = α·R_rel + β·R_utility + γ·R_coverage − λ·R_redundancy −
 
 ### 全量对照实验（1400 条）
 
-| 方法 | Accuracy | 平均规则数 | Prompt 字符 | 构建时间 |
-|------|:--:|:--:|:--:|:--:|
-| Core Only | 62.79% | 0 | 513 | 0ms |
-| TF-IDF Top-5 | 66.86% | 1.0 | 1,918 | 1ms |
-| **MOAR** | **69.07%** | 1.7 | 2,112 | 347ms |
+| 方法 | Accuracy | 动态规则字符数 | 完整系统 Prompt 字符数 | 规则数 | 构建时间 |
+|------|:--:|:--:|:--:|:--:|:--:|
+| Core Only | 62.79% | 0 | 513 | 0 | 0ms |
+| TF-IDF Top-5 | 66.86% | ~1,405 | 1,918 | 1.0 | 1ms |
+| **MOAR** | **69.07%** | ~1,599 | 2,112 | 1.7 | 347ms |
+
+> 2,000-character 预算仅作用于检索得到的动态规则拼接部分。完整系统 Prompt 还包含 Core 规则（~513 chars）和系统提示模板，因此可超过 2,000 字符。
 
 | 对比 | Δ Accuracy | 含义 |
 |------|:--:|------|
@@ -57,7 +59,7 @@ Score(q,r) = α·R_rel + β·R_utility + γ·R_coverage − λ·R_redundancy −
 ### MOAR 的改进来源
 
 1. **规则选择更多样**：MOAR 平均激活 1.7 条规则（TF-IDF 仅 1.0 条），因为反冗余目标鼓励选择互补规则
-2. **token 预算利用更充分**：2112 vs 1918 chars（+10%），但仍在预算附近
+2. **字符预算利用更充分**：MOAR 在动态规则部分使用 ~1,599 字符（TF-IDF ~1,405），更接近 2,000 字符预算，但未突破
 3. **NSGA-II 搜索有效**：Pareto 优化的 30 代足够探索二进制选择空间
 4. **单次查询开销可接受**：347ms vs 1ms——在批量推理中可忽略
 
@@ -86,4 +88,4 @@ Score(q,r) = α·R_rel + β·R_utility + γ·R_coverage − λ·R_redundancy −
 | MOAR with trained skill | 69.07% |
 | TF-IDF Top-5 | 66.86% |
 
-> MOAR 在 2000-char 预算下达到 full skill (~13k chars) 的 93.5% 性能。Full skill 使用 6.8× 的 token 但仅高出 4.8pp——这证实了预算约束下选择性检索的价值。
+> MOAR 在 2000-character 字符预算约束下达到 full skill (~13k chars) 的 93.5% 性能。Full skill 使用 6.8× 的上下文但仅高出 4.8pp——这证实了预算约束下选择性检索的价值。
