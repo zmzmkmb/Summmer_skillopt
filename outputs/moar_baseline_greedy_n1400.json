@@ -1,0 +1,15 @@
+{
+  "method": "greedy",
+  "top_k": 5,
+  "budget": 2000,
+  "weights": [
+    0.4,
+    0.3,
+    0.2,
+    0.1
+  ],
+  "n_queries": 1400,
+  "avg_n_selected": 2.0,
+  "avg_chars": 1397.6435714285715,
+  "time_s": 1.4936017990112305
+}
