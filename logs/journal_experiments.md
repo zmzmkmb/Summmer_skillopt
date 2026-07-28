@@ -5,14 +5,15 @@
 
 ---
 
-## Fix 1: MOAR Top-K 硬约束 ✅
+## Fix 1: MOAR 实现修正 ✅
 
-- `optimize()` now accepts `top_k` parameter
-- `_init_population`, `_create_offspring`, `_constraint_violations` all respect top-K
-- `_repair_topk` drops random rules until |S| <= K
-- Defence-in-depth assertions in `__init__.py`
-- 38/38 tests pass (2 new top-K regression tests)
-- Commit: `d46557b`
+| 修正项 | 修改文件 | Commit |
+|------|------|:--:|
+| Top-K 硬约束 | `nsga2.py` | `d46557b` |
+| 真实 tokenizer (tiktoken cl100k_base) | `tokenizer.py`, `features.py`, `__init__.py` | `07bdd3b` |
+| 规则稳定 ID (SHA256 hash) | `tracker.py` | `07bdd3b` |
+| 测试集隔离 (frozen flag) | `tracker.py`, `__init__.py` | `07bdd3b` |
+| 38/38 tests pass | — | `07bdd3b` |
 
 ---
 
@@ -20,26 +21,30 @@
 
 ### Law (660 train / 165 val / 276 test) ✅
 
-| Method | Steps | Val Baseline | Best Val | Val Δ | Test Baseline | Best Test | Test Δ | Gate Accepts | Skill | Status |
-|------|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|------|
-| **Initial** | — | 33.33% | — | — | 34.42% | — | — | — | 323 | ✅ |
-| **Slow-only** | 68/68 | 38.79% | 41.82% | +3.03pp | 34.42% | **38.41%** | **+3.99pp** | 1 slow (epoch 3) | 376 | ✅ |
-| **Fast-only** | 43/68 | 33.33% | 40.61% | +7.28pp | 34.42% | 35.87% | +1.45pp | 4 step (1,3,7,32) | 18,156 | ⚠️ 截断 |
-| **Fast+Slow** | 26/68 | 32.73% | 36.97% | +4.24pp | 34.42% | 34.42% | 0.00pp | 3 step (3,15,16) | 14,602 | ⚠️ 截断 |
+| Method | Steps | Best Val | Test | Δ Test | Gate Accepts | Skill Chars |
+|------|:--:|:--:|:--:|:--:|:--:|:--:|
+| **Initial** | — | 33.33% | 34.42% | — | — | 323 |
+| **Slow-only** | 68/68 | 41.82% | **38.41%** | **+3.99pp** | 1 slow (epoch 3) | 376 |
+| **Fast-only** | 43/68 | 40.61% | 35.87% | +1.45pp | 4 step | 18,156 |
+| **Fast+Slow** | 26/68 | 36.97% | 34.42% | 0.00pp | 3 step | 14,602 |
 
-**结论**: Slow_update 用 48× 更少字符（376 vs 18,156）达到更好 test 增益（+3.99pp vs +1.45pp）。Step-level optimizer 在 Law 上过拟合：val/test 差距 4.74pp，165 题 val 集噪声过大。
+### Philosophy (299 train / 75 val / 125 test) ✅
 
-### Philosophy (299 train / 75 val / 125 test) 🔄
+| Method | Steps | Best Val | Test | Δ Test | Gate Accepts | Skill Chars |
+|------|:--:|:--:|:--:|:--:|:--:|:--:|
+| **Initial** | — | 58.67% | 56.80% | — | — | 323 |
+| **Slow-only** | 32/32 | 62.67% | 63.20% | +6.40pp | 2 slow (epoch 2,4) | 3,694 |
+| **Fast-only** | 14/32 | 66.67% | **68.80%** | **+12.00pp** | 2 step (step 2,4) | 7,563 |
+| **Fast+Slow** | — | — | — | — | — | — |
 
-| Method | Steps | Best Val | Gate Accepts | Status |
-|------|:--:|:--:|:--:|------|
-| **Initial** | — | 56.80% (test) | — | ✅ |
-| **Slow-only** | 32/32 | 62.67% | 2 slow (epoch 2,4) | ✅ from `mmlupro_philosophy_true` |
-| **Fast-only** | 1/32 | 58.67% (baseline) | 0 | 🔄 running |
-| **Fast+Slow** | — | — | — | ⬜ |
+### Math (800 train / 200 val / 351 test) 🔄
 
-### Math 🔲
-### History 🔲
+| Method | Steps | Best Val | Test | Δ Test | Gate Accepts | Skill Chars |
+|------|:--:|:--:|:--:|:--:|:--:|:--:|
+| **Initial** | — | 49.00% | 88.03% | — | — | 323 |
+| **Slow-only** | 80/80 | 89.00% | 89.17% | +1.14pp | 1 slow (epoch 2) | 3,602 |
+| **Fast-only** | 🔄 | — | — | — | — | — |
+| **Fast+Slow** | — | — | — | — | — | — |
 
 ---
 
