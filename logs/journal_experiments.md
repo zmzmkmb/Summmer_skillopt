@@ -37,14 +37,23 @@
 | **Fast-only** | 14/32 | 66.67% | **68.80%** | **+12.00pp** | 2 step (step 2,4) | 7,563 |
 | **Fast+Slow** | — | — | — | — | — | — |
 
-### Math (800 train / 200 val / 351 test) 🔄
+### Math (800 train / 200 val / 351 test) ✅
 
 | Method | Steps | Best Val | Test | Δ Test | Gate Accepts | Skill Chars |
 |------|:--:|:--:|:--:|:--:|:--:|:--:|
 | **Initial** | — | 49.00% | 88.03% | — | — | 323 |
 | **Slow-only** | 80/80 | 89.00% | 89.17% | +1.14pp | 1 slow (epoch 2) | 3,602 |
-| **Fast-only** | 🔄 | — | — | — | — | — |
-| **Fast+Slow** | — | — | — | — | — | — |
+| **Fast-only** | 25/80 | 92.50% | **93.16%** | **+5.13pp** | 3 step (3,4,12) | 9,985 |
+
+### Complete Fast/Slow Summary
+
+| Domain | Initial | Slow Δ | Fast Δ | Winner |
+|------|:--:|:--:|:--:|:--:|
+| **Law** | 34.42% | **+3.99pp** | +1.45pp | Slow |
+| **Philosophy** | 56.80% | +6.40pp | **+12.00pp** | Fast |
+| **Math** | 88.03% | +1.14pp | **+5.13pp** | Fast |
+
+> **Key**: Neither mechanism dominates — task-dependent. Law favours compact slow_update (376 chars), Philosophy/Math favour step-level rule injection.
 
 ---
 
