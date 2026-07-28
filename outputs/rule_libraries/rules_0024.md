@@ -1,0 +1,122 @@
+## Rule 1: searchqa — - If the question consists only of a prepositional phrase li…
+- If the question consists only of a prepositional phrase like "In [Place]" or "In [Place1] & [Place2]" with no verb, the question is likely asking for a defining characteristic of the place, such as the nationality, language, or demonym of its inhabitants. Use common knowledge about the location to answer (e.g., if the places are cities in France, the answer is "French").
+
+## Rule 2: searchqa — - If the question consists of two or more names (people or p…
+- If the question consists of two or more names (people or places) separated by commas or an ampersand (&) with no verb, the question is asking for the country, region, or common entity that they are associated with. Answer with that common entity (e.g., 'Ferdinand VII,Juan Carlos' → 'Spain'; 'Princess Caroline & Princess Stephanie' → 'Monaco').
+
+## Rule 3: searchqa — - If the question consists only of a date and/or a location …
+- If the question consists only of a date and/or a location (e.g., 'February 6, 1911 in Tampico, Illinois', 'April 15, 1865 in Washington D.C.') with no verb, the question is asking for the person, event, or entity associated with that time and place. Answer with the name of that person or entity (e.g., 'Ronald Reagan', 'Abraham Lincoln').
+
+## Rule 4: searchqa — ### Common Question Patterns…
+### Common Question Patterns
+
+## Rule 5: searchqa — **Overarching Principle**: When the question provides a desc…
+**Overarching Principle**: When the question provides a description, a list, a former name, or a specific location and asks what it 'is' or 'was', the answer is often the category, broader entity, or common association—not the specific instance or name given in the description. For example:
+- 'Saratoga Chips' → potato chips (the object itself)
+- 'Inspector Luger,Wojo,Fish' → Barney Miller (the common show)
+- 'University of Wisconsin-Superior' → the University of Wisconsin (the system)
+- 'orzel' → an eagle (the general animal)
+- 'Her home in Rochester...' → Susan B. Anthony (the person, not the building)
+
+## Rule 6: searchqa — - **Definition/Clue Questions**: When the question provides …
+- **Definition/Clue Questions**: When the question provides a definition, description, or clue (e.g., "It can mean to emit vapor or to show irritation"), the answer is the **term** being defined (e.g., "Fume"), not the definition itself.
+
+## Rule 7: searchqa — - **Important**: If the question describes a category or fun…
+- **Important**: If the question describes a category or function (e.g., "An astringent applied under the arms to curtail sweating" or "A 'hasty' dessert"), answer with the **category or general term** (e.g., "Anti-perspirant", "pudding"), **not** a specific instance mentioned in the context (e.g., "Witch hazel", "tapioca").
+- **Entity Identification**: When the question describes a group, person, or place (e.g., "Rock group Achtung Babies", "En Folkefiende is the Norwegian title of his 1882 drama"), identify the **entity** being referenced (e.g., "U2", "Henrik Ibsen"). Answer with the entity's name, not its description.
+
+## Rule 8: searchqa — - **Prefer Proper Names for Described Entities**: When the q…
+- **Prefer Proper Names for Described Entities**: When the question describes an entity by its actions, characteristics, or attributes (e.g., "he spun straw into gold", "a house with floors that differ by about half a story"), answer with the entity's canonical name or the specific term (e.g., "Rumpelstiltskin", "split-level"), **not** a descriptive phrase that appears in the context (e.g., "the tiny man", "1.5 story home").
+
+## Rule 9: searchqa — - **Broader Classification of a Given Entity**: When the que…
+- **Broader Classification of a Given Entity**: When the question provides a specific location, facility, or entity (e.g., "Lake Placid", "a mint whose mark is a D") and asks for its broader classification (e.g., "these mountains", "this mint"), answer with the name of that broader classification. Look for phrases like "located in" or "a specialty of" that link the specific entity to a larger category or region.
+- **Fill-in-the-blank**: When the question is an incomplete phrase (e.g., "...on my mind"), find the matching complete phrase in the context and extract the missing word(s) (e.g., "Georgia").
+- **Pronoun Resolution**: If the question uses pronouns like "his", "her", "they", resolve them to the person or thing from the context.
+
+## Rule 10: searchqa — - **Subject of Description**: When the question provides a d…
+- **Subject of Description**: When the question provides a description of a scene, action, or series (e.g., "Act IV, Scene 1 of this play takes place in the English camp at Agincourt", "A series on these of the '30s & '40s features the Daylight & the 20th Century Limited", "After he gave up writing novels, he published his 'Wessex Poems' in 1898"), the answer is the **entity** being described — the play title, the category, or the person — not a detail from the description (the location, the stamp series, the poem title). Answer with the entity's name (e.g., "Henry V", "Trains", "Thomas Hardy").
+
+## Rule 11: searchqa — - **Critical**: When the question uses a pronoun (he, she, e…
+- **Critical**: When the question uses a pronoun (he, she, etc.) and asks about an action (wrote, said, did), the answer is the person's name, not the object of the action (e.g., 'he wrote an explanation' → the person, not the document title).
+
+## Rule 12: searchqa — **Conciseness:** - Use the shortest correct answer form. Pre…
+**Conciseness:**
+- Use the shortest correct answer form. Prefer surnames over full names (e.g., "Genet" instead of "Jean Genet"), and abbreviations over full phrases (e.g., "C" instead of "Vitamin C").
+
+## Rule 13: searchqa — **Evidence:** - Only use information from the context. Do no…
+**Evidence:**
+- Only use information from the context. Do not use external knowledge or common sense. The correct answer is explicitly stated or clearly implied in the documents.
+
+## Rule 14: searchqa — - The context is divided into multiple documents, each start…
+- The context is divided into multiple documents, each starting with `[DOC]`. The title line is marked `[TLE]` and the body paragraphs are marked `[PAR]`.
+- Scan the document titles first, as they often contain the key entity or topic that the question asks about.
+
+## Rule 15: searchqa — - **Exact Phrase Matching:** The answer is often stated verb…
+- **Exact Phrase Matching:** The answer is often stated verbatim in a passage. When reading the context, prioritize sentences that contain the same key words or phrasing as the question.
+- **Keyword Focus:** Identify the most distinctive noun phrases in the question and scan the document titles and content for these terms.
+- **Using Question Clues:** The question often contains distinctive words (e.g., a year, a unique descriptor, or a quote) that appear in exactly one document. Use that clue to narrow down the relevant passage.
+- **Cross-Reference:** If the question contains a quote or specific phrase, search the context for that exact phrase and extract the answer from the sentence containing it.
+- **Multiple Document Selection:** If multiple documents are relevant, compare their content and choose the one that most precisely satisfies all parts of the question. - **Resolve conflicts with authority**: When documents disagree or use the same phrase in different ways, prioritise authoritative reference sources (e.g., lists of state nicknames, encyclopedias, official designations) over commentary, blog posts, sports articles, or fan pages. The most precise and factual source should decide the answer.
+
+## Rule 16: searchqa — - Output only the minimal answer inside `<answer>...</answer…
+- Output only the minimal answer inside `<answer>...</answer>` tags.
+- Do not repeat the question or add extra commentary inside the answer tags.
+- Keep your answer concise — typically a few words or a short phrase. - **Match number and article cues**: Use the singular/plural form implied by the question. For example, if the question uses "a" or "an", use the corresponding singular form (e.g., "an insulator" not "insulators"). If the context capitalises a word, preserve that capitalisation.
+
+## Rule 17: searchqa — 0. **Question–Answer Distinction**: Confirm that your answer…
+0. **Question–Answer Distinction**: Confirm that your answer is the entity or term being described, not a phrase copied or rephrased from the question. For example:
+  - 'Flirtatious floozy Flanders (4)' → the character name 'Moll', not 'Flirtatious floozy'.
+  - 'Silver Springs ... water-filled one of these holes' → the category 'a sinkhole', not the specific 'spring'.
+  - '"Shake It" is the last song on his 1983 album "Let\'s Dance"' → the pronoun referent 'David Bowie', not a verification like 'Yes'.
+  - 'Term for an international match, or what its players are put to' → the term 'the test', not a rephrasing of the description.
+After extracting a candidate answer, run through this checklist before outputting: 1. **Conciseness**: Is the answer the shortest unambiguous form? Prefer surnames over full names (e.g., 'Arthur' not 'Chester A. Arthur'), and avoid unnecessary articles or qualifiers.
+2. **Definition/Clue Check**: If the question is a definition, description, or clue (e.g., 'An astringent applied under the arms...'), ensure the answer is the **category or term being defined** (e.g., 'Anti-perspirant'), not a specific example mentioned in the context (e.g., 'Witch hazel').
+3. **Number Agreement**: Does the answer match the grammatical number (singular/plural) implied by the question? For example, if the question says 'this is the term for...' or uses 'a' / 'an', use the singular form.
+4. **Exact Source Form**: For named entities and key terms, use the exact spelling, capitalization, and number as they appear in the most relevant context passage.
+5. **Authoritative Source**: If multiple documents conflict, prefer direct lists, reference works, or encyclopedic entries over commentary, blogs, or sports articles that may use the same phrase in a different context.
+
+## Rule 18: searchqa — - Minor formatting differences (e.g., parentheses, capitaliz…
+- Minor formatting differences (e.g., parentheses, capitalization) are acceptable. However, prefer the form that appears most consistently in the relevant context passage.
+- For named entities, use the exact spelling from the source.
+- If the gold answer has minor capitalization or punctuation differences, still match the canonical form when possible.
+
+## Rule 19: searchqa — - **Demonstrative Resolution**: If the question uses a demon…
+- **Demonstrative Resolution**: If the question uses a demonstrative adjective like "this", "these", "that", or "those" to modify a general noun (e.g., "this instrument", "these mountains", "this constellation", "this part of the tree"), the answer is the **specific entity or category** that fits the description provided in the context. Treat the demonstrative phrase as a pointer to a concrete instance or type. For example: "this mint whose mark is a D" → the location of that mint (Denver); "this part of the tree" → leaves; "these mountains" → the Adirondacks.
+
+## Rule 20: searchqa — 6. **Pattern Check**: Review whether the question matches an…
+6. **Pattern Check**: Review whether the question matches any of the patterns (definition/clue, entity identification, broader classification, fill-in-the-blank, pronoun resolution, list of names, etc.). Ensure your answer follows the exact rule for that pattern. If the question describes a set or category, do not answer with a specific member or instance. If a pronoun is used, confirm the answer is the referent, not a related object. If the answer has a common abbreviation or single-letter form (e.g., 'C' for vitamin C), use that shortened form.
+
+## Rule 21: searchqa — <!-- SLOW_UPDATE_START --> ### Definition/Clue Questions: Pr…
+<!-- SLOW_UPDATE_START -->
+### Definition/Clue Questions: Precision Rules (Revised)
+
+## Rule 22: searchqa — - **When the question uses 'Its' or 'This' to describe a pro…
+- **When the question uses 'Its' or 'This' to describe a property or attribute (e.g., 'Its area equals pi r (squared)', 'This term for following a winding & turning course...'), the answer is the ENTITY that possesses that property — NOT the property itself.** For example, 'area of a circle' is the property; the entity is 'Circle'. 'meander' is the noun form; if the context uses 'meandering' as the term, extract the EXACT form from the context (e.g., 'Meandering').
+
+## Rule 23: searchqa — - **When the question gives a well-known epithet or superlat…
+- **When the question gives a well-known epithet or superlative (e.g., 'Asia's population giant', 'the tallest building'), answer with the entity that epithet refers to, not a different entity that matches a secondary clue (like a date).** The epithet is the primary signal.
+
+## Rule 24: searchqa — - **For definition questions that ask for 'this term for' or…
+- **For definition questions that ask for 'this term for' or 'this word for', extract the exact term from the context — preserve its form (e.g., if the context uses the gerund 'meandering', answer 'Meandering', not the base form 'meander').** Do not let the conciseness rule override exact extraction when the question explicitly asks for 'this term'.
+
+## Rule 25: searchqa — ### New Rules for Persistent Failures…
+### New Rules for Persistent Failures
+
+## Rule 26: searchqa — - **'Title + Name' questions (e.g., 'President Tran Duc Luon…
+- **'Title + Name' questions (e.g., 'President Tran Duc Luong', 'Senator X'):** When the question is just a title followed by a person's name with no verb, the answer is the entity the person is associated with (country, organization, etc.), NOT the title. For example, 'President Tran Duc Luong' → 'Vietnam'. Do NOT output 'President of Vietnam'.
+
+## Rule 27: searchqa — - **Publication naming:** When the question asks for the nam…
+- **Publication naming:** When the question asks for the name of a journal, magazine, or other publication, include the word 'magazine'/'journal' if the context consistently uses that full form. Do NOT strip it for conciseness. For example, 'Forbes magazine' not just 'Forbes'.
+
+## Rule 28: searchqa — - **Preferred name form (nickname vs formal):** If the conte…
+- **Preferred name form (nickname vs formal):** If the context contains both a nickname (e.g., 'Patty Hearst') and a formal name (e.g., 'Patricia Hearst'), prefer the formal name. The gold answer almost always expects the more formal version. Exception: if the question explicitly uses the nickname, you may use the nickname only if the gold also accepts it.
+
+## Rule 29: searchqa — - **Middle initials:** When answering for a named person, us…
+- **Middle initials:** When answering for a named person, use the most standard common name — typically first and last name only, without middle initials (e.g., 'Lyndon Johnson' not 'Lyndon B. Johnson'). Only include the middle initial if the context heavily emphasizes it (e.g., the document is specifically about 'Lyndon B. Johnson' and the gold expects it).
+
+## Rule 30: searchqa — - **Context overrides common knowledge ALWAYS:** If the cont…
+- **Context overrides common knowledge ALWAYS:** If the context explicitly states a factual claim (e.g., 'the dime is the smallest U.S. coin in size'), use that even if your common knowledge says otherwise. Do not second-guess the context. Check the context for explicit statements about sizes, rankings, dates, etc. before relying on prior knowledge.
+
+## Rule 31: searchqa — - **General principle for definition/clue questions (unchang…
+- **General principle for definition/clue questions (unchanged):** The answer is always the CONCEPT, SHAPE, or ENTITY being defined, not a descriptive phrase or property. Check your answer: if it contains the word 'of' or is a phrase that describes the entity rather than naming it, you are likely giving the wrong form.
+<!-- SLOW_UPDATE_END -->

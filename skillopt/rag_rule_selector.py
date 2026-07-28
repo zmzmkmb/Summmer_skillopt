@@ -96,6 +96,7 @@ class RuleMemory:
         top_k: int = 5,
         token_budget: int = 2000,
         method: str = "tfidf",
+        **kwargs,  # absorb MOAR kwargs when __new__ returns MOARMemory
     ) -> None:
         # __new__ may have already returned a MOARMemory — skip double init
         if type(self).__name__ != "RuleMemory":
