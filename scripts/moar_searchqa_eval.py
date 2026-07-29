@@ -72,8 +72,8 @@ def infer_one(item: dict, system: str, user: str) -> dict:
     }
 
 
-def build_skill_text(rm, query: str) -> tuple[str, int, int]:
-    """Build active skill for query. Returns (text, n_dynamic, total_chars)."""
+def build_skill_text(rm, query: str) -> tuple[str, int, int, list[int]]:
+    """Build active skill for query. Returns (text, n_dynamic, total_chars, selected_indices)."""
     core = rm.core_rules_text
     dynamic = rm.retrieve(query)
     if dynamic:
@@ -82,7 +82,15 @@ def build_skill_text(rm, query: str) -> tuple[str, int, int]:
         text = core
     # Count selected dynamic rules
     n_dyn = dynamic.count("## ") if dynamic else 0
-    return text, n_dyn, len(text)
+    # Extract selected indices from MOAR/TF-IDF internals
+    sel_idx: list[int] = []
+    if hasattr(rm, '_engine'):
+        last = rm._engine._last_selections.get(query, [])
+        sel_idx = list(last) if last else []
+    elif hasattr(rm, '_last_selections'):
+        last = getattr(rm, '_last_selections', {}).get(query, [])
+        sel_idx = list(last) if last else []
+    return text, n_dyn, len(text), sel_idx
 
 
 def count_rule_redundancy(rm, query: str) -> float:
@@ -209,13 +217,8 @@ def main():
         t_build_start = time.time()
         for q_idx, q in enumerate(questions):
             t_q0 = time.time()
-            text, n_dyn, n_char = build_skill_text(rm, q)
+            text, n_dyn, n_char, sel_idx = build_skill_text(rm, q)
             build_times.append(time.time() - t_q0)
-            # Get selected indices from MOAR's last_selections or TF-IDF
-            sel_idx: list[int] = []
-            if hasattr(rm, '_engine'):
-                last = rm._engine._last_selections.get(q, [])
-                sel_idx = list(last) if last else []
             system_prompts.append(_build_system(text))
             user_prompts.append(_build_user(q, items[q_idx].get("context", "")))
             n_rules_list.append(n_dyn)
@@ -228,24 +231,31 @@ def main():
         print(f"  Build: {len(questions)} queries, avg {avg_build*1000:.1f}ms/query")
         print(f"  Rules activated: avg {avg_rules:.1f}, prompt chars avg {avg_chars:.0f}")
 
-        # Inference
+        # Inference — preserve original ordering via index mapping
         t_infer_start = time.time()
-        batch_results = []
+        n_items = len(items)
+        batch_results: list[dict | None] = [None] * n_items
         with ThreadPoolExecutor(max_workers=args.workers) as ex:
             futs = {ex.submit(infer_one, item, sp, up): i
                     for i, (item, sp, up) in enumerate(zip(items, system_prompts, user_prompts))}
             for fut in as_completed(futs):
-                batch_results.append(fut.result())
+                original_idx = futs[fut]
+                batch_results[original_idx] = fut.result()
+
+        assert all(r is not None for r in batch_results), \
+            f"{sum(1 for r in batch_results if r is None)} of {n_items} results missing"
+        assert [str(r["sample_id"]) for r in batch_results] == \
+               [str(item["id"]) for item in items], "sample_ids misaligned — ordering bug"
 
         infer_time = time.time() - t_infer_start
         hard = np.mean([r["hard"] for r in batch_results])
-        print(f"  Inference: {len(batch_results)} items, {infer_time:.0f}s ({infer_time/len(batch_results):.1f}s/item)")
+        print(f"  Inference: {n_items} items, {infer_time:.0f}s ({infer_time/n_items:.1f}s/item)")
         print(f"  Accuracy: {hard:.4f}")
 
-        # Enrich per-item dicts with selected indices
+        # Enrich per-item dicts with correctly-matched rule selection data
         per_item = []
-        for i, r in enumerate(batch_results):
-            d = dict(r)
+        for i in range(n_items):
+            d = dict(batch_results[i])
             d["selected_indices"] = selected_indices_list[i] if i < len(selected_indices_list) else []
             d["n_rules"] = n_rules_list[i] if i < len(n_rules_list) else 0
             d["prompt_chars"] = char_counts[i] if i < len(char_counts) else 0
@@ -258,7 +268,7 @@ def main():
             "avg_chars": float(avg_chars),
             "avg_build_ms": float(avg_build * 1000),
             "infer_time_s": float(infer_time),
-            "n_items": len(batch_results),
+            "n_items": n_items,
             "per_item": per_item,
         }
 
