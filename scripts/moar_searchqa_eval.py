@@ -126,7 +126,7 @@ def parse_args():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--skill", type=str, required=True,
                    help="Path to trained skill .md file")
-    p.add_argument("--target-model", type=str, default="qwen-flash",
+    p.add_argument("--target-model", type=str, default="qwen3.6-flash",
                    help="Target model name (qwen3.6-flash, qwen-flash, etc.)")
     p.add_argument("--optimizer-model", type=str, default="deepseek-v4-flash",
                    help="Optimizer model name (deepseek-v4-flash, deepseek-v4-pro, etc.)")
