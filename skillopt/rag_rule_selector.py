@@ -106,6 +106,7 @@ class RuleMemory:
         self.top_k = top_k
         self.token_budget = token_budget
         self.method = method
+        self._last_selections: dict[str, list[int]] = {}
 
         # Parse
         self._rules: list[Rule] = self._parse_rules(skill_content)
@@ -181,6 +182,7 @@ class RuleMemory:
         # Concatenate with length budget, truncated at rule boundaries.
         # If a single rule exceeds budget, truncate it to fit.
         parts: list[str] = []
+        delivered: list[int] = []
         used = 0
         for i in selected:
             text = self._dynamic_rules[i].full_text
@@ -190,8 +192,10 @@ class RuleMemory:
                 # First rule alone exceeds budget — truncate it
                 text = text[:budget] + "…"
             parts.append(text)
+            delivered.append(i)
             used += len(text) + 2
 
+        self._last_selections[query] = delivered
         return "\n\n".join(parts)
 
     # ── Parse ─────────────────────────────────────────────────────────────

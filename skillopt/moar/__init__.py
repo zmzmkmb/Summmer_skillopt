@@ -308,8 +308,8 @@ class MOAREngine:
             if len(indices) >= top_k:
                 break
             cost = self._cache.token_costs[idx]
-            if used + cost > budget and indices:
-                break
+            if used + cost > budget:
+                continue
             indices.append(int(idx))
             used += cost
 

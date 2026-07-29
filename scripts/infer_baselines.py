@@ -17,7 +17,7 @@ Usage:
 """
 from __future__ import annotations
 
-import argparse, json, os, sys, time
+import argparse, hashlib, json, os, sys, time
 
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 _PROJECT_ROOT = os.path.dirname(_SCRIPT_DIR)
@@ -45,18 +45,19 @@ def greedy_select(relevance, utilities, costs, sims, top_k, budget, w):
         best, best_i = -1e9, -1
         for j in remaining:
             c = costs[j]
-            if used + c > budget and selected: continue
+            if used + c > budget: continue
             s = w[0]*relevance[j] + w[1]*utilities[j] - w[2]*(c/budget)
             if selected: s -= w[3]*np.mean([sims[j,s] for s in selected])
             if s > best: best, best_i = s, j
         if best_i < 0: break
         c = costs[best_i]
-        if used + c > budget and selected: break
+        if used + c > budget: break
         selected.append(best_i); used += c; remaining.remove(best_i)
     return selected
 
 
-def infer(method, skill_content, items, top_k, budget, weights, workers):
+def infer(method, skill_content, items, top_k, budget, weights, workers, **kwargs):
+    utility_file = kwargs.get("utility_file", "")
     rm = RuleMemory(skill_content, method="tfidf", top_k=top_k, token_budget=budget)
     rules = [r.full_text for r in rm.dynamic_rules]
     core = rm.core_rules_text
@@ -79,20 +80,21 @@ def infer(method, skill_content, items, top_k, budget, weights, workers):
 
     # Load frozen utilities for Greedy-Utility
     frozen_utils = np.zeros(n)
+    utility_sha256 = ""
     if "util" in method:
+        utility_path = utility_file
+        if not utility_path or not os.path.exists(utility_path):
+            raise FileNotFoundError(
+                "Greedy-Utility requires a frozen utility file.\n"
+                "  Pass --utility-file <path> or ensure the file exists."
+            )
         from skillopt.moar.tracker import UtilityTracker
-        for candidate in [
-            os.path.join(_PROJECT_ROOT, "outputs", "moar_utility.json"),
-            os.path.join(_PROJECT_ROOT, "outputs", "searchqa_rag", "moar_utility.json"),
-        ]:
-            if os.path.exists(candidate):
-                ut = UtilityTracker(persistence_path=candidate)
-                ut.register_rules(rules)
-                frozen_utils = ut.compute_utilities("precision")
-                print(f"  Loaded utilities from {candidate}")
-                break
-        else:
-            print("  No utility file found — using cold start")
+        ut = UtilityTracker(persistence_path=utility_path)
+        ut.register_rules(rules)
+        frozen_utils = ut.compute_utilities("precision")
+        with open(utility_path, "rb") as f:
+            utility_sha256 = hashlib.sha256(f.read()).hexdigest()
+        print(f"  Loaded utilities from {utility_path} (SHA256: {utility_sha256[:16]}...)")
 
     # Phase 1: sequential rule selection (timed per query)
     t0 = time.time()
@@ -110,7 +112,7 @@ def infer(method, skill_content, items, top_k, budget, weights, workers):
             for idx in order:
                 if len(sel) >= top_k: break
                 c = costs[idx]
-                if used + c > budget and sel: break
+                if used + c > budget: continue
                 sel.append(int(idx)); used += c
         else:
             sel = greedy_select(rel, frozen_utils, costs, sims, top_k, budget, w)
@@ -164,27 +166,54 @@ def infer(method, skill_content, items, top_k, budget, weights, workers):
     inf_elapsed = time.time() - t_inf_start
 
     # Merge selection + inference data
+    # Token counter
+    try:
+        from skillopt.moar.tokenizer import count_tokens as _count_tokens
+    except Exception:
+        _count_tokens = None
+
+    api_failures = 0
     per_item = []
     for i in range(n_items):
         d = dict(batch_results[i])
         sd = sel_data[i]
+        sel_indices = sd["sel"]
+        # Real token count for selected rules
+        sel_text = ""
+        if sel_indices:
+            sel_texts = [rules[idx] for idx in sel_indices if idx < len(rules)]
+            sel_text = "\n\n".join(sel_texts)
+        sel_tokens = _count_tokens(sel_text) if _count_tokens and sel_text else len(sel_text)
         d.update({
             "n_rules": len(sd["sel"]),
             "selected_indices": sd["sel"],
             "sel_chars": sd["sel_chars"],
+            "selected_tokens": sel_tokens,
+            "budget_violated": sel_tokens > budget,
             "input_chars": sd["input_chars"],
             "sel_latency_ms": sd["sel_ms"],
             "inference_ms": batch_results[i]["inference_ms"],
         })
+        if d.get("predicted", "") == "":
+            api_failures += 1
         per_item.append(d)
 
     acc = float(np.mean([r["hard"] for r in per_item]))
     avg_r = float(np.mean([r["n_rules"] for r in per_item]))
     total_elapsed = time.time() - t0
     avg_sel_ms = float(np.mean([sd["sel_ms"] for sd in sel_data]))
+    sel_ms_arr = np.array([sd["sel_ms"] for sd in sel_data])
     print(f"\n{method.upper()} {n_items} items: acc={acc:.4f}  avg_rules={avg_r:.1f}")
     print(f"  Selection: {avg_sel_ms:.1f}ms/q | Inference: {inf_elapsed:.0f}s total")
-    return acc, avg_r, per_item
+    return acc, avg_r, per_item, {
+        "avg_sel_ms": avg_sel_ms,
+        "sel_ms_median": float(np.median(sel_ms_arr)),
+        "sel_ms_p95": float(np.percentile(sel_ms_arr, 95)),
+        "sel_ms_p99": float(np.percentile(sel_ms_arr, 99)),
+        "sel_ms_max": float(np.max(sel_ms_arr)),
+        "api_failures": api_failures,
+        "utility_sha256": utility_sha256,
+    }
 
 
 def parse_args():
@@ -198,6 +227,8 @@ def parse_args():
     p.add_argument("--budget", type=int, default=2000)
     p.add_argument("--weights", default="0.4,0.3,0.2,0.1")
     p.add_argument("--workers", type=int, default=16)
+    p.add_argument("--utility-file", type=str, default="",
+                   help="Required for greedy-util: path to frozen moar_utility.json")
     p.add_argument("--out", default="")
     return p.parse_args()
 
@@ -225,10 +256,20 @@ def main():
     commit = subprocess.check_output(
         ["git", "rev-parse", "HEAD"], text=True, cwd=_PROJECT_ROOT).strip()
 
-    acc, avg_r, per_item = infer(
+    acc, avg_r, per_item, extra = infer(
         args.method, skill, items, args.top_k, args.budget,
         args.weights, args.workers,
+        utility_file=args.utility_file,
     )
+
+    # File hashes
+    with open(os.path.abspath(args.skill), "rb") as f:
+        skill_sha256 = hashlib.sha256(f.read()).hexdigest()
+    items_path = os.path.join(_PROJECT_ROOT, "data", "searchqa_split", "test", "items.json")
+    dataset_sha256 = ""
+    if os.path.exists(items_path):
+        with open(items_path, "rb") as f:
+            dataset_sha256 = hashlib.sha256(f.read()).hexdigest()
 
     out = args.out or os.path.join(
         _PROJECT_ROOT, "outputs",
@@ -237,8 +278,14 @@ def main():
     summary = {
         "method": args.method, "target_model": args.target_model,
         "n": len(items), "acc": acc, "avg_rules": avg_r,
-        "commit": commit, "per_question": per_item,
+        "commit": commit,
+        "skill_sha256": skill_sha256,
+        "dataset_sha256": dataset_sha256,
+        "budget": args.budget, "top_k": args.top_k,
+        **extra,
+        "per_question": per_item,
     }
+    os.makedirs(os.path.dirname(out) or ".", exist_ok=True)
     with open(out, "w", encoding="utf-8") as f:
         json.dump(summary, f, indent=2, ensure_ascii=False)
     print(f"Saved: {out}")

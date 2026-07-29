@@ -12,6 +12,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import sys
@@ -80,16 +81,8 @@ def build_skill_text(rm, query: str) -> tuple[str, int, int, list[int]]:
         text = core + "\n\n" + dynamic
     else:
         text = core
-    # Count selected dynamic rules
-    n_dyn = dynamic.count("## ") if dynamic else 0
-    # Extract selected indices from MOAR/TF-IDF internals
-    sel_idx: list[int] = []
-    if hasattr(rm, '_engine'):
-        last = rm._engine._last_selections.get(query, [])
-        sel_idx = list(last) if last else []
-    elif hasattr(rm, '_last_selections'):
-        last = getattr(rm, '_last_selections', {}).get(query, [])
-        sel_idx = list(last) if last else []
+    sel_idx = list(rm._last_selections.get(query, []))
+    n_dyn = len(sel_idx)
     return text, n_dyn, len(text), sel_idx
 
 
@@ -98,28 +91,11 @@ def count_rule_redundancy(rm, query: str) -> float:
     import numpy as np
     from sklearn.metrics.pairwise import cosine_similarity
 
-    k = min(rm.top_k, rm.n_dynamic)
-    if k <= 1:
-        return 0.0
-
-    # Use TF-IDF to get indices (MOAR delegates internally, but RuleMemory
-    # doesn't expose selected indices — we estimate via the parent's _tfidf_select)
-    # Get actual selected indices (not the first K rules)
-    if hasattr(rm, '_engine'):
-        last_sel = rm._engine._last_selections.get(query, [])
-        indices = list(last_sel) if last_sel else list(range(min(k, rm.n_dynamic)))
-    elif hasattr(rm, '_last_selections'):
-        last_sel = getattr(rm, '_last_selections', {}).get(query, [])
-        indices = list(last_sel) if last_sel else list(range(min(k, rm.n_dynamic)))
-    else:
-        indices = list(range(min(k, rm.n_dynamic)))
-
+    indices = list(rm._last_selections.get(query, []))
     if len(indices) <= 1:
         return 0.0
 
     rv = rm._parent._rule_matrix if hasattr(rm, '_parent') else rm._rule_matrix
-    if rv is None or hasattr(rv, 'toarray'):
-        pass
     if rv is not None and rv.shape[0] > 0:
         sel_emb = rv[indices]
         if hasattr(sel_emb, 'toarray'):
@@ -253,6 +229,13 @@ def main():
         print(f"  Accuracy: {hard:.4f}")
 
         # Enrich per-item dicts with correctly-matched rule selection data
+        # Token counter for selected_tokens
+        try:
+            from skillopt.moar.tokenizer import count_tokens as _count_tokens
+        except Exception:
+            _count_tokens = None
+
+        api_failures = 0
         per_item = []
         for i in range(n_items):
             d = dict(batch_results[i])
@@ -260,15 +243,33 @@ def main():
             d["n_rules"] = n_rules_list[i] if i < len(n_rules_list) else 0
             d["prompt_chars"] = char_counts[i] if i < len(char_counts) else 0
             d["build_ms"] = build_times[i] * 1000 if i < len(build_times) else 0
+            # Real token count for selected rules
+            sel_indices = d["selected_indices"]
+            if sel_indices and hasattr(rm, 'dynamic_rules'):
+                dyn_rules = rm.dynamic_rules
+                sel_texts = [dyn_rules[idx].full_text for idx in sel_indices if idx < len(dyn_rules)]
+                d["selected_tokens"] = _count_tokens("\n\n".join(sel_texts)) if _count_tokens and sel_texts else sum(
+                    len(t) for t in sel_texts)
+            else:
+                d["selected_tokens"] = 0
+            d["budget_violated"] = d["selected_tokens"] > args.budget
+            if d["predicted"] == "":
+                api_failures += 1
             per_item.append(d)
 
+        build_ms_arr = np.array([d["build_ms"] for d in per_item])
         results[method_name] = {
             "accuracy": float(hard),
             "avg_rules": float(avg_rules),
             "avg_chars": float(avg_chars),
             "avg_build_ms": float(avg_build * 1000),
+            "build_ms_median": float(np.median(build_ms_arr)),
+            "build_ms_p95": float(np.percentile(build_ms_arr, 95)),
+            "build_ms_p99": float(np.percentile(build_ms_arr, 99)),
+            "build_ms_max": float(np.max(build_ms_arr)),
             "infer_time_s": float(infer_time),
             "n_items": n_items,
+            "api_failures": api_failures,
             "per_item": per_item,
         }
 
@@ -297,8 +298,21 @@ def main():
     import subprocess
     commit = subprocess.check_output(
         ["git", "rev-parse", "HEAD"], text=True, cwd=_PROJECT_ROOT).strip()
+
+    # File hashes for reproducibility
+    with open(os.path.abspath(args.skill), "rb") as f:
+        skill_sha256 = hashlib.sha256(f.read()).hexdigest()
+    items_path = os.path.join(
+        _PROJECT_ROOT, "data", "searchqa_split",
+        "test" if args.split == "valid_unseen" else "val", "items.json")
+    dataset_sha256 = ""
+    if os.path.exists(items_path):
+        with open(items_path, "rb") as f:
+            dataset_sha256 = hashlib.sha256(f.read()).hexdigest()
+
     summary = {
         "skill": os.path.abspath(args.skill),
+        "skill_sha256": skill_sha256,
         "target_model": args.target_model,
         "optimizer_model": args.optimizer_model,
         "commit": commit,
@@ -307,6 +321,7 @@ def main():
         "top_k": args.top_k,
         "budget": args.budget,
         "seed": args.seed,
+        "dataset_sha256": dataset_sha256,
         "results": results,
     }
     with open(out_path, "w", encoding="utf-8") as f:

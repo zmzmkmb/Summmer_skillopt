@@ -118,11 +118,8 @@ def run_round(
                                         token_budget=budget)
             sel_time = (time.time() - t_sel0) * 1000
 
-            # Get selected indices (for MOAR: from last_selections)
-            selected_indices: list[int] = []
-            if hasattr(rm, '_engine'):
-                indices = rm._engine._last_selections.get(item["question"], [])
-                selected_indices = list(indices)
+            # Get selected indices (unified across all methods)
+            selected_indices = list(rm._last_selections.get(item["question"], []))
 
             # Build system prompt
             core = rm.core_rules_text
