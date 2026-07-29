@@ -92,9 +92,13 @@ def count_rule_redundancy(rm, query: str) -> float:
 
     # Use TF-IDF to get indices (MOAR delegates internally, but RuleMemory
     # doesn't expose selected indices — we estimate via the parent's _tfidf_select)
-    if rm.method == "moar":
-        # MOARMemory stores engine — we can get rule indices from the last retrieval
-        indices = list(range(min(k, rm.n_dynamic)))
+    # Get actual selected indices (not the first K rules)
+    if hasattr(rm, '_engine'):
+        last_sel = rm._engine._last_selections.get(query, [])
+        indices = list(last_sel) if last_sel else list(range(min(k, rm.n_dynamic)))
+    elif hasattr(rm, '_last_selections'):
+        last_sel = getattr(rm, '_last_selections', {}).get(query, [])
+        indices = list(last_sel) if last_sel else list(range(min(k, rm.n_dynamic)))
     else:
         indices = list(range(min(k, rm.n_dynamic)))
 
@@ -122,6 +126,10 @@ def parse_args():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--skill", type=str, required=True,
                    help="Path to trained skill .md file")
+    p.add_argument("--target-model", type=str, default="qwen-flash",
+                   help="Target model name (qwen3.6-flash, qwen-flash, etc.)")
+    p.add_argument("--optimizer-model", type=str, default="deepseek-v4-flash",
+                   help="Optimizer model name (deepseek-v4-flash, deepseek-v4-pro, etc.)")
     p.add_argument("--split", type=str, default="valid_unseen")
     p.add_argument("--limit", type=int, default=200)
     p.add_argument("--workers", type=int, default=16)
@@ -135,11 +143,11 @@ def parse_args():
 def main():
     args = parse_args()
 
-    # ── Configure model backends ────────────────────────────────────────
+    # ── Configure model backends (CLI-overridable) ────────────────────
     set_optimizer_backend("openai_compatible")
     set_target_backend("openai_compatible")
-    set_optimizer_deployment("deepseek-v4-flash")
-    set_target_deployment("qwen-flash")
+    set_optimizer_deployment(args.optimizer_model or "deepseek-v4-flash")
+    set_target_deployment(args.target_model or "qwen-flash")
 
     # Load skill
     with open(os.path.abspath(args.skill), encoding="utf-8") as f:

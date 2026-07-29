@@ -348,6 +348,10 @@ class MOARMemory:
         Default ``"cl100k_base"`` is a good approximation for Qwen/GPT-4 family.
     moar_frozen : bool
         If True, utility updates are no-ops (test-set isolation).
+    moar_base_seed : int
+        Base seed for deterministic NSGA-II per-query seeds.  Queries
+        with seed={42,43,44} produce genuinely different MOAR selections.
+        Default 42.
     """
 
     def __init__(
@@ -367,6 +371,7 @@ class MOARMemory:
         moar_utility_decay: float = 1.0,
         moar_tokenizer: str = "cl100k_base",
         moar_frozen: bool = False,
+        moar_base_seed: int = 42,
         **__,
     ) -> None:
         # Import parent here to avoid circular import at module level
@@ -412,12 +417,15 @@ class MOARMemory:
                 [r.full_text for r in self._parent.dynamic_rules]
             )
 
+        # Store base seed for per-query determinism
+        self.moar_base_seed = int(moar_base_seed)
+
         # Log tokenizer mode
         cost_kind = "tokens" if tokenizer_used else "chars"
         if self._parent.n_dynamic > 0:
             avg_cost = float(np.mean(self._cache.token_costs))
             print(f"  [moar] {cost_kind} mode, avg={avg_cost:.0f} {cost_kind}/rule, "
-                  f"frozen={moar_frozen}", flush=True)
+                  f"frozen={moar_frozen} seed={self.moar_base_seed}", flush=True)
 
         # ── Parse weights ────────────────────────────────────────────────
         try:
@@ -497,7 +505,7 @@ class MOARMemory:
             self._parent._vectorizer,
             min(k, self.n_dynamic),
             budget,
-            seed=_query_seed(query),
+            seed=_make_query_seed(self.moar_base_seed, query),
         )
 
         if not indices:
@@ -528,7 +536,12 @@ class MOARMemory:
         return "\n\n".join(parts)
 
 
-def _query_seed(query: str) -> int:
-    """Deterministic seed from query text (same as RuleMemory._random_select)."""
+def _make_query_seed(base_seed: int, query: str) -> int:
+    """Deterministic per-query seed incorporating the base run seed.
+
+    ``base_seed=42`` and ``base_seed=43`` produce genuinely different
+    MOAR selections for the same query — enabling multi-seed experiments.
+    """
     import hashlib
-    return int(hashlib.md5(query.encode("utf-8")).hexdigest()[:8], 16)
+    raw = f"{base_seed}:{query}".encode("utf-8")
+    return int.from_bytes(hashlib.sha256(raw).digest()[:4], byteorder="little")

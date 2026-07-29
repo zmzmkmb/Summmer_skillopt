@@ -2,10 +2,15 @@
 openai>=1.30.0
 pyyaml>=6.0
 numpy>=1.24.0
+scikit-learn>=1.4.0
 openpyxl>=3.1.0
 azure-identity>=1.15.0
 azure-core>=1.30.0
 httpx>=0.27.0
+
+# ── MOAR (Multi-Objective Atomic Rule selection) ──
+tiktoken>=0.7.0
+rank-bm25>=0.2.2
 
 # ── Optional: ALFWorld benchmark ──────────────────
 # alfworld>=0.4.0
