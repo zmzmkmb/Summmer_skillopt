@@ -1,7 +1,8 @@
 # Journal Experiments Log
 
-> **Last updated**: 2026-07-28 00:20
-> Target: qwen-flash (DashScope) | Optimizer: deepseek-v4-flash (DeepSeek)
+> **Last updated**: 2026-07-29
+> **Target**: qwen3.6-flash (MaaS token-plan) | **Optimizer**: deepseek-v4-flash (DeepSeek 直连)
+> **Previous Target**: qwen-flash (DashScope) — all experimental data below
 
 ---
 
@@ -74,10 +75,46 @@
 
 | 项目 | 值 |
 |------|:--|
-| Target 模型 | qwen-flash (DashScope) |
-| Optimizer 模型 | deepseek-v4-flash (DeepSeek) |
+| Target 模型 (current) | qwen3.6-flash (MaaS token-plan) |
+| Target 模型 (experiments) | qwen-flash (DashScope) |
+| Optimizer 模型 | deepseek-v4-flash (DeepSeek 直连) |
 | Adapter | `skillopt/envs/mmlupro/` (pure, no SearchQA template) |
 | Initial skill | `skillopt/envs/mmlupro/initial_skill.md` (323 chars) |
 | Config | `configs/mmlupro/default.yaml` |
 | Seed | 42 |
 | 日志目录 | `logs/journal_experiments.md` |
+
+---
+
+## Appendix A: SearchQA 多基线规则选择对照 (qwen-flash)
+
+| Method | Accuracy (200) | Rules | Chars | Latency |
+|------|:--:|:--:|:--:|:--:|
+| Core Only | 64.0% | 0 | 513 | 0ms |
+| BM25 | 58.0% | 1.0 | 2,576 | <1ms |
+| Greedy (cold) | 57.0% | 2.0 | 1,398 | 2ms |
+| TF-IDF | 68.5% | 1.0 | 1,968 | 1ms |
+| **MOAR** | **70.5%** | 1.1 | 1,673 | 278ms |
+
+## Appendix B: 规则库规模 Scaling (200 queries)
+
+| Rules | TF-IDF ms/q | MOAR ms/q | MOAR chars |
+|------:|:-----------:|:---------:|:----------:|
+| 8 | 1.2 | 299 | 1,158 |
+| 28 | 1.4 | 523 | 1,429 |
+| 32 | 1.6 | 383 | 1,421 |
+| 135 | 1.5 | 428 | 783 |
+
+> Both sub-linear. TF-IDF flat (~1.5ms). MOAR +43% for 17× rule growth.
+
+## Appendix C: 全部 Commits
+
+| Commit | 内容 |
+|--------|------|
+| `bde2cd0` | Rule scaling experiment (8→135 rules) |
+| `94e1194` | Complete 3-domain Fast/Slow ablation |
+| `76ee3ff` | BM25 + Greedy inference baselines |
+| `5385dd2` | BM25 + Greedy full baselines |
+| `4112531` | Law + Philosophy Fast/Slow tables |
+| `07bdd3b` | Tokenizer + stable rule IDs + test isolation |
+| `d46557b` | NSGA-II top-K hard constraint |
