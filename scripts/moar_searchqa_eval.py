@@ -51,20 +51,24 @@ def load_test_items(split: str, limit: int = 0) -> list[dict]:
     return items
 
 
-def infer_one(item: dict, system: str) -> dict:
-    user = _build_user(item["question"], item.get("context", ""))
+def infer_one(item: dict, system: str, user: str) -> dict:
+    t0 = time.time()
     try:
         resp, _ = chat_target(
             system, user, max_completion_tokens=512,
             retries=2, stage="moar_eval", timeout=60,
         )
-    except Exception as exc:
+    except Exception:
         resp = ""
+    inf_ms = (time.time() - t0) * 1000
     ev = evaluate(resp, item.get("answers", []))
     return {
-        "id": item["id"],
+        "sample_id": str(item["id"]),
         "hard": int(ev["em"]),
+        "predicted": ev["predicted_answer"],
+        "gold": item.get("answers", []),
         "response_len": len(resp),
+        "inference_ms": inf_ms,
     }
 
 
@@ -196,19 +200,28 @@ def main():
         print(f"{'='*60}")
 
         system_prompts: list[str] = []
+        user_prompts: list[str] = []
         build_times: list[float] = []
         n_rules_list: list[int] = []
         char_counts: list[int] = []
+        selected_indices_list: list[list[int]] = []
 
         t_build_start = time.time()
-        for q in questions:
+        for q_idx, q in enumerate(questions):
             t_q0 = time.time()
             text, n_dyn, n_char = build_skill_text(rm, q)
             build_times.append(time.time() - t_q0)
-            system = _build_system(text)
-            system_prompts.append(system)
+            # Get selected indices from MOAR's last_selections or TF-IDF
+            sel_idx: list[int] = []
+            if hasattr(rm, '_engine'):
+                last = rm._engine._last_selections.get(q, [])
+                sel_idx = list(last) if last else []
+            system_prompts.append(_build_system(text))
+            user_prompts.append(_build_user(q, items[q_idx].get("context", "")))
             n_rules_list.append(n_dyn)
             char_counts.append(n_char)
+            selected_indices_list.append(sel_idx)
+
         avg_build = np.mean(build_times)
         avg_rules = np.mean(n_rules_list)
         avg_chars = np.mean(char_counts)
@@ -219,8 +232,8 @@ def main():
         t_infer_start = time.time()
         batch_results = []
         with ThreadPoolExecutor(max_workers=args.workers) as ex:
-            futs = {ex.submit(infer_one, item, sp): i
-                    for i, (item, sp) in enumerate(zip(items, system_prompts))}
+            futs = {ex.submit(infer_one, item, sp, up): i
+                    for i, (item, sp, up) in enumerate(zip(items, system_prompts, user_prompts))}
             for fut in as_completed(futs):
                 batch_results.append(fut.result())
 
@@ -229,6 +242,16 @@ def main():
         print(f"  Inference: {len(batch_results)} items, {infer_time:.0f}s ({infer_time/len(batch_results):.1f}s/item)")
         print(f"  Accuracy: {hard:.4f}")
 
+        # Enrich per-item dicts with selected indices
+        per_item = []
+        for i, r in enumerate(batch_results):
+            d = dict(r)
+            d["selected_indices"] = selected_indices_list[i] if i < len(selected_indices_list) else []
+            d["n_rules"] = n_rules_list[i] if i < len(n_rules_list) else 0
+            d["prompt_chars"] = char_counts[i] if i < len(char_counts) else 0
+            d["build_ms"] = build_times[i] * 1000 if i < len(build_times) else 0
+            per_item.append(d)
+
         results[method_name] = {
             "accuracy": float(hard),
             "avg_rules": float(avg_rules),
@@ -236,7 +259,7 @@ def main():
             "avg_build_ms": float(avg_build * 1000),
             "infer_time_s": float(infer_time),
             "n_items": len(batch_results),
-            "per_item": [{"id": r["id"], "hard": r["hard"]} for r in batch_results],
+            "per_item": per_item,
         }
 
     # ── Summary ─────────────────────────────────────────────────────────
@@ -261,8 +284,14 @@ def main():
         f"moar_comparison_{args.split}_n{args.limit}_{int(time.time())}.json",
     )
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
+    import subprocess
+    commit = subprocess.check_output(
+        ["git", "rev-parse", "HEAD"], text=True, cwd=_PROJECT_ROOT).strip()
     summary = {
         "skill": os.path.abspath(args.skill),
+        "target_model": args.target_model,
+        "optimizer_model": args.optimizer_model,
+        "commit": commit,
         "split": args.split,
         "limit": args.limit,
         "top_k": args.top_k,

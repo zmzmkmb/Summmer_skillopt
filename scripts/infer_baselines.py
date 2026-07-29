@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
-"""Unified baseline inference eval for BM25 and Greedy on SearchQA.
+"""Unified baseline inference eval for BM25 and Greedy-Cold on SearchQA.
 
 SAME input conditions as moar_searchqa_eval.py:
 - Uses _build_user(question, context) so BM25/Greedy/MOAR all see the same
   SearchQA context passages.
 - Uses the same _build_system, chat_target, evaluate pipeline.
+- BM25 and Greedy-Cold use tokenizer-based costs (same as MOAR).
+
+Greedy-Cold: utility weights are zero (no historical feedback).
+For Greedy-Utility, use moar_searchqa_eval.py with moar_utility_path.
 
 Usage:
     python scripts/infer_baselines.py --method bm25 --limit 200
@@ -58,7 +62,12 @@ def infer(method, skill_content, items, top_k, budget, weights, workers):
 
     from sklearn.metrics.pairwise import cosine_similarity
     rv = rm._rule_matrix.toarray() if hasattr(rm._rule_matrix, 'toarray') else np.asarray(rm._rule_matrix)
-    costs = np.array([len(t) for t in rules], dtype=float)
+    # Use tokenizer for cost (same as MOAR), fallback to char length
+    try:
+        from skillopt.moar.tokenizer import count_tokens
+        costs = np.array([count_tokens(t) for t in rules], dtype=float)
+    except Exception:
+        costs = np.array([len(t) for t in rules], dtype=float)
     sims = cosine_similarity(rv); np.fill_diagonal(sims, 0.0)
     w = tuple(float(x) for x in weights.split(",")[:4])
 
