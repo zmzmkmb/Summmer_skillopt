@@ -173,8 +173,10 @@ def main():
     methods["TF-IDF Top-5"] = RuleMemory(skill_content, method="tfidf", **common)
     methods["MOAR"] = RuleMemory(
         skill_content, method="moar",
-        moar_pop_size=30, moar_generations=15,  # faster for smoke test
+        moar_pop_size=30, moar_generations=15,
         moar_utility_method="precision",
+        moar_base_seed=args.seed,
+        moar_frozen=True,
         **common,
     )
 
