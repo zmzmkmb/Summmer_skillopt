@@ -1,18 +1,19 @@
 #!/usr/bin/env python3
-"""Unified baseline inference eval for BM25 and Greedy-Cold on SearchQA.
+"""Unified baseline inference for BM25, Greedy-Cold, and Greedy-Utility.
 
-SAME input conditions as moar_searchqa_eval.py:
-- Uses _build_user(question, context) so BM25/Greedy/MOAR all see the same
-  SearchQA context passages.
-- Uses the same _build_system, chat_target, evaluate pipeline.
-- BM25 and Greedy-Cold use tokenizer-based costs (same as MOAR).
+SAME conditions as moar_searchqa_eval.py:
+- _build_user(question, context) — same SearchQA context passages
+- Same _build_system, chat_target, evaluate pipeline
+- Tokenizer-based costs (same as MOAR)
+- ThreadPoolExecutor for inference (same as MOAR main script)
 
-Greedy-Cold: utility weights are zero (no historical feedback).
-For Greedy-Utility, use moar_searchqa_eval.py with moar_utility_path.
+Greedy-Cold:  zero historical utility (cold start).
+Greedy-Utility: loads frozen moar_utility.json for per-rule precision scores.
 
 Usage:
     python scripts/infer_baselines.py --method bm25 --limit 200
-    python scripts/infer_baselines.py --method greedy --limit 200
+    python scripts/infer_baselines.py --method greedy-cold --limit 200
+    python scripts/infer_baselines.py --method greedy-util --limit 200
 """
 from __future__ import annotations
 
@@ -24,6 +25,7 @@ if _PROJECT_ROOT not in sys.path:
     sys.path.insert(0, _PROJECT_ROOT)
 
 import numpy as np
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from skillopt.envs.searchqa.evaluator import evaluate
 from skillopt.envs.searchqa.rollout import _build_system, _build_user
@@ -62,7 +64,6 @@ def infer(method, skill_content, items, top_k, budget, weights, workers):
 
     from sklearn.metrics.pairwise import cosine_similarity
     rv = rm._rule_matrix.toarray() if hasattr(rm._rule_matrix, 'toarray') else np.asarray(rm._rule_matrix)
-    # Use tokenizer for cost (same as MOAR), fallback to char length
     try:
         from skillopt.moar.tokenizer import count_tokens
         costs = np.array([count_tokens(t) for t in rules], dtype=float)
@@ -72,22 +73,37 @@ def infer(method, skill_content, items, top_k, budget, weights, workers):
     w = tuple(float(x) for x in weights.split(",")[:4])
 
     bm25 = None
-    if method == "bm25":
+    if "bm25" in method:
         from rank_bm25 import BM25Okapi
         bm25 = BM25Okapi([tokenize(r) for r in rules])
 
+    # Load frozen utilities for Greedy-Utility
+    frozen_utils = np.zeros(n)
+    if "util" in method:
+        from skillopt.moar.tracker import UtilityTracker
+        for candidate in [
+            os.path.join(_PROJECT_ROOT, "outputs", "moar_utility.json"),
+            os.path.join(_PROJECT_ROOT, "outputs", "searchqa_rag", "moar_utility.json"),
+        ]:
+            if os.path.exists(candidate):
+                ut = UtilityTracker(persistence_path=candidate)
+                ut.register_rules(rules)
+                frozen_utils = ut.compute_utilities("precision")
+                print(f"  Loaded utilities from {candidate}")
+                break
+        else:
+            print("  No utility file found — using cold start")
+
+    # Phase 1: sequential rule selection (timed per query)
     t0 = time.time()
-    results = []
+    sel_data: list[dict] = []
     for it in items:
-        q = it["question"]
-        ctx = it.get("context", "")
+        q = it["question"]; ctx = it.get("context", "")
         qv = rm._vectorizer.transform([q])
         rel = cosine_similarity(qv, rv).ravel()
-        utils = np.zeros(n)
 
-        # --- rule selection ---
         sel_start = time.time()
-        if method == "bm25":
+        if "bm25" in method:
             scores = bm25.get_scores(tokenize(q))
             order = np.argsort(-scores)
             sel, used = [], 0
@@ -97,17 +113,27 @@ def infer(method, skill_content, items, top_k, budget, weights, workers):
                 if used + c > budget and sel: break
                 sel.append(int(idx)); used += c
         else:
-            sel = greedy_select(rel, utils, costs, sims, top_k, budget, w)
+            sel = greedy_select(rel, frozen_utils, costs, sims, top_k, budget, w)
         sel_ms = (time.time() - sel_start) * 1000
 
-        # --- build prompt (same as MOAR main script) ---
         dynamic_text = "\n\n".join(
             rules[i] for i in sorted(sel, key=lambda i: rm.dynamic_rules[i].index))
         text = core + "\n\n" + dynamic_text if dynamic_text else core
         system = _build_system(text)
         user = _build_user(q, ctx)
 
-        # --- inference ---
+        sel_data.append({
+            "item": it, "system": system, "user": user,
+            "sel": list(sel), "sel_ms": sel_ms,
+            "sel_chars": len(dynamic_text),
+            "input_chars": len(system) + len(user),
+        })
+
+    # Phase 2: parallel inference (preserving original ordering)
+    n_items = len(items)
+    batch_results: list[dict | None] = [None] * n_items
+
+    def _infer_one(idx: int, system: str, user: str, it: dict) -> dict:
         try:
             inf_start = time.time()
             resp, _ = chat_target(
@@ -118,30 +144,53 @@ def infer(method, skill_content, items, top_k, budget, weights, workers):
         except Exception:
             resp = ""; inf_ms = 0
         ev = evaluate(resp, it.get("answers", []))
-
-        results.append({
+        return {
             "sample_id": str(it["id"]),
             "hard": int(ev["em"]),
-            "n_rules": len(sel),
-            "selected_indices": list(sel),
-            "sel_chars": len(dynamic_text),
-            "input_chars": len(system) + len(user),
-            "sel_latency_ms": sel_ms,
-            "inference_ms": inf_ms,
             "predicted": ev["predicted_answer"],
             "gold": it.get("answers", []),
-        })
+            "inference_ms": inf_ms,
+        }
 
-    elapsed = time.time() - t0
-    acc = float(np.mean([r["hard"] for r in results]))
-    avg_r = float(np.mean([r["n_rules"] for r in results]))
-    print(f"\n{method.upper()} {len(items)} items: acc={acc:.4f}  avg_rules={avg_r:.1f}  time={elapsed:.0f}s")
-    return acc, avg_r, results
+    t_inf_start = time.time()
+    with ThreadPoolExecutor(max_workers=workers) as ex:
+        futs = {ex.submit(_infer_one, i, d["system"], d["user"], d["item"]): i
+                for i, d in enumerate(sel_data)}
+        for fut in as_completed(futs):
+            idx = futs[fut]
+            batch_results[idx] = fut.result()
+
+    assert all(r is not None for r in batch_results), "missing inference results"
+    inf_elapsed = time.time() - t_inf_start
+
+    # Merge selection + inference data
+    per_item = []
+    for i in range(n_items):
+        d = dict(batch_results[i])
+        sd = sel_data[i]
+        d.update({
+            "n_rules": len(sd["sel"]),
+            "selected_indices": sd["sel"],
+            "sel_chars": sd["sel_chars"],
+            "input_chars": sd["input_chars"],
+            "sel_latency_ms": sd["sel_ms"],
+            "inference_ms": batch_results[i]["inference_ms"],
+        })
+        per_item.append(d)
+
+    acc = float(np.mean([r["hard"] for r in per_item]))
+    avg_r = float(np.mean([r["n_rules"] for r in per_item]))
+    total_elapsed = time.time() - t0
+    avg_sel_ms = float(np.mean([sd["sel_ms"] for sd in sel_data]))
+    print(f"\n{method.upper()} {n_items} items: acc={acc:.4f}  avg_rules={avg_r:.1f}")
+    print(f"  Selection: {avg_sel_ms:.1f}ms/q | Inference: {inf_elapsed:.0f}s total")
+    return acc, avg_r, per_item
 
 
 def parse_args():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("--method", required=True, choices=["bm25","greedy"])
+    p.add_argument("--method", required=True,
+                   choices=["bm25","greedy-cold","greedy-util"])
     p.add_argument("--skill", default="outputs/searchqa_rag/best_skill.md")
     p.add_argument("--target-model", type=str, default="qwen3.6-flash")
     p.add_argument("--limit", type=int, default=200)
@@ -170,9 +219,13 @@ def main():
     if args.limit > 0:
         items = items[:args.limit]
     print(f"Skill: {os.path.basename(args.skill)} | method={args.method}")
-    print(f"Model: {args.target_model} | items={len(items)}")
+    print(f"Model: {args.target_model} | items={len(items)} | workers={args.workers}")
 
-    acc, avg_r, results = infer(
+    import subprocess
+    commit = subprocess.check_output(
+        ["git", "rev-parse", "HEAD"], text=True, cwd=_PROJECT_ROOT).strip()
+
+    acc, avg_r, per_item = infer(
         args.method, skill, items, args.top_k, args.budget,
         args.weights, args.workers,
     )
@@ -184,7 +237,7 @@ def main():
     summary = {
         "method": args.method, "target_model": args.target_model,
         "n": len(items), "acc": acc, "avg_rules": avg_r,
-        "per_question": results,
+        "commit": commit, "per_question": per_item,
     }
     with open(out, "w", encoding="utf-8") as f:
         json.dump(summary, f, indent=2, ensure_ascii=False)
