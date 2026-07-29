@@ -1,0 +1,5410 @@
+[
+  {
+    "sample_id": "5093b6d997674d25be29a4c94fcd5185",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 244,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 2263.3378505706787,
+    "correct": false,
+    "predicted": "fuck",
+    "gold": [
+      "Risky Business"
+    ]
+  },
+  {
+    "sample_id": "99dc9de2fd094b8e9de41a9040081c1d",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 239,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 371.97256088256836,
+    "correct": true,
+    "predicted": "Sweden",
+    "gold": [
+      "Sweden"
+    ]
+  },
+  {
+    "sample_id": "979e3f5aac91446b8550161dd89e9e26",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 234,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 298.5730171203613,
+    "correct": true,
+    "predicted": "finale",
+    "gold": [
+      "finale"
+    ]
+  },
+  {
+    "sample_id": "3bccee60c0c149e08451db23b0963238",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 244,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 343.17660331726074,
+    "correct": false,
+    "predicted": "first book published specifically for children",
+    "gold": [
+      "John Newbery"
+    ]
+  },
+  {
+    "sample_id": "7cd88e67c6c64595a44707e44a33c57c",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 235,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 517.3957347869873,
+    "correct": false,
+    "predicted": "Honor Marie Warren",
+    "gold": [
+      "Jessica Alba"
+    ]
+  },
+  {
+    "sample_id": "feee13cb93224a3297a7b87ddb424640",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 242,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 372.67208099365234,
+    "correct": true,
+    "predicted": "Waiting for Godot",
+    "gold": [
+      "Waiting for Godot"
+    ]
+  },
+  {
+    "sample_id": "48e0ed33e6794e50a1894269c8110e47",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 272,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 520.0576782226562,
+    "correct": true,
+    "predicted": "sostenuto",
+    "gold": [
+      "sostenuto"
+    ]
+  },
+  {
+    "sample_id": "ed76c0f0111f48a8bddb25039aeb2ad0",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 239,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 395.3588008880615,
+    "correct": false,
+    "predicted": "ally-occupied Sicily",
+    "gold": [
+      "John Hersey"
+    ]
+  },
+  {
+    "sample_id": "fd75250e93884f6a83463d93b2108db6",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 234,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 553.8654327392578,
+    "correct": true,
+    "predicted": "George W. Bush",
+    "gold": [
+      "George W. Bush"
+    ]
+  },
+  {
+    "sample_id": "a34708851fbd4ddaba3dce11d13bed71",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 239,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 341.63427352905273,
+    "correct": true,
+    "predicted": "Russian",
+    "gold": [
+      "Russian"
+    ]
+  },
+  {
+    "sample_id": "6371fd8b1f9a400784076e296ec015ba",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 233,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 2163.1555557250977,
+    "correct": true,
+    "predicted": "Who's Afraid of Virginia Woolf?",
+    "gold": [
+      "Who\\'s Afraid of Virginia Woolf?"
+    ]
+  },
+  {
+    "sample_id": "458f4f9ec50b4233b211b12f1eeca2a0",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 229,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 446.7806816101074,
+    "correct": true,
+    "predicted": "Joint Chiefs of Staff",
+    "gold": [
+      "the Joint Chiefs of Staff"
+    ]
+  },
+  {
+    "sample_id": "6db35769ae81425781881647d14b9533",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 248,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 371.6773986816406,
+    "correct": true,
+    "predicted": "Catherine de' Medici",
+    "gold": [
+      "Catherine de\\' Medici"
+    ]
+  },
+  {
+    "sample_id": "e166749f42c946f7a18160e48f3c9c77",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 246,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 519.1116333007812,
+    "correct": false,
+    "predicted": "Livin' La Vida Loca",
+    "gold": [
+      "La Vida Loca"
+    ]
+  },
+  {
+    "sample_id": "34f4c188587e4118a9c65bf31bb1cfdb",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 228,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 653.0694961547852,
+    "correct": false,
+    "predicted": "Burlington, pop. 39,000",
+    "gold": [
+      "Vermont"
+    ]
+  },
+  {
+    "sample_id": "fe5a8c72fb9e4c55933786c6e49072d0",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 238,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 567.0421123504639,
+    "correct": true,
+    "predicted": "Spam",
+    "gold": [
+      "Spam"
+    ]
+  },
+  {
+    "sample_id": "e5f27592956c4b0582eedfb37045a266",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 244,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 443.5098171234131,
+    "correct": true,
+    "predicted": "Pyongyang",
+    "gold": [
+      "Pyongyang"
+    ]
+  },
+  {
+    "sample_id": "1bad2fba539343539ccc0666d70f4da3",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 239,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 310.4283809661865,
+    "correct": false,
+    "predicted": "Earth",
+    "gold": [
+      "Battlestar Galactica"
+    ]
+  },
+  {
+    "sample_id": "1200fe70bda14116affdd48427cc63ee",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 225,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 423.5343933105469,
+    "correct": false,
+    "predicted": "Net, ace, foot fault",
+    "gold": [
+      "tennis"
+    ]
+  },
+  {
+    "sample_id": "c09dc55e403141348ba0778942aef804",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 227,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 351.31096839904785,
+    "correct": true,
+    "predicted": "Catch-22",
+    "gold": [
+      "Catch-22"
+    ]
+  },
+  {
+    "sample_id": "d5bd248435fd48858beef6626bbadbdb",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 234,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 308.95495414733887,
+    "correct": true,
+    "predicted": "runway",
+    "gold": [
+      "a runway"
+    ]
+  },
+  {
+    "sample_id": "75815be29bed4f45aa300fd41e9018ef",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 239,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 362.5226020812988,
+    "correct": false,
+    "predicted": "Yes",
+    "gold": [
+      "Moses"
+    ]
+  },
+  {
+    "sample_id": "4185d3cd150d40c9920c37e627eb5153",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 241,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 312.59608268737793,
+    "correct": true,
+    "predicted": "mercy",
+    "gold": [
+      "mercy"
+    ]
+  },
+  {
+    "sample_id": "633265a55d45428c9866b45e75c0b67e",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 236,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 327.866792678833,
+    "correct": true,
+    "predicted": "Matthew",
+    "gold": [
+      "Matthew"
+    ]
+  },
+  {
+    "sample_id": "f771a66784f2494b8c0a5aa81f9bd09f",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 234,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 366.3768768310547,
+    "correct": true,
+    "predicted": "soprano",
+    "gold": [
+      "soprano"
+    ]
+  },
+  {
+    "sample_id": "442ca352dc31418a9548fddc8259ef66",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 227,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 366.96553230285645,
+    "correct": true,
+    "predicted": "Personal",
+    "gold": [
+      "Personal"
+    ]
+  },
+  {
+    "sample_id": "00090d662c4c4db9b088922fef9fe061",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 223,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 378.51977348327637,
+    "correct": false,
+    "predicted": "by bread alone",
+    "gold": [
+      "on bread alone"
+    ]
+  },
+  {
+    "sample_id": "29043bc89e504948b706b4c502a39a27",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 238,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 412.5807285308838,
+    "correct": true,
+    "predicted": "cherries",
+    "gold": [
+      "cherries"
+    ]
+  },
+  {
+    "sample_id": "db3126341393421caf287bf600f97a46",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 237,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 390.8050060272217,
+    "correct": true,
+    "predicted": "Tunis",
+    "gold": [
+      "Tunis"
+    ]
+  },
+  {
+    "sample_id": "215ec23d85f74b059a2e55edab5da89b",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 235,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 316.50447845458984,
+    "correct": true,
+    "predicted": "cantilever",
+    "gold": [
+      "a cantilever"
+    ]
+  },
+  {
+    "sample_id": "525ee6acd75f4ec98aa1c86eb067e49a",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 238,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 383.4700584411621,
+    "correct": true,
+    "predicted": "white",
+    "gold": [
+      "white"
+    ]
+  },
+  {
+    "sample_id": "203cf01361a54663adf565df1070296e",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 238,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 486.5682125091553,
+    "correct": true,
+    "predicted": "Boxcars",
+    "gold": [
+      "boxcars"
+    ]
+  },
+  {
+    "sample_id": "10fac0924a5e425098992c27d77da289",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 242,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 456.5119743347168,
+    "correct": true,
+    "predicted": "Jet",
+    "gold": [
+      "Jet"
+    ]
+  },
+  {
+    "sample_id": "35b8579be49e4ac598df516858dda290",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 234,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 335.890531539917,
+    "correct": true,
+    "predicted": "Marie Antoinette",
+    "gold": [
+      "Marie-Antoinette",
+      "Marie Antoinette",
+      "Marie \nAntoinette"
+    ]
+  },
+  {
+    "sample_id": "962d456952b14ca4a40adb6a665e4655",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 235,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 427.9818534851074,
+    "correct": true,
+    "predicted": "Minnesota",
+    "gold": [
+      "Minnesota"
+    ]
+  },
+  {
+    "sample_id": "e2a6f8f3f7fd468dbd6c8accff13a62f",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 240,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 344.13766860961914,
+    "correct": true,
+    "predicted": "Bali",
+    "gold": [
+      "Bali"
+    ]
+  },
+  {
+    "sample_id": "633c88e4bffa422ea29193c32eecd3ca",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 247,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 288.1343364715576,
+    "correct": true,
+    "predicted": "Santa Fe",
+    "gold": [
+      "Santa Fe"
+    ]
+  },
+  {
+    "sample_id": "c37a6b4a6320407089cfcf6effca6f2f",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 237,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 342.26131439208984,
+    "correct": true,
+    "predicted": "The Matterhorn",
+    "gold": [
+      "the Matterhorn"
+    ]
+  },
+  {
+    "sample_id": "b7317ee96b234164b583906a8daf293b",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 231,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 368.87431144714355,
+    "correct": false,
+    "predicted": "un gran danes",
+    "gold": [
+      "a Great Dane"
+    ]
+  },
+  {
+    "sample_id": "d05ced73459848598523c0de21f63fb9",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 238,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 281.1744213104248,
+    "correct": true,
+    "predicted": "cricket",
+    "gold": [
+      "cricket"
+    ]
+  },
+  {
+    "sample_id": "657fd4c82a584e22a4c49c116950f142",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 236,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 544.7025299072266,
+    "correct": true,
+    "predicted": "The Who",
+    "gold": [
+      "The Who"
+    ]
+  },
+  {
+    "sample_id": "3e31c94908e041c7a855dd7ac5659f2e",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 233,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 418.08080673217773,
+    "correct": true,
+    "predicted": "leeward",
+    "gold": [
+      "leeward"
+    ]
+  },
+  {
+    "sample_id": "34b216269ba5429d9077cdc2c7bc3e42",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 239,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 450.0091075897217,
+    "correct": false,
+    "predicted": "Aloha Airlines",
+    "gold": [
+      "Aloha"
+    ]
+  },
+  {
+    "sample_id": "9eebfa2316cd49b4912c6764cb21480c",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 235,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 642.2567367553711,
+    "correct": true,
+    "predicted": "Mork & Mindy",
+    "gold": [
+      "Mork & Mindy"
+    ]
+  },
+  {
+    "sample_id": "917d841d16014bbba49d0d3368223e43",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 246,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 413.20204734802246,
+    "correct": true,
+    "predicted": "Don Rickles",
+    "gold": [
+      "Don Rickles"
+    ]
+  },
+  {
+    "sample_id": "5811f1e8130d41fb87b71b4b86c0588f",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 230,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 400.6340503692627,
+    "correct": true,
+    "predicted": "Fargo",
+    "gold": [
+      "Fargo"
+    ]
+  },
+  {
+    "sample_id": "3bf21733e43c4b5fac681d0e9a4a3b83",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 235,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 484.09318923950195,
+    "correct": false,
+    "predicted": "an ox yoke",
+    "gold": [
+      "a yoke"
+    ]
+  },
+  {
+    "sample_id": "0429a0309ef94df8a59959beb9e87fa9",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 223,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 742.9046630859375,
+    "correct": false,
+    "predicted": "is entrusted with the care of America's national parks",
+    "gold": [
+      "Department of Interior"
+    ]
+  },
+  {
+    "sample_id": "a0034b2ceb474e749fc178de8e297e27",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 233,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 567.6982402801514,
+    "correct": false,
+    "predicted": "beak of the rooster",
+    "gold": [
+      "pico de gallo"
+    ]
+  },
+  {
+    "sample_id": "285b2733a61f4fb19680ee93b7b80392",
+    "target_model": "qwen-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 239,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 303.2495975494385,
+    "correct": true,
+    "predicted": "Mexican-American War",
+    "gold": [
+      "the Mexican-American War"
+    ]
+  },
+  {
+    "sample_id": "5093b6d997674d25be29a4c94fcd5185",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 486,
+    "selection_latency_ms": 4.659891128540039,
+    "inference_latency_ms": 376.51538848876953,
+    "correct": false,
+    "predicted": "fuck!",
+    "gold": [
+      "Risky Business"
+    ]
+  },
+  {
+    "sample_id": "99dc9de2fd094b8e9de41a9040081c1d",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 509,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 330.9946060180664,
+    "correct": true,
+    "predicted": "Sweden",
+    "gold": [
+      "Sweden"
+    ]
+  },
+  {
+    "sample_id": "979e3f5aac91446b8550161dd89e9e26",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 2001,
+    "input_tokens_est": 727,
+    "selection_latency_ms": 1.987457275390625,
+    "inference_latency_ms": 448.08077812194824,
+    "correct": true,
+    "predicted": "Finale",
+    "gold": [
+      "finale"
+    ]
+  },
+  {
+    "sample_id": "3bccee60c0c149e08451db23b0963238",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 2001,
+    "input_tokens_est": 737,
+    "selection_latency_ms": 0.9973049163818359,
+    "inference_latency_ms": 431.8356513977051,
+    "correct": false,
+    "predicted": "A Little Pretty Pocket-Book",
+    "gold": [
+      "John Newbery"
+    ]
+  },
+  {
+    "sample_id": "7cd88e67c6c64595a44707e44a33c57c",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 477,
+    "selection_latency_ms": 2.015352249145508,
+    "inference_latency_ms": 336.3158702850342,
+    "correct": false,
+    "predicted": "Honor Marie Warren",
+    "gold": [
+      "Jessica Alba"
+    ]
+  },
+  {
+    "sample_id": "feee13cb93224a3297a7b87ddb424640",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 2001,
+    "input_tokens_est": 735,
+    "selection_latency_ms": 2.0253658294677734,
+    "inference_latency_ms": 445.0664520263672,
+    "correct": true,
+    "predicted": "Waiting for Godot",
+    "gold": [
+      "Waiting for Godot"
+    ]
+  },
+  {
+    "sample_id": "48e0ed33e6794e50a1894269c8110e47",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 2001,
+    "input_tokens_est": 765,
+    "selection_latency_ms": 5.714178085327148,
+    "inference_latency_ms": 571.8095302581787,
+    "correct": true,
+    "predicted": "sostenuto",
+    "gold": [
+      "sostenuto"
+    ]
+  },
+  {
+    "sample_id": "ed76c0f0111f48a8bddb25039aeb2ad0",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 481,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 359.12394523620605,
+    "correct": false,
+    "predicted": "Yes",
+    "gold": [
+      "John Hersey"
+    ]
+  },
+  {
+    "sample_id": "fd75250e93884f6a83463d93b2108db6",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 476,
+    "selection_latency_ms": 6.076812744140625,
+    "inference_latency_ms": 385.7097625732422,
+    "correct": true,
+    "predicted": "George W. Bush",
+    "gold": [
+      "George W. Bush"
+    ]
+  },
+  {
+    "sample_id": "a34708851fbd4ddaba3dce11d13bed71",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 509,
+    "selection_latency_ms": 1.0840892791748047,
+    "inference_latency_ms": 333.1751823425293,
+    "correct": true,
+    "predicted": "Russian",
+    "gold": [
+      "Russian"
+    ]
+  },
+  {
+    "sample_id": "6371fd8b1f9a400784076e296ec015ba",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 2001,
+    "input_tokens_est": 726,
+    "selection_latency_ms": 1.99127197265625,
+    "inference_latency_ms": 404.65617179870605,
+    "correct": true,
+    "predicted": "Who's Afraid of Virginia Woolf?",
+    "gold": [
+      "Who\\'s Afraid of Virginia Woolf?"
+    ]
+  },
+  {
+    "sample_id": "458f4f9ec50b4233b211b12f1eeca2a0",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 471,
+    "selection_latency_ms": 1.0058879852294922,
+    "inference_latency_ms": 470.77131271362305,
+    "correct": true,
+    "predicted": "Joint Chiefs of Staff",
+    "gold": [
+      "the Joint Chiefs of Staff"
+    ]
+  },
+  {
+    "sample_id": "6db35769ae81425781881647d14b9533",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 518,
+    "selection_latency_ms": 1.992940902709961,
+    "inference_latency_ms": 455.2919864654541,
+    "correct": true,
+    "predicted": "Catherine de' Medici",
+    "gold": [
+      "Catherine de\\' Medici"
+    ]
+  },
+  {
+    "sample_id": "e166749f42c946f7a18160e48f3c9c77",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 488,
+    "selection_latency_ms": 2.0406246185302734,
+    "inference_latency_ms": 345.8268642425537,
+    "correct": false,
+    "predicted": "Livin' La Vida Loca",
+    "gold": [
+      "La Vida Loca"
+    ]
+  },
+  {
+    "sample_id": "34f4c188587e4118a9c65bf31bb1cfdb",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 470,
+    "selection_latency_ms": 0.9944438934326172,
+    "inference_latency_ms": 605.1845550537109,
+    "correct": false,
+    "predicted": "Burlington (pop. 39,000)",
+    "gold": [
+      "Vermont"
+    ]
+  },
+  {
+    "sample_id": "fe5a8c72fb9e4c55933786c6e49072d0",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 480,
+    "selection_latency_ms": 0.9975433349609375,
+    "inference_latency_ms": 413.7921333312988,
+    "correct": true,
+    "predicted": "Spam",
+    "gold": [
+      "Spam"
+    ]
+  },
+  {
+    "sample_id": "e5f27592956c4b0582eedfb37045a266",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 486,
+    "selection_latency_ms": 2.140522003173828,
+    "inference_latency_ms": 408.1907272338867,
+    "correct": true,
+    "predicted": "Pyongyang",
+    "gold": [
+      "Pyongyang"
+    ]
+  },
+  {
+    "sample_id": "1bad2fba539343539ccc0666d70f4da3",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 2001,
+    "input_tokens_est": 732,
+    "selection_latency_ms": 0.9970664978027344,
+    "inference_latency_ms": 309.78918075561523,
+    "correct": false,
+    "predicted": "Earth",
+    "gold": [
+      "Battlestar Galactica"
+    ]
+  },
+  {
+    "sample_id": "1200fe70bda14116affdd48427cc63ee",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 467,
+    "selection_latency_ms": 1.2590885162353516,
+    "inference_latency_ms": 373.8682270050049,
+    "correct": false,
+    "predicted": "ace",
+    "gold": [
+      "tennis"
+    ]
+  },
+  {
+    "sample_id": "c09dc55e403141348ba0778942aef804",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 469,
+    "selection_latency_ms": 4.993677139282227,
+    "inference_latency_ms": 530.6735038757324,
+    "correct": true,
+    "predicted": "Catch-22",
+    "gold": [
+      "Catch-22"
+    ]
+  },
+  {
+    "sample_id": "d5bd248435fd48858beef6626bbadbdb",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 476,
+    "selection_latency_ms": 10.08915901184082,
+    "inference_latency_ms": 320.48940658569336,
+    "correct": true,
+    "predicted": "runway",
+    "gold": [
+      "a runway"
+    ]
+  },
+  {
+    "sample_id": "75815be29bed4f45aa300fd41e9018ef",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 481,
+    "selection_latency_ms": 2.0074844360351562,
+    "inference_latency_ms": 280.12847900390625,
+    "correct": true,
+    "predicted": "Moses",
+    "gold": [
+      "Moses"
+    ]
+  },
+  {
+    "sample_id": "4185d3cd150d40c9920c37e627eb5153",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 483,
+    "selection_latency_ms": 2.988576889038086,
+    "inference_latency_ms": 387.44401931762695,
+    "correct": true,
+    "predicted": "mercy",
+    "gold": [
+      "mercy"
+    ]
+  },
+  {
+    "sample_id": "633265a55d45428c9866b45e75c0b67e",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 478,
+    "selection_latency_ms": 3.631114959716797,
+    "inference_latency_ms": 323.2409954071045,
+    "correct": true,
+    "predicted": "Matthew",
+    "gold": [
+      "Matthew"
+    ]
+  },
+  {
+    "sample_id": "f771a66784f2494b8c0a5aa81f9bd09f",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 476,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 464.9620056152344,
+    "correct": false,
+    "predicted": "Light lyric soprano",
+    "gold": [
+      "soprano"
+    ]
+  },
+  {
+    "sample_id": "442ca352dc31418a9548fddc8259ef66",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 469,
+    "selection_latency_ms": 4.192829132080078,
+    "inference_latency_ms": 335.04652976989746,
+    "correct": true,
+    "predicted": "Personal",
+    "gold": [
+      "Personal"
+    ]
+  },
+  {
+    "sample_id": "00090d662c4c4db9b088922fef9fe061",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 2001,
+    "input_tokens_est": 716,
+    "selection_latency_ms": 1.7638206481933594,
+    "inference_latency_ms": 333.42719078063965,
+    "correct": false,
+    "predicted": "by bread alone",
+    "gold": [
+      "on bread alone"
+    ]
+  },
+  {
+    "sample_id": "29043bc89e504948b706b4c502a39a27",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 480,
+    "selection_latency_ms": 0.9901523590087891,
+    "inference_latency_ms": 432.06095695495605,
+    "correct": true,
+    "predicted": "cherries",
+    "gold": [
+      "cherries"
+    ]
+  },
+  {
+    "sample_id": "db3126341393421caf287bf600f97a46",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 507,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 413.9904975891113,
+    "correct": true,
+    "predicted": "Tunis",
+    "gold": [
+      "Tunis"
+    ]
+  },
+  {
+    "sample_id": "215ec23d85f74b059a2e55edab5da89b",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 477,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 444.09704208374023,
+    "correct": true,
+    "predicted": "cantilever",
+    "gold": [
+      "a cantilever"
+    ]
+  },
+  {
+    "sample_id": "525ee6acd75f4ec98aa1c86eb067e49a",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 480,
+    "selection_latency_ms": 2.025127410888672,
+    "inference_latency_ms": 478.6181449890137,
+    "correct": true,
+    "predicted": "white",
+    "gold": [
+      "white"
+    ]
+  },
+  {
+    "sample_id": "203cf01361a54663adf565df1070296e",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 480,
+    "selection_latency_ms": 1.9919872283935547,
+    "inference_latency_ms": 356.1067581176758,
+    "correct": true,
+    "predicted": "Boxcars",
+    "gold": [
+      "boxcars"
+    ]
+  },
+  {
+    "sample_id": "10fac0924a5e425098992c27d77da289",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 484,
+    "selection_latency_ms": 2.5169849395751953,
+    "inference_latency_ms": 327.8341293334961,
+    "correct": true,
+    "predicted": "Jet",
+    "gold": [
+      "Jet"
+    ]
+  },
+  {
+    "sample_id": "35b8579be49e4ac598df516858dda290",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 504,
+    "selection_latency_ms": 2.5947093963623047,
+    "inference_latency_ms": 406.8763256072998,
+    "correct": true,
+    "predicted": "Marie Antoinette",
+    "gold": [
+      "Marie-Antoinette",
+      "Marie Antoinette",
+      "Marie \nAntoinette"
+    ]
+  },
+  {
+    "sample_id": "962d456952b14ca4a40adb6a665e4655",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 477,
+    "selection_latency_ms": 3.0112266540527344,
+    "inference_latency_ms": 330.7502269744873,
+    "correct": true,
+    "predicted": "Minnesota",
+    "gold": [
+      "Minnesota"
+    ]
+  },
+  {
+    "sample_id": "e2a6f8f3f7fd468dbd6c8accff13a62f",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 482,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 332.31544494628906,
+    "correct": true,
+    "predicted": "Bali",
+    "gold": [
+      "Bali"
+    ]
+  },
+  {
+    "sample_id": "633c88e4bffa422ea29193c32eecd3ca",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 2001,
+    "input_tokens_est": 740,
+    "selection_latency_ms": 0.9977817535400391,
+    "inference_latency_ms": 329.76818084716797,
+    "correct": true,
+    "predicted": "Santa Fe",
+    "gold": [
+      "Santa Fe"
+    ]
+  },
+  {
+    "sample_id": "c37a6b4a6320407089cfcf6effca6f2f",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 479,
+    "selection_latency_ms": 2.986907958984375,
+    "inference_latency_ms": 322.09157943725586,
+    "correct": true,
+    "predicted": "The Matterhorn",
+    "gold": [
+      "the Matterhorn"
+    ]
+  },
+  {
+    "sample_id": "b7317ee96b234164b583906a8daf293b",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 473,
+    "selection_latency_ms": 2.032041549682617,
+    "inference_latency_ms": 512.4702453613281,
+    "correct": false,
+    "predicted": "un gran danes",
+    "gold": [
+      "a Great Dane"
+    ]
+  },
+  {
+    "sample_id": "d05ced73459848598523c0de21f63fb9",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 480,
+    "selection_latency_ms": 2.5510787963867188,
+    "inference_latency_ms": 390.6073570251465,
+    "correct": true,
+    "predicted": "cricket",
+    "gold": [
+      "cricket"
+    ]
+  },
+  {
+    "sample_id": "657fd4c82a584e22a4c49c116950f142",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 2001,
+    "input_tokens_est": 729,
+    "selection_latency_ms": 0.9953975677490234,
+    "inference_latency_ms": 484.3132495880127,
+    "correct": true,
+    "predicted": "The Who",
+    "gold": [
+      "The Who"
+    ]
+  },
+  {
+    "sample_id": "3e31c94908e041c7a855dd7ac5659f2e",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 475,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 369.77696418762207,
+    "correct": true,
+    "predicted": "leeward",
+    "gold": [
+      "leeward"
+    ]
+  },
+  {
+    "sample_id": "34b216269ba5429d9077cdc2c7bc3e42",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 2001,
+    "input_tokens_est": 732,
+    "selection_latency_ms": 1.4455318450927734,
+    "inference_latency_ms": 416.92495346069336,
+    "correct": false,
+    "predicted": "Aloha Airlines",
+    "gold": [
+      "Aloha"
+    ]
+  },
+  {
+    "sample_id": "9eebfa2316cd49b4912c6764cb21480c",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 477,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 488.7654781341553,
+    "correct": true,
+    "predicted": "Mork & Mindy",
+    "gold": [
+      "Mork & Mindy"
+    ]
+  },
+  {
+    "sample_id": "917d841d16014bbba49d0d3368223e43",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 2001,
+    "input_tokens_est": 739,
+    "selection_latency_ms": 1.9936561584472656,
+    "inference_latency_ms": 369.36402320861816,
+    "correct": true,
+    "predicted": "Don Rickles",
+    "gold": [
+      "Don Rickles"
+    ]
+  },
+  {
+    "sample_id": "5811f1e8130d41fb87b71b4b86c0588f",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 472,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 333.4784507751465,
+    "correct": true,
+    "predicted": "Fargo",
+    "gold": [
+      "Fargo"
+    ]
+  },
+  {
+    "sample_id": "3bf21733e43c4b5fac681d0e9a4a3b83",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 505,
+    "selection_latency_ms": 3.975391387939453,
+    "inference_latency_ms": 446.2146759033203,
+    "correct": false,
+    "predicted": "an ox yoke",
+    "gold": [
+      "a yoke"
+    ]
+  },
+  {
+    "sample_id": "0429a0309ef94df8a59959beb9e87fa9",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 465,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 480.9401035308838,
+    "correct": false,
+    "predicted": "is entrusted with the care of America's national parks",
+    "gold": [
+      "Department of Interior"
+    ]
+  },
+  {
+    "sample_id": "a0034b2ceb474e749fc178de8e297e27",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 475,
+    "selection_latency_ms": 2.995014190673828,
+    "inference_latency_ms": 352.49948501586914,
+    "correct": true,
+    "predicted": "Pico de gallo",
+    "gold": [
+      "pico de gallo"
+    ]
+  },
+  {
+    "sample_id": "285b2733a61f4fb19680ee93b7b80392",
+    "target_model": "qwen-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 481,
+    "selection_latency_ms": 0.9944438934326172,
+    "inference_latency_ms": 409.30938720703125,
+    "correct": true,
+    "predicted": "Mexican-American War",
+    "gold": [
+      "the Mexican-American War"
+    ]
+  },
+  {
+    "sample_id": "5093b6d997674d25be29a4c94fcd5185",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      7,
+      0,
+      1,
+      2,
+      3
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 514,
+    "selection_latency_ms": 259.72914695739746,
+    "inference_latency_ms": 476.06730461120605,
+    "correct": false,
+    "predicted": "fuck",
+    "gold": [
+      "Risky Business"
+    ]
+  },
+  {
+    "sample_id": "99dc9de2fd094b8e9de41a9040081c1d",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      7,
+      1,
+      2,
+      3
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 509,
+    "selection_latency_ms": 242.43879318237305,
+    "inference_latency_ms": 381.73747062683105,
+    "correct": true,
+    "predicted": "Sweden",
+    "gold": [
+      "Sweden"
+    ]
+  },
+  {
+    "sample_id": "979e3f5aac91446b8550161dd89e9e26",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      6,
+      7,
+      1,
+      0
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 504,
+    "selection_latency_ms": 229.79021072387695,
+    "inference_latency_ms": 358.6997985839844,
+    "correct": true,
+    "predicted": "finale",
+    "gold": [
+      "finale"
+    ]
+  },
+  {
+    "sample_id": "3bccee60c0c149e08451db23b0963238",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      1,
+      7,
+      0,
+      2,
+      3
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 514,
+    "selection_latency_ms": 266.4952278137207,
+    "inference_latency_ms": 534.4042778015137,
+    "correct": false,
+    "predicted": "A Little Pretty Pocket-Book",
+    "gold": [
+      "John Newbery"
+    ]
+  },
+  {
+    "sample_id": "7cd88e67c6c64595a44707e44a33c57c",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      7,
+      0,
+      1,
+      2,
+      3
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 505,
+    "selection_latency_ms": 270.0369358062744,
+    "inference_latency_ms": 385.84423065185547,
+    "correct": true,
+    "predicted": "Jessica Alba",
+    "gold": [
+      "Jessica Alba"
+    ]
+  },
+  {
+    "sample_id": "feee13cb93224a3297a7b87ddb424640",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      1,
+      0,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 512,
+    "selection_latency_ms": 261.5511417388916,
+    "inference_latency_ms": 408.68115425109863,
+    "correct": true,
+    "predicted": "Waiting for Godot",
+    "gold": [
+      "Waiting for Godot"
+    ]
+  },
+  {
+    "sample_id": "48e0ed33e6794e50a1894269c8110e47",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      6,
+      7,
+      4,
+      3,
+      5
+    ],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 514,
+    "selection_latency_ms": 213.61756324768066,
+    "inference_latency_ms": 469.1176414489746,
+    "correct": true,
+    "predicted": "sostenuto",
+    "gold": [
+      "sostenuto"
+    ]
+  },
+  {
+    "sample_id": "ed76c0f0111f48a8bddb25039aeb2ad0",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      5,
+      0,
+      1,
+      2,
+      3
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 509,
+    "selection_latency_ms": 255.61857223510742,
+    "inference_latency_ms": 360.87775230407715,
+    "correct": false,
+    "predicted": "1943",
+    "gold": [
+      "John Hersey"
+    ]
+  },
+  {
+    "sample_id": "fd75250e93884f6a83463d93b2108db6",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 504,
+    "selection_latency_ms": 294.6960926055908,
+    "inference_latency_ms": 399.4271755218506,
+    "correct": true,
+    "predicted": "George W. Bush",
+    "gold": [
+      "George W. Bush"
+    ]
+  },
+  {
+    "sample_id": "a34708851fbd4ddaba3dce11d13bed71",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 509,
+    "selection_latency_ms": 253.0839443206787,
+    "inference_latency_ms": 478.87206077575684,
+    "correct": true,
+    "predicted": "Russian",
+    "gold": [
+      "Russian"
+    ]
+  },
+  {
+    "sample_id": "6371fd8b1f9a400784076e296ec015ba",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      1,
+      0,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 503,
+    "selection_latency_ms": 264.6300792694092,
+    "inference_latency_ms": 488.3122444152832,
+    "correct": true,
+    "predicted": "Who's Afraid of Virginia Woolf?",
+    "gold": [
+      "Who\\'s Afraid of Virginia Woolf?"
+    ]
+  },
+  {
+    "sample_id": "458f4f9ec50b4233b211b12f1eeca2a0",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 499,
+    "selection_latency_ms": 317.4560070037842,
+    "inference_latency_ms": 398.5564708709717,
+    "correct": true,
+    "predicted": "Joint Chiefs of Staff",
+    "gold": [
+      "the Joint Chiefs of Staff"
+    ]
+  },
+  {
+    "sample_id": "6db35769ae81425781881647d14b9533",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 518,
+    "selection_latency_ms": 300.1081943511963,
+    "inference_latency_ms": 289.9439334869385,
+    "correct": true,
+    "predicted": "Catherine de' Medici",
+    "gold": [
+      "Catherine de\\' Medici"
+    ]
+  },
+  {
+    "sample_id": "e166749f42c946f7a18160e48f3c9c77",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 516,
+    "selection_latency_ms": 343.66893768310547,
+    "inference_latency_ms": 627.7294158935547,
+    "correct": false,
+    "predicted": "Livin' La Vida Loca",
+    "gold": [
+      "La Vida Loca"
+    ]
+  },
+  {
+    "sample_id": "34f4c188587e4118a9c65bf31bb1cfdb",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 498,
+    "selection_latency_ms": 352.7944087982178,
+    "inference_latency_ms": 432.7361583709717,
+    "correct": false,
+    "predicted": "Burlington, Vermont",
+    "gold": [
+      "Vermont"
+    ]
+  },
+  {
+    "sample_id": "fe5a8c72fb9e4c55933786c6e49072d0",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 508,
+    "selection_latency_ms": 304.9607276916504,
+    "inference_latency_ms": 400.74992179870605,
+    "correct": true,
+    "predicted": "Spam",
+    "gold": [
+      "Spam"
+    ]
+  },
+  {
+    "sample_id": "e5f27592956c4b0582eedfb37045a266",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      7,
+      0,
+      1,
+      2,
+      3
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 514,
+    "selection_latency_ms": 265.5625343322754,
+    "inference_latency_ms": 311.5229606628418,
+    "correct": true,
+    "predicted": "Pyongyang",
+    "gold": [
+      "Pyongyang"
+    ]
+  },
+  {
+    "sample_id": "1bad2fba539343539ccc0666d70f4da3",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      1,
+      0,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 509,
+    "selection_latency_ms": 280.3635597229004,
+    "inference_latency_ms": 428.560733795166,
+    "correct": false,
+    "predicted": "Earth",
+    "gold": [
+      "Battlestar Galactica"
+    ]
+  },
+  {
+    "sample_id": "1200fe70bda14116affdd48427cc63ee",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 495,
+    "selection_latency_ms": 290.7874584197998,
+    "inference_latency_ms": 308.79807472229004,
+    "correct": false,
+    "predicted": "ace",
+    "gold": [
+      "tennis"
+    ]
+  },
+  {
+    "sample_id": "c09dc55e403141348ba0778942aef804",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 497,
+    "selection_latency_ms": 295.8090305328369,
+    "inference_latency_ms": 483.8540554046631,
+    "correct": true,
+    "predicted": "Catch-22",
+    "gold": [
+      "Catch-22"
+    ]
+  },
+  {
+    "sample_id": "d5bd248435fd48858beef6626bbadbdb",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      2,
+      4,
+      5,
+      0,
+      3
+    ],
+    "selected_rule_tokens": 1389,
+    "input_tokens_est": 566,
+    "selection_latency_ms": 280.0910472869873,
+    "inference_latency_ms": 298.2790470123291,
+    "correct": true,
+    "predicted": "runway",
+    "gold": [
+      "a runway"
+    ]
+  },
+  {
+    "sample_id": "75815be29bed4f45aa300fd41e9018ef",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 509,
+    "selection_latency_ms": 289.8416519165039,
+    "inference_latency_ms": 439.7311210632324,
+    "correct": true,
+    "predicted": "Moses",
+    "gold": [
+      "Moses"
+    ]
+  },
+  {
+    "sample_id": "4185d3cd150d40c9920c37e627eb5153",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 511,
+    "selection_latency_ms": 358.6385250091553,
+    "inference_latency_ms": 525.0997543334961,
+    "correct": true,
+    "predicted": "mercy",
+    "gold": [
+      "mercy"
+    ]
+  },
+  {
+    "sample_id": "633265a55d45428c9866b45e75c0b67e",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 506,
+    "selection_latency_ms": 303.5311698913574,
+    "inference_latency_ms": 365.2210235595703,
+    "correct": true,
+    "predicted": "Matthew",
+    "gold": [
+      "Matthew"
+    ]
+  },
+  {
+    "sample_id": "f771a66784f2494b8c0a5aa81f9bd09f",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 504,
+    "selection_latency_ms": 309.6308708190918,
+    "inference_latency_ms": 327.2702693939209,
+    "correct": true,
+    "predicted": "soprano",
+    "gold": [
+      "soprano"
+    ]
+  },
+  {
+    "sample_id": "442ca352dc31418a9548fddc8259ef66",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 497,
+    "selection_latency_ms": 300.5805015563965,
+    "inference_latency_ms": 608.2451343536377,
+    "correct": true,
+    "predicted": "Personal",
+    "gold": [
+      "Personal"
+    ]
+  },
+  {
+    "sample_id": "00090d662c4c4db9b088922fef9fe061",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      1,
+      0,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 493,
+    "selection_latency_ms": 331.958532333374,
+    "inference_latency_ms": 743.9486980438232,
+    "correct": false,
+    "predicted": "by bread alone",
+    "gold": [
+      "on bread alone"
+    ]
+  },
+  {
+    "sample_id": "29043bc89e504948b706b4c502a39a27",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 508,
+    "selection_latency_ms": 303.94935607910156,
+    "inference_latency_ms": 402.0521640777588,
+    "correct": false,
+    "predicted": "Montmorency cherries",
+    "gold": [
+      "cherries"
+    ]
+  },
+  {
+    "sample_id": "db3126341393421caf287bf600f97a46",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      5,
+      6,
+      1,
+      2
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 507,
+    "selection_latency_ms": 224.85041618347168,
+    "inference_latency_ms": 396.5179920196533,
+    "correct": true,
+    "predicted": "Tunis",
+    "gold": [
+      "Tunis"
+    ]
+  },
+  {
+    "sample_id": "215ec23d85f74b059a2e55edab5da89b",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      5,
+      0,
+      1,
+      2,
+      3
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 505,
+    "selection_latency_ms": 262.174129486084,
+    "inference_latency_ms": 381.425142288208,
+    "correct": true,
+    "predicted": "cantilever",
+    "gold": [
+      "a cantilever"
+    ]
+  },
+  {
+    "sample_id": "525ee6acd75f4ec98aa1c86eb067e49a",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 508,
+    "selection_latency_ms": 311.76209449768066,
+    "inference_latency_ms": 383.1801414489746,
+    "correct": true,
+    "predicted": "white",
+    "gold": [
+      "white"
+    ]
+  },
+  {
+    "sample_id": "203cf01361a54663adf565df1070296e",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 508,
+    "selection_latency_ms": 300.68325996398926,
+    "inference_latency_ms": 444.97203826904297,
+    "correct": true,
+    "predicted": "Boxcars",
+    "gold": [
+      "boxcars"
+    ]
+  },
+  {
+    "sample_id": "10fac0924a5e425098992c27d77da289",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      7,
+      0,
+      1,
+      2,
+      3
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 512,
+    "selection_latency_ms": 259.3567371368408,
+    "inference_latency_ms": 361.2234592437744,
+    "correct": true,
+    "predicted": "Jet",
+    "gold": [
+      "Jet"
+    ]
+  },
+  {
+    "sample_id": "35b8579be49e4ac598df516858dda290",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 504,
+    "selection_latency_ms": 266.71695709228516,
+    "inference_latency_ms": 313.3988380432129,
+    "correct": true,
+    "predicted": "Marie Antoinette",
+    "gold": [
+      "Marie-Antoinette",
+      "Marie Antoinette",
+      "Marie \nAntoinette"
+    ]
+  },
+  {
+    "sample_id": "962d456952b14ca4a40adb6a665e4655",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      3,
+      7,
+      0,
+      1,
+      2
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 505,
+    "selection_latency_ms": 248.5957145690918,
+    "inference_latency_ms": 373.24047088623047,
+    "correct": true,
+    "predicted": "Minnesota",
+    "gold": [
+      "Minnesota"
+    ]
+  },
+  {
+    "sample_id": "e2a6f8f3f7fd468dbd6c8accff13a62f",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      7,
+      0,
+      1,
+      2,
+      3
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 510,
+    "selection_latency_ms": 262.1452808380127,
+    "inference_latency_ms": 324.7978687286377,
+    "correct": true,
+    "predicted": "Bali",
+    "gold": [
+      "Bali"
+    ]
+  },
+  {
+    "sample_id": "633c88e4bffa422ea29193c32eecd3ca",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      3,
+      5,
+      7,
+      1
+    ],
+    "selected_rule_tokens": 2001,
+    "input_tokens_est": 740,
+    "selection_latency_ms": 226.0890007019043,
+    "inference_latency_ms": 388.9641761779785,
+    "correct": true,
+    "predicted": "Santa Fe",
+    "gold": [
+      "Santa Fe"
+    ]
+  },
+  {
+    "sample_id": "c37a6b4a6320407089cfcf6effca6f2f",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 507,
+    "selection_latency_ms": 314.09478187561035,
+    "inference_latency_ms": 295.49312591552734,
+    "correct": true,
+    "predicted": "The Matterhorn",
+    "gold": [
+      "the Matterhorn"
+    ]
+  },
+  {
+    "sample_id": "b7317ee96b234164b583906a8daf293b",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 501,
+    "selection_latency_ms": 307.4944019317627,
+    "inference_latency_ms": 374.8493194580078,
+    "correct": false,
+    "predicted": "un gran danes",
+    "gold": [
+      "a Great Dane"
+    ]
+  },
+  {
+    "sample_id": "d05ced73459848598523c0de21f63fb9",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 508,
+    "selection_latency_ms": 298.736572265625,
+    "inference_latency_ms": 343.8100814819336,
+    "correct": true,
+    "predicted": "cricket",
+    "gold": [
+      "cricket"
+    ]
+  },
+  {
+    "sample_id": "657fd4c82a584e22a4c49c116950f142",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      1,
+      0,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 506,
+    "selection_latency_ms": 342.14210510253906,
+    "inference_latency_ms": 331.2191963195801,
+    "correct": true,
+    "predicted": "The Who",
+    "gold": [
+      "The Who"
+    ]
+  },
+  {
+    "sample_id": "3e31c94908e041c7a855dd7ac5659f2e",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 503,
+    "selection_latency_ms": 302.57296562194824,
+    "inference_latency_ms": 425.4777431488037,
+    "correct": true,
+    "predicted": "leeward",
+    "gold": [
+      "leeward"
+    ]
+  },
+  {
+    "sample_id": "34b216269ba5429d9077cdc2c7bc3e42",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      2,
+      4,
+      6,
+      1,
+      3
+    ],
+    "selected_rule_tokens": 2001,
+    "input_tokens_est": 732,
+    "selection_latency_ms": 243.7751293182373,
+    "inference_latency_ms": 480.7412624359131,
+    "correct": false,
+    "predicted": "Aloha Airlines",
+    "gold": [
+      "Aloha"
+    ]
+  },
+  {
+    "sample_id": "9eebfa2316cd49b4912c6764cb21480c",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 505,
+    "selection_latency_ms": 325.96659660339355,
+    "inference_latency_ms": 480.1216125488281,
+    "correct": true,
+    "predicted": "Mork & Mindy",
+    "gold": [
+      "Mork & Mindy"
+    ]
+  },
+  {
+    "sample_id": "917d841d16014bbba49d0d3368223e43",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      1,
+      0,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 516,
+    "selection_latency_ms": 258.9142322540283,
+    "inference_latency_ms": 351.398229598999,
+    "correct": true,
+    "predicted": "Don Rickles",
+    "gold": [
+      "Don Rickles"
+    ]
+  },
+  {
+    "sample_id": "5811f1e8130d41fb87b71b4b86c0588f",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      4,
+      5,
+      7,
+      0,
+      2
+    ],
+    "selected_rule_tokens": 1389,
+    "input_tokens_est": 562,
+    "selection_latency_ms": 233.9315414428711,
+    "inference_latency_ms": 357.7589988708496,
+    "correct": true,
+    "predicted": "Fargo",
+    "gold": [
+      "Fargo"
+    ]
+  },
+  {
+    "sample_id": "3bf21733e43c4b5fac681d0e9a4a3b83",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      4,
+      5,
+      6,
+      2
+    ],
+    "selected_rule_tokens": 1389,
+    "input_tokens_est": 567,
+    "selection_latency_ms": 246.75416946411133,
+    "inference_latency_ms": 439.51869010925293,
+    "correct": false,
+    "predicted": "an ox yoke",
+    "gold": [
+      "a yoke"
+    ]
+  },
+  {
+    "sample_id": "0429a0309ef94df8a59959beb9e87fa9",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 493,
+    "selection_latency_ms": 302.92534828186035,
+    "inference_latency_ms": 512.5038623809814,
+    "correct": false,
+    "predicted": "is a bureau of the U.S. Department of the Interior entrusted with the care of national parks",
+    "gold": [
+      "Department of Interior"
+    ]
+  },
+  {
+    "sample_id": "a0034b2ceb474e749fc178de8e297e27",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 503,
+    "selection_latency_ms": 305.77588081359863,
+    "inference_latency_ms": 1890.1944160461426,
+    "correct": true,
+    "predicted": "pico de gallo",
+    "gold": [
+      "pico de gallo"
+    ]
+  },
+  {
+    "sample_id": "285b2733a61f4fb19680ee93b7b80392",
+    "target_model": "qwen-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 509,
+    "selection_latency_ms": 300.51517486572266,
+    "inference_latency_ms": 374.7293949127197,
+    "correct": true,
+    "predicted": "Mexican-American War",
+    "gold": [
+      "the Mexican-American War"
+    ]
+  },
+  {
+    "sample_id": "5093b6d997674d25be29a4c94fcd5185",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 244,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 31265.751600265503,
+    "correct": false,
+    "predicted": "fuck",
+    "gold": [
+      "Risky Business"
+    ]
+  },
+  {
+    "sample_id": "99dc9de2fd094b8e9de41a9040081c1d",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 239,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 3710.1593017578125,
+    "correct": true,
+    "predicted": "Sweden",
+    "gold": [
+      "Sweden"
+    ]
+  },
+  {
+    "sample_id": "979e3f5aac91446b8550161dd89e9e26",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 234,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 3290.045976638794,
+    "correct": true,
+    "predicted": "finale",
+    "gold": [
+      "finale"
+    ]
+  },
+  {
+    "sample_id": "3bccee60c0c149e08451db23b0963238",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 244,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 5584.803104400635,
+    "correct": true,
+    "predicted": "John Newbery",
+    "gold": [
+      "John Newbery"
+    ]
+  },
+  {
+    "sample_id": "7cd88e67c6c64595a44707e44a33c57c",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 235,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 2915.6341552734375,
+    "correct": true,
+    "predicted": "Jessica Alba",
+    "gold": [
+      "Jessica Alba"
+    ]
+  },
+  {
+    "sample_id": "feee13cb93224a3297a7b87ddb424640",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 242,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 2069.948673248291,
+    "correct": true,
+    "predicted": "Waiting for Godot",
+    "gold": [
+      "Waiting for Godot"
+    ]
+  },
+  {
+    "sample_id": "48e0ed33e6794e50a1894269c8110e47",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 272,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 4239.243984222412,
+    "correct": true,
+    "predicted": "Sostenuto",
+    "gold": [
+      "sostenuto"
+    ]
+  },
+  {
+    "sample_id": "ed76c0f0111f48a8bddb25039aeb2ad0",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 239,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 21674.330949783325,
+    "correct": false,
+    "predicted": "Adano",
+    "gold": [
+      "John Hersey"
+    ]
+  },
+  {
+    "sample_id": "fd75250e93884f6a83463d93b2108db6",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 234,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 2958.7910175323486,
+    "correct": true,
+    "predicted": "George W. Bush",
+    "gold": [
+      "George W. Bush"
+    ]
+  },
+  {
+    "sample_id": "a34708851fbd4ddaba3dce11d13bed71",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 239,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 3192.6493644714355,
+    "correct": true,
+    "predicted": "Russian",
+    "gold": [
+      "Russian"
+    ]
+  },
+  {
+    "sample_id": "6371fd8b1f9a400784076e296ec015ba",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 233,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 5010.694742202759,
+    "correct": true,
+    "predicted": "Who's Afraid of Virginia Woolf?",
+    "gold": [
+      "Who\\'s Afraid of Virginia Woolf?"
+    ]
+  },
+  {
+    "sample_id": "458f4f9ec50b4233b211b12f1eeca2a0",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 229,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 8980.920553207397,
+    "correct": true,
+    "predicted": "Joint Chiefs of Staff",
+    "gold": [
+      "the Joint Chiefs of Staff"
+    ]
+  },
+  {
+    "sample_id": "6db35769ae81425781881647d14b9533",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 248,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 10251.807451248169,
+    "correct": true,
+    "predicted": "Catherine de' Medici",
+    "gold": [
+      "Catherine de\\' Medici"
+    ]
+  },
+  {
+    "sample_id": "e166749f42c946f7a18160e48f3c9c77",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 246,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 8110.701322555542,
+    "correct": true,
+    "predicted": "La Vida Loca",
+    "gold": [
+      "La Vida Loca"
+    ]
+  },
+  {
+    "sample_id": "34f4c188587e4118a9c65bf31bb1cfdb",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 228,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 16093.127727508545,
+    "correct": true,
+    "predicted": "Vermont",
+    "gold": [
+      "Vermont"
+    ]
+  },
+  {
+    "sample_id": "fe5a8c72fb9e4c55933786c6e49072d0",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 238,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 2333.0655097961426,
+    "correct": true,
+    "predicted": "Spam",
+    "gold": [
+      "Spam"
+    ]
+  },
+  {
+    "sample_id": "e5f27592956c4b0582eedfb37045a266",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 244,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 3072.2250938415527,
+    "correct": true,
+    "predicted": "Pyongyang",
+    "gold": [
+      "Pyongyang"
+    ]
+  },
+  {
+    "sample_id": "1bad2fba539343539ccc0666d70f4da3",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 239,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 3111.9649410247803,
+    "correct": true,
+    "predicted": "Battlestar Galactica",
+    "gold": [
+      "Battlestar Galactica"
+    ]
+  },
+  {
+    "sample_id": "1200fe70bda14116affdd48427cc63ee",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 225,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 10455.671310424805,
+    "correct": true,
+    "predicted": "Tennis",
+    "gold": [
+      "tennis"
+    ]
+  },
+  {
+    "sample_id": "c09dc55e403141348ba0778942aef804",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 227,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 4275.416135787964,
+    "correct": true,
+    "predicted": "Catch-22",
+    "gold": [
+      "Catch-22"
+    ]
+  },
+  {
+    "sample_id": "d5bd248435fd48858beef6626bbadbdb",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 234,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 2939.8860931396484,
+    "correct": true,
+    "predicted": "runway",
+    "gold": [
+      "a runway"
+    ]
+  },
+  {
+    "sample_id": "75815be29bed4f45aa300fd41e9018ef",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 239,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 3535.9699726104736,
+    "correct": true,
+    "predicted": "Moses",
+    "gold": [
+      "Moses"
+    ]
+  },
+  {
+    "sample_id": "4185d3cd150d40c9920c37e627eb5153",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 241,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 1792.6557064056396,
+    "correct": true,
+    "predicted": "Mercy",
+    "gold": [
+      "mercy"
+    ]
+  },
+  {
+    "sample_id": "633265a55d45428c9866b45e75c0b67e",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 236,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 2376.710891723633,
+    "correct": true,
+    "predicted": "Matthew",
+    "gold": [
+      "Matthew"
+    ]
+  },
+  {
+    "sample_id": "f771a66784f2494b8c0a5aa81f9bd09f",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 234,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 4649.725914001465,
+    "correct": true,
+    "predicted": "Soprano",
+    "gold": [
+      "soprano"
+    ]
+  },
+  {
+    "sample_id": "442ca352dc31418a9548fddc8259ef66",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 227,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 2073.4565258026123,
+    "correct": true,
+    "predicted": "Personal",
+    "gold": [
+      "Personal"
+    ]
+  },
+  {
+    "sample_id": "00090d662c4c4db9b088922fef9fe061",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 223,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 3840.663433074951,
+    "correct": false,
+    "predicted": "by bread alone",
+    "gold": [
+      "on bread alone"
+    ]
+  },
+  {
+    "sample_id": "29043bc89e504948b706b4c502a39a27",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 238,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 11518.307447433472,
+    "correct": true,
+    "predicted": "cherries",
+    "gold": [
+      "cherries"
+    ]
+  },
+  {
+    "sample_id": "db3126341393421caf287bf600f97a46",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 237,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 3230.970859527588,
+    "correct": true,
+    "predicted": "Tunis",
+    "gold": [
+      "Tunis"
+    ]
+  },
+  {
+    "sample_id": "215ec23d85f74b059a2e55edab5da89b",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 235,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 15926.571369171143,
+    "correct": true,
+    "predicted": "Cantilever",
+    "gold": [
+      "a cantilever"
+    ]
+  },
+  {
+    "sample_id": "525ee6acd75f4ec98aa1c86eb067e49a",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 238,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 3635.1613998413086,
+    "correct": true,
+    "predicted": "white",
+    "gold": [
+      "white"
+    ]
+  },
+  {
+    "sample_id": "203cf01361a54663adf565df1070296e",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 238,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 3126.2333393096924,
+    "correct": true,
+    "predicted": "Boxcars",
+    "gold": [
+      "boxcars"
+    ]
+  },
+  {
+    "sample_id": "10fac0924a5e425098992c27d77da289",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 242,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 10185.823202133179,
+    "correct": false,
+    "predicted": "Jet magazine",
+    "gold": [
+      "Jet"
+    ]
+  },
+  {
+    "sample_id": "35b8579be49e4ac598df516858dda290",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 234,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 4320.067405700684,
+    "correct": true,
+    "predicted": "Marie Antoinette",
+    "gold": [
+      "Marie-Antoinette",
+      "Marie Antoinette",
+      "Marie \nAntoinette"
+    ]
+  },
+  {
+    "sample_id": "962d456952b14ca4a40adb6a665e4655",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 235,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 2833.5211277008057,
+    "correct": true,
+    "predicted": "Minnesota",
+    "gold": [
+      "Minnesota"
+    ]
+  },
+  {
+    "sample_id": "e2a6f8f3f7fd468dbd6c8accff13a62f",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 240,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 4397.518634796143,
+    "correct": true,
+    "predicted": "Bali",
+    "gold": [
+      "Bali"
+    ]
+  },
+  {
+    "sample_id": "633c88e4bffa422ea29193c32eecd3ca",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 247,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 2686.4681243896484,
+    "correct": true,
+    "predicted": "Santa Fe",
+    "gold": [
+      "Santa Fe"
+    ]
+  },
+  {
+    "sample_id": "c37a6b4a6320407089cfcf6effca6f2f",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 237,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 3624.194860458374,
+    "correct": true,
+    "predicted": "Matterhorn",
+    "gold": [
+      "the Matterhorn"
+    ]
+  },
+  {
+    "sample_id": "b7317ee96b234164b583906a8daf293b",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 231,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 7699.511289596558,
+    "correct": true,
+    "predicted": "Great Dane",
+    "gold": [
+      "a Great Dane"
+    ]
+  },
+  {
+    "sample_id": "d05ced73459848598523c0de21f63fb9",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 238,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 5484.1978549957275,
+    "correct": true,
+    "predicted": "Cricket",
+    "gold": [
+      "cricket"
+    ]
+  },
+  {
+    "sample_id": "657fd4c82a584e22a4c49c116950f142",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 236,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 3699.319839477539,
+    "correct": true,
+    "predicted": "The Who",
+    "gold": [
+      "The Who"
+    ]
+  },
+  {
+    "sample_id": "3e31c94908e041c7a855dd7ac5659f2e",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 233,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 10686.045408248901,
+    "correct": true,
+    "predicted": "leeward",
+    "gold": [
+      "leeward"
+    ]
+  },
+  {
+    "sample_id": "34b216269ba5429d9077cdc2c7bc3e42",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 239,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 7067.511320114136,
+    "correct": false,
+    "predicted": "Aloha Airlines",
+    "gold": [
+      "Aloha"
+    ]
+  },
+  {
+    "sample_id": "9eebfa2316cd49b4912c6764cb21480c",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 235,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 3813.5552406311035,
+    "correct": true,
+    "predicted": "Mork & Mindy",
+    "gold": [
+      "Mork & Mindy"
+    ]
+  },
+  {
+    "sample_id": "917d841d16014bbba49d0d3368223e43",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 246,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 3462.3284339904785,
+    "correct": true,
+    "predicted": "Don Rickles",
+    "gold": [
+      "Don Rickles"
+    ]
+  },
+  {
+    "sample_id": "5811f1e8130d41fb87b71b4b86c0588f",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 230,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 7397.309303283691,
+    "correct": true,
+    "predicted": "Fargo",
+    "gold": [
+      "Fargo"
+    ]
+  },
+  {
+    "sample_id": "3bf21733e43c4b5fac681d0e9a4a3b83",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 235,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 6258.254528045654,
+    "correct": true,
+    "predicted": "a yoke",
+    "gold": [
+      "a yoke"
+    ]
+  },
+  {
+    "sample_id": "0429a0309ef94df8a59959beb9e87fa9",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 223,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 9411.247968673706,
+    "correct": false,
+    "predicted": "a bureau of the U.S. Department of the Interior entrusted with the care of national parks",
+    "gold": [
+      "Department of Interior"
+    ]
+  },
+  {
+    "sample_id": "a0034b2ceb474e749fc178de8e297e27",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 233,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 2086.8382453918457,
+    "correct": true,
+    "predicted": "Pico de gallo",
+    "gold": [
+      "pico de gallo"
+    ]
+  },
+  {
+    "sample_id": "285b2733a61f4fb19680ee93b7b80392",
+    "target_model": "qwen3.6-flash",
+    "method": "core_only",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 0,
+    "input_tokens_est": 239,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 4314.852714538574,
+    "correct": true,
+    "predicted": "Mexican-American War",
+    "gold": [
+      "the Mexican-American War"
+    ]
+  },
+  {
+    "sample_id": "5093b6d997674d25be29a4c94fcd5185",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 486,
+    "selection_latency_ms": 1.9941329956054688,
+    "inference_latency_ms": 3800.384044647217,
+    "correct": false,
+    "predicted": "fuck",
+    "gold": [
+      "Risky Business"
+    ]
+  },
+  {
+    "sample_id": "99dc9de2fd094b8e9de41a9040081c1d",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 509,
+    "selection_latency_ms": 3.008604049682617,
+    "inference_latency_ms": 3663.53440284729,
+    "correct": true,
+    "predicted": "Sweden",
+    "gold": [
+      "Sweden"
+    ]
+  },
+  {
+    "sample_id": "979e3f5aac91446b8550161dd89e9e26",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 2001,
+    "input_tokens_est": 727,
+    "selection_latency_ms": 2.448558807373047,
+    "inference_latency_ms": 4527.526378631592,
+    "correct": true,
+    "predicted": "finale",
+    "gold": [
+      "finale"
+    ]
+  },
+  {
+    "sample_id": "3bccee60c0c149e08451db23b0963238",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 2001,
+    "input_tokens_est": 737,
+    "selection_latency_ms": 1.9903182983398438,
+    "inference_latency_ms": 4239.443063735962,
+    "correct": true,
+    "predicted": "John Newbery",
+    "gold": [
+      "John Newbery"
+    ]
+  },
+  {
+    "sample_id": "7cd88e67c6c64595a44707e44a33c57c",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 477,
+    "selection_latency_ms": 5.804300308227539,
+    "inference_latency_ms": 2801.377296447754,
+    "correct": true,
+    "predicted": "Jessica Alba",
+    "gold": [
+      "Jessica Alba"
+    ]
+  },
+  {
+    "sample_id": "feee13cb93224a3297a7b87ddb424640",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 2001,
+    "input_tokens_est": 735,
+    "selection_latency_ms": 4.527568817138672,
+    "inference_latency_ms": 3555.9115409851074,
+    "correct": true,
+    "predicted": "Waiting for Godot",
+    "gold": [
+      "Waiting for Godot"
+    ]
+  },
+  {
+    "sample_id": "48e0ed33e6794e50a1894269c8110e47",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 2001,
+    "input_tokens_est": 765,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 6400.219917297363,
+    "correct": true,
+    "predicted": "sostenuto",
+    "gold": [
+      "sostenuto"
+    ]
+  },
+  {
+    "sample_id": "ed76c0f0111f48a8bddb25039aeb2ad0",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 481,
+    "selection_latency_ms": 2.5572776794433594,
+    "inference_latency_ms": 15988.212585449219,
+    "correct": true,
+    "predicted": "John Hersey",
+    "gold": [
+      "John Hersey"
+    ]
+  },
+  {
+    "sample_id": "fd75250e93884f6a83463d93b2108db6",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 476,
+    "selection_latency_ms": 0.9953975677490234,
+    "inference_latency_ms": 2414.8433208465576,
+    "correct": true,
+    "predicted": "George W. Bush",
+    "gold": [
+      "George W. Bush"
+    ]
+  },
+  {
+    "sample_id": "a34708851fbd4ddaba3dce11d13bed71",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 509,
+    "selection_latency_ms": 1.3093948364257812,
+    "inference_latency_ms": 1785.2718830108643,
+    "correct": true,
+    "predicted": "Russian",
+    "gold": [
+      "Russian"
+    ]
+  },
+  {
+    "sample_id": "6371fd8b1f9a400784076e296ec015ba",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 2001,
+    "input_tokens_est": 726,
+    "selection_latency_ms": 1.9927024841308594,
+    "inference_latency_ms": 2730.2396297454834,
+    "correct": true,
+    "predicted": "Who's Afraid of Virginia Woolf?",
+    "gold": [
+      "Who\\'s Afraid of Virginia Woolf?"
+    ]
+  },
+  {
+    "sample_id": "458f4f9ec50b4233b211b12f1eeca2a0",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 471,
+    "selection_latency_ms": 1.0035037994384766,
+    "inference_latency_ms": 10394.226551055908,
+    "correct": true,
+    "predicted": "Joint Chiefs of Staff",
+    "gold": [
+      "the Joint Chiefs of Staff"
+    ]
+  },
+  {
+    "sample_id": "6db35769ae81425781881647d14b9533",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 518,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 5790.7350063323975,
+    "correct": true,
+    "predicted": "Catherine de Medici",
+    "gold": [
+      "Catherine de\\' Medici"
+    ]
+  },
+  {
+    "sample_id": "e166749f42c946f7a18160e48f3c9c77",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 488,
+    "selection_latency_ms": 1.9919872283935547,
+    "inference_latency_ms": 3865.6342029571533,
+    "correct": false,
+    "predicted": "Livin' La Vida Loca",
+    "gold": [
+      "La Vida Loca"
+    ]
+  },
+  {
+    "sample_id": "34f4c188587e4118a9c65bf31bb1cfdb",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 470,
+    "selection_latency_ms": 2.8243064880371094,
+    "inference_latency_ms": 16807.084798812866,
+    "correct": false,
+    "predicted": "Vermont's largest city",
+    "gold": [
+      "Vermont"
+    ]
+  },
+  {
+    "sample_id": "fe5a8c72fb9e4c55933786c6e49072d0",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 480,
+    "selection_latency_ms": 1.512765884399414,
+    "inference_latency_ms": 4301.978349685669,
+    "correct": true,
+    "predicted": "Spam",
+    "gold": [
+      "Spam"
+    ]
+  },
+  {
+    "sample_id": "e5f27592956c4b0582eedfb37045a266",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 486,
+    "selection_latency_ms": 0.9925365447998047,
+    "inference_latency_ms": 2298.9659309387207,
+    "correct": true,
+    "predicted": "Pyongyang",
+    "gold": [
+      "Pyongyang"
+    ]
+  },
+  {
+    "sample_id": "1bad2fba539343539ccc0666d70f4da3",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 2001,
+    "input_tokens_est": 732,
+    "selection_latency_ms": 0.9965896606445312,
+    "inference_latency_ms": 2771.5375423431396,
+    "correct": true,
+    "predicted": "Battlestar Galactica",
+    "gold": [
+      "Battlestar Galactica"
+    ]
+  },
+  {
+    "sample_id": "1200fe70bda14116affdd48427cc63ee",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 467,
+    "selection_latency_ms": 2.008676528930664,
+    "inference_latency_ms": 5837.255954742432,
+    "correct": true,
+    "predicted": "Tennis",
+    "gold": [
+      "tennis"
+    ]
+  },
+  {
+    "sample_id": "c09dc55e403141348ba0778942aef804",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 469,
+    "selection_latency_ms": 2.03704833984375,
+    "inference_latency_ms": 5289.037704467773,
+    "correct": true,
+    "predicted": "Catch-22",
+    "gold": [
+      "Catch-22"
+    ]
+  },
+  {
+    "sample_id": "d5bd248435fd48858beef6626bbadbdb",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 476,
+    "selection_latency_ms": 1.9922256469726562,
+    "inference_latency_ms": 3796.754837036133,
+    "correct": true,
+    "predicted": "runway",
+    "gold": [
+      "a runway"
+    ]
+  },
+  {
+    "sample_id": "75815be29bed4f45aa300fd41e9018ef",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 481,
+    "selection_latency_ms": 2.001523971557617,
+    "inference_latency_ms": 4744.534969329834,
+    "correct": true,
+    "predicted": "Moses",
+    "gold": [
+      "Moses"
+    ]
+  },
+  {
+    "sample_id": "4185d3cd150d40c9920c37e627eb5153",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 483,
+    "selection_latency_ms": 4.116296768188477,
+    "inference_latency_ms": 4275.937080383301,
+    "correct": true,
+    "predicted": "Mercy",
+    "gold": [
+      "mercy"
+    ]
+  },
+  {
+    "sample_id": "633265a55d45428c9866b45e75c0b67e",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 478,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 4085.9036445617676,
+    "correct": true,
+    "predicted": "Matthew",
+    "gold": [
+      "Matthew"
+    ]
+  },
+  {
+    "sample_id": "f771a66784f2494b8c0a5aa81f9bd09f",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 476,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 4507.178783416748,
+    "correct": true,
+    "predicted": "Soprano",
+    "gold": [
+      "soprano"
+    ]
+  },
+  {
+    "sample_id": "442ca352dc31418a9548fddc8259ef66",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 469,
+    "selection_latency_ms": 2.513885498046875,
+    "inference_latency_ms": 13072.048902511597,
+    "correct": true,
+    "predicted": "Personal",
+    "gold": [
+      "Personal"
+    ]
+  },
+  {
+    "sample_id": "00090d662c4c4db9b088922fef9fe061",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 2001,
+    "input_tokens_est": 716,
+    "selection_latency_ms": 2.065420150756836,
+    "inference_latency_ms": 5419.428110122681,
+    "correct": false,
+    "predicted": "by bread alone",
+    "gold": [
+      "on bread alone"
+    ]
+  },
+  {
+    "sample_id": "29043bc89e504948b706b4c502a39a27",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 480,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 6633.588552474976,
+    "correct": true,
+    "predicted": "Cherries",
+    "gold": [
+      "cherries"
+    ]
+  },
+  {
+    "sample_id": "db3126341393421caf287bf600f97a46",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 507,
+    "selection_latency_ms": 1.9943714141845703,
+    "inference_latency_ms": 2554.1629791259766,
+    "correct": true,
+    "predicted": "Tunis",
+    "gold": [
+      "Tunis"
+    ]
+  },
+  {
+    "sample_id": "215ec23d85f74b059a2e55edab5da89b",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 477,
+    "selection_latency_ms": 2.6051998138427734,
+    "inference_latency_ms": 4094.4125652313232,
+    "correct": true,
+    "predicted": "Cantilever",
+    "gold": [
+      "a cantilever"
+    ]
+  },
+  {
+    "sample_id": "525ee6acd75f4ec98aa1c86eb067e49a",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 480,
+    "selection_latency_ms": 2.7074813842773438,
+    "inference_latency_ms": 3934.1652393341064,
+    "correct": true,
+    "predicted": "white",
+    "gold": [
+      "white"
+    ]
+  },
+  {
+    "sample_id": "203cf01361a54663adf565df1070296e",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 480,
+    "selection_latency_ms": 2.049684524536133,
+    "inference_latency_ms": 3641.0422325134277,
+    "correct": true,
+    "predicted": "Boxcars",
+    "gold": [
+      "boxcars"
+    ]
+  },
+  {
+    "sample_id": "10fac0924a5e425098992c27d77da289",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 484,
+    "selection_latency_ms": 1.0080337524414062,
+    "inference_latency_ms": 3175.1744747161865,
+    "correct": true,
+    "predicted": "Jet",
+    "gold": [
+      "Jet"
+    ]
+  },
+  {
+    "sample_id": "35b8579be49e4ac598df516858dda290",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 504,
+    "selection_latency_ms": 1.9941329956054688,
+    "inference_latency_ms": 1483.5586547851562,
+    "correct": true,
+    "predicted": "Marie Antoinette",
+    "gold": [
+      "Marie-Antoinette",
+      "Marie Antoinette",
+      "Marie \nAntoinette"
+    ]
+  },
+  {
+    "sample_id": "962d456952b14ca4a40adb6a665e4655",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 477,
+    "selection_latency_ms": 3.5979747772216797,
+    "inference_latency_ms": 3727.9491424560547,
+    "correct": true,
+    "predicted": "Minnesota",
+    "gold": [
+      "Minnesota"
+    ]
+  },
+  {
+    "sample_id": "e2a6f8f3f7fd468dbd6c8accff13a62f",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 482,
+    "selection_latency_ms": 0.9944438934326172,
+    "inference_latency_ms": 2401.888370513916,
+    "correct": true,
+    "predicted": "Bali",
+    "gold": [
+      "Bali"
+    ]
+  },
+  {
+    "sample_id": "633c88e4bffa422ea29193c32eecd3ca",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 2001,
+    "input_tokens_est": 740,
+    "selection_latency_ms": 4.381895065307617,
+    "inference_latency_ms": 4194.527626037598,
+    "correct": true,
+    "predicted": "Santa Fe",
+    "gold": [
+      "Santa Fe"
+    ]
+  },
+  {
+    "sample_id": "c37a6b4a6320407089cfcf6effca6f2f",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 479,
+    "selection_latency_ms": 1.46484375,
+    "inference_latency_ms": 2833.4896564483643,
+    "correct": true,
+    "predicted": "Matterhorn",
+    "gold": [
+      "the Matterhorn"
+    ]
+  },
+  {
+    "sample_id": "b7317ee96b234164b583906a8daf293b",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 473,
+    "selection_latency_ms": 0.0,
+    "inference_latency_ms": 12655.197620391846,
+    "correct": true,
+    "predicted": "Great Dane",
+    "gold": [
+      "a Great Dane"
+    ]
+  },
+  {
+    "sample_id": "d05ced73459848598523c0de21f63fb9",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 480,
+    "selection_latency_ms": 5.144596099853516,
+    "inference_latency_ms": 4144.78063583374,
+    "correct": true,
+    "predicted": "cricket",
+    "gold": [
+      "cricket"
+    ]
+  },
+  {
+    "sample_id": "657fd4c82a584e22a4c49c116950f142",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 2001,
+    "input_tokens_est": 729,
+    "selection_latency_ms": 4.08172607421875,
+    "inference_latency_ms": 3978.8172245025635,
+    "correct": true,
+    "predicted": "The Who",
+    "gold": [
+      "The Who"
+    ]
+  },
+  {
+    "sample_id": "3e31c94908e041c7a855dd7ac5659f2e",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 475,
+    "selection_latency_ms": 0.9977817535400391,
+    "inference_latency_ms": 2655.834197998047,
+    "correct": true,
+    "predicted": "leeward",
+    "gold": [
+      "leeward"
+    ]
+  },
+  {
+    "sample_id": "34b216269ba5429d9077cdc2c7bc3e42",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 2001,
+    "input_tokens_est": 732,
+    "selection_latency_ms": 1.085519790649414,
+    "inference_latency_ms": 3766.260862350464,
+    "correct": false,
+    "predicted": "Aloha Airlines",
+    "gold": [
+      "Aloha"
+    ]
+  },
+  {
+    "sample_id": "9eebfa2316cd49b4912c6764cb21480c",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 477,
+    "selection_latency_ms": 0.5457401275634766,
+    "inference_latency_ms": 2831.2389850616455,
+    "correct": true,
+    "predicted": "Mork & Mindy",
+    "gold": [
+      "Mork & Mindy"
+    ]
+  },
+  {
+    "sample_id": "917d841d16014bbba49d0d3368223e43",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 2001,
+    "input_tokens_est": 739,
+    "selection_latency_ms": 7.558584213256836,
+    "inference_latency_ms": 4131.919622421265,
+    "correct": true,
+    "predicted": "Don Rickles",
+    "gold": [
+      "Don Rickles"
+    ]
+  },
+  {
+    "sample_id": "5811f1e8130d41fb87b71b4b86c0588f",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 472,
+    "selection_latency_ms": 4.021406173706055,
+    "inference_latency_ms": 5500.830173492432,
+    "correct": true,
+    "predicted": "Fargo",
+    "gold": [
+      "Fargo"
+    ]
+  },
+  {
+    "sample_id": "3bf21733e43c4b5fac681d0e9a4a3b83",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 505,
+    "selection_latency_ms": 4.360198974609375,
+    "inference_latency_ms": 3572.9422569274902,
+    "correct": true,
+    "predicted": "a yoke",
+    "gold": [
+      "a yoke"
+    ]
+  },
+  {
+    "sample_id": "0429a0309ef94df8a59959beb9e87fa9",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 465,
+    "selection_latency_ms": 4.897832870483398,
+    "inference_latency_ms": 18381.175994873047,
+    "correct": false,
+    "predicted": "a bureau of the U.S. Department of the Interior",
+    "gold": [
+      "Department of Interior"
+    ]
+  },
+  {
+    "sample_id": "a0034b2ceb474e749fc178de8e297e27",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 475,
+    "selection_latency_ms": 5.122184753417969,
+    "inference_latency_ms": 4620.56827545166,
+    "correct": true,
+    "predicted": "Pico de gallo",
+    "gold": [
+      "pico de gallo"
+    ]
+  },
+  {
+    "sample_id": "285b2733a61f4fb19680ee93b7b80392",
+    "target_model": "qwen3.6-flash",
+    "method": "tfidf",
+    "seed": 42,
+    "selected_rule_indices": [],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 481,
+    "selection_latency_ms": 1.1858940124511719,
+    "inference_latency_ms": 5022.578716278076,
+    "correct": true,
+    "predicted": "Mexican-American War",
+    "gold": [
+      "the Mexican-American War"
+    ]
+  },
+  {
+    "sample_id": "5093b6d997674d25be29a4c94fcd5185",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      7,
+      0,
+      1,
+      2,
+      3
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 514,
+    "selection_latency_ms": 281.8934917449951,
+    "inference_latency_ms": 4426.470756530762,
+    "correct": false,
+    "predicted": "fuck",
+    "gold": [
+      "Risky Business"
+    ]
+  },
+  {
+    "sample_id": "99dc9de2fd094b8e9de41a9040081c1d",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      7,
+      1,
+      2,
+      3
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 509,
+    "selection_latency_ms": 275.6845951080322,
+    "inference_latency_ms": 3849.2493629455566,
+    "correct": true,
+    "predicted": "Sweden",
+    "gold": [
+      "Sweden"
+    ]
+  },
+  {
+    "sample_id": "979e3f5aac91446b8550161dd89e9e26",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      6,
+      7,
+      1,
+      0
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 504,
+    "selection_latency_ms": 286.88621520996094,
+    "inference_latency_ms": 7200.152635574341,
+    "correct": true,
+    "predicted": "Finale",
+    "gold": [
+      "finale"
+    ]
+  },
+  {
+    "sample_id": "3bccee60c0c149e08451db23b0963238",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      1,
+      7,
+      0,
+      2,
+      3
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 514,
+    "selection_latency_ms": 276.1404514312744,
+    "inference_latency_ms": 2434.3345165252686,
+    "correct": true,
+    "predicted": "John Newbery",
+    "gold": [
+      "John Newbery"
+    ]
+  },
+  {
+    "sample_id": "7cd88e67c6c64595a44707e44a33c57c",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      7,
+      0,
+      1,
+      2,
+      3
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 505,
+    "selection_latency_ms": 472.1102714538574,
+    "inference_latency_ms": 3696.1026191711426,
+    "correct": true,
+    "predicted": "Jessica Alba",
+    "gold": [
+      "Jessica Alba"
+    ]
+  },
+  {
+    "sample_id": "feee13cb93224a3297a7b87ddb424640",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      1,
+      0,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 512,
+    "selection_latency_ms": 260.0870132446289,
+    "inference_latency_ms": 1674.4658946990967,
+    "correct": true,
+    "predicted": "Waiting for Godot",
+    "gold": [
+      "Waiting for Godot"
+    ]
+  },
+  {
+    "sample_id": "48e0ed33e6794e50a1894269c8110e47",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      6,
+      7,
+      4,
+      3,
+      5
+    ],
+    "selected_rule_tokens": 1251,
+    "input_tokens_est": 514,
+    "selection_latency_ms": 234.13896560668945,
+    "inference_latency_ms": 8934.146642684937,
+    "correct": true,
+    "predicted": "Sostenuto",
+    "gold": [
+      "sostenuto"
+    ]
+  },
+  {
+    "sample_id": "ed76c0f0111f48a8bddb25039aeb2ad0",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      5,
+      0,
+      1,
+      2,
+      3
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 509,
+    "selection_latency_ms": 257.7083110809326,
+    "inference_latency_ms": 12769.493579864502,
+    "correct": false,
+    "predicted": "True",
+    "gold": [
+      "John Hersey"
+    ]
+  },
+  {
+    "sample_id": "fd75250e93884f6a83463d93b2108db6",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 504,
+    "selection_latency_ms": 299.6993064880371,
+    "inference_latency_ms": 2162.189722061157,
+    "correct": true,
+    "predicted": "George W. Bush",
+    "gold": [
+      "George W. Bush"
+    ]
+  },
+  {
+    "sample_id": "a34708851fbd4ddaba3dce11d13bed71",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 509,
+    "selection_latency_ms": 280.75170516967773,
+    "inference_latency_ms": 2668.562650680542,
+    "correct": true,
+    "predicted": "Russian",
+    "gold": [
+      "Russian"
+    ]
+  },
+  {
+    "sample_id": "6371fd8b1f9a400784076e296ec015ba",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      1,
+      0,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 503,
+    "selection_latency_ms": 247.4684715270996,
+    "inference_latency_ms": 3779.7720432281494,
+    "correct": true,
+    "predicted": "Who's Afraid of Virginia Woolf?",
+    "gold": [
+      "Who\\'s Afraid of Virginia Woolf?"
+    ]
+  },
+  {
+    "sample_id": "458f4f9ec50b4233b211b12f1eeca2a0",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 499,
+    "selection_latency_ms": 307.2788715362549,
+    "inference_latency_ms": 7369.148731231689,
+    "correct": true,
+    "predicted": "Joint Chiefs of Staff",
+    "gold": [
+      "the Joint Chiefs of Staff"
+    ]
+  },
+  {
+    "sample_id": "6db35769ae81425781881647d14b9533",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 518,
+    "selection_latency_ms": 269.2835330963135,
+    "inference_latency_ms": 5172.835111618042,
+    "correct": true,
+    "predicted": "Catherine de Medici",
+    "gold": [
+      "Catherine de\\' Medici"
+    ]
+  },
+  {
+    "sample_id": "e166749f42c946f7a18160e48f3c9c77",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 516,
+    "selection_latency_ms": 299.1166114807129,
+    "inference_latency_ms": 5876.819849014282,
+    "correct": false,
+    "predicted": "Livin' La Vida Loca",
+    "gold": [
+      "La Vida Loca"
+    ]
+  },
+  {
+    "sample_id": "34f4c188587e4118a9c65bf31bb1cfdb",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 498,
+    "selection_latency_ms": 296.8180179595947,
+    "inference_latency_ms": 4045.708656311035,
+    "correct": true,
+    "predicted": "Vermont",
+    "gold": [
+      "Vermont"
+    ]
+  },
+  {
+    "sample_id": "fe5a8c72fb9e4c55933786c6e49072d0",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 508,
+    "selection_latency_ms": 296.2064743041992,
+    "inference_latency_ms": 3344.536304473877,
+    "correct": true,
+    "predicted": "Spam",
+    "gold": [
+      "Spam"
+    ]
+  },
+  {
+    "sample_id": "e5f27592956c4b0582eedfb37045a266",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      7,
+      0,
+      1,
+      2,
+      3
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 514,
+    "selection_latency_ms": 320.8465576171875,
+    "inference_latency_ms": 4544.628858566284,
+    "correct": true,
+    "predicted": "Pyongyang",
+    "gold": [
+      "Pyongyang"
+    ]
+  },
+  {
+    "sample_id": "1bad2fba539343539ccc0666d70f4da3",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      1,
+      0,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 509,
+    "selection_latency_ms": 304.9054145812988,
+    "inference_latency_ms": 5548.175573348999,
+    "correct": true,
+    "predicted": "Battlestar Galactica",
+    "gold": [
+      "Battlestar Galactica"
+    ]
+  },
+  {
+    "sample_id": "1200fe70bda14116affdd48427cc63ee",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 495,
+    "selection_latency_ms": 317.66605377197266,
+    "inference_latency_ms": 5743.467807769775,
+    "correct": true,
+    "predicted": "Tennis",
+    "gold": [
+      "tennis"
+    ]
+  },
+  {
+    "sample_id": "c09dc55e403141348ba0778942aef804",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 497,
+    "selection_latency_ms": 294.6465015411377,
+    "inference_latency_ms": 3323.561429977417,
+    "correct": true,
+    "predicted": "Catch-22",
+    "gold": [
+      "Catch-22"
+    ]
+  },
+  {
+    "sample_id": "d5bd248435fd48858beef6626bbadbdb",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      2,
+      4,
+      5,
+      0,
+      3
+    ],
+    "selected_rule_tokens": 1389,
+    "input_tokens_est": 566,
+    "selection_latency_ms": 255.8002471923828,
+    "inference_latency_ms": 3272.7620601654053,
+    "correct": true,
+    "predicted": "runway",
+    "gold": [
+      "a runway"
+    ]
+  },
+  {
+    "sample_id": "75815be29bed4f45aa300fd41e9018ef",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 509,
+    "selection_latency_ms": 291.7792797088623,
+    "inference_latency_ms": 3776.522636413574,
+    "correct": true,
+    "predicted": "Moses",
+    "gold": [
+      "Moses"
+    ]
+  },
+  {
+    "sample_id": "4185d3cd150d40c9920c37e627eb5153",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 511,
+    "selection_latency_ms": 290.8062934875488,
+    "inference_latency_ms": 2813.631296157837,
+    "correct": true,
+    "predicted": "mercy",
+    "gold": [
+      "mercy"
+    ]
+  },
+  {
+    "sample_id": "633265a55d45428c9866b45e75c0b67e",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 506,
+    "selection_latency_ms": 289.92676734924316,
+    "inference_latency_ms": 2000.2849102020264,
+    "correct": true,
+    "predicted": "Matthew",
+    "gold": [
+      "Matthew"
+    ]
+  },
+  {
+    "sample_id": "f771a66784f2494b8c0a5aa81f9bd09f",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 504,
+    "selection_latency_ms": 293.5299873352051,
+    "inference_latency_ms": 6340.079545974731,
+    "correct": true,
+    "predicted": "soprano",
+    "gold": [
+      "soprano"
+    ]
+  },
+  {
+    "sample_id": "442ca352dc31418a9548fddc8259ef66",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 497,
+    "selection_latency_ms": 359.03096199035645,
+    "inference_latency_ms": 2703.9246559143066,
+    "correct": true,
+    "predicted": "Personal",
+    "gold": [
+      "Personal"
+    ]
+  },
+  {
+    "sample_id": "00090d662c4c4db9b088922fef9fe061",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      1,
+      0,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 493,
+    "selection_latency_ms": 253.02696228027344,
+    "inference_latency_ms": 7809.741258621216,
+    "correct": false,
+    "predicted": "by bread alone",
+    "gold": [
+      "on bread alone"
+    ]
+  },
+  {
+    "sample_id": "29043bc89e504948b706b4c502a39a27",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 508,
+    "selection_latency_ms": 290.42601585388184,
+    "inference_latency_ms": 6909.990310668945,
+    "correct": false,
+    "predicted": "Cherry",
+    "gold": [
+      "cherries"
+    ]
+  },
+  {
+    "sample_id": "db3126341393421caf287bf600f97a46",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      5,
+      6,
+      1,
+      2
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 507,
+    "selection_latency_ms": 236.9384765625,
+    "inference_latency_ms": 3136.592388153076,
+    "correct": true,
+    "predicted": "Tunis",
+    "gold": [
+      "Tunis"
+    ]
+  },
+  {
+    "sample_id": "215ec23d85f74b059a2e55edab5da89b",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      5,
+      0,
+      1,
+      2,
+      3
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 505,
+    "selection_latency_ms": 271.85893058776855,
+    "inference_latency_ms": 4063.009262084961,
+    "correct": true,
+    "predicted": "Cantilever",
+    "gold": [
+      "a cantilever"
+    ]
+  },
+  {
+    "sample_id": "525ee6acd75f4ec98aa1c86eb067e49a",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 508,
+    "selection_latency_ms": 302.2794723510742,
+    "inference_latency_ms": 2737.116575241089,
+    "correct": true,
+    "predicted": "white",
+    "gold": [
+      "white"
+    ]
+  },
+  {
+    "sample_id": "203cf01361a54663adf565df1070296e",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 508,
+    "selection_latency_ms": 301.6633987426758,
+    "inference_latency_ms": 1859.5540523529053,
+    "correct": true,
+    "predicted": "Boxcars",
+    "gold": [
+      "boxcars"
+    ]
+  },
+  {
+    "sample_id": "10fac0924a5e425098992c27d77da289",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      7,
+      0,
+      1,
+      2,
+      3
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 512,
+    "selection_latency_ms": 247.57623672485352,
+    "inference_latency_ms": 5231.20903968811,
+    "correct": false,
+    "predicted": "Jet magazine",
+    "gold": [
+      "Jet"
+    ]
+  },
+  {
+    "sample_id": "35b8579be49e4ac598df516858dda290",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 504,
+    "selection_latency_ms": 253.0224323272705,
+    "inference_latency_ms": 2863.8696670532227,
+    "correct": true,
+    "predicted": "Marie Antoinette",
+    "gold": [
+      "Marie-Antoinette",
+      "Marie Antoinette",
+      "Marie \nAntoinette"
+    ]
+  },
+  {
+    "sample_id": "962d456952b14ca4a40adb6a665e4655",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      3,
+      7,
+      0,
+      1,
+      2
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 505,
+    "selection_latency_ms": 275.12121200561523,
+    "inference_latency_ms": 1946.1348056793213,
+    "correct": true,
+    "predicted": "Minnesota",
+    "gold": [
+      "Minnesota"
+    ]
+  },
+  {
+    "sample_id": "e2a6f8f3f7fd468dbd6c8accff13a62f",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      7,
+      0,
+      1,
+      2,
+      3
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 510,
+    "selection_latency_ms": 248.87514114379883,
+    "inference_latency_ms": 3466.2253856658936,
+    "correct": true,
+    "predicted": "Bali",
+    "gold": [
+      "Bali"
+    ]
+  },
+  {
+    "sample_id": "633c88e4bffa422ea29193c32eecd3ca",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      3,
+      5,
+      7,
+      1
+    ],
+    "selected_rule_tokens": 2001,
+    "input_tokens_est": 740,
+    "selection_latency_ms": 227.72741317749023,
+    "inference_latency_ms": 5051.052093505859,
+    "correct": true,
+    "predicted": "Santa Fe",
+    "gold": [
+      "Santa Fe"
+    ]
+  },
+  {
+    "sample_id": "c37a6b4a6320407089cfcf6effca6f2f",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 507,
+    "selection_latency_ms": 292.16909408569336,
+    "inference_latency_ms": 2911.501407623291,
+    "correct": true,
+    "predicted": "Matterhorn",
+    "gold": [
+      "the Matterhorn"
+    ]
+  },
+  {
+    "sample_id": "b7317ee96b234164b583906a8daf293b",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 501,
+    "selection_latency_ms": 289.04056549072266,
+    "inference_latency_ms": 10513.41700553894,
+    "correct": false,
+    "predicted": "Great Danes",
+    "gold": [
+      "a Great Dane"
+    ]
+  },
+  {
+    "sample_id": "d05ced73459848598523c0de21f63fb9",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 508,
+    "selection_latency_ms": 375.8852481842041,
+    "inference_latency_ms": 2802.0591735839844,
+    "correct": true,
+    "predicted": "Cricket",
+    "gold": [
+      "cricket"
+    ]
+  },
+  {
+    "sample_id": "657fd4c82a584e22a4c49c116950f142",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      1,
+      0,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 506,
+    "selection_latency_ms": 248.00372123718262,
+    "inference_latency_ms": 3080.249309539795,
+    "correct": true,
+    "predicted": "The Who",
+    "gold": [
+      "The Who"
+    ]
+  },
+  {
+    "sample_id": "3e31c94908e041c7a855dd7ac5659f2e",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 503,
+    "selection_latency_ms": 300.37879943847656,
+    "inference_latency_ms": 2953.0670642852783,
+    "correct": true,
+    "predicted": "leeward",
+    "gold": [
+      "leeward"
+    ]
+  },
+  {
+    "sample_id": "34b216269ba5429d9077cdc2c7bc3e42",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      2,
+      4,
+      6,
+      1,
+      3
+    ],
+    "selected_rule_tokens": 2001,
+    "input_tokens_est": 732,
+    "selection_latency_ms": 232.70845413208008,
+    "inference_latency_ms": 2125.382423400879,
+    "correct": false,
+    "predicted": "Aloha Airlines",
+    "gold": [
+      "Aloha"
+    ]
+  },
+  {
+    "sample_id": "9eebfa2316cd49b4912c6764cb21480c",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 505,
+    "selection_latency_ms": 285.5396270751953,
+    "inference_latency_ms": 2269.3145275115967,
+    "correct": true,
+    "predicted": "Mork & Mindy",
+    "gold": [
+      "Mork & Mindy"
+    ]
+  },
+  {
+    "sample_id": "917d841d16014bbba49d0d3368223e43",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      1,
+      0,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 516,
+    "selection_latency_ms": 262.9847526550293,
+    "inference_latency_ms": 2334.259271621704,
+    "correct": true,
+    "predicted": "Don Rickles",
+    "gold": [
+      "Don Rickles"
+    ]
+  },
+  {
+    "sample_id": "5811f1e8130d41fb87b71b4b86c0588f",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      4,
+      5,
+      7,
+      0,
+      2
+    ],
+    "selected_rule_tokens": 1389,
+    "input_tokens_est": 562,
+    "selection_latency_ms": 225.5256175994873,
+    "inference_latency_ms": 6031.0258865356445,
+    "correct": true,
+    "predicted": "Fargo",
+    "gold": [
+      "Fargo"
+    ]
+  },
+  {
+    "sample_id": "3bf21733e43c4b5fac681d0e9a4a3b83",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      4,
+      5,
+      6,
+      2
+    ],
+    "selected_rule_tokens": 1389,
+    "input_tokens_est": 567,
+    "selection_latency_ms": 220.60632705688477,
+    "inference_latency_ms": 3871.3510036468506,
+    "correct": true,
+    "predicted": "yoke",
+    "gold": [
+      "a yoke"
+    ]
+  },
+  {
+    "sample_id": "0429a0309ef94df8a59959beb9e87fa9",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 493,
+    "selection_latency_ms": 283.4055423736572,
+    "inference_latency_ms": 11801.48458480835,
+    "correct": false,
+    "predicted": "a bureau of the U.S. Department of the Interior",
+    "gold": [
+      "Department of Interior"
+    ]
+  },
+  {
+    "sample_id": "a0034b2ceb474e749fc178de8e297e27",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 503,
+    "selection_latency_ms": 292.59228706359863,
+    "inference_latency_ms": 3390.4125690460205,
+    "correct": true,
+    "predicted": "Pico de gallo",
+    "gold": [
+      "pico de gallo"
+    ]
+  },
+  {
+    "sample_id": "285b2733a61f4fb19680ee93b7b80392",
+    "target_model": "qwen3.6-flash",
+    "method": "moar",
+    "seed": 42,
+    "selected_rule_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "selected_rule_tokens": 1102,
+    "input_tokens_est": 509,
+    "selection_latency_ms": 292.7565574645996,
+    "inference_latency_ms": 4580.198764801025,
+    "correct": true,
+    "predicted": "Mexican-American War",
+    "gold": [
+      "the Mexican-American War"
+    ]
+  }
+]
