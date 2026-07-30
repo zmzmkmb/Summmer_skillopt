@@ -485,6 +485,10 @@ class MOARMemory:
     def n_dynamic(self) -> int:
         return self._parent.n_dynamic
 
+    @property
+    def _last_selections(self) -> dict[str, list[int]]:
+        return self._engine._last_selections
+
     # ── Retrieval ───────────────────────────────────────────────────────
 
     def retrieve(

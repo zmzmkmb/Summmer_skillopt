@@ -222,6 +222,22 @@ def main():
     methods = [m.strip() for m in args.methods.split(",")]
     seeds = [int(s) for s in args.seeds.split(",")]
 
+    # Load .env for API keys
+    _env_path = os.path.join(_PROJECT_ROOT, ".env")
+    if os.path.exists(_env_path):
+        with open(_env_path, encoding="utf-8") as _f:
+            for _line in _f:
+                _line = _line.strip()
+                if _line.startswith("#") or not _line or "=" not in _line:
+                    continue
+                if _line.startswith("export "):
+                    _line = _line[7:]
+                _key, _, _val = _line.partition("=")
+                _key = _key.strip()
+                _val = _val.strip().strip('\"').strip("'")
+                if _key and _val and _key not in os.environ:
+                    os.environ[_key] = _val
+
     skill_path = args.skill
     if not os.path.isabs(skill_path):
         skill_path = os.path.join(_PROJECT_ROOT, skill_path)
