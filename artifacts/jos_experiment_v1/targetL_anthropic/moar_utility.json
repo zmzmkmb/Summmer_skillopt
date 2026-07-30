@@ -1,0 +1,55 @@
+{
+  "decay": 1.0,
+  "min_count": 2,
+  "frozen": false,
+  "rules": {
+    "7b245679b1b5": {
+      "rule_id": "D00",
+      "text_hash": "7b245679b1b5",
+      "selected": 192,
+      "correct": 124
+    },
+    "b1a9db6e4ed4": {
+      "rule_id": "D01",
+      "text_hash": "b1a9db6e4ed4",
+      "selected": 62,
+      "correct": 40
+    },
+    "5c6ffe266f1a": {
+      "rule_id": "D02",
+      "text_hash": "5c6ffe266f1a",
+      "selected": 203,
+      "correct": 132
+    },
+    "a1aa63486f1e": {
+      "rule_id": "D03",
+      "text_hash": "a1aa63486f1e",
+      "selected": 193,
+      "correct": 124
+    },
+    "cc4c9e5d4b2d": {
+      "rule_id": "D04",
+      "text_hash": "cc4c9e5d4b2d",
+      "selected": 77,
+      "correct": 47
+    },
+    "a4d9a0a799fe": {
+      "rule_id": "D05",
+      "text_hash": "a4d9a0a799fe",
+      "selected": 118,
+      "correct": 77
+    },
+    "2afb11456986": {
+      "rule_id": "D06",
+      "text_hash": "2afb11456986",
+      "selected": 131,
+      "correct": 85
+    },
+    "2bf64bacfc1d": {
+      "rule_id": "D07",
+      "text_hash": "2bf64bacfc1d",
+      "selected": 77,
+      "correct": 50
+    }
+  }
+}

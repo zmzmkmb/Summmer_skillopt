@@ -1,0 +1,4324 @@
+{
+  "method": "bm25",
+  "target_model": "qwen3.6-flash",
+  "n": 200,
+  "acc": 0.815,
+  "avg_rules": 4.49,
+  "commit": "6f7840c1f6dc11a4cac5b2fd1ab9d7ca035639c8",
+  "skill_sha256": "815b13fc116414ed1101b210748a0f0d5ee50bf030a2ea5eee1efa346659ee7c",
+  "dataset_sha256": "a2a053e848d154d74b962d39b4ee662a4832d83ea05eb5af14f9af70fff9fea0",
+  "budget": 2000,
+  "top_k": 5,
+  "avg_sel_ms": 0.31068921089172363,
+  "sel_ms_median": 0.0,
+  "sel_ms_p95": 2.554416656494132,
+  "sel_ms_p99": 4.051160812377925,
+  "sel_ms_max": 4.543304443359375,
+  "api_failures": 0,
+  "per_question": [
+    {
+      "sample_id": "5093b6d997674d25be29a4c94fcd5185",
+      "hard": 1,
+      "predicted": "Risky Business",
+      "gold": [
+        "Risky Business"
+      ],
+      "inference_ms": 27900.7248878479,
+      "n_rules": 4,
+      "selected_indices": [
+        7,
+        4,
+        1,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 12888,
+      "sel_latency_ms": 1.6360282897949219
+    },
+    {
+      "sample_id": "99dc9de2fd094b8e9de41a9040081c1d",
+      "hard": 1,
+      "predicted": "Sweden",
+      "gold": [
+        "Sweden"
+      ],
+      "inference_ms": 6864.519119262695,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        0,
+        4,
+        3,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13378,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "979e3f5aac91446b8550161dd89e9e26",
+      "hard": 1,
+      "predicted": "finale",
+      "gold": [
+        "finale"
+      ],
+      "inference_ms": 6863.4655475616455,
+      "n_rules": 5,
+      "selected_indices": [
+        5,
+        7,
+        6,
+        4,
+        3
+      ],
+      "sel_chars": 7842,
+      "selected_tokens": 1747,
+      "budget_violated": false,
+      "input_chars": 13127,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "3bccee60c0c149e08451db23b0963238",
+      "hard": 1,
+      "predicted": "John Newbery",
+      "gold": [
+        "John Newbery"
+      ],
+      "inference_ms": 6849.204778671265,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        4,
+        3,
+        5
+      ],
+      "sel_chars": 8514,
+      "selected_tokens": 1970,
+      "budget_violated": false,
+      "input_chars": 13801,
+      "sel_latency_ms": 3.053426742553711
+    },
+    {
+      "sample_id": "7cd88e67c6c64595a44707e44a33c57c",
+      "hard": 1,
+      "predicted": "Jessica Alba",
+      "gold": [
+        "Jessica Alba"
+      ],
+      "inference_ms": 2796.6787815093994,
+      "n_rules": 4,
+      "selected_indices": [
+        7,
+        1,
+        4,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 13065,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "feee13cb93224a3297a7b87ddb424640",
+      "hard": 1,
+      "predicted": "Waiting for Godot",
+      "gold": [
+        "Waiting for Godot"
+      ],
+      "inference_ms": 23766.688346862793,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        3,
+        0,
+        4,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13249,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "48e0ed33e6794e50a1894269c8110e47",
+      "hard": 1,
+      "predicted": "sostenuto",
+      "gold": [
+        "sostenuto"
+      ],
+      "inference_ms": 4113.604784011841,
+      "n_rules": 5,
+      "selected_indices": [
+        7,
+        1,
+        3,
+        0,
+        2
+      ],
+      "sel_chars": 8650,
+      "selected_tokens": 2001,
+      "budget_violated": true,
+      "input_chars": 13778,
+      "sel_latency_ms": 4.543304443359375
+    },
+    {
+      "sample_id": "ed76c0f0111f48a8bddb25039aeb2ad0",
+      "hard": 1,
+      "predicted": "John Hersey",
+      "gold": [
+        "John Hersey"
+      ],
+      "inference_ms": 2054.971694946289,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        5,
+        4,
+        0
+      ],
+      "sel_chars": 8365,
+      "selected_tokens": 1997,
+      "budget_violated": false,
+      "input_chars": 13248,
+      "sel_latency_ms": 1.5189647674560547
+    },
+    {
+      "sample_id": "fd75250e93884f6a83463d93b2108db6",
+      "hard": 1,
+      "predicted": "George W. Bush",
+      "gold": [
+        "George W. Bush"
+      ],
+      "inference_ms": 2766.230344772339,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        4,
+        5,
+        0
+      ],
+      "sel_chars": 8365,
+      "selected_tokens": 1997,
+      "budget_violated": false,
+      "input_chars": 13292,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "a34708851fbd4ddaba3dce11d13bed71",
+      "hard": 1,
+      "predicted": "Russian",
+      "gold": [
+        "Russian"
+      ],
+      "inference_ms": 2570.9612369537354,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        4,
+        0,
+        3,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13441,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "6371fd8b1f9a400784076e296ec015ba",
+      "hard": 1,
+      "predicted": "Who's Afraid of Virginia Woolf?",
+      "gold": [
+        "Who\\'s Afraid of Virginia Woolf?"
+      ],
+      "inference_ms": 2643.8167095184326,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        0,
+        4,
+        3,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13421,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "458f4f9ec50b4233b211b12f1eeca2a0",
+      "hard": 1,
+      "predicted": "Joint Chiefs of Staff",
+      "gold": [
+        "the Joint Chiefs of Staff"
+      ],
+      "inference_ms": 2580.3699493408203,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        2,
+        0,
+        4,
+        3
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13410,
+      "sel_latency_ms": 4.5185089111328125
+    },
+    {
+      "sample_id": "6db35769ae81425781881647d14b9533",
+      "hard": 1,
+      "predicted": "Catherine de' Medici",
+      "gold": [
+        "Catherine de\\' Medici"
+      ],
+      "inference_ms": 2430.960178375244,
+      "n_rules": 4,
+      "selected_indices": [
+        7,
+        4,
+        1,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 13144,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "e166749f42c946f7a18160e48f3c9c77",
+      "hard": 1,
+      "predicted": "La Vida Loca",
+      "gold": [
+        "La Vida Loca"
+      ],
+      "inference_ms": 2321.81978225708,
+      "n_rules": 5,
+      "selected_indices": [
+        0,
+        1,
+        2,
+        4,
+        3
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13067,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "34f4c188587e4118a9c65bf31bb1cfdb",
+      "hard": 1,
+      "predicted": "Vermont",
+      "gold": [
+        "Vermont"
+      ],
+      "inference_ms": 24070.552349090576,
+      "n_rules": 5,
+      "selected_indices": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13245,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "fe5a8c72fb9e4c55933786c6e49072d0",
+      "hard": 1,
+      "predicted": "Spam",
+      "gold": [
+        "Spam"
+      ],
+      "inference_ms": 2396.5909481048584,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        4,
+        0,
+        3,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13360,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "e5f27592956c4b0582eedfb37045a266",
+      "hard": 1,
+      "predicted": "Pyongyang",
+      "gold": [
+        "Pyongyang"
+      ],
+      "inference_ms": 2097.5399017333984,
+      "n_rules": 4,
+      "selected_indices": [
+        7,
+        4,
+        1,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 13139,
+      "sel_latency_ms": 3.0312538146972656
+    },
+    {
+      "sample_id": "1bad2fba539343539ccc0666d70f4da3",
+      "hard": 1,
+      "predicted": "Battlestar Galactica",
+      "gold": [
+        "Battlestar Galactica"
+      ],
+      "inference_ms": 1992.4249649047852,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        4,
+        6,
+        3,
+        2
+      ],
+      "sel_chars": 8431,
+      "selected_tokens": 1978,
+      "budget_violated": false,
+      "input_chars": 13502,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "1200fe70bda14116affdd48427cc63ee",
+      "hard": 1,
+      "predicted": "tennis",
+      "gold": [
+        "tennis"
+      ],
+      "inference_ms": 1953.5679817199707,
+      "n_rules": 5,
+      "selected_indices": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 12966,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "c09dc55e403141348ba0778942aef804",
+      "hard": 1,
+      "predicted": "Catch-22",
+      "gold": [
+        "Catch-22"
+      ],
+      "inference_ms": 2236.6068363189697,
+      "n_rules": 4,
+      "selected_indices": [
+        7,
+        0,
+        1,
+        6
+      ],
+      "sel_chars": 8268,
+      "selected_tokens": 1971,
+      "budget_violated": false,
+      "input_chars": 13361,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "d5bd248435fd48858beef6626bbadbdb",
+      "hard": 1,
+      "predicted": "runway",
+      "gold": [
+        "a runway"
+      ],
+      "inference_ms": 2558.171033859253,
+      "n_rules": 5,
+      "selected_indices": [
+        5,
+        4,
+        3,
+        0,
+        7
+      ],
+      "sel_chars": 7788,
+      "selected_tokens": 1743,
+      "budget_violated": false,
+      "input_chars": 13136,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "75815be29bed4f45aa300fd41e9018ef",
+      "hard": 1,
+      "predicted": "Moses",
+      "gold": [
+        "Moses"
+      ],
+      "inference_ms": 2053.682565689087,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        4,
+        7,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 12782,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "4185d3cd150d40c9920c37e627eb5153",
+      "hard": 1,
+      "predicted": "mercy",
+      "gold": [
+        "mercy"
+      ],
+      "inference_ms": 2567.182779312134,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        4,
+        7,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 13184,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "633265a55d45428c9866b45e75c0b67e",
+      "hard": 1,
+      "predicted": "Matthew",
+      "gold": [
+        "Matthew"
+      ],
+      "inference_ms": 2446.209669113159,
+      "n_rules": 5,
+      "selected_indices": [
+        4,
+        3,
+        1,
+        0,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13069,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "f771a66784f2494b8c0a5aa81f9bd09f",
+      "hard": 0,
+      "predicted": "Light lyric soprano",
+      "gold": [
+        "soprano"
+      ],
+      "inference_ms": 2472.5465774536133,
+      "n_rules": 4,
+      "selected_indices": [
+        4,
+        1,
+        7,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 12949,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "442ca352dc31418a9548fddc8259ef66",
+      "hard": 1,
+      "predicted": "Personal",
+      "gold": [
+        "Personal"
+      ],
+      "inference_ms": 2305.152654647827,
+      "n_rules": 5,
+      "selected_indices": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 10344,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "00090d662c4c4db9b088922fef9fe061",
+      "hard": 0,
+      "predicted": "by bread alone",
+      "gold": [
+        "on bread alone"
+      ],
+      "inference_ms": 2393.857955932617,
+      "n_rules": 5,
+      "selected_indices": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13087,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "29043bc89e504948b706b4c502a39a27",
+      "hard": 0,
+      "predicted": "cherry",
+      "gold": [
+        "cherries"
+      ],
+      "inference_ms": 2467.7093029022217,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        4,
+        0,
+        5
+      ],
+      "sel_chars": 8365,
+      "selected_tokens": 1998,
+      "budget_violated": false,
+      "input_chars": 13167,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "db3126341393421caf287bf600f97a46",
+      "hard": 1,
+      "predicted": "Tunis",
+      "gold": [
+        "Tunis"
+      ],
+      "inference_ms": 2396.822929382324,
+      "n_rules": 4,
+      "selected_indices": [
+        5,
+        4,
+        1,
+        0
+      ],
+      "sel_chars": 8365,
+      "selected_tokens": 1997,
+      "budget_violated": false,
+      "input_chars": 13432,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "215ec23d85f74b059a2e55edab5da89b",
+      "hard": 1,
+      "predicted": "Cantilever",
+      "gold": [
+        "a cantilever"
+      ],
+      "inference_ms": 2460.3970050811768,
+      "n_rules": 5,
+      "selected_indices": [
+        3,
+        4,
+        0,
+        7,
+        5
+      ],
+      "sel_chars": 7788,
+      "selected_tokens": 1743,
+      "budget_violated": false,
+      "input_chars": 13157,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "525ee6acd75f4ec98aa1c86eb067e49a",
+      "hard": 1,
+      "predicted": "white",
+      "gold": [
+        "white"
+      ],
+      "inference_ms": 2147.3653316497803,
+      "n_rules": 5,
+      "selected_indices": [
+        3,
+        4,
+        1,
+        0,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13327,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "203cf01361a54663adf565df1070296e",
+      "hard": 1,
+      "predicted": "Boxcars",
+      "gold": [
+        "boxcars"
+      ],
+      "inference_ms": 2384.7312927246094,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        4,
+        5,
+        0
+      ],
+      "sel_chars": 8365,
+      "selected_tokens": 1997,
+      "budget_violated": false,
+      "input_chars": 13151,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "10fac0924a5e425098992c27d77da289",
+      "hard": 1,
+      "predicted": "Jet",
+      "gold": [
+        "Jet"
+      ],
+      "inference_ms": 3097.8362560272217,
+      "n_rules": 5,
+      "selected_indices": [
+        4,
+        1,
+        0,
+        3,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13601,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "35b8579be49e4ac598df516858dda290",
+      "hard": 1,
+      "predicted": "Marie Antoinette",
+      "gold": [
+        "Marie-Antoinette",
+        "Marie Antoinette",
+        "Marie \nAntoinette"
+      ],
+      "inference_ms": 2218.6636924743652,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        4,
+        2,
+        0,
+        3
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13604,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "962d456952b14ca4a40adb6a665e4655",
+      "hard": 1,
+      "predicted": "Minnesota",
+      "gold": [
+        "Minnesota"
+      ],
+      "inference_ms": 2291.280508041382,
+      "n_rules": 5,
+      "selected_indices": [
+        3,
+        1,
+        4,
+        0,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13649,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "e2a6f8f3f7fd468dbd6c8accff13a62f",
+      "hard": 1,
+      "predicted": "Bali",
+      "gold": [
+        "Bali"
+      ],
+      "inference_ms": 2487.867832183838,
+      "n_rules": 4,
+      "selected_indices": [
+        7,
+        1,
+        4,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 13098,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "633c88e4bffa422ea29193c32eecd3ca",
+      "hard": 1,
+      "predicted": "Santa Fe",
+      "gold": [
+        "Santa Fe"
+      ],
+      "inference_ms": 2450.0060081481934,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        7,
+        3,
+        0,
+        2
+      ],
+      "sel_chars": 8650,
+      "selected_tokens": 2001,
+      "budget_violated": true,
+      "input_chars": 13572,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "c37a6b4a6320407089cfcf6effca6f2f",
+      "hard": 1,
+      "predicted": "Matterhorn",
+      "gold": [
+        "the Matterhorn"
+      ],
+      "inference_ms": 3007.533311843872,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        3,
+        5,
+        4
+      ],
+      "sel_chars": 8514,
+      "selected_tokens": 1970,
+      "budget_violated": false,
+      "input_chars": 13697,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "b7317ee96b234164b583906a8daf293b",
+      "hard": 1,
+      "predicted": "Great Dane",
+      "gold": [
+        "a Great Dane"
+      ],
+      "inference_ms": 2841.197967529297,
+      "n_rules": 4,
+      "selected_indices": [
+        4,
+        1,
+        0,
+        5
+      ],
+      "sel_chars": 8365,
+      "selected_tokens": 1998,
+      "budget_violated": false,
+      "input_chars": 13409,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "d05ced73459848598523c0de21f63fb9",
+      "hard": 1,
+      "predicted": "cricket",
+      "gold": [
+        "cricket"
+      ],
+      "inference_ms": 3033.1521034240723,
+      "n_rules": 4,
+      "selected_indices": [
+        4,
+        1,
+        0,
+        5
+      ],
+      "sel_chars": 8365,
+      "selected_tokens": 1998,
+      "budget_violated": false,
+      "input_chars": 13441,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "657fd4c82a584e22a4c49c116950f142",
+      "hard": 1,
+      "predicted": "The Who",
+      "gold": [
+        "The Who"
+      ],
+      "inference_ms": 3104.783058166504,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        4,
+        7,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 12760,
+      "sel_latency_ms": 3.025531768798828
+    },
+    {
+      "sample_id": "3e31c94908e041c7a855dd7ac5659f2e",
+      "hard": 1,
+      "predicted": "leeward",
+      "gold": [
+        "leeward"
+      ],
+      "inference_ms": 2782.862901687622,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        6,
+        7,
+        3
+      ],
+      "sel_chars": 8417,
+      "selected_tokens": 1943,
+      "budget_violated": false,
+      "input_chars": 13196,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "34b216269ba5429d9077cdc2c7bc3e42",
+      "hard": 0,
+      "predicted": "Aloha Airlines",
+      "gold": [
+        "Aloha"
+      ],
+      "inference_ms": 2926.3079166412354,
+      "n_rules": 4,
+      "selected_indices": [
+        4,
+        7,
+        1,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 13214,
+      "sel_latency_ms": 3.223896026611328
+    },
+    {
+      "sample_id": "9eebfa2316cd49b4912c6764cb21480c",
+      "hard": 1,
+      "predicted": "Mork & Mindy",
+      "gold": [
+        "Mork & Mindy"
+      ],
+      "inference_ms": 2669.0263748168945,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        4,
+        0,
+        5
+      ],
+      "sel_chars": 8365,
+      "selected_tokens": 1998,
+      "budget_violated": false,
+      "input_chars": 13173,
+      "sel_latency_ms": 2.5267601013183594
+    },
+    {
+      "sample_id": "917d841d16014bbba49d0d3368223e43",
+      "hard": 1,
+      "predicted": "Don Rickles",
+      "gold": [
+        "Don Rickles"
+      ],
+      "inference_ms": 2654.4370651245117,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        4,
+        3,
+        6,
+        2
+      ],
+      "sel_chars": 8431,
+      "selected_tokens": 1978,
+      "budget_violated": false,
+      "input_chars": 13372,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "5811f1e8130d41fb87b71b4b86c0588f",
+      "hard": 1,
+      "predicted": "Fargo",
+      "gold": [
+        "Fargo"
+      ],
+      "inference_ms": 5031.534433364868,
+      "n_rules": 5,
+      "selected_indices": [
+        4,
+        5,
+        7,
+        6,
+        0
+      ],
+      "sel_chars": 7693,
+      "selected_tokens": 1774,
+      "budget_violated": false,
+      "input_chars": 12783,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "3bf21733e43c4b5fac681d0e9a4a3b83",
+      "hard": 1,
+      "predicted": "yoke",
+      "gold": [
+        "a yoke"
+      ],
+      "inference_ms": 2618.3958053588867,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        4,
+        0,
+        5
+      ],
+      "sel_chars": 8365,
+      "selected_tokens": 1998,
+      "budget_violated": false,
+      "input_chars": 13312,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "0429a0309ef94df8a59959beb9e87fa9",
+      "hard": 0,
+      "predicted": "U.S. National Park Service",
+      "gold": [
+        "Department of Interior"
+      ],
+      "inference_ms": 2691.7219161987305,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        6,
+        7,
+        3
+      ],
+      "sel_chars": 8417,
+      "selected_tokens": 1943,
+      "budget_violated": false,
+      "input_chars": 14081,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "a0034b2ceb474e749fc178de8e297e27",
+      "hard": 1,
+      "predicted": "pico de gallo",
+      "gold": [
+        "pico de gallo"
+      ],
+      "inference_ms": 2478.1360626220703,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        4,
+        0,
+        5
+      ],
+      "sel_chars": 8365,
+      "selected_tokens": 1998,
+      "budget_violated": false,
+      "input_chars": 13178,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "285b2733a61f4fb19680ee93b7b80392",
+      "hard": 1,
+      "predicted": "Mexican-American War",
+      "gold": [
+        "the Mexican-American War"
+      ],
+      "inference_ms": 2239.7656440734863,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        4,
+        3,
+        6,
+        2
+      ],
+      "sel_chars": 8431,
+      "selected_tokens": 1978,
+      "budget_violated": false,
+      "input_chars": 13537,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "b818cb227aee48e6b44b1d5dbeaf179b",
+      "hard": 1,
+      "predicted": "Justice League of America",
+      "gold": [
+        "Justice League of America"
+      ],
+      "inference_ms": 4662.719011306763,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        0,
+        4,
+        6
+      ],
+      "sel_chars": 7995,
+      "selected_tokens": 1944,
+      "budget_violated": false,
+      "input_chars": 13065,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "0f6d2de288e348779e8c5d7515792449",
+      "hard": 0,
+      "predicted": "*   Frog: Is there a \"Leopard frog\"? Yes, the",
+      "gold": [
+        "a leopard"
+      ],
+      "inference_ms": 6663.268804550171,
+      "n_rules": 4,
+      "selected_indices": [
+        5,
+        7,
+        1,
+        3
+      ],
+      "sel_chars": 8787,
+      "selected_tokens": 1997,
+      "budget_violated": false,
+      "input_chars": 14126,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "7d249f57e28e4719aaec9d223e0a27e7",
+      "hard": 0,
+      "predicted": "*   Let's look at `[DOC] White People Are Rebranding Cornrows as 'Boxer Braids' - Jezebel`. It mentions \"The Los Angeles Times gave white people credit for cornrows back in September 2014.\" And \"I paid some",
+      "gold": [
+        "cornrows"
+      ],
+      "inference_ms": 6848.219394683838,
+      "n_rules": 5,
+      "selected_indices": [
+        4,
+        1,
+        0,
+        3,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13104,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "0de314b893ea4c7fb7294a61e3792bfb",
+      "hard": 0,
+      "predicted": "hospitals",
+      "gold": [
+        "shifts"
+      ],
+      "inference_ms": 2325.237035751343,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        0,
+        5,
+        3,
+        2
+      ],
+      "sel_chars": 8089,
+      "selected_tokens": 1864,
+      "budget_violated": false,
+      "input_chars": 13553,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "f75bce4f743c4a6d984b64e71bb00261",
+      "hard": 0,
+      "predicted": "Normandy landings",
+      "gold": [
+        "the Normandy invasion"
+      ],
+      "inference_ms": 1882.8792572021484,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        4,
+        0,
+        3,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13315,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "5b015d8aaea04ca68fb2150fad53f044",
+      "hard": 1,
+      "predicted": "lumbar vertebrae",
+      "gold": [
+        "lumbar vertebrae"
+      ],
+      "inference_ms": 1939.2831325531006,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        4,
+        6,
+        2,
+        3
+      ],
+      "sel_chars": 8431,
+      "selected_tokens": 1978,
+      "budget_violated": false,
+      "input_chars": 13505,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "0216d5236aeb43348eaea3284961edad",
+      "hard": 0,
+      "predicted": "*   The text for **Jack Nicklaus** says: \"He",
+      "gold": [
+        "Tom Watson"
+      ],
+      "inference_ms": 5813.351154327393,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        0,
+        6,
+        4
+      ],
+      "sel_chars": 7995,
+      "selected_tokens": 1944,
+      "budget_violated": false,
+      "input_chars": 12971,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "50072c2bf1e7453e8f3e59fd50e111cd",
+      "hard": 1,
+      "predicted": "Anger",
+      "gold": [
+        "Anger"
+      ],
+      "inference_ms": 2545.0077056884766,
+      "n_rules": 4,
+      "selected_indices": [
+        7,
+        1,
+        4,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 13026,
+      "sel_latency_ms": 0.5114078521728516
+    },
+    {
+      "sample_id": "dbea47b42dec407f98ae495bb3adb83e",
+      "hard": 1,
+      "predicted": "Westminster Abbey",
+      "gold": [
+        "Westminster Abbey"
+      ],
+      "inference_ms": 2450.1633644104004,
+      "n_rules": 5,
+      "selected_indices": [
+        3,
+        4,
+        1,
+        0,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13611,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "212743a2ca8448998afb34fe71c6f704",
+      "hard": 1,
+      "predicted": "blue whale",
+      "gold": [
+        "a blue whale"
+      ],
+      "inference_ms": 2390.6989097595215,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        5,
+        4,
+        0
+      ],
+      "sel_chars": 8365,
+      "selected_tokens": 1997,
+      "budget_violated": false,
+      "input_chars": 13561,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "6c43e20b398d49b5be1a34ec82a28e2a",
+      "hard": 1,
+      "predicted": "Non Sequitur",
+      "gold": [
+        "non sequitur"
+      ],
+      "inference_ms": 2561.77020072937,
+      "n_rules": 4,
+      "selected_indices": [
+        4,
+        1,
+        6,
+        0
+      ],
+      "sel_chars": 7995,
+      "selected_tokens": 1943,
+      "budget_violated": false,
+      "input_chars": 12799,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "638753d6628e47258d18dc18e1a99623",
+      "hard": 0,
+      "predicted": "Montana counties",
+      "gold": [
+        "Montana"
+      ],
+      "inference_ms": 2531.6362380981445,
+      "n_rules": 5,
+      "selected_indices": [
+        3,
+        4,
+        2,
+        7,
+        0
+      ],
+      "sel_chars": 6547,
+      "selected_tokens": 1476,
+      "budget_violated": false,
+      "input_chars": 11609,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "b23add0ac57b4bc39756687a895d3736",
+      "hard": 1,
+      "predicted": "John Irving",
+      "gold": [
+        "(John) Irving"
+      ],
+      "inference_ms": 2536.513566970825,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        4,
+        0,
+        5
+      ],
+      "sel_chars": 8365,
+      "selected_tokens": 1998,
+      "budget_violated": false,
+      "input_chars": 13430,
+      "sel_latency_ms": 4.046440124511719
+    },
+    {
+      "sample_id": "a7ecab7cd26b40a6a22254f18e9823c6",
+      "hard": 0,
+      "predicted": "2016 Escalade",
+      "gold": [
+        "Escalade"
+      ],
+      "inference_ms": 3109.870195388794,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        4,
+        5,
+        0
+      ],
+      "sel_chars": 8365,
+      "selected_tokens": 1997,
+      "budget_violated": false,
+      "input_chars": 13318,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "ce664a256193487bb4eba33daa4bc8b3",
+      "hard": 1,
+      "predicted": "Fall Out Boy",
+      "gold": [
+        "Fall Out Boy"
+      ],
+      "inference_ms": 2939.0547275543213,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        4,
+        5,
+        0
+      ],
+      "sel_chars": 8365,
+      "selected_tokens": 1997,
+      "budget_violated": false,
+      "input_chars": 13094,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "f4ecbbfd207c46dc9a72ea0b83b0c3da",
+      "hard": 1,
+      "predicted": "John Locke",
+      "gold": [
+        "John Locke"
+      ],
+      "inference_ms": 5046.201467514038,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        4,
+        0,
+        3,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 10797,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "6a67adec151c4625969743e37ad6393d",
+      "hard": 1,
+      "predicted": "Caliban",
+      "gold": [
+        "Caliban"
+      ],
+      "inference_ms": 2756.760358810425,
+      "n_rules": 4,
+      "selected_indices": [
+        5,
+        1,
+        4,
+        3
+      ],
+      "sel_chars": 8514,
+      "selected_tokens": 1970,
+      "budget_violated": false,
+      "input_chars": 13310,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "d054ab0a3bb945a3a156b9b097fa360d",
+      "hard": 1,
+      "predicted": "Visigoths",
+      "gold": [
+        "the Visigoths"
+      ],
+      "inference_ms": 3523.0138301849365,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        4,
+        3,
+        5
+      ],
+      "sel_chars": 8514,
+      "selected_tokens": 1970,
+      "budget_violated": false,
+      "input_chars": 13621,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "344bf9a4bb1a4005a4461ae840c13d4c",
+      "hard": 1,
+      "predicted": "an encyclopedia",
+      "gold": [
+        "an encyclopedia"
+      ],
+      "inference_ms": 2369.112491607666,
+      "n_rules": 5,
+      "selected_indices": [
+        4,
+        1,
+        3,
+        0,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13605,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "c1e6d716026c4caca73f73628224a1ed",
+      "hard": 0,
+      "predicted": "- \"Core\"",
+      "gold": [
+        "pitch"
+      ],
+      "inference_ms": 6407.989263534546,
+      "n_rules": 5,
+      "selected_indices": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13591,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "e8fc1c24fcc34b74ac2048a5d34c9e4a",
+      "hard": 1,
+      "predicted": "Carmen",
+      "gold": [
+        "Carmen"
+      ],
+      "inference_ms": 2734.5707416534424,
+      "n_rules": 4,
+      "selected_indices": [
+        0,
+        7,
+        1,
+        6
+      ],
+      "sel_chars": 8268,
+      "selected_tokens": 1971,
+      "budget_violated": false,
+      "input_chars": 13200,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "4e11443e24ce44f58ff3ea558f121165",
+      "hard": 1,
+      "predicted": "London",
+      "gold": [
+        "London"
+      ],
+      "inference_ms": 2909.517765045166,
+      "n_rules": 5,
+      "selected_indices": [
+        4,
+        1,
+        3,
+        0,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13567,
+      "sel_latency_ms": 0.011682510375976562
+    },
+    {
+      "sample_id": "3331ad327364476aa685018cc01293ea",
+      "hard": 1,
+      "predicted": "koalas",
+      "gold": [
+        "koalas"
+      ],
+      "inference_ms": 2335.5438709259033,
+      "n_rules": 5,
+      "selected_indices": [
+        4,
+        3,
+        1,
+        0,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13542,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "731cafd017b843f78bd4c1b8114a5e4d",
+      "hard": 1,
+      "predicted": "Jane Eyre",
+      "gold": [
+        "Jane Eyre"
+      ],
+      "inference_ms": 2318.3069229125977,
+      "n_rules": 5,
+      "selected_indices": [
+        4,
+        1,
+        0,
+        3,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13453,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "e5cf2bd4da0e4489ba32862bcaa41647",
+      "hard": 1,
+      "predicted": "Henry V",
+      "gold": [
+        "Henry V"
+      ],
+      "inference_ms": 2457.21697807312,
+      "n_rules": 5,
+      "selected_indices": [
+        0,
+        1,
+        3,
+        5,
+        2
+      ],
+      "sel_chars": 8089,
+      "selected_tokens": 1864,
+      "budget_violated": false,
+      "input_chars": 12874,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "5003ecf728f441f786d421fcabc73105",
+      "hard": 1,
+      "predicted": "a cow",
+      "gold": [
+        "a cow"
+      ],
+      "inference_ms": 2632.754325866699,
+      "n_rules": 4,
+      "selected_indices": [
+        3,
+        4,
+        1,
+        5
+      ],
+      "sel_chars": 8514,
+      "selected_tokens": 1970,
+      "budget_violated": false,
+      "input_chars": 13439,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "e87835a26a3b447cac651c8c7e8d200b",
+      "hard": 1,
+      "predicted": "South Africa",
+      "gold": [
+        "South Africa"
+      ],
+      "inference_ms": 3172.9989051818848,
+      "n_rules": 5,
+      "selected_indices": [
+        4,
+        1,
+        3,
+        0,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13660,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "33c1f72dbc194869beed5bf366a6720a",
+      "hard": 1,
+      "predicted": "The Netherlands",
+      "gold": [
+        "the Netherlands"
+      ],
+      "inference_ms": 3119.7903156280518,
+      "n_rules": 5,
+      "selected_indices": [
+        7,
+        4,
+        5,
+        0,
+        6
+      ],
+      "sel_chars": 7693,
+      "selected_tokens": 1775,
+      "budget_violated": false,
+      "input_chars": 12628,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "93f29dc1c04c4d50937ce66a8d373825",
+      "hard": 1,
+      "predicted": "The Lone Ranger",
+      "gold": [
+        "The Lone Ranger"
+      ],
+      "inference_ms": 3154.5865535736084,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        3,
+        0,
+        5,
+        2
+      ],
+      "sel_chars": 8089,
+      "selected_tokens": 1864,
+      "budget_violated": false,
+      "input_chars": 13044,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "dfe37094074c4f18840cbd3ddc3f5272",
+      "hard": 1,
+      "predicted": "Earth",
+      "gold": [
+        "Earth"
+      ],
+      "inference_ms": 3319.838047027588,
+      "n_rules": 4,
+      "selected_indices": [
+        0,
+        5,
+        4,
+        1
+      ],
+      "sel_chars": 8365,
+      "selected_tokens": 1998,
+      "budget_violated": false,
+      "input_chars": 13512,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "7c9086aad3f14242bf9a239b0dcc7dfa",
+      "hard": 1,
+      "predicted": "Mike Connors",
+      "gold": [
+        "Mike Connors"
+      ],
+      "inference_ms": 2548.2654571533203,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        7,
+        2,
+        4
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 13071,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "be19f4b2a21e492ea622d31c29dd01b4",
+      "hard": 1,
+      "predicted": "Q",
+      "gold": [
+        "Q"
+      ],
+      "inference_ms": 2660.0704193115234,
+      "n_rules": 5,
+      "selected_indices": [
+        4,
+        1,
+        3,
+        0,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13196,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "16e363a272714ecda717539f291b3f89",
+      "hard": 1,
+      "predicted": "Live Free or Die Hard",
+      "gold": [
+        "Live Free or Die Hard"
+      ],
+      "inference_ms": 2788.0561351776123,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        3,
+        7,
+        0,
+        2
+      ],
+      "sel_chars": 8650,
+      "selected_tokens": 2001,
+      "budget_violated": true,
+      "input_chars": 13683,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "83b243debd0e4114a279556f70a2a0b5",
+      "hard": 1,
+      "predicted": "South Dakota",
+      "gold": [
+        "South Dakota"
+      ],
+      "inference_ms": 2797.8355884552,
+      "n_rules": 5,
+      "selected_indices": [
+        3,
+        7,
+        4,
+        0,
+        5
+      ],
+      "sel_chars": 7788,
+      "selected_tokens": 1743,
+      "budget_violated": false,
+      "input_chars": 12961,
+      "sel_latency_ms": 0.5104541778564453
+    },
+    {
+      "sample_id": "b2e6b86c2e54434a85e0f2e6527cf6db",
+      "hard": 1,
+      "predicted": "Toy",
+      "gold": [
+        "Toy"
+      ],
+      "inference_ms": 3011.8558406829834,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        0,
+        3,
+        4,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 12827,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "2c76127f56ba4abda3e8ed09146c562d",
+      "hard": 1,
+      "predicted": "carrots",
+      "gold": [
+        "carrots"
+      ],
+      "inference_ms": 2876.2598037719727,
+      "n_rules": 4,
+      "selected_indices": [
+        3,
+        1,
+        4,
+        5
+      ],
+      "sel_chars": 8514,
+      "selected_tokens": 1970,
+      "budget_violated": false,
+      "input_chars": 13694,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "eaa107b4f1224f229132381f53bb4588",
+      "hard": 1,
+      "predicted": "Mercury",
+      "gold": [
+        "mercury"
+      ],
+      "inference_ms": 2812.312602996826,
+      "n_rules": 4,
+      "selected_indices": [
+        7,
+        1,
+        4,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 13405,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "b83ea47cda2b4428861c4a86eed64ad2",
+      "hard": 0,
+      "predicted": "land",
+      "gold": [
+        "landfall"
+      ],
+      "inference_ms": 2608.7536811828613,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        4,
+        0,
+        3,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13496,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "9097a4bf75784749a1be32d1e5c0b875",
+      "hard": 1,
+      "predicted": "chakras",
+      "gold": [
+        "the chakras"
+      ],
+      "inference_ms": 2986.7560863494873,
+      "n_rules": 5,
+      "selected_indices": [
+        2,
+        3,
+        0,
+        1,
+        5
+      ],
+      "sel_chars": 8089,
+      "selected_tokens": 1864,
+      "budget_violated": false,
+      "input_chars": 13197,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "c5232cc0d59147dea6d8cff9c57428a6",
+      "hard": 1,
+      "predicted": "Cock Robin",
+      "gold": [
+        "Cock Robin"
+      ],
+      "inference_ms": 3025.218963623047,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        5,
+        6,
+        0,
+        2
+      ],
+      "sel_chars": 7994,
+      "selected_tokens": 1896,
+      "budget_violated": false,
+      "input_chars": 12748,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "9a94c07609304bc890685fb0d6ff799d",
+      "hard": 1,
+      "predicted": "prone",
+      "gold": [
+        "prone"
+      ],
+      "inference_ms": 3068.1846141815186,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        5,
+        4,
+        0
+      ],
+      "sel_chars": 8365,
+      "selected_tokens": 1997,
+      "budget_violated": false,
+      "input_chars": 13183,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "a2743674044c4315be9b5a6151cc5f63",
+      "hard": 1,
+      "predicted": "As",
+      "gold": [
+        "as"
+      ],
+      "inference_ms": 4008.943796157837,
+      "n_rules": 4,
+      "selected_indices": [
+        7,
+        4,
+        1,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 13523,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "77016bca1c08489493e49af1086680ce",
+      "hard": 0,
+      "predicted": "igneous rocks",
+      "gold": [
+        "igneous"
+      ],
+      "inference_ms": 2646.8474864959717,
+      "n_rules": 5,
+      "selected_indices": [
+        2,
+        1,
+        4,
+        3,
+        0
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1973,
+      "budget_violated": false,
+      "input_chars": 13675,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "a95d37788dab44fd9249c25f84e2a068",
+      "hard": 1,
+      "predicted": "salmon",
+      "gold": [
+        "a salmon"
+      ],
+      "inference_ms": 4195.546865463257,
+      "n_rules": 4,
+      "selected_indices": [
+        7,
+        0,
+        1,
+        6
+      ],
+      "sel_chars": 8268,
+      "selected_tokens": 1971,
+      "budget_violated": false,
+      "input_chars": 13284,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "aaef2082129b4cfdb2de0a281b65cab6",
+      "hard": 0,
+      "predicted": "Razorback",
+      "gold": [
+        "the razorbacks"
+      ],
+      "inference_ms": 3359.661340713501,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        0,
+        5,
+        4
+      ],
+      "sel_chars": 8365,
+      "selected_tokens": 1998,
+      "budget_violated": false,
+      "input_chars": 13343,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "bd1eb94035884688ac84e585fa2b1088",
+      "hard": 1,
+      "predicted": "Tiger Woods",
+      "gold": [
+        "Tiger Woods"
+      ],
+      "inference_ms": 2356.189012527466,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        7,
+        0,
+        3,
+        2
+      ],
+      "sel_chars": 8650,
+      "selected_tokens": 2001,
+      "budget_violated": true,
+      "input_chars": 13488,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "86a2c3181d54411fa035b4d950354130",
+      "hard": 0,
+      "predicted": "state-run lottery",
+      "gold": [
+        "the lottery"
+      ],
+      "inference_ms": 3182.5990676879883,
+      "n_rules": 5,
+      "selected_indices": [
+        3,
+        4,
+        1,
+        0,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13492,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "30363d00e669430bb626175fcce58d58",
+      "hard": 1,
+      "predicted": "Stanley Kubrick",
+      "gold": [
+        "Stanley Kubrick"
+      ],
+      "inference_ms": 2446.2406635284424,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        4,
+        7,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 12994,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "ac3f4d90416d446996962b0020b9c635",
+      "hard": 1,
+      "predicted": "Odysseus",
+      "gold": [
+        "Odysseus"
+      ],
+      "inference_ms": 2861.377477645874,
+      "n_rules": 5,
+      "selected_indices": [
+        4,
+        3,
+        1,
+        0,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13256,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "dedcc7b25ccf4ec388788d84adbebe07",
+      "hard": 1,
+      "predicted": "Sentry",
+      "gold": [
+        "a Sentry"
+      ],
+      "inference_ms": 4080.108165740967,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        7,
+        4,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 13331,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "0f72f41ca4ea444a97be577a1beb9bcb",
+      "hard": 1,
+      "predicted": "pesto",
+      "gold": [
+        "pesto"
+      ],
+      "inference_ms": 23678.588151931763,
+      "n_rules": 5,
+      "selected_indices": [
+        4,
+        1,
+        0,
+        3,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13295,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "a5f3de4b150341e08b67e7dc71204703",
+      "hard": 0,
+      "predicted": "William Clark",
+      "gold": [
+        "Clark"
+      ],
+      "inference_ms": 2374.0668296813965,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        0,
+        5,
+        4
+      ],
+      "sel_chars": 8365,
+      "selected_tokens": 1998,
+      "budget_violated": false,
+      "input_chars": 13696,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "2d937a8e07f1428f9bad2047ae13753c",
+      "hard": 1,
+      "predicted": "Stalingrad",
+      "gold": [
+        "Stalingrad"
+      ],
+      "inference_ms": 2089.9672508239746,
+      "n_rules": 5,
+      "selected_indices": [
+        7,
+        0,
+        1,
+        3,
+        2
+      ],
+      "sel_chars": 8650,
+      "selected_tokens": 2001,
+      "budget_violated": true,
+      "input_chars": 13701,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "d9aacf57ec6c4710973206838deca5f1",
+      "hard": 1,
+      "predicted": "Nova Scotia",
+      "gold": [
+        "Nova Scotia"
+      ],
+      "inference_ms": 2328.6187648773193,
+      "n_rules": 4,
+      "selected_indices": [
+        4,
+        1,
+        7,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 13261,
+      "sel_latency_ms": 3.5567283630371094
+    },
+    {
+      "sample_id": "cc7512bd9a034ff786f3ee0a7da05baf",
+      "hard": 1,
+      "predicted": "hubris",
+      "gold": [
+        "hubris"
+      ],
+      "inference_ms": 2676.076650619507,
+      "n_rules": 5,
+      "selected_indices": [
+        7,
+        6,
+        5,
+        0,
+        4
+      ],
+      "sel_chars": 7693,
+      "selected_tokens": 1775,
+      "budget_violated": false,
+      "input_chars": 12799,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "414b1faf561e44e291e1cba1d53d4e0e",
+      "hard": 1,
+      "predicted": "Cultural Revolution",
+      "gold": [
+        "the Cultural Revolution"
+      ],
+      "inference_ms": 2394.7412967681885,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        0,
+        7,
+        3,
+        2
+      ],
+      "sel_chars": 8650,
+      "selected_tokens": 2001,
+      "budget_violated": true,
+      "input_chars": 13802,
+      "sel_latency_ms": 1.5132427215576172
+    },
+    {
+      "sample_id": "e8148b60bf094f7f995b7254b8e18657",
+      "hard": 1,
+      "predicted": "Venus",
+      "gold": [
+        "Venus"
+      ],
+      "inference_ms": 2216.350793838501,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        6,
+        4,
+        0
+      ],
+      "sel_chars": 7995,
+      "selected_tokens": 1943,
+      "budget_violated": false,
+      "input_chars": 13257,
+      "sel_latency_ms": 0.5087852478027344
+    },
+    {
+      "sample_id": "dd00ef077b1e4d1883cf381ed260e4c4",
+      "hard": 1,
+      "predicted": "India",
+      "gold": [
+        "India"
+      ],
+      "inference_ms": 2368.32857131958,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        5,
+        7,
+        3
+      ],
+      "sel_chars": 8787,
+      "selected_tokens": 1997,
+      "budget_violated": false,
+      "input_chars": 13909,
+      "sel_latency_ms": 2.0515918731689453
+    },
+    {
+      "sample_id": "2a022332b2604c7bb184920b069ff82e",
+      "hard": 1,
+      "predicted": "Espresso",
+      "gold": [
+        "Espresso"
+      ],
+      "inference_ms": 2437.6025199890137,
+      "n_rules": 4,
+      "selected_indices": [
+        4,
+        1,
+        5,
+        3
+      ],
+      "sel_chars": 8514,
+      "selected_tokens": 1970,
+      "budget_violated": false,
+      "input_chars": 13538,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "5774b5d48ecc41c884be95aea47e04db",
+      "hard": 1,
+      "predicted": "The Bunny Hop",
+      "gold": [
+        "the bunny hop"
+      ],
+      "inference_ms": 2543.8342094421387,
+      "n_rules": 4,
+      "selected_indices": [
+        4,
+        1,
+        5,
+        3
+      ],
+      "sel_chars": 8514,
+      "selected_tokens": 1970,
+      "budget_violated": false,
+      "input_chars": 13426,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "accb1302cc6143be94dd440f7f50c447",
+      "hard": 1,
+      "predicted": "Italy",
+      "gold": [
+        "Italy"
+      ],
+      "inference_ms": 2507.8845024108887,
+      "n_rules": 4,
+      "selected_indices": [
+        4,
+        1,
+        0,
+        5
+      ],
+      "sel_chars": 8365,
+      "selected_tokens": 1998,
+      "budget_violated": false,
+      "input_chars": 13359,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "ce906c622e204ba6818fe9b27aac5086",
+      "hard": 1,
+      "predicted": "Babe Ruth",
+      "gold": [
+        "Babe Ruth"
+      ],
+      "inference_ms": 23568.227767944336,
+      "n_rules": 4,
+      "selected_indices": [
+        4,
+        3,
+        1,
+        5
+      ],
+      "sel_chars": 8514,
+      "selected_tokens": 1970,
+      "budget_violated": false,
+      "input_chars": 13587,
+      "sel_latency_ms": 0.5066394805908203
+    },
+    {
+      "sample_id": "bfea66d8093f4a459969f18b65950d5d",
+      "hard": 1,
+      "predicted": "coelacanth",
+      "gold": [
+        "the coelacanth"
+      ],
+      "inference_ms": 2112.884044647217,
+      "n_rules": 4,
+      "selected_indices": [
+        5,
+        4,
+        1,
+        3
+      ],
+      "sel_chars": 8514,
+      "selected_tokens": 1970,
+      "budget_violated": false,
+      "input_chars": 13581,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "67c2645726af424ebef4df2229368abf",
+      "hard": 0,
+      "predicted": "Venus",
+      "gold": [
+        "Venus Williams"
+      ],
+      "inference_ms": 2064.2025470733643,
+      "n_rules": 5,
+      "selected_indices": [
+        7,
+        3,
+        5,
+        4,
+        2
+      ],
+      "sel_chars": 6971,
+      "selected_tokens": 1535,
+      "budget_violated": false,
+      "input_chars": 12083,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "ebd72a59dc8d4c6f829b690ab8211ec5",
+      "hard": 0,
+      "predicted": "Europe & Eurasia - Countries",
+      "gold": [
+        "Latvia"
+      ],
+      "inference_ms": 1941.316843032837,
+      "n_rules": 5,
+      "selected_indices": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13672,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "2e32f9a614fe44c488f5f3c973b956ee",
+      "hard": 1,
+      "predicted": "Beyond the Sea",
+      "gold": [
+        "Beyond the Sea"
+      ],
+      "inference_ms": 1945.4576969146729,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        4,
+        3,
+        0,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13237,
+      "sel_latency_ms": 0.5438327789306641
+    },
+    {
+      "sample_id": "1bbc678c2c2144a0b98d1db7bd97aab8",
+      "hard": 1,
+      "predicted": "Frank Lloyd Wright",
+      "gold": [
+        "(Frank Lloyd) Wright"
+      ],
+      "inference_ms": 2251.552104949951,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        4,
+        7,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 13281,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "8dc2205b82664584a345454726172232",
+      "hard": 1,
+      "predicted": "Luxembourg",
+      "gold": [
+        "Luxembourg"
+      ],
+      "inference_ms": 2244.785785675049,
+      "n_rules": 4,
+      "selected_indices": [
+        0,
+        7,
+        1,
+        6
+      ],
+      "sel_chars": 8268,
+      "selected_tokens": 1971,
+      "budget_violated": false,
+      "input_chars": 13397,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "de3a5ad837144fae8529d750fcfe6222",
+      "hard": 1,
+      "predicted": "sediment",
+      "gold": [
+        "the sediment"
+      ],
+      "inference_ms": 2789.2377376556396,
+      "n_rules": 4,
+      "selected_indices": [
+        7,
+        1,
+        0,
+        6
+      ],
+      "sel_chars": 8268,
+      "selected_tokens": 1971,
+      "budget_violated": false,
+      "input_chars": 13361,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "d3a34a078fa941fb93afb7cb5ee930e3",
+      "hard": 1,
+      "predicted": "The Water Horse",
+      "gold": [
+        "The Water Horse"
+      ],
+      "inference_ms": 23343.03092956543,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        4,
+        0,
+        5
+      ],
+      "sel_chars": 8365,
+      "selected_tokens": 1998,
+      "budget_violated": false,
+      "input_chars": 13370,
+      "sel_latency_ms": 0.0476837158203125
+    },
+    {
+      "sample_id": "0f4a622654634b7987233ee50d5f72c5",
+      "hard": 1,
+      "predicted": "As",
+      "gold": [
+        "'s",
+        "the A\\'s"
+      ],
+      "inference_ms": 1926.2702465057373,
+      "n_rules": 5,
+      "selected_indices": [
+        7,
+        3,
+        6,
+        5,
+        0
+      ],
+      "sel_chars": 7130,
+      "selected_tokens": 1578,
+      "budget_violated": false,
+      "input_chars": 11944,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "b441b6baebff401eb4b4d84921f39ff9",
+      "hard": 1,
+      "predicted": "Norman Mailer",
+      "gold": [
+        "Norman Mailer"
+      ],
+      "inference_ms": 2670.2935695648193,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        3,
+        0,
+        4,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13268,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "00f461b32ab54882926444d14c1c3477",
+      "hard": 1,
+      "predicted": "Alexander Hamilton",
+      "gold": [
+        "Alexander Hamilton"
+      ],
+      "inference_ms": 2999.8977184295654,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        4,
+        0,
+        6
+      ],
+      "sel_chars": 7995,
+      "selected_tokens": 1944,
+      "budget_violated": false,
+      "input_chars": 12650,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "a790b16e8712437f9650d552069ab5f1",
+      "hard": 1,
+      "predicted": "salt",
+      "gold": [
+        "salt"
+      ],
+      "inference_ms": 2663.700580596924,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        0,
+        4,
+        5
+      ],
+      "sel_chars": 8365,
+      "selected_tokens": 1998,
+      "budget_violated": false,
+      "input_chars": 13415,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "957b0fabbe7d4d9184a31d3290258509",
+      "hard": 1,
+      "predicted": "heart",
+      "gold": [
+        "a heart"
+      ],
+      "inference_ms": 2151.801109313965,
+      "n_rules": 4,
+      "selected_indices": [
+        4,
+        1,
+        3,
+        5
+      ],
+      "sel_chars": 8514,
+      "selected_tokens": 1970,
+      "budget_violated": false,
+      "input_chars": 13401,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "8e981230d1a340cea3439ecda7c2ea73",
+      "hard": 1,
+      "predicted": "Capricorn",
+      "gold": [
+        "Capricorn"
+      ],
+      "inference_ms": 2052.5870323181152,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        0,
+        4,
+        3,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13514,
+      "sel_latency_ms": 3.0291080474853516
+    },
+    {
+      "sample_id": "0243fa2f9e5d48dc8c38f1e9380133a3",
+      "hard": 1,
+      "predicted": "beta",
+      "gold": [
+        "beta"
+      ],
+      "inference_ms": 2032.3231220245361,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        7,
+        4,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 13255,
+      "sel_latency_ms": 2.5229454040527344
+    },
+    {
+      "sample_id": "3045f82703e348d9b7355a602dc2653c",
+      "hard": 1,
+      "predicted": "Kennedy Space Center",
+      "gold": [
+        "Kennedy Space Center"
+      ],
+      "inference_ms": 2327.0914554595947,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        7,
+        0,
+        2,
+        3
+      ],
+      "sel_chars": 8650,
+      "selected_tokens": 2001,
+      "budget_violated": true,
+      "input_chars": 13676,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "452f87d64e68457b89435f3595a3f788",
+      "hard": 1,
+      "predicted": "shears",
+      "gold": [
+        "shears"
+      ],
+      "inference_ms": 3526.968479156494,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        7,
+        4,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 13002,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "e19f0550cc464e6aa8a343ac4905db8b",
+      "hard": 1,
+      "predicted": "Hear My Cry",
+      "gold": [
+        "...Hear My Cry"
+      ],
+      "inference_ms": 2336.9483947753906,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        0,
+        7,
+        3,
+        2
+      ],
+      "sel_chars": 8650,
+      "selected_tokens": 2001,
+      "budget_violated": true,
+      "input_chars": 13573,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "b996c427bf094af6b711b737166e5f1c",
+      "hard": 1,
+      "predicted": "16th century",
+      "gold": [
+        "16th-century",
+        "the 16th century",
+        "16th century"
+      ],
+      "inference_ms": 2027.6989936828613,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        7,
+        4,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 13293,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "a7dce4e10bc94faebb98ca90b963b026",
+      "hard": 1,
+      "predicted": "Lee Meriwether",
+      "gold": [
+        "Lee Meriwether"
+      ],
+      "inference_ms": 2113.5427951812744,
+      "n_rules": 4,
+      "selected_indices": [
+        4,
+        7,
+        1,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 13159,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "fb48d375beb54c80b9b658c3346aa0f2",
+      "hard": 1,
+      "predicted": "Arkansas",
+      "gold": [
+        "Arkansas"
+      ],
+      "inference_ms": 2479.670524597168,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        3,
+        4,
+        0,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13635,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "1f9e3d57a12d4308bf7476b2ea0e9c9f",
+      "hard": 0,
+      "predicted": "Pat Garrett",
+      "gold": [
+        "Sheriff Pat Garrett"
+      ],
+      "inference_ms": 2442.8963661193848,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        4,
+        7,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 12922,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "ab585940f21543cdb602c7f34606b808",
+      "hard": 0,
+      "predicted": "Noodle Kugel",
+      "gold": [
+        "kugel"
+      ],
+      "inference_ms": 2246.748208999634,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        0,
+        4,
+        6
+      ],
+      "sel_chars": 7995,
+      "selected_tokens": 1944,
+      "budget_violated": false,
+      "input_chars": 12981,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "57614fd6dbb04777b14b5c88baa3cb66",
+      "hard": 1,
+      "predicted": "chariots",
+      "gold": [
+        "chariots"
+      ],
+      "inference_ms": 2744.8720932006836,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        0,
+        3,
+        4,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13551,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "18a7d5d6288145d98f37834834de5b60",
+      "hard": 0,
+      "predicted": "song",
+      "gold": [
+        "Katrina and the Waves"
+      ],
+      "inference_ms": 2726.6933917999268,
+      "n_rules": 4,
+      "selected_indices": [
+        4,
+        7,
+        1,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 12929,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "de4c635a93fd49b8829dcf3926407b70",
+      "hard": 0,
+      "predicted": "James Stewart",
+      "gold": [
+        "Jimmy Stewart"
+      ],
+      "inference_ms": 2762.2053623199463,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        7,
+        0,
+        3,
+        2
+      ],
+      "sel_chars": 8650,
+      "selected_tokens": 2001,
+      "budget_violated": true,
+      "input_chars": 13607,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "0bf04282c3634ddc9384ae26caadd1c2",
+      "hard": 1,
+      "predicted": "A spoonful",
+      "gold": [
+        "a spoonful"
+      ],
+      "inference_ms": 2997.032403945923,
+      "n_rules": 4,
+      "selected_indices": [
+        3,
+        4,
+        1,
+        5
+      ],
+      "sel_chars": 8514,
+      "selected_tokens": 1970,
+      "budget_violated": false,
+      "input_chars": 13412,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "4483bb93ad36402ba3e5e3257abfb415",
+      "hard": 1,
+      "predicted": "Poland",
+      "gold": [
+        "Poland"
+      ],
+      "inference_ms": 2972.4526405334473,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        4,
+        2,
+        0,
+        3
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13630,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "34874f99ede8490f8cb0a6989cb2a2e5",
+      "hard": 1,
+      "predicted": "a raincoat",
+      "gold": [
+        "a raincoat"
+      ],
+      "inference_ms": 3606.1182022094727,
+      "n_rules": 5,
+      "selected_indices": [
+        4,
+        3,
+        1,
+        0,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13246,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "7be287bcb7614aa3afd1932f498cc515",
+      "hard": 1,
+      "predicted": "Dale Earnhardt Jr.",
+      "gold": [
+        "Dale Earnhardt, Jr."
+      ],
+      "inference_ms": 2795.0439453125,
+      "n_rules": 4,
+      "selected_indices": [
+        4,
+        1,
+        0,
+        6
+      ],
+      "sel_chars": 7995,
+      "selected_tokens": 1944,
+      "budget_violated": false,
+      "input_chars": 12895,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "12692cce4f124fc2893d040bc78b1f90",
+      "hard": 1,
+      "predicted": "the bus",
+      "gold": [
+        "the bus"
+      ],
+      "inference_ms": 2696.2287425994873,
+      "n_rules": 5,
+      "selected_indices": [
+        4,
+        1,
+        0,
+        3,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13362,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "8c983ce1cbae4056ae03d78d8b67053a",
+      "hard": 1,
+      "predicted": "Poland",
+      "gold": [
+        "Poland"
+      ],
+      "inference_ms": 2705.5718898773193,
+      "n_rules": 5,
+      "selected_indices": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 14314,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "10fbb659301f4b829e5c29ae08195da9",
+      "hard": 0,
+      "predicted": "United States Coast Guard",
+      "gold": [
+        "the Coast Guard"
+      ],
+      "inference_ms": 2864.6624088287354,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        0,
+        2,
+        3,
+        4
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13452,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "65ac6a0f59b540adbb13949a79c487c9",
+      "hard": 1,
+      "predicted": "calamity",
+      "gold": [
+        "a calamity"
+      ],
+      "inference_ms": 2897.1517086029053,
+      "n_rules": 5,
+      "selected_indices": [
+        3,
+        5,
+        1,
+        6,
+        2
+      ],
+      "sel_chars": 8143,
+      "selected_tokens": 1868,
+      "budget_violated": false,
+      "input_chars": 13329,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "f3ead327d41f4d099f6bafde717d9479",
+      "hard": 1,
+      "predicted": "H.G. Wells",
+      "gold": [
+        "H.G. Wells"
+      ],
+      "inference_ms": 2625.272750854492,
+      "n_rules": 4,
+      "selected_indices": [
+        4,
+        1,
+        0,
+        5
+      ],
+      "sel_chars": 8365,
+      "selected_tokens": 1998,
+      "budget_violated": false,
+      "input_chars": 13298,
+      "sel_latency_ms": 0.51116943359375
+    },
+    {
+      "sample_id": "b26721de2d9a44f495accae7093d4f3a",
+      "hard": 1,
+      "predicted": "Russia",
+      "gold": [
+        "Russia"
+      ],
+      "inference_ms": 2719.3119525909424,
+      "n_rules": 5,
+      "selected_indices": [
+        4,
+        5,
+        7,
+        3,
+        0
+      ],
+      "sel_chars": 7788,
+      "selected_tokens": 1742,
+      "budget_violated": false,
+      "input_chars": 12784,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "24eb5a009ee64909bad741ae3afe0456",
+      "hard": 1,
+      "predicted": "Forrest Gump",
+      "gold": [
+        "Forrest Gump"
+      ],
+      "inference_ms": 2787.705898284912,
+      "n_rules": 4,
+      "selected_indices": [
+        4,
+        1,
+        7,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 13170,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "3c5ee2e049864ca98c7ff8cd1c86942f",
+      "hard": 0,
+      "predicted": "Ken Jennings",
+      "gold": [
+        "Woody Allen"
+      ],
+      "inference_ms": 2639.0774250030518,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        0,
+        6,
+        7
+      ],
+      "sel_chars": 8268,
+      "selected_tokens": 1971,
+      "budget_violated": false,
+      "input_chars": 13297,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "7209c6f378a14c31aa517a773c7869b6",
+      "hard": 1,
+      "predicted": "Bride of Frankenstein",
+      "gold": [
+        "The Bride of Frankenstein"
+      ],
+      "inference_ms": 2758.2623958587646,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        4,
+        0,
+        3,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13515,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "abd5eadacaa840bd97c69e5cc1beb1e7",
+      "hard": 1,
+      "predicted": "Phil Collins",
+      "gold": [
+        "Phil Collins"
+      ],
+      "inference_ms": 2851.609706878662,
+      "n_rules": 5,
+      "selected_indices": [
+        0,
+        1,
+        4,
+        3,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13350,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "b75da932a89d47d8a88a7516e446ed21",
+      "hard": 1,
+      "predicted": "Chicago",
+      "gold": [
+        "Chicago"
+      ],
+      "inference_ms": 2907.993793487549,
+      "n_rules": 4,
+      "selected_indices": [
+        7,
+        6,
+        0,
+        1
+      ],
+      "sel_chars": 8268,
+      "selected_tokens": 1971,
+      "budget_violated": false,
+      "input_chars": 13329,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "beac9af49fe24592abc9acc2c575e6e3",
+      "hard": 1,
+      "predicted": "1939",
+      "gold": [
+        "1939"
+      ],
+      "inference_ms": 2977.4179458618164,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        4,
+        0,
+        5
+      ],
+      "sel_chars": 8365,
+      "selected_tokens": 1998,
+      "budget_violated": false,
+      "input_chars": 13199,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "b7a3b748667348b7bca76958e7ce110a",
+      "hard": 1,
+      "predicted": "yellow",
+      "gold": [
+        "yellow"
+      ],
+      "inference_ms": 2929.6905994415283,
+      "n_rules": 5,
+      "selected_indices": [
+        0,
+        5,
+        3,
+        1,
+        2
+      ],
+      "sel_chars": 8089,
+      "selected_tokens": 1864,
+      "budget_violated": false,
+      "input_chars": 13683,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "96c7d722c5454846a324682d10dcd4e0",
+      "hard": 0,
+      "predicted": "Dmitri Mendeleev",
+      "gold": [
+        "Mendeleev"
+      ],
+      "inference_ms": 3453.4358978271484,
+      "n_rules": 4,
+      "selected_indices": [
+        4,
+        1,
+        0,
+        6
+      ],
+      "sel_chars": 7995,
+      "selected_tokens": 1944,
+      "budget_violated": false,
+      "input_chars": 13336,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "d26f3e0fce49475595ab98354c941d49",
+      "hard": 1,
+      "predicted": "sausages",
+      "gold": [
+        "sausages"
+      ],
+      "inference_ms": 3799.334764480591,
+      "n_rules": 5,
+      "selected_indices": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13584,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "86f594b52f7148ee9ae371cb580c00ce",
+      "hard": 1,
+      "predicted": "Return of the Jedi",
+      "gold": [
+        "Return of the Jedi"
+      ],
+      "inference_ms": 2760.3063583374023,
+      "n_rules": 4,
+      "selected_indices": [
+        0,
+        4,
+        1,
+        5
+      ],
+      "sel_chars": 8365,
+      "selected_tokens": 1998,
+      "budget_violated": false,
+      "input_chars": 13309,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "491fe356172c4f0f8899595cd13426db",
+      "hard": 0,
+      "predicted": "Faraday effect",
+      "gold": [
+        "Faraday"
+      ],
+      "inference_ms": 3102.6039123535156,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        4,
+        7,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 13583,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "08fee65a34684a9ba7f3dced52e2eb69",
+      "hard": 1,
+      "predicted": "Minotaur",
+      "gold": [
+        "the Minotaur"
+      ],
+      "inference_ms": 3375.9634494781494,
+      "n_rules": 5,
+      "selected_indices": [
+        4,
+        1,
+        0,
+        3,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13446,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "540f3cb9af4e4c3c8ce39b2c0ee94522",
+      "hard": 1,
+      "predicted": "Tasmania",
+      "gold": [
+        "Tasmania"
+      ],
+      "inference_ms": 3110.2232933044434,
+      "n_rules": 5,
+      "selected_indices": [
+        3,
+        1,
+        4,
+        0,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13772,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "2db7671583be4f56be84f68677b6c925",
+      "hard": 0,
+      "predicted": "iodized salt",
+      "gold": [
+        "iodized"
+      ],
+      "inference_ms": 2455.7547569274902,
+      "n_rules": 4,
+      "selected_indices": [
+        5,
+        4,
+        1,
+        0
+      ],
+      "sel_chars": 8365,
+      "selected_tokens": 1997,
+      "budget_violated": false,
+      "input_chars": 13662,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "f517a2fbdcd24448b12f40613cff19dc",
+      "hard": 1,
+      "predicted": "James Joyce",
+      "gold": [
+        "(James) Joyce"
+      ],
+      "inference_ms": 2267.444849014282,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        0,
+        4,
+        3,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13208,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "05883443928c47a2aa0c15e84cc3efce",
+      "hard": 1,
+      "predicted": "Risk",
+      "gold": [
+        "Risk"
+      ],
+      "inference_ms": 2244.483709335327,
+      "n_rules": 5,
+      "selected_indices": [
+        4,
+        5,
+        7,
+        0,
+        3
+      ],
+      "sel_chars": 7788,
+      "selected_tokens": 1743,
+      "budget_violated": false,
+      "input_chars": 12602,
+      "sel_latency_ms": 2.049684524536133
+    },
+    {
+      "sample_id": "b0d285b94a5f4f2cb0605919d0567703",
+      "hard": 1,
+      "predicted": "Thomas Hardy",
+      "gold": [
+        "Thomas Hardy"
+      ],
+      "inference_ms": 2774.1785049438477,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        4,
+        6,
+        0
+      ],
+      "sel_chars": 7995,
+      "selected_tokens": 1943,
+      "budget_violated": false,
+      "input_chars": 12899,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "c3af854e40fc4dfab301bb95e9d9e3d2",
+      "hard": 1,
+      "predicted": "Sinclair Lewis",
+      "gold": [
+        "Sinclair Lewis"
+      ],
+      "inference_ms": 2869.6815967559814,
+      "n_rules": 4,
+      "selected_indices": [
+        7,
+        1,
+        4,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 13329,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "51a410837fa748c0ad59b078f5b96ef7",
+      "hard": 0,
+      "predicted": "Vice President of the United States",
+      "gold": [
+        "Richard Nixon"
+      ],
+      "inference_ms": 2723.0372428894043,
+      "n_rules": 5,
+      "selected_indices": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13661,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "bc05ded989c342ff8a9058bfaf2fd2f5",
+      "hard": 1,
+      "predicted": "Easter",
+      "gold": [
+        "Easter"
+      ],
+      "inference_ms": 3105.325222015381,
+      "n_rules": 5,
+      "selected_indices": [
+        4,
+        2,
+        1,
+        0,
+        3
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13358,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "ec656d35dc024d7197c664055e09a4cd",
+      "hard": 0,
+      "predicted": "Wilhelm Conrad Roentgen",
+      "gold": [
+        "Roentgen"
+      ],
+      "inference_ms": 2892.9057121276855,
+      "n_rules": 5,
+      "selected_indices": [
+        4,
+        1,
+        0,
+        3,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13512,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "29479a10bb7a409d8ec13616f197f5c9",
+      "hard": 1,
+      "predicted": "Fondue",
+      "gold": [
+        "fondue"
+      ],
+      "inference_ms": 3000.030755996704,
+      "n_rules": 4,
+      "selected_indices": [
+        4,
+        1,
+        5,
+        3
+      ],
+      "sel_chars": 8514,
+      "selected_tokens": 1970,
+      "budget_violated": false,
+      "input_chars": 13479,
+      "sel_latency_ms": 3.032207489013672
+    },
+    {
+      "sample_id": "796799cc49d2488c9300266c324a0001",
+      "hard": 1,
+      "predicted": "Happy Days",
+      "gold": [
+        "Happy Days"
+      ],
+      "inference_ms": 2873.6464977264404,
+      "n_rules": 4,
+      "selected_indices": [
+        4,
+        1,
+        7,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 13058,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "8af2fd8cef0c454594e4f3a568588472",
+      "hard": 1,
+      "predicted": "The Last Supper",
+      "gold": [
+        "\"The Last Supper\""
+      ],
+      "inference_ms": 2912.5735759735107,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        4,
+        0,
+        3,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13598,
+      "sel_latency_ms": 0.5433559417724609
+    },
+    {
+      "sample_id": "9d7d95de350d49a783ae35644ffcbec3",
+      "hard": 1,
+      "predicted": "George Babbitt",
+      "gold": [
+        "(George) Babbitt"
+      ],
+      "inference_ms": 2972.383975982666,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        5,
+        3,
+        0,
+        2
+      ],
+      "sel_chars": 8089,
+      "selected_tokens": 1864,
+      "budget_violated": false,
+      "input_chars": 10413,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "642513b51abe48cc9734dc6164c65a60",
+      "hard": 1,
+      "predicted": "senators",
+      "gold": [
+        "senators"
+      ],
+      "inference_ms": 3047.2257137298584,
+      "n_rules": 5,
+      "selected_indices": [
+        3,
+        1,
+        5,
+        6,
+        2
+      ],
+      "sel_chars": 8143,
+      "selected_tokens": 1868,
+      "budget_violated": false,
+      "input_chars": 13649,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "d6c08fd858e14dfd98b924c5aa317752",
+      "hard": 1,
+      "predicted": "chickens",
+      "gold": [
+        "chickens"
+      ],
+      "inference_ms": 3009.690761566162,
+      "n_rules": 4,
+      "selected_indices": [
+        6,
+        1,
+        4,
+        0
+      ],
+      "sel_chars": 7995,
+      "selected_tokens": 1943,
+      "budget_violated": false,
+      "input_chars": 13204,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "b1934fb8f0b84a2bbfd90811a7610018",
+      "hard": 0,
+      "predicted": "hot-air balloon",
+      "gold": [
+        "a balloon"
+      ],
+      "inference_ms": 2420.3555583953857,
+      "n_rules": 5,
+      "selected_indices": [
+        3,
+        1,
+        7,
+        0,
+        2
+      ],
+      "sel_chars": 8650,
+      "selected_tokens": 2001,
+      "budget_violated": true,
+      "input_chars": 13694,
+      "sel_latency_ms": 2.51007080078125
+    },
+    {
+      "sample_id": "35ca318c97e44a5fbacec652c6aa178a",
+      "hard": 1,
+      "predicted": "Nellie Bly",
+      "gold": [
+        "Nellie Bly"
+      ],
+      "inference_ms": 2511.890172958374,
+      "n_rules": 4,
+      "selected_indices": [
+        7,
+        1,
+        4,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 13142,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "d979fed6fede41ceaa780d115d1d0124",
+      "hard": 1,
+      "predicted": "Bling-bling",
+      "gold": [
+        "bling bling",
+        "Bling-bling"
+      ],
+      "inference_ms": 2893.249034881592,
+      "n_rules": 4,
+      "selected_indices": [
+        7,
+        1,
+        5,
+        3
+      ],
+      "sel_chars": 8787,
+      "selected_tokens": 1997,
+      "budget_violated": false,
+      "input_chars": 13652,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "741b6eda4535483cb9c80242089d8eb2",
+      "hard": 1,
+      "predicted": "The Godfather Part II",
+      "gold": [
+        "The Godfather Part II"
+      ],
+      "inference_ms": 2760.446786880493,
+      "n_rules": 5,
+      "selected_indices": [
+        4,
+        1,
+        0,
+        3,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13337,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "3da5b2392db8414bba6d0c3da2ab3f79",
+      "hard": 0,
+      "predicted": "*   So, Nixon is indeed often cited as the second-young",
+      "gold": [
+        "Nixon"
+      ],
+      "inference_ms": 7057.072401046753,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        7,
+        3,
+        5
+      ],
+      "sel_chars": 8787,
+      "selected_tokens": 1997,
+      "budget_violated": false,
+      "input_chars": 13728,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "a7bfde0104e34c739685cddd40203085",
+      "hard": 1,
+      "predicted": "Brooklyn",
+      "gold": [
+        "Brooklyn"
+      ],
+      "inference_ms": 2854.5401096343994,
+      "n_rules": 5,
+      "selected_indices": [
+        4,
+        1,
+        0,
+        3,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13566,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "9167af082d2742d282753d9175fbeec4",
+      "hard": 1,
+      "predicted": "deluge",
+      "gold": [
+        "a deluge"
+      ],
+      "inference_ms": 2219.5351123809814,
+      "n_rules": 5,
+      "selected_indices": [
+        4,
+        3,
+        6,
+        1,
+        2
+      ],
+      "sel_chars": 8431,
+      "selected_tokens": 1978,
+      "budget_violated": false,
+      "input_chars": 13479,
+      "sel_latency_ms": 2.514362335205078
+    },
+    {
+      "sample_id": "851efecede9a4223bd660d986d272388",
+      "hard": 1,
+      "predicted": "ton",
+      "gold": [
+        "a ton"
+      ],
+      "inference_ms": 2229.9211025238037,
+      "n_rules": 4,
+      "selected_indices": [
+        3,
+        4,
+        1,
+        5
+      ],
+      "sel_chars": 8514,
+      "selected_tokens": 1970,
+      "budget_violated": false,
+      "input_chars": 13491,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "9e8fc31beb22409189a62f1cbbaf95c9",
+      "hard": 1,
+      "predicted": "Union Jack",
+      "gold": [
+        "the Union Jack"
+      ],
+      "inference_ms": 5658.023118972778,
+      "n_rules": 4,
+      "selected_indices": [
+        7,
+        4,
+        1,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 13159,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "440bce5338e34f74961b06d4e2f538ad",
+      "hard": 1,
+      "predicted": "Tina Turner",
+      "gold": [
+        "Tina Turner"
+      ],
+      "inference_ms": 2270.219087600708,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        4,
+        0,
+        5
+      ],
+      "sel_chars": 8365,
+      "selected_tokens": 1998,
+      "budget_violated": false,
+      "input_chars": 13239,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "6fab6fbb778c4ad784fe0ea2fced512e",
+      "hard": 1,
+      "predicted": "an ambulance",
+      "gold": [
+        "an ambulance"
+      ],
+      "inference_ms": 2458.935022354126,
+      "n_rules": 5,
+      "selected_indices": [
+        3,
+        4,
+        1,
+        0,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13457,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "6e2e7a60038547609427b5cc58b35de0",
+      "hard": 0,
+      "predicted": "Alfred, Lord Tennyson",
+      "gold": [
+        "Tennyson"
+      ],
+      "inference_ms": 2237.3218536376953,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        0,
+        5,
+        3,
+        2
+      ],
+      "sel_chars": 8089,
+      "selected_tokens": 1864,
+      "budget_violated": false,
+      "input_chars": 11756,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "faeeb90e9c3f47edb21d0d7ad41c22a2",
+      "hard": 1,
+      "predicted": "Charlie Parker",
+      "gold": [
+        "(Charlie) Parker"
+      ],
+      "inference_ms": 3220.1778888702393,
+      "n_rules": 5,
+      "selected_indices": [
+        4,
+        1,
+        0,
+        3,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13353,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "30cc22b7eab4467f8f68ae92ee761191",
+      "hard": 1,
+      "predicted": "Hypothermia",
+      "gold": [
+        "hypothermia"
+      ],
+      "inference_ms": 2429.933547973633,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        4,
+        3,
+        5
+      ],
+      "sel_chars": 8514,
+      "selected_tokens": 1970,
+      "budget_violated": false,
+      "input_chars": 13928,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "dca652e3f8db4a06b132d57c30c5c77b",
+      "hard": 0,
+      "predicted": "chili pepper",
+      "gold": [
+        "the pepper"
+      ],
+      "inference_ms": 1942.918062210083,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        4,
+        5,
+        0
+      ],
+      "sel_chars": 8365,
+      "selected_tokens": 1997,
+      "budget_violated": false,
+      "input_chars": 13658,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "94a90d73a1ed45ab99840bfd4cf10a32",
+      "hard": 1,
+      "predicted": "Aeneid",
+      "gold": [
+        "the Aeneid"
+      ],
+      "inference_ms": 2754.899024963379,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        4,
+        0,
+        6
+      ],
+      "sel_chars": 7995,
+      "selected_tokens": 1944,
+      "budget_violated": false,
+      "input_chars": 12976,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "40c86f5f19654755b76a872cad12e8fe",
+      "hard": 0,
+      "predicted": "- Let's look at [DOC] \"Tell great-grandpa to teach you the Lindy hop... This American educator's sons Thomas & Edward also helped teach the deaf\". This looks like a Jeopardy-style clue. The answer is likely the father. The father of Edward Miner Gallaudet is Thomas Hopkins Gallaudet. Did he have a son named Thomas? Yes,",
+      "gold": [
+        "(Thomas) Gallaudet"
+      ],
+      "inference_ms": 6923.388242721558,
+      "n_rules": 4,
+      "selected_indices": [
+        7,
+        1,
+        4,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 13307,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "d6e95e41b53943a4a2caf08178634e94",
+      "hard": 1,
+      "predicted": "Henri Matisse",
+      "gold": [
+        "Henri Matisse"
+      ],
+      "inference_ms": 2984.7512245178223,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        4,
+        0,
+        5
+      ],
+      "sel_chars": 8365,
+      "selected_tokens": 1998,
+      "budget_violated": false,
+      "input_chars": 13399,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "f26ef14e89244472a71ad384cf5214db",
+      "hard": 1,
+      "predicted": "plump",
+      "gold": [
+        "plump"
+      ],
+      "inference_ms": 2820.4660415649414,
+      "n_rules": 4,
+      "selected_indices": [
+        7,
+        4,
+        1,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 12800,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "c54e6e0f897645c18a28a0637f193908",
+      "hard": 1,
+      "predicted": "Belize",
+      "gold": [
+        "Belize"
+      ],
+      "inference_ms": 2432.5294494628906,
+      "n_rules": 4,
+      "selected_indices": [
+        1,
+        4,
+        0,
+        5
+      ],
+      "sel_chars": 8365,
+      "selected_tokens": 1998,
+      "budget_violated": false,
+      "input_chars": 13677,
+      "sel_latency_ms": 2.009153366088867
+    },
+    {
+      "sample_id": "5218ad458ee3405eb9c00a67cbc1e17d",
+      "hard": 0,
+      "predicted": "Common trivia: \"Which Central American country has volcanoes?\" (",
+      "gold": [
+        "Belize"
+      ],
+      "inference_ms": 6399.239063262939,
+      "n_rules": 5,
+      "selected_indices": [
+        3,
+        4,
+        1,
+        0,
+        2
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13680,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "9a2ffbc032454b858f83cb50793a4c83",
+      "hard": 1,
+      "predicted": "December",
+      "gold": [
+        "December"
+      ],
+      "inference_ms": 2409.4672203063965,
+      "n_rules": 4,
+      "selected_indices": [
+        4,
+        1,
+        5,
+        0
+      ],
+      "sel_chars": 8365,
+      "selected_tokens": 1997,
+      "budget_violated": false,
+      "input_chars": 13418,
+      "sel_latency_ms": 2.529621124267578
+    },
+    {
+      "sample_id": "7c18240ce2aa47fcb1230cb11f9baa38",
+      "hard": 1,
+      "predicted": "Finlandia",
+      "gold": [
+        "Finlandia"
+      ],
+      "inference_ms": 2130.013942718506,
+      "n_rules": 5,
+      "selected_indices": [
+        1,
+        4,
+        0,
+        2,
+        3
+      ],
+      "sel_chars": 8377,
+      "selected_tokens": 1974,
+      "budget_violated": false,
+      "input_chars": 13688,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "0deb5a98a74b4f8c826c8096984a8e0f",
+      "hard": 1,
+      "predicted": "Boysenberry",
+      "gold": [
+        "boysenberry"
+      ],
+      "inference_ms": 2146.0814476013184,
+      "n_rules": 4,
+      "selected_indices": [
+        7,
+        4,
+        1,
+        2
+      ],
+      "sel_chars": 8109,
+      "selected_tokens": 1927,
+      "budget_violated": false,
+      "input_chars": 13292,
+      "sel_latency_ms": 0.0
+    },
+    {
+      "sample_id": "bffb34366c9d400abba4d4e99017c345",
+      "hard": 1,
+      "predicted": "horizon",
+      "gold": [
+        "Horizon"
+      ],
+      "inference_ms": 1971.923589706421,
+      "n_rules": 5,
+      "selected_indices": [
+        2,
+        0,
+        6,
+        1,
+        3
+      ],
+      "sel_chars": 7719,
+      "selected_tokens": 1810,
+      "budget_violated": false,
+      "input_chars": 12983,
+      "sel_latency_ms": 0.0
+    }
+  ]
+}
