@@ -222,7 +222,10 @@ def main():
     methods = [m.strip() for m in args.methods.split(",")]
     seeds = [int(s) for s in args.seeds.split(",")]
 
-    with open(os.path.abspath(args.skill), encoding="utf-8") as f:
+    skill_path = args.skill
+    if not os.path.isabs(skill_path):
+        skill_path = os.path.join(_PROJECT_ROOT, skill_path)
+    with open(os.path.abspath(skill_path), encoding="utf-8") as f:
         skill_content = f.read()
     items = load_items(args.limit)
     print(f"Skill: {os.path.basename(args.skill)} ({len(skill_content)} chars)")
@@ -237,6 +240,10 @@ def main():
             print(f"{'='*60}")
 
             # Configure target endpoint
+            set_optimizer_backend("openai_compatible")
+            set_target_backend("openai_compatible")
+            set_optimizer_deployment("deepseek-v4-flash")
+
             if model_name == args.target_s:
                 # Old model: DashScope
                 base = args.target_s_url or "https://dashscope.aliyuncs.com/compatible-mode/v1"
@@ -247,17 +254,12 @@ def main():
                 base = args.target_l_url or "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1"
                 key = args.target_l_key or os.environ.get("TARGET_OPENAI_COMPATIBLE_API_KEY", "")
 
-            set_optimizer_backend("openai_compatible")
-            set_target_backend("openai_compatible")
-            set_optimizer_deployment("deepseek-v4-flash")
+            from skillopt.model.openai_compatible_backend import configure_openai_compatible
+            configure_openai_compatible(
+                target_base_url=base, target_api_key=key or "",
+                target_model=model_name,
+            )
             set_target_deployment(model_name)
-
-            # Override env if provided
-            if key:
-                import skillopt.model.openai_compatible_backend as _be
-                # We can't easily override per-round, so use a simple approach:
-                # train.py handles this via env vars — we set them before launch
-                pass
 
             results = run_round(skill_content, items, model_name, methods,
                                 seed_base, {"top_k": args.top_k,

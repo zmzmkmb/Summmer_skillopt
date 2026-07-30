@@ -30,10 +30,55 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from skillopt.envs.searchqa.evaluator import evaluate
 from skillopt.envs.searchqa.rollout import _build_system, _build_user
 from skillopt.model import (
-    chat_target, set_optimizer_backend, set_optimizer_deployment,
+    chat_target, configure_openai_compatible,
+    set_optimizer_backend, set_optimizer_deployment,
     set_target_backend, set_target_deployment,
 )
 from skillopt.rag_rule_selector import RuleMemory
+
+
+def _load_env(path: str | None = None):
+    import os as _os
+    if path is None:
+        path = _os.path.join(_PROJECT_ROOT, ".env")
+    if not _os.path.exists(path):
+        return
+    with open(path, encoding="utf-8") as _f:
+        for _line in _f:
+            _line = _line.strip()
+            if _line.startswith("#") or not _line or "=" not in _line:
+                continue
+            if _line.startswith("export "):
+                _line = _line[7:]
+            _key, _, _val = _line.partition("=")
+            _key = _key.strip()
+            _val = _val.strip().strip('\"').strip("'")
+            if _key and _val and _key not in _os.environ:
+                _os.environ[_key] = _val
+
+
+def _configure_target(model_name: str):
+    _load_env()
+    if "3.6" in model_name or model_name.startswith("qwen3"):
+        configure_openai_compatible(
+            target_base_url=os.environ.get(
+                "TARGET_OPENAI_COMPATIBLE_BASE_URL",
+                "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+            ),
+            target_api_key=os.environ.get("TARGET_OPENAI_COMPATIBLE_API_KEY", ""),
+            target_model=model_name,
+        )
+    else:
+        configure_openai_compatible(
+            target_base_url=os.environ.get(
+                "TARGET_S_OPENAI_COMPATIBLE_BASE_URL",
+                "https://dashscope.aliyuncs.com/compatible-mode/v1",
+            ),
+            target_api_key=os.environ.get("TARGET_S_OPENAI_COMPATIBLE_API_KEY", ""),
+            target_model=model_name,
+        )
+    set_target_backend("openai_compatible")
+    set_target_deployment(model_name)
 
 
 def tokenize(s): return s.lower().split()
@@ -237,11 +282,13 @@ def main():
     args = parse_args()
 
     set_optimizer_backend("openai_compatible")
-    set_target_backend("openai_compatible")
     set_optimizer_deployment("deepseek-v4-flash")
-    set_target_deployment(args.target_model)
+    _configure_target(args.target_model)
 
-    with open(os.path.abspath(args.skill), encoding="utf-8") as f:
+    skill_path = args.skill
+    if not os.path.isabs(skill_path):
+        skill_path = os.path.join(_PROJECT_ROOT, skill_path)
+    with open(os.path.abspath(skill_path), encoding="utf-8") as f:
         skill = f.read()
 
     data_dir = os.path.join(_PROJECT_ROOT, "data", "searchqa_split", "test")
@@ -249,7 +296,7 @@ def main():
         items = json.load(f)
     if args.limit > 0:
         items = items[:args.limit]
-    print(f"Skill: {os.path.basename(args.skill)} | method={args.method}")
+    print(f"Skill: {os.path.basename(skill_path)} | method={args.method}")
     print(f"Model: {args.target_model} | items={len(items)} | workers={args.workers}")
 
     import subprocess
@@ -263,7 +310,7 @@ def main():
     )
 
     # File hashes
-    with open(os.path.abspath(args.skill), "rb") as f:
+    with open(skill_path, "rb") as f:
         skill_sha256 = hashlib.sha256(f.read()).hexdigest()
     items_path = os.path.join(_PROJECT_ROOT, "data", "searchqa_split", "test", "items.json")
     dataset_sha256 = ""
