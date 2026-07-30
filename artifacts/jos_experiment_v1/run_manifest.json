@@ -1,0 +1,39 @@
+{
+  "experiment": "jos-experiment-v1",
+  "tag": "jos-experiment-v1",
+  "commit": "f4ae9b4",
+  "description": "JoS formal MOAR experiments — 200 items x 2 models x 3 seeds",
+  "date": "2026-07-29",
+  "budget": 2000,
+  "top_k": 5,
+  "models": {
+    "targetS": "qwen-flash (DashScope, openai_compatible)",
+    "targetL": "qwen3.6-flash (MaaS token-plan, openai_compatible)"
+  },
+  "methods": ["Core Only", "TF-IDF Top-5", "MOAR", "BM25", "Greedy-Cold", "Greedy-Utility"],
+  "skill": {
+    "path": "outputs/searchqa_rag/best_skill.md",
+    "sha256": "TBD"
+  },
+  "dataset": {
+    "source": "searchqa_id_split",
+    "split": "test (valid_unseen)",
+    "n_items": 200
+  },
+  "files": {
+    "targetS_seed42": "targetS/jos_formal_targetS_seed42_enriched.json",
+    "targetS_seed43": "targetS/jos_formal_targetS_seed43_enriched.json",
+    "targetS_seed44": "targetS/jos_formal_targetS_seed44_enriched.json",
+    "targetL_seed42": "targetL/jos_formal_targetL_seed42_enriched.json",
+    "targetL_seed43": "targetL/jos_formal_targetL_seed43_enriched.json",
+    "targetL_seed44": "targetL/jos_formal_targetL_seed44_enriched.json",
+    "targetS_bm25_rep42": "targetS/jos_formal_bm25_rep42.json",
+    "targetS_greedy_cold_rep42": "targetS/jos_formal_greedy_cold_rep42.json",
+    "targetS_greedy_util_rep42": "targetS/jos_formal_greedy_util_rep42.json",
+    "frozen_utility": "frozen_utility.json"
+  },
+  "enrichment": {
+    "script": "scripts/enrich_formal_results.py",
+    "note": "n_rules corrected to len(selected_indices); selected_tokens from count_tokens(); budget_violated recomputed"
+  }
+}

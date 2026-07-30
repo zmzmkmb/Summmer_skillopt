@@ -27,7 +27,10 @@ def load_formal(model_key: str) -> dict[str, list[dict]]:
     prefix = "targetS" if model_key == "qwen-flash" else "targetL"
     merged: dict[str, list[dict]] = defaultdict(list)
     for seed in FORMAL_SEEDS:
-        path = os.path.join(OUT, f"jos_formal_{prefix}_seed{seed}.json")
+        # Prefer enriched files (have corrected n_rules, selected_tokens, budget_violated)
+        enriched_path = os.path.join(OUT, f"jos_formal_{prefix}_seed{seed}_enriched.json")
+        raw_path = os.path.join(OUT, f"jos_formal_{prefix}_seed{seed}.json")
+        path = enriched_path if os.path.exists(enriched_path) else raw_path
         if not os.path.exists(path):
             print(f"  [WARN] missing: {os.path.basename(path)}")
             continue
@@ -82,33 +85,19 @@ def method_stats(items: list[dict]) -> dict:
     mean = float(np.mean(accs_arr))
     std = float(np.std(accs_arr, ddof=1)) if len(accs_arr) > 1 else 0.0
 
-    all_hard = np.array([it["hard"] for it in items])
     n_rules = np.array([it.get("n_rules", 0) for it in items])
-    sel_tokens = [it.get("selected_tokens", 0) for it in items]
+    sel_tokens = np.array([it.get("selected_tokens", 0) for it in items], dtype=float)
     build_ms = np.array([it.get("build_ms", it.get("sel_latency_ms", 0)) for it in items])
     api_fails = sum(1 for it in items if it.get("predicted", "") == "")
-
-    # Fallback tokens: old data uses sel_chars or prompt_chars
-    if all(t == 0 for t in sel_tokens):
-        sel_tokens = [it.get("sel_chars", it.get("prompt_chars", 0)) for it in items]
-        if all(t > 500 for t in sel_tokens):
-            sel_tokens = [max(0, t - 513) for t in sel_tokens]
-
-    budget_viol = 0
-    prev_commit = False
-    for it in items:
-        it_has = "selected_tokens" in it or "sel_chars" in it
-        prev_commit = prev_commit or it_has
-    if not prev_commit:
-        sel_tokens = [0] * len(items)
+    budget_viol = sum(1 for it in items if it.get("budget_violated", False))
 
     return {
         "accuracy": mean, "std": std,
         "n_items": len(items), "n_seeds": len(active),
         "per_seed": seed_accs,
-        "range": (float(np.min(all_hard)), float(np.max(all_hard))),
+        "range": (float(np.min(accs_arr)), float(np.max(accs_arr))),
         "avg_rules": float(np.mean(n_rules)),
-        "avg_selected_tokens": float(np.mean(sel_tokens)) if sel_tokens else 0,
+        "avg_selected_tokens": float(np.mean(sel_tokens)) if len(sel_tokens) > 0 else 0,
         "build_ms_mean": float(np.mean(build_ms)),
         "build_ms_median": float(np.median(build_ms)),
         "build_ms_p95": float(np.percentile(build_ms, 95)),
@@ -209,7 +198,7 @@ def print_table(model: str, methods: dict[str, list[dict]]):
     has_seeds = any(st["n_seeds"] > 1 for st in stats.values())
     if has_seeds:
         print(f"\n  Per-seed accuracy:")
-        all_seeds = sorted(set(s for st in stats.values() for s in st["per_seed"]))
+        all_seeds = sorted(set(s for st in stats.values() for s in st["per_seed"] if s != 0))
         seed_hdr = f"  {'Method':<20s}" + "".join(f" {'S'+str(s):>10s}" for s in all_seeds)
         print(seed_hdr)
         print(f"  {'-'*len(seed_hdr)}")
@@ -263,7 +252,64 @@ def print_table(model: str, methods: dict[str, list[dict]]):
               f"P99={st['build_ms_p99']:.0f}ms "
               f"max={st['build_ms_max']:.0f}ms")
 
+    # Cross-method error complementarity
+    print(f"\n  Error Complementarity (same question, same seed):")
+    _print_cross_error(methods, stats)
+
     return stats
+
+
+# ── Cross-method error analysis ──────────────────────────────
+
+def _print_cross_error(methods: dict[str, list[dict]], stats: dict):
+    """打印 MOAR 与各基线的交叉错误矩阵."""
+    moar = methods.get("MOAR")
+    if not moar:
+        return
+
+    # Build (model, seed, sample_id) -> hard mapping for MOAR
+    moar_map: dict[tuple[str, int, str], int] = {}
+    for it in moar:
+        key = (it.get("_model", ""), it.get("_seed", 0), it["sample_id"])
+        moar_map[key] = it["hard"]
+
+    for name, items in methods.items():
+        if name == "MOAR":
+            continue
+        # Build per-item map for baseline
+        b_map: dict[tuple[str, int, str], int] = {}
+        for it in items:
+            key = (it.get("_model", ""), it.get("_seed", 0), it["sample_id"])
+            b_map[key] = it["hard"]
+
+        # Match
+        moar_better = 0  # MOAR correct, baseline wrong
+        base_better = 0  # baseline correct, MOAR wrong
+        both_right = 0
+        both_wrong = 0
+        for key, m_hard in moar_map.items():
+            if key not in b_map:
+                continue
+            b_hard = b_map[key]
+            if m_hard and not b_hard:
+                moar_better += 1
+            elif not m_hard and b_hard:
+                base_better += 1
+            elif m_hard and b_hard:
+                both_right += 1
+            else:
+                both_wrong += 1
+
+        total = moar_better + base_better + both_right + both_wrong
+        if total == 0:
+            continue
+        net = moar_better - base_better
+        print(f"    MOAR vs {name:<20s}: "
+              f"MOAR_win={moar_better} "
+              f"{name}_win={base_better} "
+              f"both_right={both_right} "
+              f"both_wrong={both_wrong} "
+              f"net={net:+d}")
 
 
 # ── Bootstrap ────────────────────────────────────────────────

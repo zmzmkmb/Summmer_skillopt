@@ -1,0 +1,16 @@
+model,method,n_seeds,acc_mean,acc_std,acc_seeds,avg_rules,avg_selected_tokens,budget_violations
+qwen-flash,Core Only,6,63.00%,0.45%,63.0% / 63.0% / 62.5% / 62.5% / 63.5% / 63.5%,0.0,0,0
+qwen-flash,TF-IDF Top-5,6,67.00%,0.89%,66.0% / 66.0% / 68.0% / 68.0% / 67.0% / 67.0%,0.5,0,0
+qwen-flash,MOAR,6,70.67%,0.26%,71.0% / 71.0% / 70.5% / 70.5% / 70.5% / 70.5%,3.0,959,0
+qwen3.6-flash,Core Only,6,83.33%,0.52%,83.0% / 83.0% / 84.0% / 84.0% / 83.0% / 83.0%,0.0,0,0
+qwen3.6-flash,TF-IDF Top-5,6,83.17%,1.03%,82.5% / 82.5% / 84.5% / 84.5% / 82.5% / 82.5%,0.5,0,0
+qwen3.6-flash,MOAR,6,84.50%,0.00%,84.5% / 84.5% / 84.5% / 84.5% / 84.5% / 84.5%,3.0,959,0
+qwen-flash,BM25,1,73.00%,N/A,73.0%,4.5,1946.62,10
+qwen-flash,BM25,1,72.00%,N/A,72.0%,4.5,1946.62,10
+qwen-flash,BM25,1,72.50%,N/A,72.5%,4.5,1946.62,10
+qwen-flash,Greedy-Cold,1,71.00%,N/A,71.0%,5.0,1206.605,0
+qwen-flash,Greedy-Cold,1,71.50%,N/A,71.5%,5.0,1206.605,0
+qwen-flash,Greedy-Cold,1,72.00%,N/A,72.0%,5.0,1206.605,0
+qwen-flash,Greedy-Utility,1,71.50%,N/A,71.5%,5.0,1204.015,0
+qwen-flash,Greedy-Utility,1,72.00%,N/A,72.0%,5.0,1204.015,0
+qwen-flash,Greedy-Utility,1,71.50%,N/A,71.5%,5.0,1204.015,0
