@@ -49,11 +49,17 @@ def _configure_target(model_name: str):
     """根据模型名配置正确的 API endpoint."""
     _load_env()
     if "3.6" in model_name or model_name.startswith("qwen3"):
-        # MaaS token-plan
-        configure_openai_compatible(
+        # Anthropic-compatible endpoint (DashScope Anthropic)
+        from skillopt.model.anthropic_compatible_backend import (
+            chat_target as _ant_ct,
+            configure_anthropic_compatible,
+        )
+        import skillopt.model as _model
+        _model.chat_target = _ant_ct
+        configure_anthropic_compatible(
             target_base_url=os.environ.get(
                 "TARGET_OPENAI_COMPATIBLE_BASE_URL",
-                "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+                "https://dashscope.aliyuncs.com/apps/anthropic",
             ),
             target_api_key=os.environ.get("TARGET_OPENAI_COMPATIBLE_API_KEY", ""),
             target_model=model_name,

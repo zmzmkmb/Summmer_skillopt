@@ -60,10 +60,16 @@ def _load_env(path: str | None = None):
 def _configure_target(model_name: str):
     _load_env()
     if "3.6" in model_name or model_name.startswith("qwen3"):
-        configure_openai_compatible(
+        from skillopt.model.anthropic_compatible_backend import (
+            chat_target as _ant_ct,
+            configure_anthropic_compatible,
+        )
+        import skillopt.model as _model
+        _model.chat_target = _ant_ct
+        configure_anthropic_compatible(
             target_base_url=os.environ.get(
                 "TARGET_OPENAI_COMPATIBLE_BASE_URL",
-                "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+                "https://dashscope.aliyuncs.com/apps/anthropic",
             ),
             target_api_key=os.environ.get("TARGET_OPENAI_COMPATIBLE_API_KEY", ""),
             target_model=model_name,
@@ -183,7 +189,8 @@ def infer(method, skill_content, items, top_k, budget, weights, workers, **kwarg
     def _infer_one(idx: int, system: str, user: str, it: dict) -> dict:
         try:
             inf_start = time.time()
-            resp, _ = chat_target(
+            import skillopt.model as _m
+            resp, _ = _m.chat_target(
                 system, user, max_completion_tokens=512,
                 retries=2, stage="eval", timeout=60,
             )

@@ -9,6 +9,7 @@ from skillopt.model import claude_backend as _claude
 from skillopt.model import codex_backend as _codex
 from skillopt.model import minimax_backend as _minimax
 from skillopt.model import openai_compatible_backend as _openai_compat
+from skillopt.model import anthropic_compatible_backend as _anthropic_compat
 from skillopt.model import qwen_backend as _qwen
 from skillopt.model.backend_config import (  # noqa: F401
     configure_claude_code_exec,

@@ -63,10 +63,17 @@ def _load_env(path: str | None = None):
 def _configure_target(model_name: str):
     _load_env()
     if "3.6" in model_name or model_name.startswith("qwen3"):
-        configure_openai_compatible(
+        # Anthropic-compatible endpoint (DashScope Anthropic)
+        from skillopt.model.anthropic_compatible_backend import (
+            chat_target as _ant_ct,
+            configure_anthropic_compatible,
+        )
+        import skillopt.model as _model
+        _model.chat_target = _ant_ct  # monkey-patch for downstream calls
+        configure_anthropic_compatible(
             target_base_url=os.environ.get(
                 "TARGET_OPENAI_COMPATIBLE_BASE_URL",
-                "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+                "https://dashscope.aliyuncs.com/apps/anthropic",
             ),
             target_api_key=os.environ.get("TARGET_OPENAI_COMPATIBLE_API_KEY", ""),
             target_model=model_name,
@@ -100,7 +107,8 @@ def load_test_items(split: str, limit: int = 0) -> list[dict]:
 def infer_one(item: dict, system: str, user: str) -> dict:
     t0 = time.time()
     try:
-        resp, _ = chat_target(
+        import skillopt.model as _m
+        resp, _ = _m.chat_target(
             system, user, max_completion_tokens=512,
             retries=2, stage="moar_eval", timeout=60,
         )
@@ -371,8 +379,23 @@ def main():
         "dataset_sha256": dataset_sha256,
         "results": results,
     }
+    def _serialize(obj):
+        """递归转换 numpy 类型为 Python 原生类型."""
+        import numpy as _np
+        if isinstance(obj, (_np.integer,)):
+            return int(obj)
+        if isinstance(obj, (_np.floating,)):
+            return float(obj)
+        if isinstance(obj, _np.ndarray):
+            return obj.tolist()
+        if isinstance(obj, dict):
+            return {k: _serialize(v) for k, v in obj.items()}
+        if isinstance(obj, (list, tuple)):
+            return [_serialize(x) for x in obj]
+        return obj
+
     with open(out_path, "w", encoding="utf-8") as f:
-        json.dump(summary, f, ensure_ascii=False, indent=2)
+        json.dump(_serialize(summary), f, ensure_ascii=False, indent=2)
     print(f"\nSaved to: {out_path}")
 
 
