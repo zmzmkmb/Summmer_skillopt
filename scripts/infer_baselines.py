@@ -109,6 +109,7 @@ def greedy_select(relevance, utilities, costs, sims, top_k, budget, w):
 
 def infer(method, skill_content, items, top_k, budget, weights, workers, **kwargs):
     utility_file = kwargs.get("utility_file", "")
+    extra: dict = {}
     rm = RuleMemory(skill_content, method="tfidf", top_k=top_k, token_budget=budget)
     rules = [r.full_text for r in rm.dynamic_rules]
     core = rm.core_rules_text
@@ -143,9 +144,19 @@ def infer(method, skill_content, items, top_k, budget, weights, workers, **kwarg
         ut = UtilityTracker(persistence_path=utility_path)
         ut.register_rules(rules)
         frozen_utils = ut.compute_utilities("precision")
+        nonzero_count = int((frozen_utils > 0).sum())
+        if nonzero_count == 0:
+            raise ValueError(
+                f"Greedy-Utility: all {len(frozen_utils)} rule utilities are zero. "
+                "Utility file appears unpopulated — re-run build_utility.py first."
+            )
         with open(utility_path, "rb") as f:
             utility_sha256 = hashlib.sha256(f.read()).hexdigest()
-        print(f"  Loaded utilities from {utility_path} (SHA256: {utility_sha256[:16]}...)")
+        print(f"  Loaded utilities from {utility_path} "
+              f"(SHA256: {utility_sha256[:16]}..., nonzero={nonzero_count}/{len(frozen_utils)})")
+        extra["utility_file"] = utility_path
+        extra["utility_sha256"] = utility_sha256
+        extra["utility_nonzero_rules"] = nonzero_count
 
     # Phase 1: sequential rule selection (timed per query)
     t0 = time.time()
@@ -218,11 +229,7 @@ def infer(method, skill_content, items, top_k, budget, weights, workers, **kwarg
     inf_elapsed = time.time() - t_inf_start
 
     # Merge selection + inference data
-    # Token counter
-    try:
-        from skillopt.moar.tokenizer import count_tokens as _count_tokens
-    except Exception:
-        _count_tokens = None
+    from skillopt.moar.tokenizer import count_tokens as _count_tokens
 
     api_failures = 0
     per_item = []
@@ -235,7 +242,7 @@ def infer(method, skill_content, items, top_k, budget, weights, workers, **kwarg
         if sel_indices:
             sel_texts = [rules[idx] for idx in sel_indices if idx < len(rules)]
             sel_text = "\n\n".join(sel_texts)
-        sel_tokens = _count_tokens(sel_text) if _count_tokens and sel_text else len(sel_text)
+        sel_tokens = _count_tokens(sel_text) if sel_text else 0
         d.update({
             "n_rules": len(sd["sel"]),
             "selected_indices": sd["sel"],
@@ -264,7 +271,7 @@ def infer(method, skill_content, items, top_k, budget, weights, workers, **kwarg
         "sel_ms_p99": float(np.percentile(sel_ms_arr, 99)),
         "sel_ms_max": float(np.max(sel_ms_arr)),
         "api_failures": api_failures,
-        "utility_sha256": utility_sha256,
+        **extra,
     }
 
 

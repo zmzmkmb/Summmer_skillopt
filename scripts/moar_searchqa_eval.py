@@ -284,11 +284,7 @@ def main():
         print(f"  Accuracy: {hard:.4f}")
 
         # Enrich per-item dicts with correctly-matched rule selection data
-        # Token counter for selected_tokens
-        try:
-            from skillopt.moar.tokenizer import count_tokens as _count_tokens
-        except Exception:
-            _count_tokens = None
+        from skillopt.moar.tokenizer import count_tokens as _count_tokens
 
         api_failures = 0
         per_item = []
@@ -302,9 +298,8 @@ def main():
             sel_indices = d["selected_indices"]
             if sel_indices and hasattr(rm, 'dynamic_rules'):
                 dyn_rules = rm.dynamic_rules
-                sel_texts = [dyn_rules[idx].full_text for idx in sel_indices if idx < len(dyn_rules)]
-                d["selected_tokens"] = _count_tokens("\n\n".join(sel_texts)) if _count_tokens and sel_texts else sum(
-                    len(t) for t in sel_texts)
+                sel_text = "\n\n".join(dyn_rules[idx].full_text for idx in sel_indices if idx < len(dyn_rules))
+                d["selected_tokens"] = _count_tokens(sel_text) if sel_text else 0
             else:
                 d["selected_tokens"] = 0
             d["budget_violated"] = d["selected_tokens"] > args.budget
