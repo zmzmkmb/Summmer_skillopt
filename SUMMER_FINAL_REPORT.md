@@ -6,7 +6,7 @@
 >
 > **仓库**: https://github.com/zmzmkmb/Summmer_skillopt
 >
-> **结项版本**: `summer-project-final-v1.1` (commit `cf6a7ac`)
+> **结项版本**: `summer-project-final-v1.1` (commit `b6ac2a7`)
 
 ---
 
@@ -231,7 +231,7 @@
 
 | 项目 | 值 |
 |------|:--|
-| 结项 commit | `cf6a7ac` (main HEAD, 2026-08-02) |
+| 结项 commit | `b6ac2a7` (main HEAD, 2026-08-02) |
 | Python | 3.11.9 |
 | Target 模型 | qwen-flash (DashScope, `2026-07-27`) |
 | Optimizer 模型 | deepseek-v4-flash (DeepSeek, `2026-07-27`) |

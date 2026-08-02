@@ -6,6 +6,22 @@
   "date": "2026-07-29",
   "budget": 2000,
   "top_k": 5,
+  "seeds": [42, 43, 44],
+  "moar_config": {
+    "pop_size": 30,
+    "generations": 15,
+    "crossover_p": 0.90,
+    "mutation_p": 0.10,
+    "weights": [0.40, 0.30, 0.20, 0.10],
+    "selection_mode": "weighted_sum",
+    "utility_method": "precision",
+    "frozen": true
+  },
+  "tokenizer": {
+    "encoding": "cl100k_base",
+    "library": "tiktoken",
+    "note": "All methods use tiktoken cl100k_base for token counting in budget enforcement"
+  },
   "models": {
     "targetS": "qwen-flash (DashScope, openai_compatible)",
     "targetL": "qwen3.6-flash (MaaS token-plan, openai_compatible)"
@@ -13,12 +29,16 @@
   "methods": ["Core Only", "TF-IDF Top-5", "MOAR", "BM25", "Greedy-Cold", "Greedy-Utility"],
   "skill": {
     "path": "outputs/searchqa_rag/best_skill.md",
-    "sha256": "815b13fc116414ed1101b210748a0f0d5ee50bf030a2ea5eee1efa346659ee7c"
+    "sha256": "815b13fc116414ed1101b210748a0f0d5ee50bf030a2ea5eee1efa346659ee7c",
+    "chars": 13772,
+    "n_core": 1,
+    "n_dynamic": 8
   },
   "dataset": {
     "source": "searchqa_id_split",
     "split": "test (valid_unseen)",
-    "n_items": 200
+    "n_items": 200,
+    "sha256": "a2a053e848d154d74b962d39b4ee662a4832d83ea05eb5af14f9af70fff9fea0"
   },
   "files": {
     "targetS_seed42": "targetS/jos_formal_targetS_seed42_enriched.json",

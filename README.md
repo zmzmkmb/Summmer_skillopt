@@ -92,15 +92,37 @@
 ## 快速入口
 
 ```bash
-# 复现 SearchQA 最终结果
-python scripts/retrieval_ablation.py --split valid_unseen --limit 0 --methods tfidf
+# ==== 前置准备 ====
+# 1. 配置 .env（参考 .env.example）
+#    TARGET_S_OPENAI_COMPATIBLE_API_KEY=<your-key>
+# 2. 安装依赖: pip install -r requirements.txt
 
-# MOAR 对照实验
-python scripts/moar_searchqa_eval.py --skill outputs/searchqa_rag/best_skill.md --limit 500
-
-# 运行所有测试
+# ==== 运行全部测试（0 API token）====
 pytest tests/ -v
+
+# ==== 复现 MOAR 200 题 x 1 seed 正式实验 ====
+python scripts/moar_searchqa_eval.py \
+    --skill outputs/searchqa_rag/best_skill.md \
+    --target-model qwen-flash \
+    --limit 200 --seed 42 \
+    --moar-pop-size 30 --moar-generations 15 \
+    --budget 2000 --top-k 5
+
+# ==== 复现 BM25 / Greedy 基线 ====
+python scripts/infer_baselines.py --method bm25 --limit 200
+python scripts/infer_baselines.py --method greedy-cold --limit 200
+python scripts/infer_baselines.py --method greedy-util --limit 200 \
+    --utility-file artifacts/jos_experiment_v1/frozen_utility.json
+
+# ==== 汇总分析（0 API token）====
+python scripts/analyze_jos_results.py \
+    --baselines bm25,greedy-cold,greedy-util --bootstrap
+
+# ==== MOAR vs Exact 离线最优性验证（0 API token）====
+python scripts/compare_moar_exact.py --limit 200
 ```
+
+> 正式实验结果保存在 `artifacts/jos_experiment_v1/`。完整复现说明见该目录下的 `README.md`。
 
 ---
 

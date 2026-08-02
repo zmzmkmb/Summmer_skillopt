@@ -198,6 +198,7 @@ def infer(method, skill_content, items, top_k, budget, weights, workers, **kwarg
     batch_results: list[dict | None] = [None] * n_items
 
     def _infer_one(idx: int, system: str, user: str, it: dict) -> dict:
+        api_error = None
         try:
             inf_start = time.time()
             import skillopt.model as _m
@@ -206,16 +207,25 @@ def infer(method, skill_content, items, top_k, budget, weights, workers, **kwarg
                 retries=2, stage="eval", timeout=60,
             )
             inf_ms = (time.time() - inf_start) * 1000
-        except Exception:
+        except Exception as exc:
             resp = ""; inf_ms = 0
+            api_error = {"type": type(exc).__name__, "message": str(exc)[:500]}
         ev = evaluate(resp, it.get("answers", []))
-        return {
+        result = {
             "sample_id": str(it["id"]),
             "hard": int(ev["em"]),
             "predicted": ev["predicted_answer"],
             "gold": it.get("answers", []),
             "inference_ms": inf_ms,
         }
+        if api_error is not None:
+            result["status"] = "api_error"
+            result["error_type"] = api_error["type"]
+            result["error"] = api_error["message"]
+            result["hard"] = None
+        else:
+            result["status"] = "ok"
+        return result
 
     t_inf_start = time.time()
     with ThreadPoolExecutor(max_workers=workers) as ex:
@@ -253,16 +263,29 @@ def infer(method, skill_content, items, top_k, budget, weights, workers, **kwarg
             "sel_latency_ms": sd["sel_ms"],
             "inference_ms": batch_results[i]["inference_ms"],
         })
-        if d.get("predicted", "") == "":
+        if d.get("status") == "api_error":
             api_failures += 1
         per_item.append(d)
 
-    acc = float(np.mean([r["hard"] for r in per_item]))
+    n_api_failures = api_failures
+    api_error_rate = n_api_failures / n_items if n_items > 0 else 0.0
+    valid_items = [r for r in per_item if r.get("status") != "api_error" and r.get("hard") is not None]
+    n_valid = len(valid_items)
+    acc = float(np.mean([r["hard"] for r in per_item if r.get("hard") is not None]))
+    acc_valid = float(np.mean([r["hard"] for r in valid_items])) if valid_items else 0.0
     avg_r = float(np.mean([r["n_rules"] for r in per_item]))
     total_elapsed = time.time() - t0
     avg_sel_ms = float(np.mean([sd["sel_ms"] for sd in sel_data]))
     sel_ms_arr = np.array([sd["sel_ms"] for sd in sel_data])
     print(f"\n{method.upper()} {n_items} items: acc={acc:.4f}  avg_rules={avg_r:.1f}")
+    if n_api_failures > 0:
+        print(f"  API errors: {n_api_failures}/{n_items} ({api_error_rate*100:.1f}%)")
+        if n_valid > 0:
+            print(f"  Accuracy (valid only): {acc_valid:.4f} ({n_valid} samples)")
+        if api_error_rate > 0.01:
+            raise RuntimeError(
+                f"API error rate {api_error_rate*100:.1f}% exceeds 1% threshold; experiment invalid."
+            )
     print(f"  Selection: {avg_sel_ms:.1f}ms/q | Inference: {inf_elapsed:.0f}s total")
     return acc, avg_r, per_item, {
         "avg_sel_ms": avg_sel_ms,
@@ -343,6 +366,7 @@ def main():
         "skill_sha256": skill_sha256,
         "dataset_sha256": dataset_sha256,
         "budget": args.budget, "top_k": args.top_k,
+        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         **extra,
         "per_question": per_item,
     }
