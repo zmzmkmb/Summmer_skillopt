@@ -1,12 +1,12 @@
 # 暑期实训项目结项总报告
 
-> **项目**: 基于 SkillOpt 的原子化技能自演化与多目标规则选择研究
+> **项目**: LLM Agent 技能自演化的框架复现、原子化规则检索与多目标选择原型研究
 >
 > **时间**: 2026-07-13 ~ 2026-07-27（v1.1 修订: 2026-08-02）
 >
 > **仓库**: https://github.com/zmzmkmb/Summmer_skillopt
 >
-> **结项版本**: `summer-project-final-v1.1` (commit `b6ac2a7`)
+> **结项版本**: `summer-project-final-v1.1` (代码 `3fbaca9`, 正式实验 `f4ae9b4`)
 
 ---
 
@@ -29,14 +29,18 @@
 
 ---
 
-## 一、项目目标
+## 一、项目主线
 
-基于 Microsoft SkillOpt 框架，研究：
+本项目围绕 LLM Agent 技能自演化，按以下主线推进：
 
-1. LLM Agent 技能的自动化演化（反思-聚合-选择-更新循环）
-2. 原子化规则库的构建与检索（Core + Dynamic 双层架构）
-3. 有限上下文预算下的最优规则子集选择问题
-4. 跨领域技能迁移的有效性与限制
+1. **复现 SkillOpt 框架** — 在 SearchQA 上搭建完整训练管线，确立实验基线，验证框架可用性
+2. **诊断训练管线问题** — 发现并修复 Gate 假停滞、退火退化路径、MMLU-Pro pipeline bug 等关键缺陷
+3. **构建原子化规则库** — Core + Dynamic 双层架构，trigger/text 解耦，TF-IDF Top-5 检索，实现零退化
+4. **完成多领域适配** — 三个独立 adapter：SearchQA（核心）、MMLU-Pro（Law/Math/History/Philosophy）、SpreadsheetBench（工具执行）
+5. **探索 MOAR 多目标规则选择** — 基于 NSGA-II 的四目标 Pareto 优化，小规模正式验证
+6. **总结工程经验与后续方向** — 实验局限、已知问题、期刊计划
+
+其中 **SearchQA 原子化检索**是最完整、最可靠的核心成果；**MMLU-Pro** 体现问题诊断和跨领域适配能力；**MOAR** 定位为创新扩展原型，已完成小规模正式验证；**SpreadsheetBench** 定位为工具执行任务的拓展尝试，仅完成基线，不列为同等贡献。
 
 ---
 
@@ -197,10 +201,10 @@
 5. **实验复现**: 不同实验使用了不同 adapter 版本和参数
 6. **统计显著性**: 除 MOAR 200×3seed 外，多数实验为单次运行
 
-> 以下 v1.0 中的限制已在 v1.1 中解决，不再适用：
-> - ~~没有 Top-K 硬约束~~ → NSGA-II 已有 `_repair_topk()` + constraint violation 双重保证
-> - ~~使用字符数而非 tokenizer~~ → 默认 `tiktoken cl100k_base`，`_text_cost()` 统一计量
-> - ~~规则效用缺少稳定 ID 和持久化~~ → `UtilityTracker` 按规则文本 hash 做 JSON 持久化
+> 以下三项是结项后（v1.1 修订期间）完成的工程增强。代码已实现，但尚未使用统一实验条件重新验证其对 MOAR 准确率的影响：
+> - ~~Top-K 硬约束~~（原无）→ `_repair_topk()` + `_constraint_violations()` 双重保证
+> - ~~使用字符数而非 tokenizer~~（原用 `len()`）→ 默认 `tiktoken cl100k_base`，`_text_cost()` 统一计量
+> - ~~规则效用缺少稳定 ID 和持久化~~（原无）→ `UtilityTracker` 按规则文本 hash 做 JSON 持久化
 
 ---
 
@@ -229,9 +233,16 @@
 
 ## 八、版本信息
 
+> **注意**: 仓库中正式实验结果（200×3seed）运行于早期代码版本（commit `f4ae9b4` 附近），
+> 而本报告及当前代码包含 v1.1 修订期间新增的工程增强（统一 token 预算、API 错误处理、
+> CLI 参数化等）。两者不完全对应，但增强不影响已报告结论。
+
 | 项目 | 值 |
 |------|:--|
-| 结项 commit | `b6ac2a7` (main HEAD, 2026-08-02) |
+| 结项代码 commit | `3fbaca9` (main HEAD, 2026-08-02) |
+| 正式实验对应 commit | `f4ae9b4` (jos-experiment-v1 tag) |
+| 原始结项 tag | `summer-project-final-v1.0` (2026-07-27) |
+| 修订结项 tag | `summer-project-final-v1.1` (2026-08-02) |
 | Python | 3.11.9 |
 | Target 模型 | qwen-flash (DashScope, `2026-07-27`) |
 | Optimizer 模型 | deepseek-v4-flash (DeepSeek, `2026-07-27`) |
