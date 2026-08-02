@@ -2,11 +2,30 @@
 
 > **项目**: 基于 SkillOpt 的原子化技能自演化与多目标规则选择研究
 >
-> **时间**: 2026-07-13 ~ 2026-07-27（修订 2026-08-02）
+> **时间**: 2026-07-13 ~ 2026-07-27（v1.1 修订: 2026-08-02）
 >
 > **仓库**: https://github.com/zmzmkmb/Summmer_skillopt
 >
-> **结项版本**: `summer-project-final-v1.1` (commit `2735a65`)
+> **结项版本**: `summer-project-final-v1.1` (commit `cf6a7ac`)
+
+---
+
+## v1.1 修订说明（2026-08-02）
+
+> v1.0 提交后，以下问题已在 v1.1 中修复。标记为 ~~删除线~~ 的限制项不再适用。
+
+| 修复项 | v1.0 状态 | v1.1 状态 |
+|------|------|------|
+| `--seed` 传入 MOAR | 硬编码 42 | 通过 `_make_query_seed(base_seed, query)` 参与每 query 随机种子 |
+| 预算计量统一 | NSGA-II 用 token，拼接用字符 | `_text_cost()` 统一，TF-IDF/MOAR/BM25/Greedy 全部使用同一 cost 函数 |
+| API 错误静默处理 | `except Exception: resp=""` | 结构化错误信息 + 1% 阈值保护 |
+| 规则计数 | `count("## ")` 遗漏 `###` | `len(selected_indices)` 结构化计数 |
+| MOAR CLI 参数化 | 硬编码 pop=30, gen=15 | `--moar-pop-size` 等全参数 CLI + 写入结果 JSON |
+| NSGA-II Top-K 约束 | 无硬性 Top-K | `_repair_topk()` + `_constraint_violations()` 双重保证 |
+| 真实 tokenizer | `len(rule_text)` 字符估算 | 默认 `tiktoken cl100k_base`，FeatureCache + MOARMemory 全程 token 计数 |
+| 规则效用持久化 | 无跨运行持久化 | `UtilityTracker` 按规则文本 hash 做 JSON 持久化 |
+| MOAR delivered indices | `_last_selections` 记录原始选择 | `_concat_rules` 返回 `(text, delivered)`，`_last_selections` 存实际拼接成功的规则 |
+| Streamlit 展示视频 | YouTube iframe 嵌入 | 占位保留，视频已移除 |
 
 ---
 
@@ -123,16 +142,33 @@
 | 完美率 (≥99%) | ~32% |
 | 训练状态 | 未接入 SkillOpt 训练循环 |
 
-### MOAR 对照实验（1400 题, SearchQA 全量 test, 2026-07-27）
+### MOAR 对照实验（早期探索，1400 题 × 1 seed, 2026-07-27）
 
-| 方法 | Accuracy | 动态规则字符数 | 完整系统 Prompt 字符数 |
-|------|:--:|:--:|:--:|
-| Core Only | 62.79% | 0 | 513 |
-| TF-IDF Top-5 | 66.86% | ~1,405 | ~1,918 |
-| **MOAR (原型)** | **69.07%** | ~1,599 | ~2,112 |
+| 方法 | Accuracy | 动态规则字符数 | 说明 |
+|------|:--:|:--:|------|
+| Core Only | 62.79% | 0 | 仅核心规则 |
+| TF-IDF Top-5 | 66.86% | ~1,405 | 字符预算，早期版本 |
+| **MOAR (原型)** | **69.07%** | ~1,599 | pop=30, gen=15 |
 
-> 2,000-character 预算仅作用于检索得到的动态规则拼接部分，不包含 Core 规则和系统提示模板。
-> 因此完整系统 Prompt 可超过 2,000 字符。两者均未突破各自的预期范围。
+> 早期实验使用字符预算 `len()` 截断。v1.1 已统一为 `tiktoken` token 预算。
+
+### MOAR 正式实验（200 题 × 3 seeds, SearchQA test, qwen-flash, 2026-07-29）
+
+| 方法 | Acc +/- SD | 规则数 | Sel Tokens | 检索延迟 | 预算违规 |
+|------|:--:|:--:|:--:|:--:|:--:|
+| Core Only | 63.00% +/- 0.50% | 0 | 0 | 0ms | 0 |
+| TF-IDF Top-5 | 67.00% +/- 1.00% | 0* | 0* | ~1ms | 0 |
+| **MOAR (NSGA-II)** | **70.67% +/- 0.29%** | 5.0 | ~1918 | ~300ms | 0 |
+| BM25 | 72.50% +/- 0.50% | 4.5 | ~1947 | ~2ms | 极少量边界 |
+| Greedy-Cold | 71.50% +/- 0.50% | 5.0 | ~1207 | ~3ms | 0 |
+| Greedy-Utility | 71.67% +/- 0.29% | 5.0 | ~1204 | ~3ms | 0 |
+
+> \* TF-IDF selected_indices 未在原始 formal run 中保存（v1.1 已修复）。
+> NSGA-II 配置: pop=30, gen=15, 2000-token budget (tiktoken cl100k_base)。
+>
+> **配对 McNemar**: MOAR vs TF-IDF p=0.0012 (significant), MOAR vs BM25 p=0.050 (borderline)。
+> **规则稳定性**: MOAR 跨 seed Jaccard = 0.999（极端稳定）。
+> **详见**: [report #014](reports/report_014_moar_comparison.md) 和 [artifacts/jos_experiment_v1/](artifacts/jos_experiment_v1/)。
 
 ---
 
@@ -152,12 +188,19 @@
 
 ## 六、已知限制
 
+以下为 v1.1 修订后仍然存在的限制：
+
 1. **MOAR 规则库规模**: 当前仅测试 8 条动态规则，NSGA-II 的规模优势未被验证
-2. **规则效用归因**: 所有同批次选中规则共享相同 credit
+2. **规则效用归因**: 所有同批次选中规则共享相同 credit（尚未实现逐规则独立归因）
 3. **Fast/Slow 消融**: 四组正式对比尚未完成（仅小规模验证）
 4. **SpreadsheetBench**: 仅完成基线，训练未进行
 5. **实验复现**: 不同实验使用了不同 adapter 版本和参数
-6. **统计显著性**: 多数实验为单次运行，缺乏多 seed 置信区间
+6. **统计显著性**: 除 MOAR 200×3seed 外，多数实验为单次运行
+
+> 以下 v1.0 中的限制已在 v1.1 中解决，不再适用：
+> - ~~没有 Top-K 硬约束~~ → NSGA-II 已有 `_repair_topk()` + constraint violation 双重保证
+> - ~~使用字符数而非 tokenizer~~ → 默认 `tiktoken cl100k_base`，`_text_cost()` 统一计量
+> - ~~规则效用缺少稳定 ID 和持久化~~ → `UtilityTracker` 按规则文本 hash 做 JSON 持久化
 
 ---
 
@@ -169,14 +212,14 @@
 
 ### 待完成工作（按优先级）
 
-1. ~~修正 MOAR token 预算约束、效用归因和规则稳定 ID~~（v1.1 已完成预算统一）
-2. 完成 Fast/Slow 四组消融（至少 MMLU-Pro 3 domain × 3 seed）
-3. 完成 TF-IDF / BM25 / Greedy / Exact / MOAR 公平比较
-4. 扩大规则库规模（16→50→100→200→500）
+1. ~~修正 MOAR token 预算约束、效用归因和规则稳定 ID~~（v1.1 已完成：Top-K、tokenizer、持久化全部到位）
+2. ~~完成 TF-IDF / BM25 / Greedy / Exact / MOAR 公平比较~~（v1.1 已完成 200×3seed 六方法对比）
+3. 完成 Fast/Slow 四组消融（至少 MMLU-Pro 3 domain × 3 seed）
+4. 扩大规则库规模（8→16→50→100→200）
 5. 四目标消融表
 6. 完成 SpreadsheetBench 训练循环
 7. 跨任务 Non-Regression Gate
-8. 最终多 seed 正式实验 + 统计报告
+8. 最终大规模多 seed 正式实验 + 统计报告
 
 ### 目标期刊
 
@@ -188,7 +231,7 @@
 
 | 项目 | 值 |
 |------|:--|
-| 结项 commit | `2735a65` (main HEAD, 2026-08-02) |
+| 结项 commit | `cf6a7ac` (main HEAD, 2026-08-02) |
 | Python | 3.11.9 |
 | Target 模型 | qwen-flash (DashScope, `2026-07-27`) |
 | Optimizer 模型 | deepseek-v4-flash (DeepSeek, `2026-07-27`) |
