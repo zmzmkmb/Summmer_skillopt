@@ -10,7 +10,7 @@
 
 ## 🎬 Demo Video
 
-https://raw.githubusercontent.com/zmzmkmb/Summmer_skillopt/main/skillopt-assets/Summmer_skillopt_Demo_v3.mp4
+https://github.com/user-attachments/assets/a4f1fe56-dac5-44d5-a4f4-c6e1585eb6b8
 
 ---
 
