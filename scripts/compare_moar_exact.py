@@ -12,8 +12,8 @@
 
     M = w[0]·Σrel/top_k + w[1]·Σutil/top_k - w[2]·Σcost/budget - w[3]·avg_sim
 
-当前规则库仅有 8 条动态规则（256 种组合），可完全穷举。
-本脚本回答：MOAR 在 256 种组合中离最优解有多远？
+当前规则库仅有 8 条动态规则，在 Top-K=5 约束下共有 C(8,1)+...+C(8,5)=218 种合法候选子集，可完全穷举。
+本脚本回答：MOAR 在穷举最优解中离最优解有多远？
 
 用法:
     python scripts/compare_moar_exact.py \
@@ -27,6 +27,7 @@ import json
 import os
 import sys
 import time
+from math import comb
 from itertools import combinations
 
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -273,8 +274,10 @@ def main():
     )
 
     n_dyn = rm_tfidf.n_dynamic
+    actual_top_k = min(args.top_k, n_dyn)
+    total_combos = sum(comb(n_dyn, k) for k in range(1, actual_top_k + 1))
     print(f"Skill: core={rm_tfidf.n_core} dynamic={n_dyn} "
-          f"(总共 {2**n_dyn} 种组合)")
+          f"(top_k={actual_top_k}, 枚举组合数={total_combos})")
     print(f"Config: top_k={args.top_k} budget={args.budget} "
           f"weights={weights}")
     print(f"MOAR: pop={args.moar_pop_size} gen={args.moar_generations}")
@@ -418,7 +421,7 @@ def main():
     print(f"\n{'='*70}")
     print(f"  MOAR vs Exact -- 离线最优性对比 ({n_queries} 条 query)")
     print(f"{'='*70}")
-    print(f"  规则数: {n_dyn}（{2**n_dyn} 种组合，可穷举）")
+    print(f"  规则数: {n_dyn}（top_k={actual_top_k}, 枚举组合数={total_combos}）")
     print(f"  Cost 模式: {cost_mode}")
     print(f"")
 
@@ -475,9 +478,12 @@ def main():
     print(f"       MOAR 先进化多目标 Pareto 前沿再用加权和选一个。")
     print(f"       两者过程不同——M_moar 是事后标量化，不是 NSGA-II 直接")
     print(f"       优化的目标。因此差距反映的是多目标 vs 单目标的路径差异。")
-    print(f"    3) 对于 n=8 规则库，Exact 穷举 256 种组合仅需 ~20ms，")
-    print(f"       比 MOAR 更快且保证标量最优。规则数增至 16+ 时，")
-    print(f"       穷举 O(2^n) 不可行，MOAR 将体现搜索效率优势。")
+    print(f"    3) 在 Top-K 约束下，精确搜索需枚举 C(n,1)+...+C(n,K)="
+          f"{total_combos} 个候选子集（而非全部 2^{n_dyn}={2**n_dyn} 种）。")
+    print(f"       n={n_dyn} 时穷举仅需 ~20ms，比 MOAR 的 ~2000ms 更快。")
+    print(f"       但随着 n 和 K 增大，组合数快速增长——例如 n=16,K=5 时")
+    print(f"       已达 C(16,1)+...+C(16,5)=6884，穷举成本迅速上升，")
+    print(f"       此时 MOAR 的固定计算量优势将逐渐体现。")
     print(f"  {'='*60}")
 
     # ── 保存 ────────────────────────────────────────────────────────────────
@@ -504,7 +510,9 @@ def main():
         "skill_sha256": skill_sha256,
         "commit": commit,
         "n_dynamic_rules": n_dyn,
-        "total_combinations": 2 ** n_dyn,
+        "total_combinations": int(total_combos),
+        "total_subsets_2n": 2 ** n_dyn,
+        "top_k_constraint": actual_top_k,
         "cost_mode": cost_mode,
         "config": {
             "top_k": args.top_k,
