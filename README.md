@@ -8,6 +8,12 @@
 
 ---
 
+## 🎬 Demo Video
+
+https://raw.githubusercontent.com/zmzmkmb/Summmer_skillopt/main/skillopt-assets/Summmer_skillopt_Demo_v3.mp4
+
+---
+
 ## 实验结果总览
 
 > ⚠️ 以下结果来自不同实验阶段、adapter 版本和数据规模。各表内部条件一致，**表间不可直接横比**。
@@ -179,10 +185,6 @@ artifacts transfer across model scales, between Codex and Claude Code
 harnesses, and to nearby benchmarks without further optimization.
 
 For the full method, ablations, and per-cell results see the [paper](https://arxiv.org/abs/2605.23904); for a visual walkthrough of the loop see the [project page](https://microsoft.github.io/SkillOpt/); for deeper API / backend / benchmark docs see [`docs/`](docs/).
-
-## 🎬 Demo Video
-
-[▶ 观看 Summmer SkillOpt 展示视频](skillopt-assets/Summmer_skillopt_Demo_v3.mp4)
 
 ---
 
