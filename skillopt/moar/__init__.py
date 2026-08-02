@@ -518,7 +518,10 @@ class MOARMemory:
         if not indices:
             return ""
 
-        return self._concat_rules(indices, budget)
+        text, delivered = self._concat_rules(indices, budget)
+        # 记录实际拼接成功的规则（而非优化器原始选择）
+        self._engine._last_selections[query] = delivered
+        return text
 
     def update_utilities(self, rollout_results: list[dict]) -> None:
         """Call after each rollout batch to update per-rule utility."""
@@ -535,25 +538,28 @@ class MOARMemory:
             return self._token_counter.count(text)
         return len(text)
 
-    def _concat_rules(self, indices: list[int], budget: int) -> str:
-        """拼接选中规则文本，统一用 _text_cost 做预算截断。"""
+    def _concat_rules(self, indices: list[int], budget: int) -> tuple[str, list[int]]:
+        """拼接选中规则文本，返回 (text, delivered_indices)。
+
+        用 _text_cost 统一度量，跳过超出预算的规则。
+        不再按字符硬截断——规则超预算时直接跳过。
+        """
         rules = self._parent.dynamic_rules
         selected = sorted(indices, key=lambda i: rules[i].index)
         parts: list[str] = []
+        delivered: list[int] = []
         used = 0
         separator_cost = self._text_cost("\n\n")
         for i in selected:
             text = rules[i].full_text
             cost = self._text_cost(text)
-            if used + cost > budget:
-                if parts:
-                    break
-                # 第一条规则就超预算：硬截断
-                text = text[:max(budget - used, 1)] + "…"
-                cost = self._text_cost(text)
+            extra = separator_cost if parts else 0
+            if used + extra + cost > budget:
+                continue  # 跳过超预算规则
             parts.append(text)
-            used += cost + separator_cost
-        return "\n\n".join(parts)
+            delivered.append(i)
+            used += extra + cost
+        return "\n\n".join(parts), delivered
 
 
 def _make_query_seed(base_seed: int, query: str) -> int:

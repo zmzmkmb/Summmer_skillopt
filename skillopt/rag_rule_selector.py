@@ -108,6 +108,14 @@ class RuleMemory:
         self.method = method
         self._last_selections: dict[str, list[int]] = {}
 
+        # ── 统一 cost 函数 ────────────────────────────────────────────────
+        self._token_counter = None
+        try:
+            from skillopt.moar.tokenizer import get_counter
+            self._token_counter = get_counter("cl100k_base")
+        except Exception:
+            pass  # 回退到字符长度
+
         # Parse
         self._rules: list[Rule] = self._parse_rules(skill_content)
 
@@ -149,6 +157,15 @@ class RuleMemory:
 
     # ── Retrieval ─────────────────────────────────────────────────────────
 
+    def _text_cost(self, text: str) -> int:
+        """统一 cost 度量：tokenizer 可用时用 token 数，否则用字符数。
+
+        与 MOARMemory._text_cost 保持一致，确保所有检索方法使用同一计量。
+        """
+        if self._token_counter is not None:
+            return self._token_counter.count(text)
+        return len(text)
+
     def retrieve(
         self,
         query: str,
@@ -157,8 +174,8 @@ class RuleMemory:
     ) -> str:
         """Return top-K dynamic rules most relevant to *query*.
 
-        Returns the concatenated rule texts, truncated at token_budget
-        characters (on rule boundaries).
+        Rules are selected and concatenated under the unified token budget
+        (or character budget when no tokenizer is available).
         """
         k = top_k if top_k is not None else self.top_k
         budget = token_budget if token_budget is not None else self.token_budget
@@ -179,21 +196,22 @@ class RuleMemory:
         # Sort by original index for logical ordering
         selected = sorted(indices, key=lambda i: self._dynamic_rules[i].index)
 
-        # Concatenate with length budget, truncated at rule boundaries.
-        # If a single rule exceeds budget, truncate it to fit.
+        # Concatenate under unified cost budget (token or char).
+        # Rules that exceed remaining budget are skipped;
+        # no char-level hard truncation.
         parts: list[str] = []
         delivered: list[int] = []
         used = 0
+        separator_cost = self._text_cost("\n\n")
         for i in selected:
             text = self._dynamic_rules[i].full_text
-            if used + len(text) > budget:
-                if parts:
-                    break  # already have some rules, stop here
-                # First rule alone exceeds budget — truncate it
-                text = text[:budget] + "…"
+            cost = self._text_cost(text)
+            extra = separator_cost if parts else 0
+            if used + extra + cost > budget:
+                continue  # skip rule that doesn't fit
             parts.append(text)
             delivered.append(i)
-            used += len(text) + 2
+            used += extra + cost
 
         self._last_selections[query] = delivered
         return "\n\n".join(parts)

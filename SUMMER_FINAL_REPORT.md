@@ -152,7 +152,7 @@
 
 ## 六、已知限制
 
-1. **MOAR 规则库规模**: 当前仅测试 16 条动态规则，NSGA-II 的规模优势未被验证
+1. **MOAR 规则库规模**: 当前仅测试 8 条动态规则，NSGA-II 的规模优势未被验证
 2. **规则效用归因**: 所有同批次选中规则共享相同 credit
 3. **Fast/Slow 消融**: 四组正式对比尚未完成（仅小规模验证）
 4. **SpreadsheetBench**: 仅完成基线，训练未进行
@@ -188,7 +188,7 @@
 
 | 项目 | 值 |
 |------|:--|
-| 结项 commit | `a3eabcc` (main HEAD, 2026-08-02 修订版) |
+| 结项 commit | `d2c18be` (main HEAD, 2026-08-02) |
 | Python | 3.11.9 |
 | Target 模型 | qwen-flash (DashScope, `2026-07-27`) |
 | Optimizer 模型 | deepseek-v4-flash (DeepSeek, `2026-07-27`) |

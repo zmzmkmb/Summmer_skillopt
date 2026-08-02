@@ -13,7 +13,7 @@
   "methods": ["Core Only", "TF-IDF Top-5", "MOAR", "BM25", "Greedy-Cold", "Greedy-Utility"],
   "skill": {
     "path": "outputs/searchqa_rag/best_skill.md",
-    "sha256": "TBD"
+    "sha256": "815b13fc116414ed1101b210748a0f0d5ee50bf030a2ea5eee1efa346659ee7c"
   },
   "dataset": {
     "source": "searchqa_id_split",
