@@ -975,7 +975,8 @@
       box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
     }
 
-    .video-frame iframe {
+    .video-frame iframe,
+    .video-frame video {
       width: 100%;
       aspect-ratio: 16 / 9;
       display: block;
@@ -1867,11 +1868,14 @@
         </div>
       </div>
       <figure class="video-frame">
-        <!-- 视频已移除，占位保留。原始文件备份于 index.html.bak -->
-        <p style="text-align:center; padding:80px 0; color:#888;">🎬 展示视频位置（待更新）</p>
+        <video controls preload="metadata"
+               poster="skillopt-assets/teaser-1.png">
+          <source src="skillopt-assets/Summmer_skillopt_Demo_v3.mp4" type="video/mp4">
+          您的浏览器不支持视频播放。
+        </video>
       </figure>
       <p class="teaser-caption">
-        视频占位 — 待替换为正确的展示视频。
+        Summmer SkillOpt 暑期实训项目展示视频。
       </p>
     </section>
 
