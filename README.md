@@ -48,15 +48,34 @@
 | 执行成功率 | ~62% | — |
 | 训练循环 | 未接入 | 后续工作 |
 
-### ⑤ MOAR: 多目标原子规则选择（扩展原型）🆕
+### ⑤ MOAR: 多目标原子规则选择（正式验证）🆕
 
-| 方法 | Test Accuracy (1400 题) | 说明 |
-|------|:--:|------|
-| Core Only | 62.79% | 仅 1 条核心规则 |
-| TF-IDF Top-5 | 66.86% | 当前基线 |
-| **MOAR (NSGA-II)** | **69.07%** | 原型，待正式验证 |
+**200 题 × 3 seed 正式实验**（SearchQA test, qwen-flash, 2000-token budget, top-5）:
 
-> **MOAR 状态**: 方法原型已完成（34 个子模块测试通过，训练管线集成）。当前仅测试了 8 条动态规则——大规模规则库 + 多 seed 验证作为后续期刊工作。详见 [report #014](reports/report_014_moar_comparison.md)。
+| 方法 | Acc +/- SD | 规则数 | Sel Tokens | 检索延迟 | 预算违规 |
+|------|:--:|:--:|:--:|:--:|:--:|
+| Core Only | 63.00% +/- 0.50% | 0 | 0 | 0ms | 0 |
+| TF-IDF Top-5 | 67.00% +/- 1.00% | 0* | 0* | ~1ms | 0 |
+| **MOAR (NSGA-II)** | **70.67% +/- 0.29%** | 5.0 | ~1918 | ~300ms | 0 |
+| BM25 | 72.50% +/- 0.50% | 4.5 | ~1947 | ~2ms | 极少量边角 |
+| Greedy-Cold | 71.50% +/- 0.50% | 5.0 | ~1207 | ~3ms | 0 |
+| Greedy-Utility | 71.67% +/- 0.29% | 5.0 | ~1204 | ~3ms | 0 |
+
+> \* TF-IDF selected_indices 未在原始 formal run 中保存（已修复）。
+>
+> **配对 McNemar**: MOAR vs TF-IDF p<0.0003 (+), MOAR vs BM25 p≈0.048 (-)。
+> **规则稳定性**: MOAR 跨 seed Jaccard = 0.999（极端稳定）。
+
+| 交叉错误 | MOAR win | 对方 win | 双方对 | 双方错 | 净胜 |
+|------|:--:|:--:|:--:|:--:|:--:|
+| MOAR vs TF-IDF | 31 | 9 | 393 | 167 | +22 |
+| MOAR vs BM25 | 15 | 29 | 409 | 147 | -14 |
+| MOAR vs Greedy-Cold | 18 | 20 | 406 | 156 | -2 |
+| MOAR vs Greedy-Utility | 16 | 21 | 408 | 155 | -5 |
+
+> **MOAR 状态**: 已完成小规模正式验证。相较 TF-IDF 有稳定提升 (+3.67pp)，证明多目标规则选择优于单纯词法相关性检索。在当前小规模规则库（8 条动态规则）和 200 题实验中，BM25 与 Greedy 基线取得了略高准确率，说明 NSGA-II 暂未形成绝对性能优势。MOAR 的主要价值体现在可扩展的多目标优化框架、预算约束能力以及跨 seed 高稳定性，而非当前小规模条件下的单一准确率领先。大规模规则库验证仍属后续工作。
+>
+> 详见 [report #014](reports/report_014_moar_comparison.md) 和 [artifacts/jos_experiment_v1](artifacts/jos_experiment_v1/)。
 
 ---
 
