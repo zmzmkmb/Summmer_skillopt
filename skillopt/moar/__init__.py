@@ -420,6 +420,9 @@ class MOARMemory:
         # Store base seed for per-query determinism
         self.moar_base_seed = int(moar_base_seed)
 
+        # ── 统一 cost 函数：token 模式 vs 字符模式 ────────────────────────
+        self._token_counter = token_counter
+
         # Log tokenizer mode
         cost_kind = "tokens" if tokenizer_used else "chars"
         if self._parent.n_dynamic > 0:
@@ -523,20 +526,33 @@ class MOARMemory:
 
     # ── Helpers ─────────────────────────────────────────────────────────
 
+    def _text_cost(self, text: str) -> int:
+        """统一 cost 度量：tokenizer 可用时用 token 数，否则用字符数。
+
+        保证 NSGA-II 优化约束与最终拼接截断使用同一计量方式。
+        """
+        if self._token_counter is not None:
+            return self._token_counter.count(text)
+        return len(text)
+
     def _concat_rules(self, indices: list[int], budget: int) -> str:
-        """Build concatenated rule text from selected indices, within budget."""
+        """拼接选中规则文本，统一用 _text_cost 做预算截断。"""
         rules = self._parent.dynamic_rules
         selected = sorted(indices, key=lambda i: rules[i].index)
         parts: list[str] = []
         used = 0
+        separator_cost = self._text_cost("\n\n")
         for i in selected:
             text = rules[i].full_text
-            if used + len(text) > budget:
+            cost = self._text_cost(text)
+            if used + cost > budget:
                 if parts:
                     break
-                text = text[:budget] + "…"
+                # 第一条规则就超预算：硬截断
+                text = text[:max(budget - used, 1)] + "…"
+                cost = self._text_cost(text)
             parts.append(text)
-            used += len(text) + 2
+            used += cost + separator_cost
         return "\n\n".join(parts)
 
 

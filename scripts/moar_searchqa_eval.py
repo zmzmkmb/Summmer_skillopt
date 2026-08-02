@@ -106,17 +106,19 @@ def load_test_items(split: str, limit: int = 0) -> list[dict]:
 
 def infer_one(item: dict, system: str, user: str) -> dict:
     t0 = time.time()
+    api_error = None
     try:
         import skillopt.model as _m
         resp, _ = _m.chat_target(
             system, user, max_completion_tokens=512,
             retries=2, stage="moar_eval", timeout=60,
         )
-    except Exception:
+    except Exception as exc:
         resp = ""
+        api_error = {"type": type(exc).__name__, "message": str(exc)[:500]}
     inf_ms = (time.time() - t0) * 1000
     ev = evaluate(resp, item.get("answers", []))
-    return {
+    result = {
         "sample_id": str(item["id"]),
         "hard": int(ev["em"]),
         "predicted": ev["predicted_answer"],
@@ -124,6 +126,14 @@ def infer_one(item: dict, system: str, user: str) -> dict:
         "response_len": len(resp),
         "inference_ms": inf_ms,
     }
+    if api_error is not None:
+        result["status"] = "api_error"
+        result["error_type"] = api_error["type"]
+        result["error"] = api_error["message"]
+        result["hard"] = None  # API 失败不计入有效准确率
+    else:
+        result["status"] = "ok"
+    return result
 
 
 def build_skill_text(rm, query: str) -> tuple[str, int, int, list[int]]:
@@ -177,6 +187,14 @@ def parse_args():
     p.add_argument("--top-k", type=int, default=5)
     p.add_argument("--budget", type=int, default=2000)
     p.add_argument("--seed", type=int, default=42)
+    p.add_argument("--moar-pop-size", type=int, default=50,
+                   help="NSGA-II 种群大小 (smoke: 30, full: 50)")
+    p.add_argument("--moar-generations", type=int, default=30,
+                   help="NSGA-II 迭代代数 (smoke: 15, full: 30)")
+    p.add_argument("--moar-mutation-p", type=float, default=0.10,
+                   help="NSGA-II 变异概率")
+    p.add_argument("--moar-crossover-p", type=float, default=0.90,
+                   help="NSGA-II 交叉概率")
     p.add_argument("--out", type=str, default="")
     return p.parse_args()
 
@@ -202,6 +220,8 @@ def main():
     print(f"Loaded {len(items)} test items from {args.split}")
     print(f"Skill: {os.path.basename(args.skill)} ({len(skill_content)} chars)")
     print(f"Config: top_k={args.top_k} budget={args.budget} workers={args.workers}")
+    print(f"MOAR: pop={args.moar_pop_size} gen={args.moar_generations} "
+          f"mut_p={args.moar_mutation_p} cross_p={args.moar_crossover_p}")
     print(f"{'='*60}")
 
     # ── Build rule memories (once) ──────────────────────────────────────
@@ -216,7 +236,10 @@ def main():
     methods["TF-IDF Top-5"] = RuleMemory(skill_content, method="tfidf", **common)
     methods["MOAR"] = RuleMemory(
         skill_content, method="moar",
-        moar_pop_size=30, moar_generations=15,
+        moar_pop_size=args.moar_pop_size,
+        moar_generations=args.moar_generations,
+        moar_crossover_p=args.moar_crossover_p,
+        moar_mutation_p=args.moar_mutation_p,
         moar_utility_method="precision",
         moar_base_seed=args.seed,
         moar_frozen=True,
@@ -279,9 +302,23 @@ def main():
                [str(item["id"]) for item in items], "sample_ids misaligned — ordering bug"
 
         infer_time = time.time() - t_infer_start
-        hard = np.mean([r["hard"] for r in batch_results])
+        # 区分 API 失败和有效样本
+        n_api_failures = sum(1 for r in batch_results if r.get("status") == "api_error")
+        api_error_rate = n_api_failures / n_items if n_items > 0 else 0.0
+        valid_items = [r for r in batch_results if r.get("status") != "api_error" and r.get("hard") is not None]
+        n_valid = len(valid_items)
+        hard_all = np.mean([r["hard"] for r in batch_results if r.get("hard") is not None])
+        hard_valid = np.mean([r["hard"] for r in valid_items]) if valid_items else 0.0
         print(f"  Inference: {n_items} items, {infer_time:.0f}s ({infer_time/n_items:.1f}s/item)")
-        print(f"  Accuracy: {hard:.4f}")
+        print(f"  API errors: {n_api_failures}/{n_items} ({api_error_rate*100:.1f}%)")
+        if api_error_rate > 0.01:
+            raise RuntimeError(
+                f"API 错误率 {api_error_rate*100:.1f}% 超过 1% 阈值，实验无效。"
+                f"请检查网络、API key 和模型可用性。"
+            )
+        if n_valid > 0:
+            print(f"  Accuracy (valid only): {hard_valid:.4f} ({n_valid} samples)")
+        print(f"  Accuracy (all samples): {hard_all:.4f} ({n_items} samples)")
 
         # Enrich per-item dicts with correctly-matched rule selection data
         from skillopt.moar.tokenizer import count_tokens as _count_tokens
@@ -294,22 +331,29 @@ def main():
             d["n_rules"] = n_rules_list[i] if i < len(n_rules_list) else 0
             d["prompt_chars"] = char_counts[i] if i < len(char_counts) else 0
             d["build_ms"] = build_times[i] * 1000 if i < len(build_times) else 0
-            # Real token count for selected rules
+            # Real token count for selected rules (unified: tokenizer if available, else chars)
             sel_indices = d["selected_indices"]
             if sel_indices and hasattr(rm, 'dynamic_rules'):
                 dyn_rules = rm.dynamic_rules
                 sel_text = "\n\n".join(dyn_rules[idx].full_text for idx in sel_indices if idx < len(dyn_rules))
-                d["selected_tokens"] = _count_tokens(sel_text) if sel_text else 0
+                if hasattr(rm, '_token_counter') and rm._token_counter is not None:
+                    d["selected_tokens"] = rm._token_counter.count(sel_text) if sel_text else 0
+                else:
+                    d["selected_tokens"] = _count_tokens(sel_text) if sel_text else 0
             else:
                 d["selected_tokens"] = 0
             d["budget_violated"] = d["selected_tokens"] > args.budget
-            if d["predicted"] == "":
+            if d.get("status") == "api_error":
                 api_failures += 1
             per_item.append(d)
 
         build_ms_arr = np.array([d["build_ms"] for d in per_item])
         results[method_name] = {
-            "accuracy": float(hard),
+            "accuracy": float(hard_all),
+            "accuracy_valid_only": float(hard_valid),
+            "n_valid": n_valid,
+            "n_api_failures": n_api_failures,
+            "api_error_rate": float(api_error_rate),
             "avg_rules": float(avg_rules),
             "avg_chars": float(avg_chars),
             "avg_build_ms": float(avg_build * 1000),
@@ -371,7 +415,12 @@ def main():
         "top_k": args.top_k,
         "budget": args.budget,
         "seed": args.seed,
+        "moar_pop_size": args.moar_pop_size,
+        "moar_generations": args.moar_generations,
+        "moar_mutation_p": args.moar_mutation_p,
+        "moar_crossover_p": args.moar_crossover_p,
         "dataset_sha256": dataset_sha256,
+        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "results": results,
     }
     def _serialize(obj):

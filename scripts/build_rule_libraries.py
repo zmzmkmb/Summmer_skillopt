@@ -157,8 +157,8 @@ def main():
 
     for name, builder in builders.items():
         content = builder(skill)
-        # Count rules
-        n_rules = content.count("## Rule ")
+        # 统计所有原子规则（## 和 ### 均被解析器识别为规则）
+        n_rules = len(re.findall(r'^#{2,3} Rule \d+:', content, re.MULTILINE))
         path = os.path.join(out_dir, f"{name}.md")
         with open(path, "w", encoding="utf-8") as f:
             f.write(content)

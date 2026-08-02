@@ -141,7 +141,8 @@ class TestTopKConstraint:
                          moar_pop_size=20, moar_generations=10)
         for k in [1, 2, 3, 5]:
             result = rm.retrieve("test query", top_k=k, token_budget=5000)
-            n_rules = result.count("## ")
+            sel = rm._last_selections.get("test query", [])
+            n_rules = len(sel)
             assert n_rules <= k, f"top-K violated: {n_rules} > {k}"
 
     def test_combined_constraints(self):
@@ -149,7 +150,14 @@ class TestTopKConstraint:
                          moar_pop_size=20, moar_generations=10)
         result = rm.retrieve("extract entities from text",
                               top_k=2, token_budget=200)
-        assert len(result) <= 210 and result.count("## ") <= 2
+        sel = rm._last_selections.get("extract entities from text", [])
+        # budget=200 tokens（非字符）；tiktoken 模式下字符数可能超过 200
+        n_rules = len(sel)
+        # 验证 top-K 和预算均满足
+        assert n_rules <= 2, f"top-K violated: {n_rules} > 2"
+        if n_rules > 0:
+            total_tokens = rm._text_cost(result)
+            assert total_tokens <= 200, f"budget violated: {total_tokens} > 200"
 
 
 class TestConfigPassthrough:

@@ -70,10 +70,9 @@ def time_method(name, skill, queries, top_k, budget, weights):
                             moar_pop_size=30, moar_generations=15)
             for q in queries:
                 txt = mr.retrieve(q, top_k=top_k, token_budget=budget)
-                # Count selected dynamic rules (avoid double-count: '## Rule ' is a subset of '## ')
-                n_dyn = txt.count("## Rule ")
-                n_dyn += max(0, txt.count("## ") - n_dyn)  # non-rule ## headings
-                n_sel_list.append(n_dyn)
+                # 从检索器内部获取结构化选择数，避免 Markdown heading 计数遗漏 ### 规则
+                sel = mr._last_selections.get(q, [])
+                n_sel_list.append(len(sel))
                 n_char_list.append(len(txt))
 
         elapsed = time.time() - t0
