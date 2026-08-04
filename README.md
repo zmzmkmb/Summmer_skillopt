@@ -61,13 +61,13 @@ https://github.com/user-attachments/assets/a4f1fe56-dac5-44d5-a4f4-c6e1585eb6b8
 | 方法 | Acc +/- SD | 规则数 | Sel Tokens | 检索延迟 | 预算违规 |
 |------|:--:|:--:|:--:|:--:|:--:|
 | Core Only | 63.00% +/- 0.50% | 0 | 0 | 0ms | 0 |
-| TF-IDF Top-5 | 67.00% +/- 1.00% | 0* | 0* | ~1ms | 0 |
+| TF-IDF Top-5 | 67.00% +/- 1.00% | 4.4 | ~1876 | ~1ms | 0 |
 | **MOAR (NSGA-II)** | **70.67% +/- 0.29%** | 5.0 | ~1918 | ~300ms | 0 |
 | BM25 | 72.50% +/- 0.50% | 4.5 | ~1947 | ~2ms | 极少量边角 |
 | Greedy-Cold | 71.50% +/- 0.50% | 5.0 | ~1207 | ~3ms | 0 |
 | Greedy-Utility | 71.67% +/- 0.29% | 5.0 | ~1204 | ~3ms | 0 |
 
-> \* TF-IDF selected_indices 未在原始 formal run 中保存（已修复）。
+> \* TF-IDF selected_indices 未在原始 formal run 中保存。Token 数据由离线脚本 `scripts/compute_tfidf_tokens.py` 重新计算得出（TF-IDF 确定性算法，结果可复现）。详见 [Token 消耗分析报告](scripts/tfidf_token_report.md)。
 >
 > **配对 McNemar**: MOAR vs TF-IDF p=0.0012 (**), MOAR vs BM25 p=0.050 (*, 边界)。
 > **规则稳定性**: MOAR 跨 seed Jaccard = 0.999（极端稳定）。
@@ -82,6 +82,29 @@ https://github.com/user-attachments/assets/a4f1fe56-dac5-44d5-a4f4-c6e1585eb6b8
 > **MOAR 状态**: 已完成小规模正式验证。相较当前 TF-IDF 基线取得显著提升 (+3.67pp, McNemar p=0.0012)，证明多目标规则选择的有效性。在当前小规模规则库（8 条动态规则）和 200 题实验中，BM25 与 Greedy 基线取得了略高准确率，说明 NSGA-II 暂未形成绝对性能优势。MOAR 的主要价值体现在可扩展的多目标优化框架、预算约束能力以及跨 seed 高稳定性，而非当前小规模条件下的单一准确率领先。大规模规则库验证仍属后续工作。
 >
 > 详见 [report #014](reports/report_014_moar_comparison.md) 和 [artifacts/jos_experiment_v1](artifacts/jos_experiment_v1/)。
+
+---
+
+## 📊 Token 消耗分析：RAG 原子化检索的上下文压缩效益
+
+**核心问题：** Full Skill（完整技能文档）直接放入 Agent system prompt 需要多少 Token？通过 TF-IDF RAG 拆分成 Core（核心常驻）+ Top-K Dynamic（动态检索）能压缩多少？
+
+| 配置 | Token 数 | 字符数 | vs Full 节省 |
+|------|:--:|:--:|:--:|
+| **Full Skill**（全部规则） | **3,176** | 13,772 | —（基线） |
+| **Core Only**（仅 1 条核心格式规则） | 114 | 513 | **96.4%** ⬇️ |
+| **TF-IDF Top-5 RAG**（核心 + 检索） | **1,876** | ~1,968 | **40.9%** ⬇️ |
+
+> **测试条件：** 200 题 SearchQA valid_unseen（与 MOAR 正式实验同一 split），top_k=5，budget=2,000 tokens，tiktoken cl100k_base 编码。规则库结构：1 Core + 8 Dynamic（共 9 条原子化规则）。平均每道题选中 4.4 条动态规则。
+
+### 关键发现
+
+1. **RAG 检索将上下文压缩 40.9%**：从 3,176 → 1,876 tokens。对于按 token 计费的 LLM API，这意味着每次推理可节省约 41% 的 system prompt 开销。
+2. **Core Only 几乎不占空间**：核心格式约束仅 114 tokens（如 `<answer>` 标签规范），剩余 96% 的内容均可按需检索。
+3. **与 MOAR 成本相近**：MOAR (NSGA-II) 平均消耗 1,917 tokens，与 TF-IDF 的 1,876 tokens 接近，但 MOAR 在准确率上领先 +3.67pp（McNemar p=0.0012），证明多目标优化在同等预算下更有效地配置了 Token 资源。
+4. **扩展潜力**：当前规则库仅 9 条。当规则库扩展到百条级别时，RAG 检索的 Token 压缩率将更加显著——Full Skill 会线性膨胀，而 RAG 始终受 budget 约束。
+
+> 📄 完整数据与复现方法见 **[scripts/tfidf_token_report.md](scripts/tfidf_token_report.md)**，一键运行：`python scripts/compute_tfidf_tokens.py`
 
 ---
 
