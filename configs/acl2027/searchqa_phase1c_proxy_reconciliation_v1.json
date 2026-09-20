@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_searchqa_phase1c_proxy_reconciliation_v1",
+  "phase": "1C",
+  "scope": "No-paid paired diagnostic reconciling immutable Phase 0N offline guard summaries with immutable Phase 1B v5 SearchQA calls.",
+  "execution": {
+    "paid_api_allowed": false,
+    "formal_scaling_allowed": false,
+    "network_calls_allowed": false,
+    "held_out_answers_may_change_methods": false
+  },
+  "inputs": {
+    "phase0n_summary": "artifacts/acl2027_continual_phase0n_identity_aware_guard_reliability_v1/summary.csv",
+    "phase0n_manifest": "artifacts/acl2027_continual_phase0n_identity_aware_guard_reliability_v1/run_manifest.json",
+    "phase1b_calls": "acl2027_searchqa_phase1b_token_plan_live_pilot_v5_smoke/calls.jsonl",
+    "phase1b_summary": "acl2027_searchqa_phase1b_token_plan_live_pilot_v5_smoke/summary.json",
+    "phase1b_manifest": "acl2027_searchqa_phase1b_token_plan_live_pilot_v5_smoke/run_manifest.json"
+  },
+  "diagnostics": {
+    "paired_unit": "seed:item_id",
+    "evaluation_stage": "evaluation",
+    "primary_comparisons": [
+      ["global_only_selective_full_confirmation", "global_only_reset_comparator"],
+      ["skillopt_moar_frozen", "global_only_reset_comparator"]
+    ],
+    "metrics": ["em", "f1", "sub_em", "total_tokens", "provider_attempts"],
+    "descriptive_only": [
+      "held-out item-level method differences",
+      "guard probe decisions and token overhead",
+      "provider rejection and failure accounting",
+      "Phase 0N method/condition summaries"
+    ],
+    "development_eligible": [],
+    "decision_gate": "If mismatch is not localized without using held-out answers for tuning, stop the selective-guard superiority claim and do not scale."
+  },
+  "expected": {
+    "phase1b_evaluation_calls": 2352,
+    "phase1b_guard_probe_calls": 96,
+    "phase0n_rows": 160,
+    "phase0n_seeds": [161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180]
+  }
+}

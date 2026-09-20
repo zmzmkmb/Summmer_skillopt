@@ -1,0 +1,195 @@
+{
+  "schema_version": 1,
+  "phase_id": "TG7-tracegraph-progress-memory-runner-v1",
+  "artifact_type": "tracegraph_tg7_progress_memory_zero_step_readiness",
+  "status": "blocked_environment_readiness",
+  "task_count": 24,
+  "passed_task_count": 0,
+  "failed_task_count": 24,
+  "episodes_run": 0,
+  "actions_taken": 0,
+  "network_calls": 0,
+  "provider_calls": 0,
+  "model_calls": 0,
+  "api_calls": 0,
+  "paid_api_calls": 0,
+  "runtime_allowed_inputs": [
+    "observation",
+    "historical_actions",
+    "admissible_actions"
+  ],
+  "global_error": {
+    "error_type": "ModuleNotFoundError",
+    "error": "No module named 'alfworld'"
+  },
+  "rows": [
+    {
+      "task_identity": "e5a3b80ed4346ca02e8cc09fe5c9de08c0fff4f274eb7a3beec439865de2a771",
+      "split": "valid_seen",
+      "task_family": "pick_and_place_simple",
+      "status": "not_attempted_dependency_block",
+      "actions_taken": 0
+    },
+    {
+      "task_identity": "baa3d6f119c87ffac0ac560549dd72e80367c4d22ef01579ca4c98c2ca286e2d",
+      "split": "valid_seen",
+      "task_family": "pick_and_place_simple",
+      "status": "not_attempted_dependency_block",
+      "actions_taken": 0
+    },
+    {
+      "task_identity": "334c89e5d21123b534c0c805b0be638f1185f389365f70fb7d2967c1064cd2b1",
+      "split": "valid_seen",
+      "task_family": "pick_and_place_simple",
+      "status": "not_attempted_dependency_block",
+      "actions_taken": 0
+    },
+    {
+      "task_identity": "e6afaf8517cba9115a9faf310f8a03d93e64a77bb728134745b4b6b131e85288",
+      "split": "valid_seen",
+      "task_family": "pick_and_place_simple",
+      "status": "not_attempted_dependency_block",
+      "actions_taken": 0
+    },
+    {
+      "task_identity": "f2e84eee3901c7a77458c4a03be4dca88b54f615a0e4f05b8b53de1408af29b2",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "status": "not_attempted_dependency_block",
+      "actions_taken": 0
+    },
+    {
+      "task_identity": "c2a43fd4f9597cdcce4fc25749b6dc9f4e71e1ceab1745f1f6caa3f29227eef1",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "status": "not_attempted_dependency_block",
+      "actions_taken": 0
+    },
+    {
+      "task_identity": "8de18eeeaef7687b07de2281b09e3c37735b15fb3e4d45fd138b9dead4bd80f8",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "status": "not_attempted_dependency_block",
+      "actions_taken": 0
+    },
+    {
+      "task_identity": "f1adf02a185e43f917aa5a3c7380aec014a621ac88965551cd01645c0324b478",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "status": "not_attempted_dependency_block",
+      "actions_taken": 0
+    },
+    {
+      "task_identity": "3caad50eb002c26faf482eed9d73acf48648bb6ba44ec4d55d038bc4538a1096",
+      "split": "valid_seen",
+      "task_family": "pick_clean_then_place_in_recep",
+      "status": "not_attempted_dependency_block",
+      "actions_taken": 0
+    },
+    {
+      "task_identity": "884a6997283fa1b1ba70c79acf00d9330c7f4bde52a11ea9471fb404a39eff77",
+      "split": "valid_seen",
+      "task_family": "pick_clean_then_place_in_recep",
+      "status": "not_attempted_dependency_block",
+      "actions_taken": 0
+    },
+    {
+      "task_identity": "dc7c9c2853e3002230c9be1f078bb5d0f54988746d1a661983440ca8fc4251de",
+      "split": "valid_seen",
+      "task_family": "pick_clean_then_place_in_recep",
+      "status": "not_attempted_dependency_block",
+      "actions_taken": 0
+    },
+    {
+      "task_identity": "3ebb92a5b9ab3ce6e0c498b4539f6a209ce29e10edbc627c67e286b5ff7b9462",
+      "split": "valid_seen",
+      "task_family": "pick_clean_then_place_in_recep",
+      "status": "not_attempted_dependency_block",
+      "actions_taken": 0
+    },
+    {
+      "task_identity": "bbe6874a3fef322f070ceac5a02abd5c6ed83b5c363656d561e43657bb2807b7",
+      "split": "valid_unseen",
+      "task_family": "pick_and_place_simple",
+      "status": "not_attempted_dependency_block",
+      "actions_taken": 0
+    },
+    {
+      "task_identity": "0b0d23e7c84911ac0692a4a927102fa41e78e9c1e2b48690860574355ed35fd6",
+      "split": "valid_unseen",
+      "task_family": "pick_and_place_simple",
+      "status": "not_attempted_dependency_block",
+      "actions_taken": 0
+    },
+    {
+      "task_identity": "6cdf0205d29851e06cc263ea3cb71ae1731efd125ba40d3ad335663840387c93",
+      "split": "valid_unseen",
+      "task_family": "pick_and_place_simple",
+      "status": "not_attempted_dependency_block",
+      "actions_taken": 0
+    },
+    {
+      "task_identity": "63fe7ddf9a962c9590f5a1ce0a42a71f9ab9ee936e87dc932185269db52a351d",
+      "split": "valid_unseen",
+      "task_family": "pick_and_place_simple",
+      "status": "not_attempted_dependency_block",
+      "actions_taken": 0
+    },
+    {
+      "task_identity": "3c6fe8b09a2eb924c046776e1f1c00c4cac7d93d676505cf5bf25501b1058a64",
+      "split": "valid_unseen",
+      "task_family": "pick_two_obj_and_place",
+      "status": "not_attempted_dependency_block",
+      "actions_taken": 0
+    },
+    {
+      "task_identity": "e84b630d728bac6aa6ea5f50ea173b6e02fa742e93328ba2480b17b9f42202bc",
+      "split": "valid_unseen",
+      "task_family": "pick_two_obj_and_place",
+      "status": "not_attempted_dependency_block",
+      "actions_taken": 0
+    },
+    {
+      "task_identity": "2e4197971723b1dbbc95de0e65be051f34d2c853e6856d76daa0e1f020667433",
+      "split": "valid_unseen",
+      "task_family": "pick_two_obj_and_place",
+      "status": "not_attempted_dependency_block",
+      "actions_taken": 0
+    },
+    {
+      "task_identity": "7b3065bb6b09aa08469bf12bfe37518fd1044a19728b996211d82ab195cd24c9",
+      "split": "valid_unseen",
+      "task_family": "pick_two_obj_and_place",
+      "status": "not_attempted_dependency_block",
+      "actions_taken": 0
+    },
+    {
+      "task_identity": "bab0b933e4f1da946be2bcf3d86e2adc6e97005e24a8f52c4f986281db93d75d",
+      "split": "valid_unseen",
+      "task_family": "pick_clean_then_place_in_recep",
+      "status": "not_attempted_dependency_block",
+      "actions_taken": 0
+    },
+    {
+      "task_identity": "4de671bad18103234d4a3d33bc896986fba290388acc2f7d9a5e1ac349916c72",
+      "split": "valid_unseen",
+      "task_family": "pick_clean_then_place_in_recep",
+      "status": "not_attempted_dependency_block",
+      "actions_taken": 0
+    },
+    {
+      "task_identity": "9a4cf11fe43a7e1d543ddbf9574770368ea4dd3ea7be14adae12d9eb6ea04c5b",
+      "split": "valid_unseen",
+      "task_family": "pick_clean_then_place_in_recep",
+      "status": "not_attempted_dependency_block",
+      "actions_taken": 0
+    },
+    {
+      "task_identity": "28190eafdf30a6576279e60ac35d95fd1dddb91a382091875954fbcacc7d6cf1",
+      "split": "valid_unseen",
+      "task_family": "pick_clean_then_place_in_recep",
+      "status": "not_attempted_dependency_block",
+      "actions_taken": 0
+    }
+  ]
+}

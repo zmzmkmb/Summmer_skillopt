@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase3f_contract_control_redesign_v1",
+  "status": "zero_network_design_only_not_authorized",
+  "objective": "Repair Phase 3D's response-schema mismatch and invalid bridge-family negative control before retesting selective historical-skill inheritance.",
+  "bindings": {
+    "phase3d_strict_fingerprint": "501f57df97267d3dae84fa953e0652102e5d003572d9e40c58d8a50010e22b29",
+    "phase3d_diagnostic_fingerprint": "b90e0659a9936da215e0d47c34a418a91267070d9e0f28573d008d46d6846ddb",
+    "phase3e_control_audit_fingerprint": "ca9b53061590b7d11f45a355a4e19b177806e8366707a70ceb4e8005c5eb26e7",
+    "source_files": {
+      "candidate_source_module_sha256": "2fb3f5270134118e0df45b397d937c9f407a3b80bf691aa04ae3e10cd0994386",
+      "phase3d_diagnostic_sha256": "34c052082da4be7b7ae8df66fd315e1154b38fb6d9d384664214311cdbba71d9",
+      "phase3d_strict_sha256": "54ae4318f7e3272e979dcc1c78a117ff7d8a5bb0c192672aa25adec683ae3b98",
+      "phase3e_audit_sha256": "c8ce0a475ef1c5874644ac54cc870a15db51ee261ab5347d0eb1e2fc03fadc25",
+      "preflight_source_sha256": "513d47b6643f3846dd7ccb24cb85b82cd1620bf927e39e4934a5385e45fbb5f1",
+      "preflight_test_sha256": "e6c65a3a404e23735659e5cdf353969993e446d79a90c83d6e620604d8c85133",
+      "v17_prior_bundles_sha256": "f4de47c538fedf1d28ecba8c07d8f4605f7fff4be1e8e300634c7af273a6d63d"
+    }
+  },
+  "design": {
+    "target_families": ["attribute_comparison", "bridge_attribute_comparison"],
+    "tasks_per_family": 20,
+    "conditions": ["cold", "global_only", "contextual_single", "irrelevant_single", "dual_contextual_first", "dual_irrelevant_first"],
+    "irrelevant_family_map": {
+      "attribute_comparison": "bridge_attribute_comparison",
+      "bridge_attribute_comparison": "fact_retrieval"
+    },
+    "control_validity_rule": "The irrelevant candidate must not supply the target family's required intermediate operation; bridge_attribute_comparison requires an entity bridge and fact_retrieval contains no entity-bridge operation.",
+    "new_task_ids_required": true,
+    "full_prior_identity_scan_required": true
+  },
+  "response_contract": {
+    "exact_keys": ["skill_assessments", "selected_skill_id", "intermediate_operation", "final_answer"],
+    "skill_assessments": "object mapping every candidate ID to exactly {applicable: boolean}; keys equal the presented candidate-ID set",
+    "selected_skill_id": "one presented candidate ID or none",
+    "intermediate_operation": "non-empty short operation label, not chain-of-thought",
+    "final_answer": "non-empty short answer"
+  },
+  "analysis_plan": {
+    "positive_gate": {
+      "contextual_single_correct_selection_rate_at_least": 0.75,
+      "irrelevant_single_rejection_rate_at_least": 0.75,
+      "each_family_irrelevant_single_rejection_rate_at_least": 0.70,
+      "dual_correct_selection_rate_at_least": 0.70,
+      "dual_wrong_selection_rate_at_most": 0.10,
+      "dual_order_effect_absolute_difference_at_most": 0.15,
+      "contextual_vs_irrelevant_operation_change_rate_at_least": 0.30,
+      "contextual_vs_irrelevant_normalized_answer_change_rate_at_least": 0.10,
+      "contextual_alias_net_wins_over_irrelevant_at_least": 2,
+      "contextual_alias_net_loss_vs_cold_at_most": 1
+    },
+    "negative_gate": {
+      "contextual_single_correct_selection_rate_below": 0.50,
+      "or_irrelevant_single_rejection_rate_below": 0.50,
+      "or_dual_wrong_selection_rate_at_least_dual_correct_selection_rate": true
+    },
+    "inconclusive_gate": "Any complete result satisfying neither frozen gate.",
+    "stop_rule": "Do not cross-domain scale unless the complete positive specificity-and-answer-mediation gate passes; selector success without answer mediation requires redesign, not scale-up.",
+    "no_posthoc_regating": true
+  },
+  "future_execution_proposal": {
+    "status": "not_authorized",
+    "authorization_artifact_created": false,
+    "fresh_explicit_authorization_required": true
+  },
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "model_calls_allowed": false,
+    "paid_api_allowed": false,
+    "formal_scaling_allowed": false
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase1s_development_method_effect_live_v2",
+  "phase": "1S",
+  "title": "Zero-network response-contract resilience preflight",
+  "status": "planned",
+  "objective": "Repair Phase 1S execution semantics so known-usage response-contract failures remain visible per-call invalid outcomes without weakening the frozen scientific response schemas.",
+  "execution": {
+    "protocol_only": true,
+    "paid_api_allowed": false,
+    "network_calls_allowed": false,
+    "provider_calls_authorized": 0,
+    "formal_scaling_allowed": false,
+    "model_id": "qwen3.7-plus",
+    "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+    "endpoint_class": "token_plan_user_confirmed",
+    "api_key_env": "DASHSCOPE_API_KEY",
+    "temperature": 0,
+    "enable_thinking": false,
+    "request_body_forbidden_keys": ["max_tokens"],
+    "max_provider_attempts_per_logical_call": 1,
+    "sdk_max_retries": 0,
+    "explicit_retries": 0,
+    "request_interval_seconds": 1.0,
+    "logical_calls": 192,
+    "physical_requests": 192,
+    "continuable_per_call_outcomes": [
+      "malformed_json_with_known_usage",
+      "response_contract_failure_with_known_usage"
+    ],
+    "terminal_hard_stops": [
+      "unknown_usage",
+      "provider_exception",
+      "request_plan_drift",
+      "call_count_drift",
+      "authorization_drift",
+      "accounting_ceiling_reached"
+    ]
+  },
+  "immutable_request_plan": {
+    "path": "artifacts/acl2027_phase1r_development_runner_preflight_v1/request_plan.json",
+    "file_sha256": "11eeee3cd21e27c52cfeb17501ad66dfe240747ea328b44e34d367b89f2cbd7e",
+    "stable_sha256": "9eeb21f0a40460deb4db4d480dce3f8bc5f329a2ea3ba98b6d730f3f1391cd41",
+    "logical_calls": 192,
+    "candidate_calls": 96,
+    "fallback_calls": 96,
+    "unique_request_bodies": 52,
+    "response_reuse_across_condition_cells": false
+  },
+  "terminal_v1_binding": {
+    "config": {
+      "path": "configs/acl2027/phase1s_development_method_effect_live_v1.json",
+      "sha256": "ecc271f84132f530f431c3f62fbf96fd59447c11d992eefe9db80d4d9788e8bb"
+    },
+    "request_plan": {
+      "path": "artifacts/acl2027_phase1s_development_method_effect_live_v1/request_plan.json",
+      "sha256": "11eeee3cd21e27c52cfeb17501ad66dfe240747ea328b44e34d367b89f2cbd7e"
+    },
+    "run_manifest": {
+      "path": "artifacts/acl2027_phase1s_development_method_effect_live_v1/run_manifest.json",
+      "sha256": "289f5567c07bfe225a0cef59feeadc32244d9c7540103eef34669535d8e8553d"
+    },
+    "results": {
+      "path": "artifacts/acl2027_phase1s_development_method_effect_live_v1/results.jsonl",
+      "sha256": "3509d61a10d8ec86614f726f786e04faeeb7d5f8216c28c1a39bf25c344dd106"
+    },
+    "resumable": false,
+    "spent_call_reused": false
+  },
+  "normalization_contract": {
+    "operations_in_order": [
+      "remove_one_leading_unicode_bom",
+      "strip_outer_ascii_and_unicode_whitespace",
+      "remove_one_complete_outer_markdown_json_fence",
+      "strip_outer_ascii_and_unicode_whitespace"
+    ],
+    "forbidden": [
+      "field_renaming",
+      "field_insertion",
+      "field_deletion",
+      "type_coercion",
+      "answer_repair",
+      "schema_relaxation"
+    ],
+    "raw_provider_text_preserved_exactly": true,
+    "normalized_text_preserved": true
+  },
+  "response_contract": {
+    "source": "scripts/run_acl2027_phase1r_development.py::validate_response_contract",
+    "schema_unchanged": true,
+    "invalid_outputs_count_scientifically": true,
+    "invalid_outputs_are_not_silently_excluded": true
+  },
+  "cost_control": {
+    "currency": "CNY",
+    "accounting_ceiling": 200.0,
+    "accounting_ceiling_is_request_parameter": false,
+    "max_tokens_is_cost_control": false
+  },
+  "authorization_gate": {
+    "status": "closed_preflight_only",
+    "new_explicit_authorization_required": true,
+    "qwen3.8_max_allowed": false,
+    "legacy_24_40_batch_allowed": false,
+    "staged_384_calls_allowed": false,
+    "full_960_calls_allowed": false
+  },
+  "decision_gate": {
+    "pass": "The same 192-call plan and terminal v1 hashes validate; raw text is preserved; valid, abstaining, malformed, wrong-type, unknown-usage, resume, and drift simulations behave exactly as declared; and no network or paid call occurs.",
+    "scientific_scope": "Execution repair only. Invalid outputs remain negative outcomes for their condition and this preflight adds no method-effect evidence.",
+    "future_authorization": "A separately immutable live authorization config and explicit user authorization are required before any provider attempt."
+  },
+  "write_scope": [
+    "configs/acl2027/phase1s_development_method_effect_live_v2.json",
+    "scripts/run_acl2027_phase1s_development_v2.py",
+    "tests/test_acl2027_phase1s_development_v2.py",
+    "artifacts/acl2027_phase1s_development_method_effect_live_v2_preflight",
+    "paper/acl2027/results/phase1s_development_method_effect_live_v2_preflight.md",
+    "paper/acl2027/CONTRIBUTION_EVIDENCE_LEDGER.md",
+    "paper/acl2027/experiment_state.json"
+  ]
+}

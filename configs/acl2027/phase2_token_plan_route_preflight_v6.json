@@ -1,0 +1,40 @@
+{
+  "schema_version": 6,
+  "experiment": "acl2027_phase2_token_plan_route_preflight_v6",
+  "phase": "2",
+  "status": "preflight_only_closed",
+  "parent_v4": {
+    "aggregate_fingerprint": "17752bb2d26f38e253c91a5f789654dad209eb6c16a1dd68203a942fa354e8d9",
+    "manifest_path": "artifacts/acl2027_phase2_staged_live_runner_preflight_v4/run_manifest.json"
+  },
+  "preserved_v5": {
+    "ledger_path": "artifacts/acl2027_phase2_calibration_live_v5/ledger.json",
+    "ledger_sha256": "f72293dd2011300f606670aacd433b1674b45901c3c3f355aeeba5b2b517cb4e",
+    "status": "terminal_not_resumable"
+  },
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "paid_api_allowed": false,
+    "qwen_authorization_open": false,
+    "formal_scaling_allowed": false
+  },
+  "token_plan_route": {
+    "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+    "api_key_env": "DASHSCOPE_API_KEY",
+    "model_id": "qwen3.7-plus",
+    "temperature": 0,
+    "enable_thinking": false,
+    "request_interval_seconds": 1.0,
+    "retries": 0,
+    "timeout_seconds": 120,
+    "forbidden_request_keys": ["max_tokens"]
+  },
+  "future_calibration_boundary": {
+    "logical_calls": 60,
+    "max_provider_attempts": 60,
+    "stage_cost_ceiling_cny": 0.5,
+    "cumulative_cost_ceiling_cny": 0.5,
+    "forbidden_stages": ["development_acquisition", "formal_history", "probe", "held_out", "formal_scaling"]
+  }
+}

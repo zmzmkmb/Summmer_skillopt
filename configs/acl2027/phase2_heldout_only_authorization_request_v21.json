@@ -1,0 +1,57 @@
+{
+  "schema_version": 21,
+  "experiment": "acl2027_phase2_heldout_only_authorization_request_v21",
+  "authorization_id": "phase2-heldout-only-v21",
+  "status": "awaiting_fresh_explicit_user_authorization",
+  "scope": "held_out_only",
+  "authorized_stage": "held_out",
+  "requested_calls": 320,
+  "max_provider_attempts": 320,
+  "stage_call_ceiling": 320,
+  "model_id": "qwen3.7-plus",
+  "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+  "temperature": 0,
+  "retries": 0,
+  "max_tokens_present": false,
+  "enable_thinking": false,
+  "response_format": {"type": "json_object"},
+  "stage_cost_ceiling_cny": 3.50,
+  "cumulative_cost_ceiling_cny": 7.50,
+  "request_interval_seconds": 1.0,
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "paid_api_allowed": false,
+    "qwen_authorization_open": false,
+    "formal_scaling_allowed": false,
+    "authorization_opened": false
+  },
+  "user_authorization": {
+    "explicit_user_authorization_required": true,
+    "status": "not_granted_in_repository",
+    "requested_calls": 320,
+    "held_out_authorized": false,
+    "later_stages_authorized": false,
+    "formal_scaling_authorized": false,
+    "does_not_inherit_v20": true
+  },
+  "forbidden_stages": ["calibration", "development_acquisition", "formal_history", "probe", "later_phase2_stages", "formal_scaling", "qwen3.8-max"],
+  "closure_policy": {
+    "close_at_attempts": 320,
+    "close_at_stage_ceiling": true,
+    "close_at_cumulative_ceiling": true,
+    "close_on_terminal_hard_stop": true,
+    "close_before_any_forbidden_stage": true
+  },
+  "bindings": {
+    "preflight_config_sha256": "93ab4d1f3d7b6c97f943cc291e5c84155b00bcf9e6db062b9f473047f5aeb728",
+    "preflight_aggregate_fingerprint": "ad438265794ba44e5c401f757e01f547f0bce2dbfb52607e4b8399915834e630",
+    "preflight_manifest_sha256": "7f5db7bcbb9c347a459fc03829dbb28949be892788a06bba4793e2b0aca22c22",
+    "preflight_schedule_sha256": "ab3c625434fcbb89f4cb1a607a560e5b8586a2f9add345d3953b216b1db4871a",
+    "preflight_prior_bundles_sha256": "f4de47c538fedf1d28ecba8c07d8f4605f7fff4be1e8e300634c7af273a6d63d",
+    "preflight_schedule_audit_sha256": "b3a7086f509d9cae576cf8c8132025a50dd0c9b486b8c720163195d9712eb998",
+    "v4_aggregate_fingerprint": "17752bb2d26f38e253c91a5f789654dad209eb6c16a1dd68203a942fa354e8d9",
+    "v20_probe_aggregate_fingerprint": "f4707106f4575173095a7afd0a4fe39fcc7c361ee2481b1cd4ca2dcf2470cd6c"
+  },
+  "counters": {"network_calls": 0, "provider_calls": 0, "paid_api_calls": 0, "model_calls": 0}
+}

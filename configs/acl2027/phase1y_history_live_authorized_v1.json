@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase1y_history_live_authorized_v1",
+  "phase": "1Y",
+  "status": "authorized",
+  "execution": {
+    "paid_api_allowed": true,
+    "network_calls_allowed": true,
+    "provider_calls_authorized": 10,
+    "model_id": "qwen3.7-plus",
+    "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+    "api_key_env": "DASHSCOPE_API_KEY",
+    "api_key_prefix": "sk-",
+    "temperature": 0,
+    "enable_thinking": false,
+    "request_interval_seconds": 1.0,
+    "sdk_max_retries": 0,
+    "explicit_retries": 0,
+    "forbidden_request_keys": ["max_tokens"]
+  },
+  "plan_binding": {
+    "path": "artifacts/acl2027_phase1y_history_request_plan_v1/request_plan.json",
+    "file_sha256": "880c3630c03d62568bbd57d486e9e7db274f840daab732f7b6d8340a2615a957",
+    "stable_sha256": "02d387a6d768da2d66cfdda6835abb5764a0204463207a23795a8e845a6f5004"
+  },
+  "cost_control": {
+    "input_cny_per_million": 2.0,
+    "output_cny_per_million": 8.0,
+    "accounting_ceiling_cny": 0.347998,
+    "ceiling_is_request_parameter": false,
+    "max_tokens_is_cost_control": false
+  },
+  "authorization": {
+    "status": "authorized",
+    "authorized_at": "2026-08-12",
+    "authorized_calls": 10,
+    "authorized_model": "qwen3.7-plus",
+    "authorization_scope": "exact frozen plan only",
+    "no_word_or_output_token_limit_requested": true,
+    "qwen3_8_max_allowed": false,
+    "phase1z_calls_allowed": false
+  }
+}

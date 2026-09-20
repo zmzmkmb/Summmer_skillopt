@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase3h_counterfactual_answer_sensitivity_preflight_v1",
+  "status": "zero_network_design_only_not_authorized",
+  "objective": "Test whether a selected historical procedure causally grounds the final answer when target and inverse procedures have distinct preregistered, source-verifiable answers.",
+  "bindings": {
+    "phase3f_strict_fingerprint": "d797e795ba5d6318cbeb01ce8ff7187949a134679a621a673855b216e3a3d0cc",
+    "phase3f_diagnostic_fingerprint": "96e6678979361ed7b840bc0b1e80ac4ddbf1b19ebbb49ede377a3379b224d0b4",
+    "source_files": {
+      "candidate_source_module_sha256": "2fb3f5270134118e0df45b397d937c9f407a3b80bf691aa04ae3e10cd0994386",
+      "phase3f_diagnostic_sha256": "aab9cc356557f0240966c825c50a2b0e7e194091df3c0f0c9833f2345dccc64f",
+      "phase3f_strict_sha256": "d2892ce083c45ec8387674101804502fc7333f7c9843befe26a29512ef59f248",
+      "phase3g_report_sha256": "1177e0fc3a853d54438106e8210e80b18bf953bf9586ac125206e5f6e62076a5",
+      "preflight_source_sha256": "2c311f97e5ece2563ddd7cc375ea63cf524704e73f41521a08e96b79ca233cd6",
+      "preflight_test_sha256": "de9bfc00ab8ad702d16697aa2c851e2893f40f9c90d3d6bf120a21a63b433996",
+      "source_2wiki_dev_sha256": "21b0a6ffef454f887b5a7a6115db443d3476e99fefeb05d4c5fb73be01582554",
+      "v17_prior_bundles_sha256": "f4de47c538fedf1d28ecba8c07d8f4605f7fff4be1e8e300634c7af273a6d63d"
+    }
+  },
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "model_calls_allowed": false,
+    "paid_api_allowed": false,
+    "later_stage_calls_allowed": false,
+    "cross_domain_calls_allowed": false,
+    "formal_scaling_allowed": false
+  },
+  "design": {
+    "target_families": ["attribute_comparison", "bridge_attribute_comparison"],
+    "tasks_per_family": 20,
+    "logical_calls_proposed": 200,
+    "task_eligibility": "The dataset answer matches exactly one of the first two supporting entities; the other entity is a distinct inverse-procedure answer; both evidence traces are present and distinct.",
+    "new_task_ids_required": true,
+    "full_prior_identity_scan_required": true,
+    "private_gold_excluded_from_requests": true
+  },
+  "conditions": ["cold", "contextual", "incompatible_control", "dual_contextual_first", "dual_control_first"],
+  "response_contract": {
+    "exact_keys": ["skill_assessments", "selected_skill_id", "intermediate_operation", "final_answer"],
+    "skill_assessments": "candidate-ID-keyed mapping to exactly {applicable: boolean}",
+    "selected_skill_id": "the candidate actually executed, or none for cold",
+    "intermediate_operation": "short observable operation/result label, not chain-of-thought",
+    "final_answer": "non-empty short answer"
+  },
+  "analysis_plan": {
+    "primary_population": "Contract-valid contextual and incompatible-control pairs with expected candidate execution and different normalized intermediate operations.",
+    "primary_outcome": "Contextual answer matches target_answer and incompatible-control answer matches counterfactual_answer.",
+    "positive_gate": {
+      "contract_valid_rate_at_least": 0.95,
+      "contextual_target_execution_rate_at_least": 0.90,
+      "incompatible_control_execution_rate_at_least": 0.90,
+      "dual_target_selection_rate_at_least": 0.80,
+      "dual_order_effect_absolute_difference_at_most": 0.10,
+      "primary_population_tasks_at_least": 30,
+      "contextual_target_answer_rate_at_least": 0.75,
+      "control_counterfactual_answer_rate_at_least": 0.60,
+      "paired_target_to_counterfactual_grounding_rate_at_least": 0.60
+    },
+    "negative_gate": {
+      "primary_population_tasks_at_least": 30,
+      "and_paired_target_to_counterfactual_grounding_rate_below": 0.25
+    },
+    "inconclusive_gate": "Any complete result satisfying neither frozen gate, including insufficient primary-population support.",
+    "stop_rule": "Do not cross-domain or formal scale unless the positive answer-grounding gate passes; selector success alone is insufficient.",
+    "no_posthoc_regating": true
+  },
+  "future_execution_proposal": {
+    "status": "not_authorized",
+    "authorization_artifact_created": false,
+    "fresh_explicit_payload_egress_and_cost_authorization_required": true
+  }
+}

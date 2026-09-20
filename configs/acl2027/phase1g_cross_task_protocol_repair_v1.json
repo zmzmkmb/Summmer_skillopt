@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase1g_cross_task_protocol_repair_v1",
+  "phase": "1G",
+  "title": "No-paid cross-task protocol repair with stratified OfficeQA development",
+  "status": "planned",
+  "objective": "Separate retrieval, temporal aggregation, structured parsing, and deployment-gate errors before another paid smoke.",
+  "execution": {"paid_api_allowed": false, "formal_scaling_allowed": false, "network_calls_allowed": false, "provider_calls": 0, "batch_closed": true},
+  "officeqa": {
+    "split": "val",
+    "source_manifest": "data/officeqa_id_split/split_manifest.json",
+    "payload_csv": "data/officeqa_verified/officeqa_full.csv",
+    "development_count": 8,
+    "confirmation_count": 24,
+    "full_dataset_count": 246,
+    "development_samples": [
+      {"id": "UID0001", "difficulty": "hard", "document_scope": "single", "operation": "calendar_sum", "required_time_basis": "calendar", "expected_period_count": 12},
+      {"id": "UID0027", "difficulty": "hard", "document_scope": "single", "operation": "temporal_extremum", "required_time_basis": "calendar", "expected_period_count": 120},
+      {"id": "UID0039", "difficulty": "hard", "document_scope": "single", "operation": "filtered_sum", "required_time_basis": "calendar_month", "expected_period_count": null},
+      {"id": "UID0086", "difficulty": "hard", "document_scope": "single", "operation": "percent_change", "required_time_basis": "quarter_end", "expected_period_count": 2},
+      {"id": "UID0070", "difficulty": "easy", "document_scope": "multi", "operation": "range_count", "required_time_basis": "calendar_month", "expected_period_count": 12},
+      {"id": "UID0072", "difficulty": "easy", "document_scope": "multi", "operation": "percentage_point_difference", "required_time_basis": "calendar_year_end", "expected_period_count": 2},
+      {"id": "UID0217", "difficulty": "easy", "document_scope": "single", "operation": "mean", "required_time_basis": "calendar_month", "expected_period_count": 3},
+      {"id": "UID0234", "difficulty": "easy", "document_scope": "multi", "operation": "median", "required_time_basis": "calendar_month", "expected_period_count": 12}
+    ],
+    "response_contract": {"required_keys": ["answer", "evidence", "calculation"], "evidence_item_keys": ["source_path", "locator", "period", "value"], "calculation_keys": ["operation", "time_basis", "operands", "result"]}
+  },
+  "spreadsheetbench": {"split": "val", "payload_dataset": "data/spreadsheetbench_verified_400/dataset.json", "development_ids": ["45635"], "response_contract": {"required_keys": ["target_range", "edits", "explanation"], "edit_keys": ["sheet", "cell", "formula"], "coverage": "exactly one edit for every target cell"}},
+  "error_channels": ["retrieval_error", "temporal_or_aggregation_error", "structured_output_error", "workbook_execution_error", "deployment_gate_error"],
+  "parsing_policy": {"preserve_raw_text": true, "allow_json_fences": true, "trim_object_key_whitespace": true, "reject_key_collisions_after_normalization": true, "record_every_normalization": true},
+  "decision_gate": {"local_preflight_pass": "selected IDs and strata validate; malformed raw output is normalized with provenance; temporal mismatch is detected; per-cell spreadsheet edits execute and persist", "paid_smoke": "requires a new immutable config and separate user authorization", "batch": "OfficeQA 24 and SpreadsheetBench 40 remain closed"},
+  "write_scope": ["configs/acl2027/phase1g_cross_task_protocol_repair_v1.json", "skillopt/evaluation/cross_task_protocol.py", "scripts/validate_acl2027_phase1g_protocol.py", "tests/test_acl2027_phase1g_protocol.py", "artifacts/acl2027_phase1g_cross_task_protocol_repair_v1", "paper/acl2027/results/phase1g_cross_task_protocol_repair_v1.md", "paper/acl2027/experiment_state.json"]
+}

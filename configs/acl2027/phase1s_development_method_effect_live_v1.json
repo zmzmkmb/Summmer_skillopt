@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase1s_development_method_effect_live_v1",
+  "phase": "1S",
+  "title": "User-authorized Token Plan development method-effect execution",
+  "status": "in_progress",
+  "objective": "Execute the immutable Phase 1R 192-call development plan once through the user-confirmed Token Plan endpoint.",
+  "execution": {
+    "paid_api_allowed": true,
+    "network_calls_allowed": true,
+    "provider_calls_authorized": 192,
+    "formal_scaling_allowed": false,
+    "model_id": "qwen3.7-plus",
+    "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+    "endpoint_class": "token_plan_user_confirmed",
+    "api_key_env": "DASHSCOPE_API_KEY",
+    "api_key_class": "token_plan_user_confirmed",
+    "api_key_prefix": "sk-",
+    "temperature": 0,
+    "enable_thinking": false,
+    "request_body_forbidden_keys": [
+      "max_tokens"
+    ],
+    "max_provider_attempts_per_logical_call": 1,
+    "sdk_max_retries": 0,
+    "explicit_retries": 0,
+    "request_interval_seconds": 1.0,
+    "logical_calls": 192,
+    "physical_requests": 192,
+    "hard_stop_on": [
+      "unknown_usage",
+      "response_contract_failure",
+      "request_plan_drift",
+      "call_count_drift",
+      "provider_contract_drift",
+      "accounting_ceiling_reached"
+    ]
+  },
+  "immutable_request_plan": {
+    "path": "artifacts/acl2027_phase1r_development_runner_preflight_v1/request_plan.json",
+    "file_sha256": "11eeee3cd21e27c52cfeb17501ad66dfe240747ea328b44e34d367b89f2cbd7e",
+    "stable_sha256": "9eeb21f0a40460deb4db4d480dce3f8bc5f329a2ea3ba98b6d730f3f1391cd41",
+    "logical_calls": 192,
+    "candidate_calls": 96,
+    "fallback_calls": 96,
+    "unique_request_bodies": 52,
+    "response_reuse_across_condition_cells": false
+  },
+  "source_contracts": {
+    "phase1r_config": {
+      "path": "configs/acl2027/phase1r_development_runner_preflight_v1.json",
+      "sha256": "d42b0934654aacbf3e2dfdbbc0a4b0c3dc5a679b11a686d16fd54e1c53e5d138"
+    },
+    "phase1r_audit": {
+      "path": "artifacts/acl2027_phase1r_development_runner_preflight_v1/preflight_audit.json",
+      "sha256": "6e5fd2b207cde96b7c75d79eafaf7852b4e4318d0a187d437ff522f49356480e"
+    }
+  },
+  "provider_route_decision": {
+    "reviewed_at": "2026-08-11",
+    "route": "Token Plan compatible endpoint",
+    "basis": "The user explicitly confirmed on 2026-08-11 that this endpoint and key may be used for the frozen experiment and directed execution to continue.",
+    "key_reuse": true,
+    "endpoint_previously_worked": true
+  },
+  "cost_control": {
+    "currency": "CNY",
+    "accounting_ceiling": 200.0,
+    "accounting_ceiling_is_request_parameter": false,
+    "max_tokens_is_cost_control": false,
+    "pricing_region": "Beijing",
+    "pricing_reviewed_at": "2026-08-11",
+    "list_price_cny_per_million_input_tokens": 2.0,
+    "list_price_cny_per_million_output_tokens": 8.0,
+    "current_promotional_multiplier": 0.8,
+    "calibrated_input_tokens": 545086,
+    "phase1q_output_envelope_tokens": 422400,
+    "list_price_estimate_cny": 4.469372,
+    "promotional_estimate_cny": 3.5754976,
+    "conservative_input_tokens": 681358,
+    "conservative_output_tokens": 786432,
+    "conservative_list_price_estimate_cny": 7.654172,
+    "conservative_promotional_estimate_cny": 6.1233376,
+    "hard_stop_rule": "Stop before the next provider attempt when exact accumulated list-price cost reaches the accounting ceiling; never translate the ceiling into max_tokens."
+  },
+  "authorization_gate": {
+    "status": "authorized",
+    "authorized_at": "2026-08-11",
+    "authorized_calls": 192,
+    "authorized_model": "qwen3.7-plus",
+    "authorized_route": "Token Plan compatible endpoint",
+    "authorization_basis": "User stated the Token Plan route has been tested, has no issue, and instructed Codex not to delay on the route question.",
+    "qwen3.8_max_allowed": false,
+    "legacy_24_40_batch_allowed": false,
+    "staged_384_calls_allowed": false,
+    "full_960_calls_allowed": false
+  },
+  "resume_contract": {
+    "results_format": "append_only_jsonl",
+    "completed_records_must_be_exact_plan_prefix": true,
+    "duplicate_logical_call_ids_forbidden": true,
+    "terminal_failure_is_not_resumable": true,
+    "usage_fields": [
+      "input_tokens",
+      "output_tokens",
+      "total_tokens"
+    ],
+    "total_tokens_must_equal_components": true
+  },
+  "decision_gate": {
+    "pre_authorization": "The provider route, immutable request plan, retry policy, output-cap omission, exact accounting, and execution closure must pass zero-network tests.",
+    "post_execution": "Score executor-validated typed-prior, probe-representativeness, and candidate-retaining triage effects before deciding whether the ACL contribution strengthens, narrows, or changes.",
+    "scientific_scope": "This configuration review adds execution validity and cost evidence only; it does not establish a method effect."
+  },
+  "write_scope": [
+    "configs/acl2027/phase1s_development_method_effect_live_v1.json",
+    "scripts/run_acl2027_phase1s_development.py",
+    "scripts/analyze_acl2027_phase1s_development.py",
+    "tests/test_acl2027_phase1s_development.py",
+    "artifacts/acl2027_phase1s_development_method_effect_live_v1",
+    "paper/acl2027/results/phase1s_provider_eligibility_cost_review_v1.md",
+    "paper/acl2027/results/phase1s_development_method_effect_live_v1.md",
+    "paper/acl2027/CONTRIBUTION_EVIDENCE_LEDGER.md",
+    "paper/acl2027/experiment_state.json"
+  ]
+}

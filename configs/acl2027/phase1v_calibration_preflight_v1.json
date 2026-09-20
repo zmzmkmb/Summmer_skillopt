@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase1v_calibration_preflight_v1",
+  "phase": "1V",
+  "title": "Calibration request and verifier preflight",
+  "status": "planned",
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "paid_api_allowed": false,
+    "formal_scaling_allowed": false,
+    "logical_calls": 24,
+    "max_provider_attempts_per_logical_call": 1,
+    "sdk_max_retries": 0,
+    "explicit_retries": 0
+  },
+  "phase1u_binding": {
+    "config": {
+      "path": "configs/acl2027/phase1u_calibration_payload_readiness_v1.json",
+      "sha256": "46e5d38eb6c886b5b276a0aced89055c8332193a49fb7ff160cfd795e85d9dc9"
+    },
+    "payload_audit": {
+      "path": "artifacts/acl2027_phase1u_calibration_payload_readiness_v1/payload_audit.json",
+      "sha256": "6604ef63517129291aead96afaebb5e21fc6ac30931f0b4ad3350bcb90eeb41a"
+    },
+    "run_manifest": {
+      "path": "artifacts/acl2027_phase1u_calibration_payload_readiness_v1/run_manifest.json",
+      "sha256": "1bc145e4dd495efbc975a1821b998ba6077e545aae768774323a13712d2e5dff"
+    }
+  },
+  "inputs": {
+    "searchqa_calibration": {
+      "path": "data/searchqa_phase1u/calibration.json",
+      "sha256": "502d05b7709072d5951a1aa576e433c1ee398288e217dfaff3df23be898126a4",
+      "count": 12
+    },
+    "two_wiki_source": {
+      "path": "data/2wikimultihopqa_verified/source/dev.json",
+      "sha256": "21b0a6ffef454f887b5a7a6115db443d3476e99fefeb05d4c5fb73be01582554"
+    },
+    "two_wiki_aliases": {
+      "path": "data/2wikimultihopqa_verified/source/id_aliases.json",
+      "sha256": "f08ffcb6c2cefca9bdbe86b4248d6ad7a7743762d3f7264c14ff0bae85726fb6"
+    },
+    "two_wiki_calibration": {
+      "path": "data/2wikimultihopqa_verified/partitions/calibration.json",
+      "sha256": "a98479817858e4aea42435e1cdbd4eba10fcc49208105523851e7ccb9f888e29",
+      "count": 12
+    }
+  },
+  "request_contract": {
+    "order": ["SearchQA", "2WikiMultiHopQA"],
+    "model_visible_fields": ["task_family", "task_id", "messages"],
+    "evaluator_private_fields": ["answers", "answer_id", "answer_aliases", "supporting_evidence", "evidences", "evidences_id"],
+    "held_out_inputs_forbidden": true,
+    "temperature": 0
+  },
+  "response_contract": {
+    "SearchQA": {"exact_keys": ["answer"]},
+    "2WikiMultiHopQA": {"exact_keys": ["answer", "supporting_evidence"]},
+    "malformed_or_schema_invalid_with_known_usage": "record_invalid_and_continue",
+    "unknown_usage": "append_terminal_record_and_refuse_resume",
+    "resume": "exact_completed_plan_prefix_only"
+  },
+  "decision_gate": {
+    "pass": "Exactly 24 deterministic leakage-controlled requests bind to Phase 1U; strengthened selected-source checks, strict parsers, private verifiers, append-only resume, exact usage, zero retry, and terminal hard-stop simulations all pass with zero provider calls.",
+    "failure": "Keep all provider execution closed and preserve the failed preflight visibly.",
+    "provider_successor_requires_separate_authorization": true,
+    "preflight_does_not_establish_method_claim": true
+  }
+}

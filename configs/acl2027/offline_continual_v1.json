@@ -1,0 +1,28 @@
+﻿{
+  "schema_version": 1,
+  "experiment": "acl2027_phase0a_offline_continual_routing",
+  "scope": "synthetic offline instrumentation only; no downstream LLM accuracy claim",
+  "seeds": [41, 42, 43],
+  "n_rules": 32,
+  "domains": ["searchqa", "law", "health"],
+  "block_order": ["searchqa", "law", "health", "searchqa"],
+  "tasks_per_block": 30,
+  "probe_tasks_per_domain": 8,
+  "top_k": 3,
+  "budget": 170,
+  "token_target": 0.72,
+  "target_window": 20,
+  "target_sustain": 5,
+  "prior_strength": 2.0,
+  "utility_conditions": ["all-cold", "noisy", "shuffled", "adversarial"],
+  "methods": [
+    {"name": "random", "policy": "random", "credit": "none"},
+    {"name": "relevance_topk", "policy": "relevance", "credit": "none"},
+    {"name": "greedy_shared", "policy": "greedy-utility", "credit": "shared"},
+    {"name": "greedy_loo", "policy": "greedy-utility", "credit": "leave-one-out"},
+    {"name": "ucb_shared", "policy": "ucb", "credit": "shared"},
+    {"name": "thompson_shared", "policy": "thompson", "credit": "shared"},
+    {"name": "exact_utility_loo", "policy": "exact-utility", "credit": "leave-one-out"},
+    {"name": "oracle_upper_bound", "policy": "oracle", "credit": "oracle-per-rule"}
+  ]
+}

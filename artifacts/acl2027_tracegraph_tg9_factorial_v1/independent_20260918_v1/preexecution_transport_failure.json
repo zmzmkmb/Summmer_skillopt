@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "status": "failed_before_environment_import_completed",
+  "recorded_at": "2026-09-18T18:39:00+08:00",
+  "failed_unit": "tg9-v1-49c34a95f3e34f239af2.service",
+  "invocation_id": "b9b1630af3c64b0fa4d18ed8595617be",
+  "exit_status": 2,
+  "error": "ModuleNotFoundError: No module named 'gymnasium'",
+  "incorrect_executable": "/usr/bin/python3",
+  "correct_executable": ".venv-tracegraph-linux/bin/python",
+  "result_present": false,
+  "environment_reset_reached": false,
+  "episodes_run": 0,
+  "actions_taken": 0,
+  "experimental_retry": false,
+  "authorization_relay_allowed": true,
+  "reason": "The host process failed during dependency import before the runner loaded the environment builder. Preserve this failure and relay the same one-use authorization once to the verified project virtual environment."
+}

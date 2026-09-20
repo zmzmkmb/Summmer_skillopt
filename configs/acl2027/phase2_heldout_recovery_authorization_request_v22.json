@@ -1,0 +1,54 @@
+{
+  "authorization_id": "phase2-heldout-recovery-only-v22",
+  "bindings": {
+    "combined_analysis_plan_sha256": "69bf4b908efd48b6b28db25c52288ee6d9f00afc2d6cc3fc9a919c7c0ae083e3",
+    "combined_gold_sha256": "30eb07f4d89041816389a149ea4ab42cc5dc41968b2ac5d33e49ee719bdbff62",
+    "preflight_aggregate_fingerprint": "8bcd47e190bf68a00e7df10c4b9d9b3ae35dbd14a076396498cd84031f7b8306",
+    "preflight_config_sha256": "4607a75b34df9643ab70c3ae721106ef110be1a30e4b47e7b85b40d3b13d2307",
+    "preflight_manifest_sha256": "c78125849582e49ce6e6683c53558d1ff2a4a0292fd2a2d9b4fe4a9fd6164790",
+    "prior_bundles_sha256": "f4de47c538fedf1d28ecba8c07d8f4605f7fff4be1e8e300634c7af273a6d63d",
+    "recovery_schedule_sha256": "3d3ef2e767fe162c8047ed498e1d5931457b1412c7eea93a5935dc1f48549f6d",
+    "v21_provenance_audit_sha256": "8734a2cdef292c7b44a00d6d5ac1f840fc334084fe15fd6804b274d346b05bc5"
+  },
+  "cost_ceilings": {
+    "cumulative_cost_ceiling_cny": null,
+    "stage_cost_ceiling_cny": null,
+    "status": "fresh_explicit_values_required"
+  },
+  "enable_thinking": false,
+  "execution": {
+    "formal_scaling_allowed": false,
+    "network_calls_allowed": false,
+    "paid_api_allowed": false,
+    "provider_calls_allowed": false,
+    "qwen_authorization_open": false
+  },
+  "forbidden": [
+    "retry_or_resume_any_v21_spent_request",
+    "calibration",
+    "development_acquisition",
+    "formal_history",
+    "probe",
+    "later_phase2_stages",
+    "formal_scaling"
+  ],
+  "max_provider_attempts": 88,
+  "max_tokens_present": false,
+  "model_id": "qwen3.7-plus",
+  "requested_calls": 88,
+  "response_format": {
+    "type": "json_object"
+  },
+  "retries": 0,
+  "schema_version": 22,
+  "scope": "held_out_recovery_only",
+  "status": "awaiting_fresh_explicit_user_authorization",
+  "temperature": 0,
+  "user_authorization": {
+    "does_not_inherit_v21_authorization": true,
+    "explicit_user_authorization_required": true,
+    "formal_scaling_authorized": false,
+    "held_out_recovery_authorized": false,
+    "later_stages_authorized": false
+  }
+}

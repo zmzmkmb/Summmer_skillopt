@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "status": "prepared_closed_pending_fresh_exact_authorization",
+  "created_date": "2026-09-18",
+  "experiment_aggregate_fingerprint": "6006009c4d662c45d166c4ca6f3503f789e6b081ce7fca81d8cd373542442385",
+  "transport_fingerprint": "70c0dba38a1ee90290c9f8428ac3321986783e781afc212e8d14a2efc2e081eb",
+  "launcher": "scripts/start_acl2027_tg9_factorial_v2.ps1",
+  "launcher_sha256": "c93ee93e8757bf9d3acd0e00859db490e230b44a703a53d44da7f66c0b4879b6",
+  "system_awake_monitor": "scripts/monitor_acl2027_tg9_factorial_v1.ps1",
+  "system_awake_monitor_sha256": "3fb6cfecba0cf9194d432d5024262571d3e5e2bb57925ee36c04cd1c31e8b313",
+  "check_only_status": "passed",
+  "check_only_evidence": {
+    "windows_powershell_5_utf8_path": "/mnt/e/桌面/暑期实训/SummerSkillOpt",
+    "wsl_project_python_available": true,
+    "output_created": false,
+    "keeper_started": false,
+    "guardian_started": false,
+    "systemd_service_started": false
+  },
+  "guardian_selftest": "artifacts/acl2027_tracegraph_tg9_execution_candidate_v1/transport_v3_guardian_selftest_b.log",
+  "guardian_selftest_sha256": "4e47c319ee12c0c88752b64e8fad68466003e10e6f430c35d17ad717df3bdb62",
+  "guardian_selftest_result": {
+    "status": "passed",
+    "private_network": true,
+    "service_active_observed": true,
+    "system_awake_request_during_service": true,
+    "system_awake_request_released_after_service": true
+  },
+  "preserved_v1_interruption_record": "artifacts/acl2027_tracegraph_tg9_factorial_v1/independent_20260918_v1/interruption_record.json",
+  "preserved_v1_interruption_record_sha256": "5946366cd9b075faf8654bc3b963152071f838ea59588f01c3774a3878b2a971",
+  "preserved_v2_interruption_record": "artifacts/acl2027_tracegraph_tg9_factorial_v1/independent_20260918_v2/interruption_record.json",
+  "preserved_v2_interruption_record_sha256": "c0f0a080ff3e5dde427dfea39ec0b80cedf42f7417959c279fe85fd6c1d569fb",
+  "repairs": [
+    "derive the WSL repository path at runtime with wslpath under explicit UTF-8 console encodings",
+    "verify the WSL project Python before creating experiment output or background keepers",
+    "provide a zero-execution CheckOnly transport validation path",
+    "hold the Windows system-awake request while waiting for the service to become active",
+    "release the awake request only after an observed service terminates or startup times out"
+  ],
+  "corrected_launch_order": [
+    "validate fresh authorized config and receipt",
+    "derive and verify the WSL repository path and project Python",
+    "create a new independent output directory",
+    "start and verify persistent WSL keeper",
+    "acquire and verify Windows system-awake request",
+    "start the private-network systemd experiment service",
+    "verify active service, PrivateNetwork, Linux PID, keeper PID and guardian PID"
+  ],
+  "proposed_run_directory": "artifacts/acl2027_tracegraph_tg9_factorial_v1/independent_20260918_v3",
+  "execution_authorized": false,
+  "episodes_run": 0,
+  "actions_taken": 0
+}

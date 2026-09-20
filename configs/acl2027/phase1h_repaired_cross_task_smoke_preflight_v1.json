@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase1h_repaired_cross_task_smoke_preflight_v1",
+  "phase": "1H",
+  "title": "Zero-call preflight for the repaired two-family smoke",
+  "status": "planned",
+  "objective": "Freeze and audit exactly two request payloads that use the Phase 1G response contracts before any paid authorization.",
+  "execution": {
+    "default_mode": "dry-run",
+    "paid_api_allowed": false,
+    "formal_scaling_allowed": false,
+    "network_calls_allowed": false,
+    "live_execution_from_this_config": false,
+    "provider": "Token Plan OpenAI-compatible endpoint",
+    "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+    "model_id": "qwen3.6-flash",
+    "enable_thinking": false,
+    "temperature": 0,
+    "batch_closed": true
+  },
+  "data": {
+    "OfficeQA": {
+      "split": "val",
+      "source_manifest": "data/officeqa_id_split/split_manifest.json",
+      "source_manifest_sha256": "a9ef22cfd14cbeb4c792ec42d0f9969bb31449c463279e0bf6cd6cdccf042b45",
+      "payload_csv": "data/officeqa_verified/officeqa_full.csv",
+      "payload_csv_sha256": "b5eb1ce0cb343842bccb2f5b067793b4ed90e03e8bf64cb0d40d759bb768ff77",
+      "smoke_id": "UID0001",
+      "required_time_basis": "calendar",
+      "expected_period_count": 12,
+      "max_output_tokens": 1200
+    },
+    "SpreadsheetBench": {
+      "split": "val",
+      "source_manifest": "data/spreadsheetbench_id_split/split_manifest.json",
+      "source_manifest_sha256": "5d9c40cbd9cc539449a538fcd3aacbb7571b224bbc87c8bdeeb823349210978a",
+      "payload_dataset": "data/spreadsheetbench_verified_400/dataset.json",
+      "payload_dataset_sha256": "bcecaa89a005bd4e3bbe98da150a86e8062c27f262e575d5e47bd9861b3525e7",
+      "smoke_id": "45635",
+      "expected_target_range": "B5:E7",
+      "expected_target_cells": 12,
+      "max_output_tokens": 1800
+    }
+  },
+  "contracts": {
+    "phase1g_config": "configs/acl2027/phase1g_cross_task_protocol_repair_v1.json",
+    "phase1g_config_sha256": "1cc4cb092a8f9875bda2f5e16ca4c1851085316d2aefcc0d4309eede4f80ad38",
+    "officeqa_required_keys": ["answer", "evidence", "calculation"],
+    "spreadsheet_required_keys": ["target_range", "edits", "explanation"],
+    "raw_response_and_normalizations_must_be_retained": true
+  },
+  "pairing": {"logical_calls": 2, "task_order": ["OfficeQA", "SpreadsheetBench"], "same_model_and_temperature": true},
+  "paper_claim_status": {
+    "typed_scoped_priors": "supported on held-out synthetic evidence; real cross-task confirmation open",
+    "sparse_probe_representativeness": "not established and remains the principal scientific risk",
+    "non_destructive_triage": "supported as semantics and synthetic behavior; real-task effectiveness open",
+    "overall_main_claim": "partially supported, not yet established"
+  },
+  "decision_gate": {
+    "preflight_pass": "exactly two payloads resolve frozen local inputs, expose the repaired schemas, contain no reference-answer or golden-formula leakage, and issue zero network calls",
+    "paid_successor": "requires a new immutable config plus separate user authorization after this preflight is reviewed",
+    "batch": "OfficeQA 24 and SpreadsheetBench 40 remain closed"
+  },
+  "write_scope": [
+    "configs/acl2027/phase1h_repaired_cross_task_smoke_preflight_v1.json",
+    "scripts/prepare_acl2027_phase1h_smoke.py",
+    "tests/test_acl2027_phase1h_smoke_preflight.py",
+    "artifacts/acl2027_phase1h_repaired_cross_task_smoke_preflight_v1",
+    "paper/acl2027/results/phase1h_repaired_cross_task_smoke_preflight_v1.md",
+    "paper/acl2027/CONTRIBUTION_EVIDENCE_LEDGER.md",
+    "paper/acl2027/experiment_state.json"
+  ]
+}

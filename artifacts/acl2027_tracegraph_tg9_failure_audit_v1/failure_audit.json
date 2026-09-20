@@ -1,0 +1,2597 @@
+{
+  "schema_version": "tg9-stage-a-tg8-failure-audit-v1",
+  "status": "complete_zero_execution_offline_audit",
+  "created_at": "2026-09-18T09:18:09.196154+00:00",
+  "scope": {
+    "source_phase": "TG8",
+    "target_phase": "TG9-Stage-A",
+    "task_family": "pick_two_obj_and_place",
+    "condition": "observable_subgoal_anti_cycle",
+    "unit_of_analysis": "task_identity",
+    "runtime_or_environment_execution": false,
+    "new_episodes": 0,
+    "new_actions": 0,
+    "network_calls": 0,
+    "provider_calls": 0,
+    "model_calls": 0,
+    "api_calls": 0,
+    "paid_calls": 0
+  },
+  "immutable_inputs": {
+    "selector": {
+      "path": "scripts/run_acl2027_tracegraph_tg8_observable_subgoal_selector_v3.py",
+      "sha256": "6aae3a8539594bdb65bdeab92f9d82c2de9ac0e287f036af1e83157751636622"
+    },
+    "analysis": {
+      "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/analysis_20260917_manual_v1/analysis.json",
+      "sha256": "da3a08f94a0a0198b0fc3ec67e0b26903d4186366c5ed7486009aae6da8f55a9"
+    },
+    "rows_dir": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows",
+    "row_count": 360,
+    "rows_manifest_sha256": "505e86cc7e0e982147dec59632457d99e4747fe332862777bf85b22a7d521252"
+  },
+  "summary": {
+    "source_rows": 360,
+    "audited_rows": 30,
+    "task_identities": 10,
+    "successful_task_identities": 0,
+    "identical_three_replicate_task_groups": 10,
+    "primary_failure_mechanism_counts": {
+      "closed_container_skill_gap": 3,
+      "object_instance_reuse": 7
+    },
+    "mechanism_flag_counts": {
+      "ledger_complete_but_env_fail": 7,
+      "closed_container_stall": 3,
+      "second_source_same_as_first_destination": 7,
+      "candidate_gap": 3,
+      "instance_reuse": 7
+    },
+    "hypothesis_status_counts": {
+      "H1_object_instance_binding": {
+        "support": 7,
+        "evidence_insufficient": 3
+      },
+      "H2_open_close_coverage": {
+        "evidence_insufficient": 7,
+        "support": 3
+      },
+      "H3_complementarity": {
+        "evidence_insufficient": 10
+      },
+      "H4_anti_cycle_not_primary_root": {
+        "support": 10
+      }
+    },
+    "all_failures_exclusively_classified": true,
+    "claim_scope": "retrospective frozen-trace mechanism diagnosis; not a causal factorial result"
+  },
+  "task_audits": [
+    {
+      "task_identity": "18c0713158588e50e893f22c28ddcdd1c3fabd4791d58eeb61ea0747b11e20a2",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "template_key": "pick_two_obj_and_place-Pan-None-CounterTop",
+      "gamefile_sha256": "2527ef2801bc2f05aa593823c82b957d63993237d15849a5e16afb933754faf1",
+      "condition": "observable_subgoal_anti_cycle",
+      "environment_success": false,
+      "target_object_type": "pan",
+      "target_destination_type": "countertop",
+      "first_divergence": {
+        "step": 20,
+        "reason": "second_pickup_reused_first_placed_instance",
+        "selected_action": "take pan 1 from countertop 1",
+        "pending_subgoal_id": "pickup_2",
+        "completed_subgoal_ids": [
+          "search_source_1",
+          "pickup_1",
+          "search_destination_1",
+          "put_1",
+          "search_source_2"
+        ],
+        "unresolved_subgoal_ids": [
+          "pickup_2",
+          "search_destination_2",
+          "put_2"
+        ]
+      },
+      "first_round": {
+        "slot": 1,
+        "pickup_step": 17,
+        "pickup_action": "take pan 1 from stoveburner 2",
+        "object_instance_signature": "pan#1",
+        "source_signature": "stoveburner#2",
+        "put_step": 19,
+        "put_action": "move pan 1 to countertop 1",
+        "destination_signature": "countertop#1"
+      },
+      "second_round": {
+        "slot": 2,
+        "pickup_step": 20,
+        "pickup_action": "take pan 1 from countertop 1",
+        "object_instance_signature": "pan#1",
+        "source_signature": "countertop#1",
+        "put_step": 21,
+        "put_action": "move pan 1 to countertop 1",
+        "destination_signature": "countertop#1"
+      },
+      "second_instance_same_as_first": true,
+      "second_source_is_distinct": false,
+      "relevant_open_action_present_in_admissible": false,
+      "relevant_open_action_eligibility_rejected": false,
+      "relevant_open_events": [],
+      "final_ledger": {
+        "completed_subgoal_ids": [
+          "search_source_1",
+          "pickup_1",
+          "search_destination_1",
+          "put_1",
+          "search_source_2",
+          "pickup_2",
+          "search_destination_2",
+          "put_2"
+        ],
+        "unresolved_subgoal_ids": [],
+        "pending_subgoal_id": null
+      },
+      "mechanism_flags": {
+        "ledger_complete_but_env_fail": true,
+        "closed_container_stall": false,
+        "second_source_same_as_first_destination": true,
+        "candidate_gap": false,
+        "instance_reuse": true
+      },
+      "primary_failure_mechanism": "object_instance_reuse",
+      "hypotheses": {
+        "H1_object_instance_binding": {
+          "status": "support",
+          "evidence": "the second counted pickup reused the first placed object instance"
+        },
+        "H2_open_close_coverage": {
+          "status": "evidence_insufficient",
+          "evidence": "no task-terminal closed-destination candidate gap was observed"
+        },
+        "H3_complementarity": {
+          "status": "evidence_insufficient",
+          "evidence": "the frozen TG8 trace is observational and does not cross both TG9 factors"
+        },
+        "H4_anti_cycle_not_primary_root": {
+          "status": "support",
+          "evidence": "failure persisted under observable_subgoal_anti_cycle with a non-cycle mechanism"
+        }
+      },
+      "replicate_evidence": {
+        "replicate_count": 3,
+        "identical_trajectory": true,
+        "trajectory_sha256": "dbc67f0cd1e7902f228d27f8fd947466debcc46ac0a7dc182ba5d195460d31ec",
+        "rows": [
+          {
+            "replicate_index": 0,
+            "seed": 5211,
+            "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows/0135.json",
+            "sha256": "98c0cae2c200de202088ef9e5421bc047974f34a645a244130650b69d9857601"
+          },
+          {
+            "replicate_index": 1,
+            "seed": 5311,
+            "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows/0139.json",
+            "sha256": "491fccec8401c61e7dc2b0fceb265296bc7681ae4d70078376cb9bda86073220"
+          },
+          {
+            "replicate_index": 2,
+            "seed": 5411,
+            "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows/0142.json",
+            "sha256": "5476d1227ff479164a9844522e92a1604d907a97aeca213dded5573fa9e3ae8b"
+          }
+        ]
+      }
+    },
+    {
+      "task_identity": "3150970cd60e9aa950adcd86f04cc95818934184f5894f9259ee8d1c65f718ef",
+      "split": "valid_unseen",
+      "task_family": "pick_two_obj_and_place",
+      "template_key": "pick_two_obj_and_place-SoapBar-None-Cabinet",
+      "gamefile_sha256": "062fc4d5fd6da688fe8bca30b600ee9c31a1aa34f5e75d2f37d0b73b55c37574",
+      "condition": "observable_subgoal_anti_cycle",
+      "environment_success": false,
+      "target_object_type": "soapbar",
+      "target_destination_type": "cabinet",
+      "first_divergence": {
+        "step": 7,
+        "reason": "task_relevant_open_action_rejected",
+        "selected_action": "go to cabinet 2",
+        "pending_subgoal_id": "search_destination_1",
+        "completed_subgoal_ids": [
+          "search_source_1",
+          "pickup_1"
+        ],
+        "unresolved_subgoal_ids": [
+          "search_destination_1",
+          "put_1",
+          "search_source_2",
+          "pickup_2",
+          "search_destination_2",
+          "put_2"
+        ]
+      },
+      "first_round": {
+        "slot": 1,
+        "pickup_step": 5,
+        "pickup_action": "take soapbar 1 from countertop 1",
+        "object_instance_signature": "soapbar#1",
+        "source_signature": "countertop#1",
+        "put_step": null,
+        "put_action": null,
+        "destination_signature": null
+      },
+      "second_round": {
+        "slot": 2,
+        "pickup_step": null,
+        "pickup_action": null,
+        "object_instance_signature": null,
+        "source_signature": null,
+        "put_step": null,
+        "put_action": null,
+        "destination_signature": null
+      },
+      "second_instance_same_as_first": null,
+      "second_source_is_distinct": null,
+      "relevant_open_action_present_in_admissible": true,
+      "relevant_open_action_eligibility_rejected": true,
+      "relevant_open_events": [
+        {
+          "step": 7,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 8,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 9,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 10,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 3"
+        },
+        {
+          "step": 11,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 3",
+          "container_signature": "cabinet#3",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 12,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 13,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 14,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 15,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 3"
+        },
+        {
+          "step": 16,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 3",
+          "container_signature": "cabinet#3",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 17,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 18,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 19,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 20,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 3"
+        },
+        {
+          "step": 21,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 3",
+          "container_signature": "cabinet#3",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 22,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 23,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 24,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 25,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 3"
+        },
+        {
+          "step": 26,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 3",
+          "container_signature": "cabinet#3",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 27,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 28,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 29,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 30,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 3"
+        },
+        {
+          "step": 31,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 3",
+          "container_signature": "cabinet#3",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 32,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 33,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 34,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 35,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 3"
+        },
+        {
+          "step": 36,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 3",
+          "container_signature": "cabinet#3",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 37,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 38,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 39,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 40,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 3"
+        },
+        {
+          "step": 41,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 3",
+          "container_signature": "cabinet#3",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 42,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 43,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 44,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 45,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 3"
+        },
+        {
+          "step": 46,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 3",
+          "container_signature": "cabinet#3",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 47,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 48,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 49,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        }
+      ],
+      "final_ledger": {
+        "completed_subgoal_ids": [
+          "search_source_1",
+          "pickup_1"
+        ],
+        "unresolved_subgoal_ids": [
+          "search_destination_1",
+          "put_1",
+          "search_source_2",
+          "pickup_2",
+          "search_destination_2",
+          "put_2"
+        ],
+        "pending_subgoal_id": "search_destination_1"
+      },
+      "mechanism_flags": {
+        "ledger_complete_but_env_fail": false,
+        "closed_container_stall": true,
+        "second_source_same_as_first_destination": false,
+        "candidate_gap": true,
+        "instance_reuse": false
+      },
+      "primary_failure_mechanism": "closed_container_skill_gap",
+      "hypotheses": {
+        "H1_object_instance_binding": {
+          "status": "evidence_insufficient",
+          "evidence": "the trajectory did not reach an auditable second-object pickup"
+        },
+        "H2_open_close_coverage": {
+          "status": "support",
+          "evidence": "a task-relevant legal open action was rejected while destination search stalled"
+        },
+        "H3_complementarity": {
+          "status": "evidence_insufficient",
+          "evidence": "the frozen TG8 trace is observational and does not cross both TG9 factors"
+        },
+        "H4_anti_cycle_not_primary_root": {
+          "status": "support",
+          "evidence": "failure persisted under observable_subgoal_anti_cycle with a non-cycle mechanism"
+        }
+      },
+      "replicate_evidence": {
+        "replicate_count": 3,
+        "identical_trajectory": true,
+        "trajectory_sha256": "9054d3e767e741f58ba6970326424381919a2b2ecdce57973f8b27a3f0b06c1d",
+        "rows": [
+          {
+            "replicate_index": 0,
+            "seed": 5229,
+            "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows/0351.json",
+            "sha256": "65990946407119e39acdd830369202f2aea23f68bb97f0d3c99005e4137fe1b9"
+          },
+          {
+            "replicate_index": 1,
+            "seed": 5329,
+            "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows/0352.json",
+            "sha256": "df7c2fd7a131c98a08b61f411af2f0dda25259ac32d7513c5d569f1a307e7d09"
+          },
+          {
+            "replicate_index": 2,
+            "seed": 5429,
+            "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows/0359.json",
+            "sha256": "7509eee182be8aac3d63931a90425c02ea11fab681cc9e4491b8d0e8ec9aa159"
+          }
+        ]
+      }
+    },
+    {
+      "task_identity": "346112755c4b8a29fdc149d9ace656a4a520bfb7dc1d31c600bde5a80da5dca5",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "template_key": "pick_two_obj_and_place-SprayBottle-None-Toilet",
+      "gamefile_sha256": "8eff5d86460073fb6904eadce58b5aa6d93f20029c8391b8fa6c54e456effeac",
+      "condition": "observable_subgoal_anti_cycle",
+      "environment_success": false,
+      "target_object_type": "spraybottle",
+      "target_destination_type": "toilet",
+      "first_divergence": {
+        "step": 7,
+        "reason": "second_pickup_reused_first_placed_instance",
+        "selected_action": "take spraybottle 2 from toilet 1",
+        "pending_subgoal_id": "pickup_2",
+        "completed_subgoal_ids": [
+          "search_source_1",
+          "pickup_1",
+          "search_destination_1",
+          "put_1",
+          "search_source_2"
+        ],
+        "unresolved_subgoal_ids": [
+          "pickup_2",
+          "search_destination_2",
+          "put_2"
+        ]
+      },
+      "first_round": {
+        "slot": 1,
+        "pickup_step": 4,
+        "pickup_action": "take spraybottle 2 from shelf 1",
+        "object_instance_signature": "spraybottle#2",
+        "source_signature": "shelf#1",
+        "put_step": 6,
+        "put_action": "move spraybottle 2 to toilet 1",
+        "destination_signature": "toilet#1"
+      },
+      "second_round": {
+        "slot": 2,
+        "pickup_step": 7,
+        "pickup_action": "take spraybottle 2 from toilet 1",
+        "object_instance_signature": "spraybottle#2",
+        "source_signature": "toilet#1",
+        "put_step": 8,
+        "put_action": "move spraybottle 2 to toilet 1",
+        "destination_signature": "toilet#1"
+      },
+      "second_instance_same_as_first": true,
+      "second_source_is_distinct": false,
+      "relevant_open_action_present_in_admissible": false,
+      "relevant_open_action_eligibility_rejected": false,
+      "relevant_open_events": [],
+      "final_ledger": {
+        "completed_subgoal_ids": [
+          "search_source_1",
+          "pickup_1",
+          "search_destination_1",
+          "put_1",
+          "search_source_2",
+          "pickup_2",
+          "search_destination_2",
+          "put_2"
+        ],
+        "unresolved_subgoal_ids": [],
+        "pending_subgoal_id": null
+      },
+      "mechanism_flags": {
+        "ledger_complete_but_env_fail": true,
+        "closed_container_stall": false,
+        "second_source_same_as_first_destination": true,
+        "candidate_gap": false,
+        "instance_reuse": true
+      },
+      "primary_failure_mechanism": "object_instance_reuse",
+      "hypotheses": {
+        "H1_object_instance_binding": {
+          "status": "support",
+          "evidence": "the second counted pickup reused the first placed object instance"
+        },
+        "H2_open_close_coverage": {
+          "status": "evidence_insufficient",
+          "evidence": "no task-terminal closed-destination candidate gap was observed"
+        },
+        "H3_complementarity": {
+          "status": "evidence_insufficient",
+          "evidence": "the frozen TG8 trace is observational and does not cross both TG9 factors"
+        },
+        "H4_anti_cycle_not_primary_root": {
+          "status": "support",
+          "evidence": "failure persisted under observable_subgoal_anti_cycle with a non-cycle mechanism"
+        }
+      },
+      "replicate_evidence": {
+        "replicate_count": 3,
+        "identical_trajectory": true,
+        "trajectory_sha256": "f8a77932fba4332db180bc632e17bae266d403dfcbdf8a6a94e55ce128616975",
+        "rows": [
+          {
+            "replicate_index": 0,
+            "seed": 5210,
+            "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows/0123.json",
+            "sha256": "e509ba514172db90615899a857a445cf8a3dc15e681cb0d54d859ea24eaa316f"
+          },
+          {
+            "replicate_index": 1,
+            "seed": 5310,
+            "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows/0126.json",
+            "sha256": "2a7f6efa935c4551be71d722e27878e90ee3c868c680fb0aa956a884ba9c7bde"
+          },
+          {
+            "replicate_index": 2,
+            "seed": 5410,
+            "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows/0130.json",
+            "sha256": "8cbf9bf3f73d967557078f227a1898d96f37f048e7bb1493cf959be45b52fa4c"
+          }
+        ]
+      }
+    },
+    {
+      "task_identity": "407aa4a1ddec39401899cd967cd998b78d1b68fa12822e4eaae2fca65dd4271f",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "template_key": "pick_two_obj_and_place-Newspaper-None-Drawer",
+      "gamefile_sha256": "d675ea576b4319cc8f87c90657121705377215ba565a63a6c3d296161813a29a",
+      "condition": "observable_subgoal_anti_cycle",
+      "environment_success": false,
+      "target_object_type": "newspaper",
+      "target_destination_type": "drawer",
+      "first_divergence": {
+        "step": 27,
+        "reason": "second_pickup_reused_first_placed_instance",
+        "selected_action": "take newspaper 2 from drawer 1",
+        "pending_subgoal_id": "pickup_2",
+        "completed_subgoal_ids": [
+          "search_source_1",
+          "pickup_1",
+          "search_destination_1",
+          "put_1",
+          "search_source_2"
+        ],
+        "unresolved_subgoal_ids": [
+          "pickup_2",
+          "search_destination_2",
+          "put_2"
+        ]
+      },
+      "first_round": {
+        "slot": 1,
+        "pickup_step": 24,
+        "pickup_action": "take newspaper 2 from dresser 1",
+        "object_instance_signature": "newspaper#2",
+        "source_signature": "dresser#1",
+        "put_step": 26,
+        "put_action": "move newspaper 2 to drawer 1",
+        "destination_signature": "drawer#1"
+      },
+      "second_round": {
+        "slot": 2,
+        "pickup_step": 27,
+        "pickup_action": "take newspaper 2 from drawer 1",
+        "object_instance_signature": "newspaper#2",
+        "source_signature": "drawer#1",
+        "put_step": 28,
+        "put_action": "move newspaper 2 to drawer 4",
+        "destination_signature": "drawer#4"
+      },
+      "second_instance_same_as_first": true,
+      "second_source_is_distinct": false,
+      "relevant_open_action_present_in_admissible": false,
+      "relevant_open_action_eligibility_rejected": false,
+      "relevant_open_events": [],
+      "final_ledger": {
+        "completed_subgoal_ids": [
+          "search_source_1",
+          "pickup_1",
+          "search_destination_1",
+          "put_1",
+          "search_source_2",
+          "pickup_2",
+          "search_destination_2",
+          "put_2"
+        ],
+        "unresolved_subgoal_ids": [],
+        "pending_subgoal_id": null
+      },
+      "mechanism_flags": {
+        "ledger_complete_but_env_fail": true,
+        "closed_container_stall": false,
+        "second_source_same_as_first_destination": true,
+        "candidate_gap": false,
+        "instance_reuse": true
+      },
+      "primary_failure_mechanism": "object_instance_reuse",
+      "hypotheses": {
+        "H1_object_instance_binding": {
+          "status": "support",
+          "evidence": "the second counted pickup reused the first placed object instance"
+        },
+        "H2_open_close_coverage": {
+          "status": "evidence_insufficient",
+          "evidence": "no task-terminal closed-destination candidate gap was observed"
+        },
+        "H3_complementarity": {
+          "status": "evidence_insufficient",
+          "evidence": "the frozen TG8 trace is observational and does not cross both TG9 factors"
+        },
+        "H4_anti_cycle_not_primary_root": {
+          "status": "support",
+          "evidence": "failure persisted under observable_subgoal_anti_cycle with a non-cycle mechanism"
+        }
+      },
+      "replicate_evidence": {
+        "replicate_count": 3,
+        "identical_trajectory": true,
+        "trajectory_sha256": "994a47b0f66114ce2b019fe4713d92b46d79e892cdb99398b758ef2d6538d453",
+        "rows": [
+          {
+            "replicate_index": 0,
+            "seed": 5212,
+            "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows/0147.json",
+            "sha256": "fe1a0bb4209b7fe60d26bb14b514a5d7a30e3181ac460473067277fc071d2fd6"
+          },
+          {
+            "replicate_index": 1,
+            "seed": 5312,
+            "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows/0151.json",
+            "sha256": "fb889ee4d1c8281c4b4f5cf4fc09bdefea3d18c249f85984f032481c55139598"
+          },
+          {
+            "replicate_index": 2,
+            "seed": 5412,
+            "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows/0154.json",
+            "sha256": "2578afd2aa59545a2b8d22b2c182b1cfd673f7a6edb6b50f0244e2545945782d"
+          }
+        ]
+      }
+    },
+    {
+      "task_identity": "5be70830f42100425d13051259ce48989385532c6d1583ea091d4ff8dd2ae76e",
+      "split": "valid_unseen",
+      "task_family": "pick_two_obj_and_place",
+      "template_key": "pick_two_obj_and_place-SoapBar-None-GarbageCan",
+      "gamefile_sha256": "39ca720f2b4949dfb7d38df9a616be27e8d36f70453d465f3542b6147b0fd27a",
+      "condition": "observable_subgoal_anti_cycle",
+      "environment_success": false,
+      "target_object_type": "soapbar",
+      "target_destination_type": "garbagecan",
+      "first_divergence": {
+        "step": 14,
+        "reason": "second_pickup_reused_first_placed_instance",
+        "selected_action": "take soapbar 1 from garbagecan 1",
+        "pending_subgoal_id": "pickup_2",
+        "completed_subgoal_ids": [
+          "search_source_1",
+          "pickup_1",
+          "search_destination_1",
+          "put_1",
+          "search_source_2"
+        ],
+        "unresolved_subgoal_ids": [
+          "pickup_2",
+          "search_destination_2",
+          "put_2"
+        ]
+      },
+      "first_round": {
+        "slot": 1,
+        "pickup_step": 11,
+        "pickup_action": "take soapbar 1 from toilet 1",
+        "object_instance_signature": "soapbar#1",
+        "source_signature": "toilet#1",
+        "put_step": 13,
+        "put_action": "move soapbar 1 to garbagecan 1",
+        "destination_signature": "garbagecan#1"
+      },
+      "second_round": {
+        "slot": 2,
+        "pickup_step": 14,
+        "pickup_action": "take soapbar 1 from garbagecan 1",
+        "object_instance_signature": "soapbar#1",
+        "source_signature": "garbagecan#1",
+        "put_step": 15,
+        "put_action": "move soapbar 1 to garbagecan 1",
+        "destination_signature": "garbagecan#1"
+      },
+      "second_instance_same_as_first": true,
+      "second_source_is_distinct": false,
+      "relevant_open_action_present_in_admissible": false,
+      "relevant_open_action_eligibility_rejected": false,
+      "relevant_open_events": [],
+      "final_ledger": {
+        "completed_subgoal_ids": [
+          "search_source_1",
+          "pickup_1",
+          "search_destination_1",
+          "put_1",
+          "search_source_2",
+          "pickup_2",
+          "search_destination_2",
+          "put_2"
+        ],
+        "unresolved_subgoal_ids": [],
+        "pending_subgoal_id": null
+      },
+      "mechanism_flags": {
+        "ledger_complete_but_env_fail": true,
+        "closed_container_stall": false,
+        "second_source_same_as_first_destination": true,
+        "candidate_gap": false,
+        "instance_reuse": true
+      },
+      "primary_failure_mechanism": "object_instance_reuse",
+      "hypotheses": {
+        "H1_object_instance_binding": {
+          "status": "support",
+          "evidence": "the second counted pickup reused the first placed object instance"
+        },
+        "H2_open_close_coverage": {
+          "status": "evidence_insufficient",
+          "evidence": "no task-terminal closed-destination candidate gap was observed"
+        },
+        "H3_complementarity": {
+          "status": "evidence_insufficient",
+          "evidence": "the frozen TG8 trace is observational and does not cross both TG9 factors"
+        },
+        "H4_anti_cycle_not_primary_root": {
+          "status": "support",
+          "evidence": "failure persisted under observable_subgoal_anti_cycle with a non-cycle mechanism"
+        }
+      },
+      "replicate_evidence": {
+        "replicate_count": 3,
+        "identical_trajectory": true,
+        "trajectory_sha256": "cc90178c2f203c2043b14f9617385542b7ffefdd4d358ffba109e6c4ea7bf8b0",
+        "rows": [
+          {
+            "replicate_index": 0,
+            "seed": 5226,
+            "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows/0315.json",
+            "sha256": "eb168129ae7b559643c598aa3d1abb1f6686ed5d3f1d346a1f1410fe11a1583d"
+          },
+          {
+            "replicate_index": 1,
+            "seed": 5326,
+            "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows/0319.json",
+            "sha256": "46508f631a364bebd8a1992d0eac1ecb40842563b4cb718cff634ee6ccfecf6b"
+          },
+          {
+            "replicate_index": 2,
+            "seed": 5426,
+            "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows/0322.json",
+            "sha256": "9e9f88e17d38dcba04f57e2c3bb00f7f3b55df5a1c0905adf5fa3dbb08aac4d0"
+          }
+        ]
+      }
+    },
+    {
+      "task_identity": "70730d599e261d5ff0f5acb13098c178bb6d8d81b9e83cde3d357bbeaf6ff868",
+      "split": "valid_unseen",
+      "task_family": "pick_two_obj_and_place",
+      "template_key": "pick_two_obj_and_place-Pillow-None-Sofa",
+      "gamefile_sha256": "215014912000dcced6346efa94518a10758f60199786bfa367bc38572bf6470f",
+      "condition": "observable_subgoal_anti_cycle",
+      "environment_success": false,
+      "target_object_type": "pillow",
+      "target_destination_type": "sofa",
+      "first_divergence": {
+        "step": 4,
+        "reason": "second_pickup_reused_first_placed_instance",
+        "selected_action": "take pillow 1 from sofa 1",
+        "pending_subgoal_id": "pickup_2",
+        "completed_subgoal_ids": [
+          "search_source_1",
+          "pickup_1",
+          "search_destination_1",
+          "put_1",
+          "search_source_2"
+        ],
+        "unresolved_subgoal_ids": [
+          "pickup_2",
+          "search_destination_2",
+          "put_2"
+        ]
+      },
+      "first_round": {
+        "slot": 1,
+        "pickup_step": 1,
+        "pickup_action": "take pillow 1 from armchair 1",
+        "object_instance_signature": "pillow#1",
+        "source_signature": "armchair#1",
+        "put_step": 3,
+        "put_action": "move pillow 1 to sofa 1",
+        "destination_signature": "sofa#1"
+      },
+      "second_round": {
+        "slot": 2,
+        "pickup_step": 4,
+        "pickup_action": "take pillow 1 from sofa 1",
+        "object_instance_signature": "pillow#1",
+        "source_signature": "sofa#1",
+        "put_step": 5,
+        "put_action": "move pillow 1 to sofa 1",
+        "destination_signature": "sofa#1"
+      },
+      "second_instance_same_as_first": true,
+      "second_source_is_distinct": false,
+      "relevant_open_action_present_in_admissible": false,
+      "relevant_open_action_eligibility_rejected": false,
+      "relevant_open_events": [],
+      "final_ledger": {
+        "completed_subgoal_ids": [
+          "search_source_1",
+          "pickup_1",
+          "search_destination_1",
+          "put_1",
+          "search_source_2",
+          "pickup_2",
+          "search_destination_2",
+          "put_2"
+        ],
+        "unresolved_subgoal_ids": [],
+        "pending_subgoal_id": null
+      },
+      "mechanism_flags": {
+        "ledger_complete_but_env_fail": true,
+        "closed_container_stall": false,
+        "second_source_same_as_first_destination": true,
+        "candidate_gap": false,
+        "instance_reuse": true
+      },
+      "primary_failure_mechanism": "object_instance_reuse",
+      "hypotheses": {
+        "H1_object_instance_binding": {
+          "status": "support",
+          "evidence": "the second counted pickup reused the first placed object instance"
+        },
+        "H2_open_close_coverage": {
+          "status": "evidence_insufficient",
+          "evidence": "no task-terminal closed-destination candidate gap was observed"
+        },
+        "H3_complementarity": {
+          "status": "evidence_insufficient",
+          "evidence": "the frozen TG8 trace is observational and does not cross both TG9 factors"
+        },
+        "H4_anti_cycle_not_primary_root": {
+          "status": "support",
+          "evidence": "failure persisted under observable_subgoal_anti_cycle with a non-cycle mechanism"
+        }
+      },
+      "replicate_evidence": {
+        "replicate_count": 3,
+        "identical_trajectory": true,
+        "trajectory_sha256": "676990043ac089808fe25b1084e9c4fa60b177aad6411afaa7c198cb8a351edb",
+        "rows": [
+          {
+            "replicate_index": 0,
+            "seed": 5227,
+            "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows/0326.json",
+            "sha256": "3bfaf437a4d2c34f6d537e673048b4a8b090c35ce1fdf47a92742bbf890fb5a2"
+          },
+          {
+            "replicate_index": 1,
+            "seed": 5327,
+            "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows/0330.json",
+            "sha256": "402d10e5f223cc801118909dde24d7c41cca521686732f5af302df84cf3eb2c7"
+          },
+          {
+            "replicate_index": 2,
+            "seed": 5427,
+            "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows/0335.json",
+            "sha256": "337964282e21cd9d1e07862ed799c1f8c263f3970154c20962fd0c1db1a58cde"
+          }
+        ]
+      }
+    },
+    {
+      "task_identity": "78d2ee391b6190cc8de422f6eb960e41d7c34f7996d46fc9224f536149b59e66",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "template_key": "pick_two_obj_and_place-Watch-None-Dresser",
+      "gamefile_sha256": "187a2946a3b1b5920de50a1a497d653b680d3113bc97a96fdf0c0f84ee4a7dd5",
+      "condition": "observable_subgoal_anti_cycle",
+      "environment_success": false,
+      "target_object_type": "watch",
+      "target_destination_type": "dresser",
+      "first_divergence": {
+        "step": 6,
+        "reason": "second_pickup_reused_first_placed_instance",
+        "selected_action": "take watch 1 from dresser 1",
+        "pending_subgoal_id": "pickup_2",
+        "completed_subgoal_ids": [
+          "search_source_1",
+          "pickup_1",
+          "search_destination_1",
+          "put_1",
+          "search_source_2"
+        ],
+        "unresolved_subgoal_ids": [
+          "pickup_2",
+          "search_destination_2",
+          "put_2"
+        ]
+      },
+      "first_round": {
+        "slot": 1,
+        "pickup_step": 3,
+        "pickup_action": "take watch 1 from diningtable 1",
+        "object_instance_signature": "watch#1",
+        "source_signature": "diningtable#1",
+        "put_step": 5,
+        "put_action": "move watch 1 to dresser 1",
+        "destination_signature": "dresser#1"
+      },
+      "second_round": {
+        "slot": 2,
+        "pickup_step": 6,
+        "pickup_action": "take watch 1 from dresser 1",
+        "object_instance_signature": "watch#1",
+        "source_signature": "dresser#1",
+        "put_step": 7,
+        "put_action": "move watch 1 to dresser 1",
+        "destination_signature": "dresser#1"
+      },
+      "second_instance_same_as_first": true,
+      "second_source_is_distinct": false,
+      "relevant_open_action_present_in_admissible": false,
+      "relevant_open_action_eligibility_rejected": false,
+      "relevant_open_events": [],
+      "final_ledger": {
+        "completed_subgoal_ids": [
+          "search_source_1",
+          "pickup_1",
+          "search_destination_1",
+          "put_1",
+          "search_source_2",
+          "pickup_2",
+          "search_destination_2",
+          "put_2"
+        ],
+        "unresolved_subgoal_ids": [],
+        "pending_subgoal_id": null
+      },
+      "mechanism_flags": {
+        "ledger_complete_but_env_fail": true,
+        "closed_container_stall": false,
+        "second_source_same_as_first_destination": true,
+        "candidate_gap": false,
+        "instance_reuse": true
+      },
+      "primary_failure_mechanism": "object_instance_reuse",
+      "hypotheses": {
+        "H1_object_instance_binding": {
+          "status": "support",
+          "evidence": "the second counted pickup reused the first placed object instance"
+        },
+        "H2_open_close_coverage": {
+          "status": "evidence_insufficient",
+          "evidence": "no task-terminal closed-destination candidate gap was observed"
+        },
+        "H3_complementarity": {
+          "status": "evidence_insufficient",
+          "evidence": "the frozen TG8 trace is observational and does not cross both TG9 factors"
+        },
+        "H4_anti_cycle_not_primary_root": {
+          "status": "support",
+          "evidence": "failure persisted under observable_subgoal_anti_cycle with a non-cycle mechanism"
+        }
+      },
+      "replicate_evidence": {
+        "replicate_count": 3,
+        "identical_trajectory": true,
+        "trajectory_sha256": "8d0b31072e35ba0d6b4c7947035e4c213744db107b0768ddaa8b80c76b946b1c",
+        "rows": [
+          {
+            "replicate_index": 0,
+            "seed": 5213,
+            "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows/0157.json",
+            "sha256": "87c65e555b46e4ee228643c83096fa2a80b79adc9f2f1c819a5231685bb7df9c"
+          },
+          {
+            "replicate_index": 1,
+            "seed": 5313,
+            "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows/0160.json",
+            "sha256": "55250c98a1a893e864e62ab36e1578a444f3699037d6a17fb703a4bffd2607dc"
+          },
+          {
+            "replicate_index": 2,
+            "seed": 5413,
+            "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows/0165.json",
+            "sha256": "1e5bd4def34ddd7ab53f3c91d5a58d8a38dd2a8c71c18f6fdf4735d1ce4ad676"
+          }
+        ]
+      }
+    },
+    {
+      "task_identity": "b848af8139b351a6229535fcaabd5532a396135043bcc8feb785a0fbf8c3633f",
+      "split": "valid_unseen",
+      "task_family": "pick_two_obj_and_place",
+      "template_key": "pick_two_obj_and_place-ToiletPaper-None-Cabinet",
+      "gamefile_sha256": "a1fe4a4ea6b600a54fb61e924a0605a6290a9a8fa6b220d9a6a2f595ed777a43",
+      "condition": "observable_subgoal_anti_cycle",
+      "environment_success": false,
+      "target_object_type": "toiletpaper",
+      "target_destination_type": "cabinet",
+      "first_divergence": {
+        "step": 7,
+        "reason": "task_relevant_open_action_rejected",
+        "selected_action": "go to cabinet 2",
+        "pending_subgoal_id": "search_destination_1",
+        "completed_subgoal_ids": [
+          "search_source_1",
+          "pickup_1"
+        ],
+        "unresolved_subgoal_ids": [
+          "search_destination_1",
+          "put_1",
+          "search_source_2",
+          "pickup_2",
+          "search_destination_2",
+          "put_2"
+        ]
+      },
+      "first_round": {
+        "slot": 1,
+        "pickup_step": 5,
+        "pickup_action": "take toiletpaper 1 from countertop 1",
+        "object_instance_signature": "toiletpaper#1",
+        "source_signature": "countertop#1",
+        "put_step": null,
+        "put_action": null,
+        "destination_signature": null
+      },
+      "second_round": {
+        "slot": 2,
+        "pickup_step": null,
+        "pickup_action": null,
+        "object_instance_signature": null,
+        "source_signature": null,
+        "put_step": null,
+        "put_action": null,
+        "destination_signature": null
+      },
+      "second_instance_same_as_first": null,
+      "second_source_is_distinct": null,
+      "relevant_open_action_present_in_admissible": true,
+      "relevant_open_action_eligibility_rejected": true,
+      "relevant_open_events": [
+        {
+          "step": 7,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 8,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 9,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 10,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 3"
+        },
+        {
+          "step": 11,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 3",
+          "container_signature": "cabinet#3",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 12,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 13,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 14,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 15,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 3"
+        },
+        {
+          "step": 16,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 3",
+          "container_signature": "cabinet#3",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 17,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 18,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 19,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 20,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 3"
+        },
+        {
+          "step": 21,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 3",
+          "container_signature": "cabinet#3",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 22,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 23,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 24,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 25,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 3"
+        },
+        {
+          "step": 26,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 3",
+          "container_signature": "cabinet#3",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 27,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 28,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 29,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 30,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 3"
+        },
+        {
+          "step": 31,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 3",
+          "container_signature": "cabinet#3",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 32,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 33,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 34,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 35,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 3"
+        },
+        {
+          "step": 36,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 3",
+          "container_signature": "cabinet#3",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 37,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 38,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 39,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 40,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 3"
+        },
+        {
+          "step": 41,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 3",
+          "container_signature": "cabinet#3",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 42,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 43,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 44,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 45,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 3"
+        },
+        {
+          "step": 46,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 3",
+          "container_signature": "cabinet#3",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 47,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        },
+        {
+          "step": 48,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 2",
+          "container_signature": "cabinet#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 1"
+        },
+        {
+          "step": 49,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open cabinet 1",
+          "container_signature": "cabinet#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to cabinet 2"
+        }
+      ],
+      "final_ledger": {
+        "completed_subgoal_ids": [
+          "search_source_1",
+          "pickup_1"
+        ],
+        "unresolved_subgoal_ids": [
+          "search_destination_1",
+          "put_1",
+          "search_source_2",
+          "pickup_2",
+          "search_destination_2",
+          "put_2"
+        ],
+        "pending_subgoal_id": "search_destination_1"
+      },
+      "mechanism_flags": {
+        "ledger_complete_but_env_fail": false,
+        "closed_container_stall": true,
+        "second_source_same_as_first_destination": false,
+        "candidate_gap": true,
+        "instance_reuse": false
+      },
+      "primary_failure_mechanism": "closed_container_skill_gap",
+      "hypotheses": {
+        "H1_object_instance_binding": {
+          "status": "evidence_insufficient",
+          "evidence": "the trajectory did not reach an auditable second-object pickup"
+        },
+        "H2_open_close_coverage": {
+          "status": "support",
+          "evidence": "a task-relevant legal open action was rejected while destination search stalled"
+        },
+        "H3_complementarity": {
+          "status": "evidence_insufficient",
+          "evidence": "the frozen TG8 trace is observational and does not cross both TG9 factors"
+        },
+        "H4_anti_cycle_not_primary_root": {
+          "status": "support",
+          "evidence": "failure persisted under observable_subgoal_anti_cycle with a non-cycle mechanism"
+        }
+      },
+      "replicate_evidence": {
+        "replicate_count": 3,
+        "identical_trajectory": true,
+        "trajectory_sha256": "9d9a74cb669892fd4c05430e5ecad9403271ba398d7fe931fc3e7992590164ea",
+        "rows": [
+          {
+            "replicate_index": 0,
+            "seed": 5228,
+            "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows/0337.json",
+            "sha256": "4e4f046f2d8a4d1395ccc75665dfd8f823f35f0b0c7ce92229ad11af213329c2"
+          },
+          {
+            "replicate_index": 1,
+            "seed": 5328,
+            "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows/0340.json",
+            "sha256": "55d40814601bc0f711a0421fe9d57ee437118398cec803f40a5f79a1dba5d7d1"
+          },
+          {
+            "replicate_index": 2,
+            "seed": 5428,
+            "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows/0345.json",
+            "sha256": "a58d7126379d58cb8d7a0bd398764e6c92bcbe3571c6c373c0e15c29301f1efe"
+          }
+        ]
+      }
+    },
+    {
+      "task_identity": "c231c61f93800e0ba68087cbe790019a067345138dc6b22291507dd85096fb84",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "template_key": "pick_two_obj_and_place-SprayBottle-None-GarbageCan",
+      "gamefile_sha256": "804d324448334c2c3e3cf9cdd61d29296ebdc39573fc39ffba3f90dfda8d44d1",
+      "condition": "observable_subgoal_anti_cycle",
+      "environment_success": false,
+      "target_object_type": "spraybottle",
+      "target_destination_type": "garbagecan",
+      "first_divergence": {
+        "step": 9,
+        "reason": "second_pickup_reused_first_placed_instance",
+        "selected_action": "take spraybottle 1 from garbagecan 1",
+        "pending_subgoal_id": "pickup_2",
+        "completed_subgoal_ids": [
+          "search_source_1",
+          "pickup_1",
+          "search_destination_1",
+          "put_1",
+          "search_source_2"
+        ],
+        "unresolved_subgoal_ids": [
+          "pickup_2",
+          "search_destination_2",
+          "put_2"
+        ]
+      },
+      "first_round": {
+        "slot": 1,
+        "pickup_step": 6,
+        "pickup_action": "take spraybottle 1 from sidetable 1",
+        "object_instance_signature": "spraybottle#1",
+        "source_signature": "sidetable#1",
+        "put_step": 8,
+        "put_action": "move spraybottle 1 to garbagecan 1",
+        "destination_signature": "garbagecan#1"
+      },
+      "second_round": {
+        "slot": 2,
+        "pickup_step": 9,
+        "pickup_action": "take spraybottle 1 from garbagecan 1",
+        "object_instance_signature": "spraybottle#1",
+        "source_signature": "garbagecan#1",
+        "put_step": 10,
+        "put_action": "move spraybottle 1 to garbagecan 1",
+        "destination_signature": "garbagecan#1"
+      },
+      "second_instance_same_as_first": true,
+      "second_source_is_distinct": false,
+      "relevant_open_action_present_in_admissible": false,
+      "relevant_open_action_eligibility_rejected": false,
+      "relevant_open_events": [],
+      "final_ledger": {
+        "completed_subgoal_ids": [
+          "search_source_1",
+          "pickup_1",
+          "search_destination_1",
+          "put_1",
+          "search_source_2",
+          "pickup_2",
+          "search_destination_2",
+          "put_2"
+        ],
+        "unresolved_subgoal_ids": [],
+        "pending_subgoal_id": null
+      },
+      "mechanism_flags": {
+        "ledger_complete_but_env_fail": true,
+        "closed_container_stall": false,
+        "second_source_same_as_first_destination": true,
+        "candidate_gap": false,
+        "instance_reuse": true
+      },
+      "primary_failure_mechanism": "object_instance_reuse",
+      "hypotheses": {
+        "H1_object_instance_binding": {
+          "status": "support",
+          "evidence": "the second counted pickup reused the first placed object instance"
+        },
+        "H2_open_close_coverage": {
+          "status": "evidence_insufficient",
+          "evidence": "no task-terminal closed-destination candidate gap was observed"
+        },
+        "H3_complementarity": {
+          "status": "evidence_insufficient",
+          "evidence": "the frozen TG8 trace is observational and does not cross both TG9 factors"
+        },
+        "H4_anti_cycle_not_primary_root": {
+          "status": "support",
+          "evidence": "failure persisted under observable_subgoal_anti_cycle with a non-cycle mechanism"
+        }
+      },
+      "replicate_evidence": {
+        "replicate_count": 3,
+        "identical_trajectory": true,
+        "trajectory_sha256": "c49b1eddd0cca5df0fa23552e5e3bccee12269412bcd1e89e28074314ab7caee",
+        "rows": [
+          {
+            "replicate_index": 0,
+            "seed": 5214,
+            "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows/0171.json",
+            "sha256": "969d09113a8548675fdc11cfd6572fd366cba974bdd7b75b7253b68d8b80ca85"
+          },
+          {
+            "replicate_index": 1,
+            "seed": 5314,
+            "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows/0174.json",
+            "sha256": "7bf2d76e7a2313a7d3faf125d218e054f457df39c48fa621fbc9844f7bdd5c97"
+          },
+          {
+            "replicate_index": 2,
+            "seed": 5414,
+            "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows/0178.json",
+            "sha256": "217eb8924eb5a21175207ec8f66ce421b862a006b247b2ffc7f9ebc092b8e286"
+          }
+        ]
+      }
+    },
+    {
+      "task_identity": "deb8fa701f897064f8e78cb390ccba622d8f356b9c2310fc394679263e4b6e54",
+      "split": "valid_unseen",
+      "task_family": "pick_two_obj_and_place",
+      "template_key": "pick_two_obj_and_place-PepperShaker-None-Drawer",
+      "gamefile_sha256": "095af73c38a770486b9572184d671c7426a24465efdcd1daf3b2210e1e69b015",
+      "condition": "observable_subgoal_anti_cycle",
+      "environment_success": false,
+      "target_object_type": "peppershaker",
+      "target_destination_type": "drawer",
+      "first_divergence": {
+        "step": 3,
+        "reason": "task_relevant_open_action_rejected",
+        "selected_action": "go to drawer 2",
+        "pending_subgoal_id": "search_destination_1",
+        "completed_subgoal_ids": [
+          "search_source_1",
+          "pickup_1"
+        ],
+        "unresolved_subgoal_ids": [
+          "search_destination_1",
+          "put_1",
+          "search_source_2",
+          "pickup_2",
+          "search_destination_2",
+          "put_2"
+        ]
+      },
+      "first_round": {
+        "slot": 1,
+        "pickup_step": 1,
+        "pickup_action": "take peppershaker 2 from cabinet 1",
+        "object_instance_signature": "peppershaker#2",
+        "source_signature": "cabinet#1",
+        "put_step": null,
+        "put_action": null,
+        "destination_signature": null
+      },
+      "second_round": {
+        "slot": 2,
+        "pickup_step": null,
+        "pickup_action": null,
+        "object_instance_signature": null,
+        "source_signature": null,
+        "put_step": null,
+        "put_action": null,
+        "destination_signature": null
+      },
+      "second_instance_same_as_first": null,
+      "second_source_is_distinct": null,
+      "relevant_open_action_present_in_admissible": true,
+      "relevant_open_action_eligibility_rejected": true,
+      "relevant_open_events": [
+        {
+          "step": 3,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 1",
+          "container_signature": "drawer#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 2"
+        },
+        {
+          "step": 4,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 2",
+          "container_signature": "drawer#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 3"
+        },
+        {
+          "step": 5,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 3",
+          "container_signature": "drawer#3",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 1"
+        },
+        {
+          "step": 6,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 1",
+          "container_signature": "drawer#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 2"
+        },
+        {
+          "step": 7,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 2",
+          "container_signature": "drawer#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 1"
+        },
+        {
+          "step": 8,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 1",
+          "container_signature": "drawer#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 2"
+        },
+        {
+          "step": 9,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 2",
+          "container_signature": "drawer#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 3"
+        },
+        {
+          "step": 10,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 3",
+          "container_signature": "drawer#3",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 1"
+        },
+        {
+          "step": 11,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 1",
+          "container_signature": "drawer#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 2"
+        },
+        {
+          "step": 12,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 2",
+          "container_signature": "drawer#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 1"
+        },
+        {
+          "step": 13,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 1",
+          "container_signature": "drawer#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 2"
+        },
+        {
+          "step": 14,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 2",
+          "container_signature": "drawer#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 3"
+        },
+        {
+          "step": 15,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 3",
+          "container_signature": "drawer#3",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 1"
+        },
+        {
+          "step": 16,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 1",
+          "container_signature": "drawer#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 2"
+        },
+        {
+          "step": 17,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 2",
+          "container_signature": "drawer#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 1"
+        },
+        {
+          "step": 18,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 1",
+          "container_signature": "drawer#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 2"
+        },
+        {
+          "step": 19,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 2",
+          "container_signature": "drawer#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 3"
+        },
+        {
+          "step": 20,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 3",
+          "container_signature": "drawer#3",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 1"
+        },
+        {
+          "step": 21,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 1",
+          "container_signature": "drawer#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 2"
+        },
+        {
+          "step": 22,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 2",
+          "container_signature": "drawer#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 1"
+        },
+        {
+          "step": 23,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 1",
+          "container_signature": "drawer#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 2"
+        },
+        {
+          "step": 24,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 2",
+          "container_signature": "drawer#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 3"
+        },
+        {
+          "step": 25,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 3",
+          "container_signature": "drawer#3",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 1"
+        },
+        {
+          "step": 26,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 1",
+          "container_signature": "drawer#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 2"
+        },
+        {
+          "step": 27,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 2",
+          "container_signature": "drawer#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 1"
+        },
+        {
+          "step": 28,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 1",
+          "container_signature": "drawer#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 2"
+        },
+        {
+          "step": 29,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 2",
+          "container_signature": "drawer#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 3"
+        },
+        {
+          "step": 30,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 3",
+          "container_signature": "drawer#3",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 1"
+        },
+        {
+          "step": 31,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 1",
+          "container_signature": "drawer#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 2"
+        },
+        {
+          "step": 32,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 2",
+          "container_signature": "drawer#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 1"
+        },
+        {
+          "step": 33,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 1",
+          "container_signature": "drawer#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 2"
+        },
+        {
+          "step": 34,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 2",
+          "container_signature": "drawer#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 3"
+        },
+        {
+          "step": 35,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 3",
+          "container_signature": "drawer#3",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 1"
+        },
+        {
+          "step": 36,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 1",
+          "container_signature": "drawer#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 2"
+        },
+        {
+          "step": 37,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 2",
+          "container_signature": "drawer#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 1"
+        },
+        {
+          "step": 38,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 1",
+          "container_signature": "drawer#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 2"
+        },
+        {
+          "step": 39,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 2",
+          "container_signature": "drawer#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 3"
+        },
+        {
+          "step": 40,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 3",
+          "container_signature": "drawer#3",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 1"
+        },
+        {
+          "step": 41,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 1",
+          "container_signature": "drawer#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 2"
+        },
+        {
+          "step": 42,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 2",
+          "container_signature": "drawer#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 1"
+        },
+        {
+          "step": 43,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 1",
+          "container_signature": "drawer#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 2"
+        },
+        {
+          "step": 44,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 2",
+          "container_signature": "drawer#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 3"
+        },
+        {
+          "step": 45,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 3",
+          "container_signature": "drawer#3",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 1"
+        },
+        {
+          "step": 46,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 1",
+          "container_signature": "drawer#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 2"
+        },
+        {
+          "step": 47,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 2",
+          "container_signature": "drawer#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 1"
+        },
+        {
+          "step": 48,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 1",
+          "container_signature": "drawer#1",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 2"
+        },
+        {
+          "step": 49,
+          "pending_subgoal_id": "search_destination_1",
+          "action": "open drawer 2",
+          "container_signature": "drawer#2",
+          "present_in_admissible_actions": true,
+          "eligibility_rejected": true,
+          "rejection_reason": "no eligible train-derived canonical action",
+          "selected_action": "go to drawer 3"
+        }
+      ],
+      "final_ledger": {
+        "completed_subgoal_ids": [
+          "search_source_1",
+          "pickup_1"
+        ],
+        "unresolved_subgoal_ids": [
+          "search_destination_1",
+          "put_1",
+          "search_source_2",
+          "pickup_2",
+          "search_destination_2",
+          "put_2"
+        ],
+        "pending_subgoal_id": "search_destination_1"
+      },
+      "mechanism_flags": {
+        "ledger_complete_but_env_fail": false,
+        "closed_container_stall": true,
+        "second_source_same_as_first_destination": false,
+        "candidate_gap": true,
+        "instance_reuse": false
+      },
+      "primary_failure_mechanism": "closed_container_skill_gap",
+      "hypotheses": {
+        "H1_object_instance_binding": {
+          "status": "evidence_insufficient",
+          "evidence": "the trajectory did not reach an auditable second-object pickup"
+        },
+        "H2_open_close_coverage": {
+          "status": "support",
+          "evidence": "a task-relevant legal open action was rejected while destination search stalled"
+        },
+        "H3_complementarity": {
+          "status": "evidence_insufficient",
+          "evidence": "the frozen TG8 trace is observational and does not cross both TG9 factors"
+        },
+        "H4_anti_cycle_not_primary_root": {
+          "status": "support",
+          "evidence": "failure persisted under observable_subgoal_anti_cycle with a non-cycle mechanism"
+        }
+      },
+      "replicate_evidence": {
+        "replicate_count": 3,
+        "identical_trajectory": true,
+        "trajectory_sha256": "11aef36f38c7e48049f1c7fc217f749aede65507ff52213d2baa695c857738b1",
+        "rows": [
+          {
+            "replicate_index": 0,
+            "seed": 5225,
+            "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows/0300.json",
+            "sha256": "0ab7eb6e8b1539e344b9c340e2c21700e1926603d6c5c8306a892d7ca4cb7f60"
+          },
+          {
+            "replicate_index": 1,
+            "seed": 5325,
+            "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows/0305.json",
+            "sha256": "24a9760a59fef4593f76242fa0702dc5b137a3a2f403ffb5878150a3f319f3aa"
+          },
+          {
+            "replicate_index": 2,
+            "seed": 5425,
+            "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows/0308.json",
+            "sha256": "96f3dc5f5a10b9314d2faa6eb0631fdba8c9535397d055c4442c171c915345ac"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "schema_version": 4,
+  "experiment": "acl2027_phase3b_activation_recovery_preflight_v4",
+  "status": "design_only_not_authorized",
+  "source_live_version": 3,
+  "target_complete_tasks": 60,
+  "conditions_per_task": 5,
+  "proposed_recovery_calls": 175,
+  "model_id": "qwen3.7-plus",
+  "temperature": 0,
+  "enable_thinking": false,
+  "retries": 0,
+  "max_tokens_present": false,
+  "response_format": {"type": "json_object"},
+  "request_interval_seconds": 1.0,
+  "stage_cost_ceiling_cny": 2.0,
+  "cumulative_cost_ceiling_cny": 10.0,
+  "data_egress_authorized": false,
+  "provider_calls_authorized": false,
+  "paid_api_authorized": false,
+  "later_stages_authorized": false,
+  "formal_scaling_authorized": false
+}

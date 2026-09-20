@@ -1,0 +1,80 @@
+{
+  "schema_version": "tg9-stage-a-tg8-failure-audit-v1",
+  "status": "complete_zero_execution_offline_audit",
+  "created_at": "2026-09-18T09:18:09.196154+00:00",
+  "script": {
+    "path": "scripts/audit_acl2027_tracegraph_tg9_tg8_failures_v1.py",
+    "sha256": "d3867d3fbf334409e1194486dbc229a36939d122ba41d0477cabc0d544b466b7"
+  },
+  "immutable_inputs": {
+    "selector": {
+      "path": "scripts/run_acl2027_tracegraph_tg8_observable_subgoal_selector_v3.py",
+      "sha256": "6aae3a8539594bdb65bdeab92f9d82c2de9ac0e287f036af1e83157751636622"
+    },
+    "analysis": {
+      "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/analysis_20260917_manual_v1/analysis.json",
+      "sha256": "da3a08f94a0a0198b0fc3ec67e0b26903d4186366c5ed7486009aae6da8f55a9"
+    },
+    "rows_dir": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/rows",
+    "row_count": 360,
+    "rows_manifest_sha256": "505e86cc7e0e982147dec59632457d99e4747fe332862777bf85b22a7d521252"
+  },
+  "outputs": {
+    "failure_audit": {
+      "path": "artifacts/acl2027_tracegraph_tg9_failure_audit_v1/failure_audit.json",
+      "sha256": "82522e5c6f71c51ebff40926c0f4f82c52846fb7ad844da94fc92f55f04f469d"
+    },
+    "failure_audit_csv": {
+      "path": "artifacts/acl2027_tracegraph_tg9_failure_audit_v1/failure_audit.csv",
+      "sha256": "0f92021ba20a8e51f810f81ac26c3e6d7b91105aba427380c5608728c89cf385"
+    },
+    "report": {
+      "path": "paper/acl2027/results/tracegraph_tg9_failure_audit_v1.md",
+      "sha256": "cce88b53397566d46481adf2346154b65ce9ecb5b59df225a4f427d59b6dcbc0"
+    }
+  },
+  "counts": {
+    "source_rows": 360,
+    "audited_rows": 30,
+    "task_identities": 10,
+    "successful_task_identities": 0,
+    "identical_three_replicate_task_groups": 10,
+    "primary_failure_mechanism_counts": {
+      "closed_container_skill_gap": 3,
+      "object_instance_reuse": 7
+    },
+    "mechanism_flag_counts": {
+      "ledger_complete_but_env_fail": 7,
+      "closed_container_stall": 3,
+      "second_source_same_as_first_destination": 7,
+      "candidate_gap": 3,
+      "instance_reuse": 7
+    },
+    "hypothesis_status_counts": {
+      "H1_object_instance_binding": {
+        "support": 7,
+        "evidence_insufficient": 3
+      },
+      "H2_open_close_coverage": {
+        "evidence_insufficient": 7,
+        "support": 3
+      },
+      "H3_complementarity": {
+        "evidence_insufficient": 10
+      },
+      "H4_anti_cycle_not_primary_root": {
+        "support": 10
+      }
+    },
+    "all_failures_exclusively_classified": true,
+    "claim_scope": "retrospective frozen-trace mechanism diagnosis; not a causal factorial result"
+  },
+  "episodes_run": 0,
+  "actions_taken": 0,
+  "network_calls": 0,
+  "provider_calls": 0,
+  "model_calls": 0,
+  "api_calls": 0,
+  "paid_calls": 0,
+  "tg8_inputs_mutated": false
+}

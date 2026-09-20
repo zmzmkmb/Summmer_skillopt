@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "status": "authorized",
+  "authorization_opened": true,
+  "reusable": false,
+  "authorized_at": "2026-09-18T22:40:00+08:00",
+  "authorization_source": "explicit_user_message_in_current_codex_thread",
+  "authorization_text": "授权启动新的独立 TG9 v4 运行，不恢复、不续跑且不覆盖 v1、v2、v3：绑定实验 aggregate fingerprint 6006009c4d662c45d166c4ca6f3503f789e6b081ce7fca81d8cd373542442385 与修正版 transport fingerprint 6bbd08bdeaf2848d733035d3cddf036729b34b1c99e9d96067fb55f6831b603a，输出到 artifacts/acl2027_tracegraph_tg9_factorial_v1/independent_20260918_v4；运行完整 180 rows、每条最多 50 steps、零重试、首个硬不变量违规立即停止；仅允许 observation、historical_actions、admissible_actions；禁止 network/provider/model/API/paid calls、Phase 0–6、WebShop、其他模型和其他数据集；primary endpoint 固定为 completion_by_step_50，禁止声称 75-step sensitivity；授权创建新的不可复用收据，并按 transport v4 冻结启动流程执行。",
+  "aggregate_fingerprint": "6006009c4d662c45d166c4ca6f3503f789e6b081ce7fca81d8cd373542442385",
+  "transport_fingerprint": "6bbd08bdeaf2848d733035d3cddf036729b34b1c99e9d96067fb55f6831b603a",
+  "runner_config_binding_sha256": "fb007fd5ad40aba20c1538dc70637bbf0046a1582d08be1aa2d3c9acfa87f2be",
+  "scope": {
+    "run_directory": "artifacts/acl2027_tracegraph_tg9_factorial_v1/independent_20260918_v4",
+    "planned_rows": 180,
+    "max_steps_per_episode": 50,
+    "max_retries": 0,
+    "stop_on_first_hard_invariant_violation": true,
+    "runtime_allowed_inputs": ["observation", "historical_actions", "admissible_actions"],
+    "primary_endpoint": "completion_by_step_50",
+    "step_75_endpoint_status": "unavailable"
+  },
+  "forbidden": [
+    "resume_or_continue_interrupted_v1_v2_v3",
+    "network_calls",
+    "provider_calls",
+    "model_calls",
+    "api_calls",
+    "paid_api_calls",
+    "phase0_to_phase6_reuse",
+    "webshop",
+    "other_models",
+    "other_datasets",
+    "overwrite_existing_outputs",
+    "step_75_sensitivity_claim"
+  ]
+}

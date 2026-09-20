@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase2_staged_live_runner_authorization_v1",
+  "status": "closed_preflight",
+  "preflight_binding": {
+    "path": "configs/acl2027/phase2_staged_live_runner_preflight_v1.json",
+    "sha256": "74253eaab608b36577eba6d630f605df61a66be815af979c1f959fce2864df67"
+  },
+  "paid_api_allowed": false,
+  "provider_calls_allowed": false,
+  "qwen_authorization_open": false,
+  "formal_scaling_allowed": false,
+  "authorized_stages": [],
+  "authorized_calls": 0,
+  "stage_call_ceilings": {},
+  "stage_cost_ceilings_cny": {},
+  "cumulative_cost_ceiling_cny": 0.0,
+  "model_id": "qwen3.7-plus",
+  "temperature": 0,
+  "retries": 0,
+  "max_tokens_present": false,
+  "endpoint_route": "closed; no route may be selected during preflight"
+}

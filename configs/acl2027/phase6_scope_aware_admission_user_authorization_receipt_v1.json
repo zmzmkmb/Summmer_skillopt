@@ -1,0 +1,39 @@
+{
+  "authorization_closes_on_completion_or_terminal_stop": true,
+  "authorization_statement_sha256": "59881345fe98d740a6ce43bd4750c3a012aaef1cdb029693e8c5f5122c314525",
+  "authorization_statement_verbatim": "I explicitly authorize ACL 2027 Phase 6 execution, binding design fingerprint aecbd3c11dffd1f6860d663d3fe86fa144da4e8be4048aadf323ccd5b8e26ca6 and live preflight fingerprint dfe7cbf6c9e4a8ad5da6298e9fe41a9b4b745cf404eb08b3e9c0f3443721fb3d, using exactly 240 frozen requests on qwen3.7-plus with temperature 0, thinking disabled, zero retries, no max_tokens, JSON-object responses, one-second pacing, CNY 3.00 stage and CNY 15.00 cumulative ceilings, first-failure stop, exact-prefix resume only, durable request-start/response hash-chain ledgers, and automatic closure. I authorize no replication, other models, later phases, cross-domain scaling, or formal scaling.",
+  "authorized_calls": 240,
+  "cumulative_cost_ceiling_cny": 15.0,
+  "data_egress_authorized": true,
+  "enable_thinking": false,
+  "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+  "exact_prefix_resume_only": true,
+  "forbidden_scope": [
+    "replication",
+    "other_models",
+    "later_phases",
+    "cross_domain_scaling",
+    "formal_scaling"
+  ],
+  "hash_chain_required": true,
+  "max_provider_attempts": 240,
+  "max_tokens_present": false,
+  "model_id": "qwen3.7-plus",
+  "paid_usage_authorized": true,
+  "preflight_aggregate_fingerprint": "dfe7cbf6c9e4a8ad5da6298e9fe41a9b4b745cf404eb08b3e9c0f3443721fb3d",
+  "request_interval_seconds": 1.0,
+  "request_start_ledger_required": true,
+  "response_format": {
+    "type": "json_object"
+  },
+  "response_ledger_required": true,
+  "retries": 0,
+  "schema_version": 1,
+  "scope": "phase6_scope_aware_admission_only",
+  "source_design_fingerprint": "aecbd3c11dffd1f6860d663d3fe86fa144da4e8be4048aadf323ccd5b8e26ca6",
+  "stage_cost_ceiling_cny": 3.0,
+  "status": "explicit_user_authorization_received",
+  "temperature": 0,
+  "terminal_stop_on_first_failed_attempt": true,
+  "usage_accounting_required": true
+}

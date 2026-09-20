@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "artifact_type": "tg9_task_pool_preflight",
+  "status": "complete",
+  "phase_status": "completed_zero_network_design_preflight",
+  "phase_id": "TG9-tracegraph-task-pool-preflight-v1",
+  "experiment_line": "tracegraph-observable-state-skill-composition",
+  "config": "configs/acl2027/tracegraph_tg9_task_pool_preflight_v1.json",
+  "config_sha256": "7565026b00f38e51cc299c72ee27b7cefed1fb09c129d5fb38262588b93c4ff5",
+  "generator": "scripts/run_acl2027_tracegraph_tg9_task_pool_preflight_v1.py",
+  "generator_sha256": "138e49106439b1f9edcf31cb4a6edcd203a788915a6882f2b912c46b123cba01",
+  "plan": "paper/acl2027/TRACEGRAPH_TG9_TASK_POOL_PREFLIGHT_PLAN_V1.md",
+  "plan_sha256": "53a85be0c803e479154c6cf37b15a9474f49d7db984277db351116a7d9ff3feb",
+  "base_skillbank": "artifacts/acl2027_tracegraph_tg1_skillbank_construction_v2/skillbank.jsonl",
+  "base_skillbank_sha256": "15059dd2cc5b99fc69d0bae79109ec20c8d000ec9d550ce237d06ee9ffd6a331",
+  "task_pool": "artifacts/acl2027_tracegraph_tg9_task_pool_preflight_v1/task_pool.json",
+  "task_pool_sha256": "acd222f99a16a7c7821a964472e00cc89242de00ea3529c725a7932f70302164",
+  "internal_validation_schedule": "artifacts/acl2027_tracegraph_tg9_task_pool_preflight_v1/internal_validation_schedule.json",
+  "internal_validation_schedule_sha256": "ff2546ffa353627cfa07968de494360af7d05b69eb9b01e7588e84345de00a61",
+  "counts": {
+    "runnable_double_object_identities": 41,
+    "executed_double_object_identities": 26,
+    "pre_tg8_executed_excluded": 16,
+    "tg8_executed_diagnosis_only": 10,
+    "never_executed_internal_validation": 15,
+    "internal_validation_valid_seen": 10,
+    "internal_validation_valid_unseen": 5,
+    "internal_validation_templates": 11,
+    "schedule_contaminated_internal_validation": 13,
+    "prior_schedule_identity_blind_internal_validation": 2,
+    "runnable_split_counts": {
+      "valid_seen": 24,
+      "valid_unseen": 17
+    },
+    "runnable_template_count": 27,
+    "prior_schedule_union_count": 23,
+    "prior_schedule_identity_blind_ids": [
+      "636f12ec414272e08fb20759618a008de9bebb084ccee16e2076b34284547add",
+      "f965e61b35a96d3bff980a93f387a7073422ae9951a4123c09cbc115669a5f4e"
+    ],
+    "claim_boundary": "internal validation only; not blind confirmatory"
+  },
+  "conditions": [
+    {
+      "id": "type_level_current_coverage",
+      "object_binding": "type_level",
+      "skill_coverage": "current"
+    },
+    {
+      "id": "instance_bound_current_coverage",
+      "object_binding": "instance_bound",
+      "skill_coverage": "current"
+    },
+    {
+      "id": "type_level_open_close_coverage",
+      "object_binding": "type_level",
+      "skill_coverage": "open_close"
+    },
+    {
+      "id": "instance_bound_open_close_coverage",
+      "object_binding": "instance_bound",
+      "skill_coverage": "open_close"
+    }
+  ],
+  "planned_episode_rows": 180,
+  "materialized_rows": 180,
+  "independent_task_count": 15,
+  "runtime_allowed_inputs": [
+    "observation",
+    "historical_actions",
+    "admissible_actions"
+  ],
+  "runtime_forbidden_inputs": [
+    "task_description",
+    "raw_trajectory",
+    "planner_state",
+    "pddl_params",
+    "scene_state",
+    "environment_object_ids",
+    "expert_future_actions",
+    "evaluation_label",
+    "phase0_to_phase6_artifact",
+    "tg6_private_metadata",
+    "tg7_private_metadata",
+    "tg8_private_metadata",
+    "tg9_private_metadata"
+  ],
+  "primary_metrics": [
+    "completion_by_step_50"
+  ],
+  "secondary_metrics": [
+    "completion_by_step_75_if_readiness_proves_support"
+  ],
+  "mechanism_metrics": [
+    "first_object_placement",
+    "second_round_subgoal_reentry",
+    "distinct_second_instance_acquired",
+    "second_object_placement",
+    "object_identity_collision",
+    "open_close_action_required",
+    "open_close_action_eligible",
+    "open_close_action_selected",
+    "episode_two_cycle_incidence",
+    "ledger_validity",
+    "ledger_provenance_completeness",
+    "trace_validity",
+    "terminal_admissibility"
+  ],
+  "claim_boundary": "internal validation only; not blind confirmatory",
+  "execution_authorized": false,
+  "readiness_allowed": false,
+  "episode_execution_allowed": false,
+  "fresh_exact_user_authorization_required": true,
+  "completed_calls": 0,
+  "executed_calls": 0,
+  "episodes_run": 0,
+  "actions_taken": 0,
+  "network_calls": 0,
+  "provider_calls": 0,
+  "model_calls": 0,
+  "api_calls": 0,
+  "paid_api_calls": 0,
+  "aggregate_fingerprint": "e9bbd19e2ea8dc34ad56aee1e2818afc094c5eaba72a193307eabe25427c788b"
+}

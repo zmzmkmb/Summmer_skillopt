@@ -1,0 +1,20 @@
+{
+  "experiment": "acl2027_phase1y_history_request_plan_v1",
+  "phase": "1Y",
+  "searchqa_ids": "data/searchqa_id_split/train/items.json",
+  "searchqa_payload": "data/searchqa_split/train/items.json",
+  "phase1t_design": "artifacts/acl2027_phase1t_heldout_deployment_identifiability_v1/design_audit.json",
+  "spent_calls": "acl2027_searchqa_phase1b_token_plan_live_pilot_v5_smoke/calls.jsonl",
+  "two_wiki_history": "data/2wikimultihopqa_verified/partitions/history.json",
+  "pricing": {
+    "input_cny_per_million": 2,
+    "output_cny_per_million": 8,
+    "output_token_ceiling": 4096
+  },
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "retries": 0,
+    "max_tokens_present": false
+  }
+}

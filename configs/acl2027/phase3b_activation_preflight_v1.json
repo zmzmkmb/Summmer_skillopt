@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase3b_activation_preflight_v1",
+  "status": "zero_network_design_only_not_authorized",
+  "objective": "Freeze a mechanism-identifiable real-task pilot that measures whether a model recognizes, selects, and applies a typed historical skill before any provider execution is considered.",
+  "bindings": {
+    "phase3a_aggregate_fingerprint": "0b2c420671b02b4210c3903d5549c5ec137699ec501c028a949da4ebb6212e3c",
+    "phase2_gate_preserved": "inconclusive",
+    "source_files": {
+      "phase2_final_audit_sha256": "e88dc5404c187538285a004cd22c840ebd1c2637eecdf6827ec92f243f4d2ac5",
+      "phase3a_activation_pilot_design_sha256": "4990b161b308368e70371ff38dbc5f9d14a3892e121dcd66c4583df34e7c29e5",
+      "phase3a_config_sha256": "86653553f611ab17aaa703563c76091daae5b987d846ed5bcaa4820ec0c071dc",
+      "phase3a_mechanism_audit_sha256": "e83a52fd3c73b09e6ff4900747f82c3f096fef024eb4817529ce1cc25185ebf0",
+      "preflight_source_sha256": "8a1cd30f3f102be6677490d7e2346e01cb502a8fed6ed6a6765f6331f6d47dc9",
+      "preflight_test_sha256": "f004141ae75776a0350cbde7e552f31c4f9225199b55eaefab5a6af014b1ed0c",
+      "v17_prior_bundles_sha256": "f4de47c538fedf1d28ecba8c07d8f4605f7fff4be1e8e300634c7af273a6d63d"
+    }
+  },
+  "design": {
+    "tasks": 60,
+    "tasks_per_family": 12,
+    "conditions": [
+      "cold",
+      "copied_global",
+      "global_only",
+      "contextual_typed_prior",
+      "shuffled_typed_prior"
+    ],
+    "logical_calls": 300,
+    "selection": "12 lowest SHA256(phase3b-v1:activation-preflight:<family>:<task_id>) unused task IDs per family",
+    "selection_must_be_gold_independent": true,
+    "new_task_ids_required": true,
+    "shuffled_family_map": {
+      "fact_retrieval": "attribute_comparison",
+      "attribute_comparison": "bridge_attribute_comparison",
+      "bridge_attribute_comparison": "entity_bridge",
+      "entity_bridge": "relation_inference",
+      "relation_inference": "fact_retrieval"
+    }
+  },
+  "response_contract": {
+    "exact_keys": [
+      "declared_skill_applicability",
+      "selected_skill_id",
+      "intermediate_operation",
+      "final_answer"
+    ],
+    "declared_skill_applicability": "boolean",
+    "selected_skill_id": "the presented candidate ID or the frozen sentinel none",
+    "intermediate_operation": "non-empty short operation label, not chain-of-thought",
+    "final_answer": "non-empty short answer"
+  },
+  "analysis_plan": {
+    "primary_uptake": "declared_skill_applicability is true and selected_skill_id equals the presented candidate ID",
+    "negative_control": "paired contextual_typed_prior versus shuffled_typed_prior on the same task",
+    "answer_scores": [
+      "strict_normalized_exact_match",
+      "alias_tolerant_match"
+    ],
+    "family_requirement": "Report all uptake and answer comparisons overall and separately for all five frozen skill families.",
+    "positive_gate": {
+      "contextual_uptake_rate_at_least": 0.30,
+      "contextual_minus_shuffled_uptake_rate_at_least": 0.10,
+      "families_with_positive_contextual_minus_shuffled_uptake_at_least": 3,
+      "contextual_alias_net_wins_over_shuffled_at_least": 3,
+      "contextual_alias_net_loss_vs_cold_at_most": 2
+    },
+    "negative_gate": {
+      "contextual_uptake_rate_below": 0.10,
+      "or_contextual_minus_shuffled_uptake_rate_at_most": 0.0,
+      "and_contextual_alias_net_wins_over_shuffled_at_most": 0
+    },
+    "inconclusive_gate": "Any completed result satisfying neither the positive nor negative gate.",
+    "stop_rule": "Stop after the 300-call pilot and do not scale if contextual uptake is below 0.15 or contextual-minus-shuffled uptake is below 0.05; redesign the skill presentation before any further real-task execution.",
+    "no_posthoc_regating": true
+  },
+  "future_execution_proposal": {
+    "status": "not_authorized",
+    "model_id": "qwen3.7-plus",
+    "temperature": 0,
+    "enable_thinking": false,
+    "retries": 0,
+    "max_tokens_present": false,
+    "response_format": {
+      "type": "json_object"
+    },
+    "authorization_artifact_created": false,
+    "fresh_explicit_authorization_required": true
+  },
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "model_calls_allowed": false,
+    "paid_api_allowed": false,
+    "formal_scaling_allowed": false
+  }
+}

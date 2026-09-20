@@ -133,6 +133,8 @@ def process_one(
 
     except Exception as exc:
         result["fail_reason"] = f"{type(exc).__name__}: {exc}"
+        if gold_answers and not result["reference_text"]:
+            result["reference_text"] = f"Correct answer: {gold_answers[0]}"
 
     return result
 

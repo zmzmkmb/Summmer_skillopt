@@ -1,0 +1,35 @@
+{
+  "schema_version": 23,
+  "experiment": "acl2027_phase2_heldout_recovery_v23",
+  "authorization_id": "phase2-heldout-recovery-only-v23",
+  "status": "explicit_user_authorization_received_execution_not_open",
+  "scope": "held_out_recovery_only",
+  "authorized_stage": "held_out_recovery",
+  "authorized_calls": 88,
+  "max_provider_attempts": 88,
+  "model_id": "qwen3.7-plus",
+  "temperature": 0,
+  "retries": 0,
+  "max_tokens_present": false,
+  "enable_thinking": false,
+  "response_format": {"type": "json_object"},
+  "stage_cost_ceiling_cny": 1.0,
+  "cumulative_cost_ceiling_cny": 2.0,
+  "held_out_recovery_authorized": true,
+  "later_stages_authorized": false,
+  "formal_scaling_authorized": false,
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "paid_api_allowed": false,
+    "qwen_authorization_open": false,
+    "formal_scaling_allowed": false,
+    "authorization_opened": false
+  },
+  "forbidden_stages": ["calibration", "development_acquisition", "formal_history", "probe", "later_phase2_stages", "formal_scaling", "qwen3.8-max"],
+  "user_authorization_statement": "User explicitly authorized exactly 88 qwen3.7-plus held-out-recovery-only calls with temperature 0, retries 0, no max_tokens, JSON object responses, CNY 1.00 stage and CNY 2.00 cumulative ceilings. Calibration, development acquisition, formal history, probe, later stages, and formal scaling remain forbidden.",
+  "request_binding": {
+    "authorization_request_sha256": "e1c2553b65f3928a668f9da344d282e3e7893bc28fa676f0023c6194d3fe13de",
+    "preflight_aggregate_fingerprint": "8bcd47e190bf68a00e7df10c4b9d9b3ae35dbd14a076396498cd84031f7b8306"
+  }
+}

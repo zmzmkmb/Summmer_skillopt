@@ -1,0 +1,49 @@
+{
+  "bindings": {
+    "development_gold_sha256": "58b1879f9c8954b60e2630b94a89a777a9c3b60a0ed01e8f630c36e278f2de3b",
+    "provider_adapter_sha256": "6761e757eee26d9bfab3918930565eda70fa9857bc755a21992c5f8364381eba",
+    "runner_source_sha256": "da8c489af22f58dd63c27e3af5ee5a09ad33277fca897006cf78a76d8d4c824a",
+    "source_schedule_sha256": "01c4e03660648cf8d5b150f78bf783f273b99899fa6fa4ac8be495090e44dd60",
+    "test_source_sha256": "5a6738da608191d948575797bc227a113a175f75a150b2a6932467257c4fd7c1",
+    "v4_config_sha256": "4775d9e55fb97316460e38e9c0a8fd07181b799a8aa9670a7a022194df3b7954",
+    "v8_audit_sha256": "d10dfe69eb9a2f2165ea9f1cd18aec1801f468d47420b50617b233bf19dbd1a8",
+    "v9_config_sha256": "791b415343d0b0ca09fdde2a797ccd2f960a41df96654d0bcb079d0daf143a4e"
+  },
+  "counters": {
+    "network_calls": 0,
+    "paid_api_calls": 0,
+    "provider_calls": 0
+  },
+  "execution": {
+    "formal_scaling_allowed": false,
+    "network_calls_allowed": false,
+    "paid_api_allowed": false,
+    "provider_calls_allowed": false,
+    "qwen_authorization_open": false
+  },
+  "experiment": "acl2027_phase2_development_acquisition_v10",
+  "forbidden_stages": [
+    "formal_history",
+    "probe",
+    "held_out",
+    "formal_scaling"
+  ],
+  "schema_version": 10,
+  "stage": {
+    "calls_per_family": 2,
+    "development_outputs_not_formal_history": true,
+    "enable_thinking": false,
+    "logical_calls": 10,
+    "max_tokens_present": false,
+    "model_id": "qwen3.7-plus",
+    "name": "development_acquisition",
+    "request_interval_seconds": 1.0,
+    "response_format": {
+      "type": "json_object"
+    },
+    "retries": 0,
+    "stage_cost_ceiling_cny": 0.11,
+    "temperature": 0
+  },
+  "status": "preflight_only_closed"
+}

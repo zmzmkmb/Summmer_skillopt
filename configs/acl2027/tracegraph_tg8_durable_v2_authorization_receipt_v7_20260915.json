@@ -1,0 +1,48 @@
+{
+  "schema_version": 7,
+  "experiment": "tracegraph_tg8_v4_durable_v2_independent_20260915_v1",
+  "status": "authorized",
+  "authorization_opened": true,
+  "authorization_source": "user_message_2026-09-15_explicit_acceptance_of_authorization_request",
+  "authorization_request": "paper/acl2027/TG8_DURABLE_V2_AUTHORIZATION_REQUEST_20260915.md",
+  "authorization_statement": "User explicitly authorized one independent TG8 experiment under every hash and restriction in the referenced file: 360 rows, at most 75 steps per row, zero retries, and acceptance of the new 6-hour safety limit.",
+  "bindings": {
+    "closed_candidate_sha256": "a925fdcee7e670eaa02940863c580bd5a8e80bb8de7dfb0c63b48590891a7fc7",
+    "durable_config_sha256": "a5617a8c1ed4d4671ebddfaedeedce0415cc60f7c1e7876c68b87909fc14d2b8",
+    "runner_sha256": "6d6d1ad26f5f5ea18d7da8b8dece366035588fbd3ac5ee4dc7dab419091263e8",
+    "windows_launcher_sha256": "454bc03eced27322ec4b7041ed5860d7aaee1db80f7d0f3aa390ab6e5558a4f7",
+    "legacy_runner_sha256": "ef7e0a19780fd514a9227849b2467d0734f3f3c0a8cc840bd648a501ed4dfeed",
+    "preflight_aggregate_fingerprint": "098bee6f10b47fb8dbe656785c3732a949448047f72bb0454bb48545299ceffe",
+    "selector_sha256": "6aae3a8539594bdb65bdeab92f9d82c2de9ac0e287f036af1e83157751636622",
+    "selector_config_sha256": "36407699541289ea42a69362f1a6a3c2582648b1e1b7680781ed6725ee066582",
+    "readiness_artifact_sha256": "85627fd938abce62e254a68957893f81b1389cc0a7e6519976d338a15ed3904b",
+    "skillbank_sha256": "15059dd2cc5b99fc69d0bae79109ec20c8d000ec9d550ce237d06ee9ffd6a331"
+  },
+  "scope": {
+    "planned_episode_rows": 360,
+    "max_steps_per_episode": 75,
+    "max_retries": 0,
+    "max_wall_seconds": 21600,
+    "shutdown_grace_seconds": 30,
+    "stop_rule": "stop on first hard invariant violation and invalidate the full factorial run",
+    "runtime_allowed_inputs": ["observation", "historical_actions", "admissible_actions"],
+    "run_directory": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260915_v1",
+    "resume_allowed": false,
+    "overwrite_allowed": false,
+    "additional_runs_allowed": false
+  },
+  "execution": {
+    "user_authorization_received": true,
+    "execution_opened": true,
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "model_calls_allowed": false,
+    "api_calls_allowed": false,
+    "paid_api_calls_allowed": false,
+    "phase0_to_phase6_reuse_allowed": false,
+    "phase6_execution_allowed": false,
+    "webshop_execution_allowed": false,
+    "other_models_allowed": false,
+    "other_datasets_allowed": false
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "schema_version": 4,
+  "experiment": "tracegraph_tg8_observable_subgoal_authorization_20260912_restart",
+  "status": "authorized",
+  "authorization_opened": true,
+  "authorization_source": "user_message_2026-09-12",
+  "authorization_statement": "重新启动修正版 TG8 v4 正式实验，沿用已授权的 360 rows、75 steps、零重试、首个硬不变量停止及三项 runtime inputs scope；本次为独立新运行，不覆盖先前输出。",
+  "bindings": {
+    "preflight_aggregate_fingerprint": "098bee6f10b47fb8dbe656785c3732a949448047f72bb0454bb48545299ceffe",
+    "selector_sha256": "6aae3a8539594bdb65bdeab92f9d82c2de9ac0e287f036af1e83157751636622",
+    "selector_config_sha256": "36407699541289ea42a69362f1a6a3c2582648b1e1b7680781ed6725ee066582",
+    "readiness_artifact_sha256": "85627fd938abce62e254a68957893f81b1389cc0a7e6519976d338a15ed3904b",
+    "runner_sha256": "ef7e0a19780fd514a9227849b2467d0734f3f3c0a8cc840bd648a501ed4dfeed"
+  },
+  "scope": {
+    "planned_episode_rows": 360,
+    "max_steps_per_episode": 75,
+    "max_retries": 0,
+    "stop_rule": "stop on first hard invariant violation and invalidate the full factorial run",
+    "runtime_allowed_inputs": ["observation", "historical_actions", "admissible_actions"]
+  },
+  "execution": {
+    "user_authorization_received": true,
+    "execution_opened": true,
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "model_calls_allowed": false,
+    "api_calls_allowed": false,
+    "paid_api_calls_allowed": false,
+    "phase0_to_phase6_reuse_allowed": false,
+    "phase6_execution_allowed": false,
+    "webshop_execution_allowed": false,
+    "other_models_allowed": false,
+    "other_datasets_allowed": false
+  }
+}

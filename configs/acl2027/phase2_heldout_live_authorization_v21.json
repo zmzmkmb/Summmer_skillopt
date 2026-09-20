@@ -1,0 +1,55 @@
+{
+  "authorization_id": "phase2-heldout-only-v21",
+  "authorized_calls": 320,
+  "authorized_stage": "held_out",
+  "bindings": {
+    "authorization_receipt_sha256": "4cbd68c2523acd6aeac8872f188ed7aa908e5a118e8f9d17c77f8fa0f26dd8a9",
+    "authorization_request_sha256": "fc90a41a1936f7b63d1bd3ee1b7709577b3da3f3a2a356bde64fe9d49b2b8930",
+    "live_runner_sha256": "8d68ff023c5718d4722211bcfe4e3820e6f89f6538ddaf0f2586b8220b26c36f",
+    "live_test_sha256": "d09639cdb18f248a368b731cee77373088365ac873440010bf382ffd3c396b78",
+    "preflight_config_sha256": "93ab4d1f3d7b6c97f943cc291e5c84155b00bcf9e6db062b9f473047f5aeb728",
+    "preflight_manifest_sha256": "7f5db7bcbb9c347a459fc03829dbb28949be892788a06bba4793e2b0aca22c22",
+    "prior_bundles_sha256": "f4de47c538fedf1d28ecba8c07d8f4605f7fff4be1e8e300634c7af273a6d63d",
+    "provider_adapter_sha256": "6761e757eee26d9bfab3918930565eda70fa9857bc755a21992c5f8364381eba",
+    "schedule_sha256": "ab3c625434fcbb89f4cb1a607a560e5b8586a2f9add345d3953b216b1db4871a",
+    "zero_network_preflight_aggregate_fingerprint": "11d99676ee9db557989aba0425d0d7235ebb2b3311c51228c60acc56b1f905dd"
+  },
+  "credential_sha256": "c633a901caf472c4a161651f45c53e5d9d962ca1e5dde40cea8e106da2b5ec6f",
+  "cumulative_cost_ceiling_cny": 7.5,
+  "enable_thinking": false,
+  "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+  "experiment": "acl2027_phase2_heldout_live_v21",
+  "forbidden_stages": [
+    "calibration",
+    "development_acquisition",
+    "formal_history",
+    "probe",
+    "later_phase2_stages",
+    "formal_scaling"
+  ],
+  "formal_scaling_allowed": false,
+  "max_provider_attempts": 320,
+  "max_tokens_present": false,
+  "model_id": "qwen3.7-plus",
+  "paid_api_allowed": true,
+  "provider_calls_allowed": true,
+  "qwen_authorization_open": true,
+  "request_interval_seconds": 1.0,
+  "response_format": {
+    "type": "json_object"
+  },
+  "retries": 0,
+  "schema_version": 21,
+  "stage_call_ceiling": 320,
+  "stage_cost_ceiling_cny": 3.5,
+  "status": "open",
+  "temperature": 0,
+  "user_authorization": {
+    "authorization_receipt_sha256": "4cbd68c2523acd6aeac8872f188ed7aa908e5a118e8f9d17c77f8fa0f26dd8a9",
+    "authorized_calls": 320,
+    "formal_scaling_authorized": false,
+    "held_out_authorized": true,
+    "later_stages_authorized": false,
+    "scope": "held_out_only"
+  }
+}

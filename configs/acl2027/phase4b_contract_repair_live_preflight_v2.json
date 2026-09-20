@@ -1,0 +1,73 @@
+{
+  "schema_version": 2,
+  "experiment": "acl2027_phase4b_contract_repair_live_preflight_v2",
+  "status": "zero_network_live_execution_preflight_closed",
+  "source_repair": {
+    "experiment": "acl2027_phase4b_contract_repair_preflight_v1",
+    "aggregate_fingerprint": "a9f5143ca6d302c0c9020fbacb2cb2e669de35e74da194dd6b4805f2346f739c",
+    "schedule_rows": 100,
+    "tasks": 20
+  },
+  "execution_contract": {
+    "scope": "phase4b_repaired_development_calibration_only",
+    "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+    "model_id": "qwen3.7-plus",
+    "authorized_calls": 100,
+    "max_provider_attempts": 100,
+    "temperature": 0,
+    "enable_thinking": false,
+    "retries": 0,
+    "max_tokens_present": false,
+    "response_format": {"type": "json_object"},
+    "request_interval_seconds": 1.0,
+    "stage_cost_ceiling_cny": 2.0,
+    "cumulative_cost_ceiling_cny": 15.0,
+    "known_cumulative_cost_lower_bound_cny": 11.816126,
+    "payload_classes": [
+      "frozen_task_prompts",
+      "frozen_annotated_contexts",
+      "frozen_procedure_candidate_bundles",
+      "frozen_six_field_response_contract"
+    ],
+    "terminal_stop_on_first_failed_attempt": true,
+    "authorization_closes_on_completion_or_terminal_stop": true,
+    "usage_accounting_required": true,
+    "request_start_ledger_required": true,
+    "response_ledger_required": true,
+    "hash_chain_required": true,
+    "exact_prefix_resume_only": true
+  },
+  "known_transport_equivalence": {
+    "unique_transport_payloads": 80,
+    "duplicate_pair_count": 20,
+    "paired_conditions": ["global_only", "contextual_typed"],
+    "interpretation": "The immutable R1 schedule has one identical transmitted payload pair per task for global_only and contextual_typed. Execution cannot identify a contrast between those two labels."
+  },
+  "forbidden_scope": [
+    "phase4c",
+    "other_models",
+    "replication",
+    "cross_domain_scaling",
+    "formal_scaling"
+  ],
+  "authorization": {
+    "status": "fresh_exact_explicit_user_authorization_required",
+    "receipt_created": false,
+    "authorization_open": false,
+    "data_egress_authorized": false,
+    "provider_calls_authorized": false,
+    "paid_api_authorized": false,
+    "authorization_statement_template": "我明确授权执行 Phase 4B-R2 修复后开发校准，绑定修复指纹 a9f5143ca6d302c0c9020fbacb2cb2e669de35e74da194dd6b4805f2346f739c 和执行预检指纹 {preflight_aggregate_fingerprint}，并确认冻结的 100 行中有 80 个唯一 transport payload、20 组 global_only/contextual_typed 等价载荷，因此这两个标签之间不可作因果比较。我授权将冻结的任务提示、带证据 ID 的上下文、候选程序包和六字段响应合约发送至 https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1，使用付费模型 qwen3.7-plus，temperature 0，关闭 thinking，零重试，不设置 max_tokens，JSON object 响应，每次请求间隔 1 秒，本阶段费用上限 CNY 2.00，累计费用上限 CNY 15.00，首个失败尝试即终止并自动关闭授权；不授权 Phase 4C、其他模型、复制实验、跨域扩展或正式扩展。"
+  },
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "model_calls_allowed": false,
+    "paid_api_allowed": false,
+    "qwen_authorization_open": false,
+    "phase4c_allowed": false,
+    "replication_allowed": false,
+    "cross_domain_scaling_allowed": false,
+    "formal_scaling_allowed": false
+  }
+}

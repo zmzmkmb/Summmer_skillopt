@@ -1,0 +1,16 @@
+{
+  "schema_version": 5,
+  "experiment": "acl2027_phase2_calibration_live_v5",
+  "authorization_id": "phase2-calibration-v5-20260813",
+  "status": "closed_terminal_hard_stop",
+  "open_authorization_sha256": "0635263493dd9d829f801c003615c44f1552aa9490d80df038c116e8ce6d7b66",
+  "authorized_stage": "calibration",
+  "authorized_calls": 60,
+  "attempts": 1,
+  "paid_api_allowed": false,
+  "provider_calls_allowed": false,
+  "qwen_authorization_open": false,
+  "formal_scaling_allowed": false,
+  "later_stages_authorized": false,
+  "terminal_reason": "HTTPError: HTTP Error 401: Unauthorized"
+}

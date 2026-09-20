@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase3e_control_validity_audit_v1",
+  "status": "zero_network_only",
+  "source_phase3d_strict_fingerprint": "501f57df97267d3dae84fa953e0652102e5d003572d9e40c58d8a50010e22b29",
+  "source_phase3d_diagnostic_fingerprint": "b90e0659a9936da215e0d47c34a418a91267070d9e0f28573d008d46d6846ddb",
+  "criterion": "An irrelevant control must not supply a required intermediate operation for the target family.",
+  "execution": {"network_calls_allowed": false, "provider_calls_allowed": false, "paid_api_allowed": false, "formal_scaling_allowed": false}
+}

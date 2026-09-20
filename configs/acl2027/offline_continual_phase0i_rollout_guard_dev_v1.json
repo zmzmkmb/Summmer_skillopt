@@ -1,0 +1,119 @@
+{
+  "schema_version": 5,
+  "experiment": "acl2027_phase0i_rollout_guard_dev",
+  "scope": "synthetic offline Phase 0I development calibration: rollout-aware cold-router guard with cloned online updates; no downstream LLM accuracy",
+  "stream_type": "contextual",
+  "seeds": [
+    81,
+    82,
+    83,
+    84,
+    85
+  ],
+  "n_rules": 48,
+  "domains": [
+    "searchqa",
+    "law",
+    "health"
+  ],
+  "block_order": [
+    "searchqa",
+    "law",
+    "health",
+    "searchqa",
+    "law",
+    "health"
+  ],
+  "tasks_per_block": 25,
+  "probe_tasks_per_domain": 8,
+  "top_k": 3,
+  "budget": 170,
+  "token_target": 0.72,
+  "target_window": 20,
+  "target_sustain": 5,
+  "prior_strength": 2.0,
+  "recovery_correlation_target": 0.25,
+  "recovery_sustain": 5,
+  "utility_conditions": [
+    "all-cold",
+    "oracle",
+    "adversarial"
+  ],
+  "corruptions": [
+    {
+      "name": "none",
+      "mode": "none",
+      "block": null
+    }
+  ],
+  "methods": [
+    {
+      "policy": "greedy-utility",
+      "credit": "shared",
+      "estimator": "contextual",
+      "context_weight": 0.5,
+      "prior_guard": "reset-cold",
+      "prior_guard_tolerance": 0.06,
+      "prior_guard_max_probes_per_domain": 8,
+      "prior_guard_reference": "cold-router",
+      "prior_guard_confidence_z": 1.0,
+      "prior_guard_relevance_cost_share": 0.125,
+      "prior_guard_probe_order": "stream",
+      "name": "frozen_seq_min6",
+      "prior_guard_evaluation": "frozen",
+      "prior_guard_sequential": true,
+      "prior_guard_min_samples": 6
+    },
+    {
+      "policy": "greedy-utility",
+      "credit": "shared",
+      "estimator": "contextual",
+      "context_weight": 0.5,
+      "prior_guard": "reset-cold",
+      "prior_guard_tolerance": 0.06,
+      "prior_guard_max_probes_per_domain": 8,
+      "prior_guard_reference": "cold-router",
+      "prior_guard_confidence_z": 1.0,
+      "prior_guard_relevance_cost_share": 0.125,
+      "prior_guard_probe_order": "stream",
+      "name": "rollout_seq_min6",
+      "prior_guard_evaluation": "rollout",
+      "prior_guard_sequential": true,
+      "prior_guard_min_samples": 6
+    },
+    {
+      "policy": "greedy-utility",
+      "credit": "shared",
+      "estimator": "contextual",
+      "context_weight": 0.5,
+      "prior_guard": "reset-cold",
+      "prior_guard_tolerance": 0.06,
+      "prior_guard_max_probes_per_domain": 8,
+      "prior_guard_reference": "cold-router",
+      "prior_guard_confidence_z": 1.0,
+      "prior_guard_relevance_cost_share": 0.125,
+      "prior_guard_probe_order": "stream",
+      "name": "rollout_seq_min12",
+      "prior_guard_evaluation": "rollout",
+      "prior_guard_sequential": true,
+      "prior_guard_min_samples": 12
+    },
+    {
+      "policy": "greedy-utility",
+      "credit": "shared",
+      "estimator": "contextual",
+      "context_weight": 0.5,
+      "prior_guard": "reset-cold",
+      "prior_guard_tolerance": 0.06,
+      "prior_guard_max_probes_per_domain": 8,
+      "prior_guard_reference": "cold-router",
+      "prior_guard_confidence_z": 1.0,
+      "prior_guard_relevance_cost_share": 0.125,
+      "prior_guard_probe_order": "stream",
+      "name": "rollout_full8",
+      "prior_guard_evaluation": "rollout",
+      "prior_guard_sequential": false,
+      "prior_guard_min_samples": 6
+    }
+  ]
+}

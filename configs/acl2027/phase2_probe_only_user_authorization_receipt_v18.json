@@ -1,0 +1,38 @@
+{
+  "schema_version": 18,
+  "experiment": "acl2027_phase2_probe_only_user_authorization_receipt_v18",
+  "authorization_id": "phase2-probe-only-identifiable-v18",
+  "received_at": "2026-08-15T10:47:11+08:00",
+  "user_text": "我授权",
+  "interpreted_against_immediately_preceding_frozen_request": true,
+  "status": "explicit_user_authorization_received_execution_not_open",
+  "scope": "probe_only",
+  "authorized_stage": "probe",
+  "authorized_calls": 160,
+  "max_provider_attempts": 160,
+  "model_id": "qwen3.7-plus",
+  "temperature": 0,
+  "retries": 0,
+  "max_tokens_present": false,
+  "enable_thinking": false,
+  "response_format": {
+    "type": "json_object"
+  },
+  "stage_cost_ceiling_cny": 7.5,
+  "cumulative_cost_ceiling_cny": 7.5,
+  "held_out_authorized": false,
+  "later_stages_authorized": false,
+  "formal_scaling_authorized": false,
+  "request_binding": {
+    "path": "configs/acl2027/phase2_probe_only_authorization_request_v17.json",
+    "sha256": "fa9e0a824bbbbe37b408a8cfa1a0bd126349c003dbe9877617c691b2b69ea80c",
+    "preflight_aggregate_fingerprint": "68a173ca4e45f58879221ca4c15c9df7bc08dcccae452d496cdb22d9e6cdaa8a"
+  },
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "paid_api_allowed": false,
+    "qwen_authorization_open": false,
+    "formal_scaling_allowed": false
+  }
+}

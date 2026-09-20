@@ -489,6 +489,17 @@ class MOARMemory:
         return self._parent.n_dynamic
 
     @property
+    def dynamic_rule_ids(self) -> list[str]:
+        return self._parent.dynamic_rule_ids
+
+    @property
+    def rule_set_fingerprint(self) -> str:
+        return self._parent.rule_set_fingerprint
+
+    def rule_ids_for_indices(self, indices: list[int]) -> list[str]:
+        return self._parent.rule_ids_for_indices(indices)
+
+    @property
     def _last_selections(self) -> dict[str, list[int]]:
         return self._engine._last_selections
 

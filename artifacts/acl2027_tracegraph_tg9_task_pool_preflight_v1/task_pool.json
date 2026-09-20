@@ -1,0 +1,908 @@
+{
+  "schema_version": 1,
+  "artifact_type": "tg9_double_object_task_pool",
+  "phase_id": "TG9-tracegraph-task-pool-preflight-v1",
+  "experiment_line": "tracegraph-observable-state-skill-composition",
+  "eligibility_rule": "both traj_data.json and game.tw-pddl exist under json_2.1.1/{split}",
+  "identity_rule": "sha256(split + ':' + task_relative_path)",
+  "task_family": "pick_two_obj_and_place",
+  "splits": [
+    "valid_seen",
+    "valid_unseen"
+  ],
+  "exposure_audit": {
+    "runnable_double_object_identities": 41,
+    "executed_double_object_identities": 26,
+    "pre_tg8_executed_excluded": 16,
+    "tg8_executed_diagnosis_only": 10,
+    "never_executed_internal_validation": 15,
+    "internal_validation_valid_seen": 10,
+    "internal_validation_valid_unseen": 5,
+    "internal_validation_templates": 11,
+    "schedule_contaminated_internal_validation": 13,
+    "prior_schedule_identity_blind_internal_validation": 2,
+    "runnable_split_counts": {
+      "valid_seen": 24,
+      "valid_unseen": 17
+    },
+    "runnable_template_count": 27,
+    "prior_schedule_union_count": 23,
+    "prior_schedule_identity_blind_ids": [
+      "636f12ec414272e08fb20759618a008de9bebb084ccee16e2076b34284547add",
+      "f965e61b35a96d3bff980a93f387a7073422ae9951a4123c09cbc115669a5f4e"
+    ],
+    "claim_boundary": "internal validation only; not blind confirmatory"
+  },
+  "executed_result_sources": [
+    {
+      "label": "tg6_trajectory_failure_analysis_executed",
+      "path": "artifacts/acl2027_tracegraph_tg6_trajectory_failure_analysis_authorized_attempt_v2/result.json",
+      "sha256": "d804d727f3d90beea4fc90f0216f1f6eeb6754fdceee00816309ea7240a81b67",
+      "all_task_identity_count": 24,
+      "double_object_task_identity_count": 8
+    },
+    {
+      "label": "tg7_progress_memory_executed",
+      "path": "artifacts/acl2027_tracegraph_tg7_progress_memory_runner_v1/result_authorized_wsl_20260909.json",
+      "sha256": "34ea3456f7d361761b9c6eff369c466a799a1c2427da18f703060c27546ed4ff",
+      "all_task_identity_count": 24,
+      "double_object_task_identity_count": 8
+    },
+    {
+      "label": "tg8_observable_subgoal_executed",
+      "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/result.json",
+      "sha256": "1a8f4c860822524e8290057b4783ff467ec8d0e4ba3a7e784af924f8d2dff954",
+      "all_task_identity_count": 30,
+      "double_object_task_identity_count": 10
+    }
+  ],
+  "prior_schedule_sources": [
+    {
+      "label": "tg8_schedule_v1_zero_execution",
+      "path": "artifacts/acl2027_tracegraph_tg8_observable_subgoal_preflight_v1/development_schedule.json",
+      "sha256": "5161c062c7a4bab1c23aa4c9a2c11dafeada6e88222a01b702d0410acb6686ed",
+      "all_task_identity_count": 24,
+      "double_object_task_identity_count": 8
+    },
+    {
+      "label": "tg8_schedule_v2_zero_execution",
+      "path": "artifacts/acl2027_tracegraph_tg8_observable_subgoal_preflight_v2/development_schedule.json",
+      "sha256": "4432360d21fe8a858615018ab2855e494aa1690a81781a81d1f31032172f3e68",
+      "all_task_identity_count": 36,
+      "double_object_task_identity_count": 12
+    },
+    {
+      "label": "tg8_schedule_v3_zero_execution",
+      "path": "artifacts/acl2027_tracegraph_tg8_observable_subgoal_preflight_v3/development_schedule.json",
+      "sha256": "e8053a942341931b722d1f42af1b64fb294c725a7563da5794d3d74b54f47c89",
+      "all_task_identity_count": 30,
+      "double_object_task_identity_count": 10
+    },
+    {
+      "label": "tg8_schedule_v4_executed_later",
+      "path": "artifacts/acl2027_tracegraph_tg8_observable_subgoal_preflight_v4/development_schedule.json",
+      "sha256": "1115337803f8899e0637f69643f169d0de3bc67fe8e9f7e2f021e6b914695aa7",
+      "all_task_identity_count": 30,
+      "double_object_task_identity_count": 10
+    }
+  ],
+  "tasks": [
+    {
+      "task_identity": "beebee46fea499ad39847458992a6e8e0760ae136262899be1034205ade2310a",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_seen/pick_two_obj_and_place-AlarmClock-None-Dresser-305/trial_T20190907_165826_194855",
+      "template_key": "pick_two_obj_and_place-AlarmClock-None-Dresser",
+      "gamefile_sha256": "97981572521577bb234c3ccaea8726c794952290b798cbf7ec9b2e516d2ea3f4",
+      "trajectory_sha256": "ad8ebfae4129a9b3ac19668143b211410e3ed4df3ea20e0ee919b621c7ea611b",
+      "pool_ordinal": 0,
+      "tg9_role": "historical_executed_excluded",
+      "eligible_for_internal_validation": false,
+      "executed_result_labels": [
+        "tg6_trajectory_failure_analysis_executed"
+      ],
+      "prior_schedule_labels": [],
+      "schedule_contaminated": false,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "0b24ad667532000c368e2a6f1f0a7f5d268e7a7c43b1dbb5979ba08d937d8ff1",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_seen/pick_two_obj_and_place-Book-None-Desk-302/trial_T20190906_181233_363875",
+      "template_key": "pick_two_obj_and_place-Book-None-Desk",
+      "gamefile_sha256": "a032de7156b99bd2297a6df1d9382fa24c2c4986fd18ea25a8ef10cb15e77817",
+      "trajectory_sha256": "4c7e61dc5c5eaa67add9eb17643dbca084500f9815706e8efeb5b6ea39a37d19",
+      "pool_ordinal": 1,
+      "tg9_role": "historical_executed_excluded",
+      "eligible_for_internal_validation": false,
+      "executed_result_labels": [
+        "tg6_trajectory_failure_analysis_executed"
+      ],
+      "prior_schedule_labels": [],
+      "schedule_contaminated": false,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "5df3c338d918b694a4ad71e2e5524e2bc31a1f2575093fb0232d3b761066229f",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_seen/pick_two_obj_and_place-Book-None-Desk-313/trial_T20190908_125930_920681",
+      "template_key": "pick_two_obj_and_place-Book-None-Desk",
+      "gamefile_sha256": "ea2e6495fa3cecfa28ce61ed32df4cc7b0d74258ae89d4857e14379a29b324a1",
+      "trajectory_sha256": "5b477e92e68e84dd79367b3e4074f7992be84449b8fbc5f0a6110f009767512d",
+      "pool_ordinal": 2,
+      "tg9_role": "historical_executed_excluded",
+      "eligible_for_internal_validation": false,
+      "executed_result_labels": [
+        "tg6_trajectory_failure_analysis_executed"
+      ],
+      "prior_schedule_labels": [],
+      "schedule_contaminated": false,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "e2fd20b24c356f770ec775728079d1a1282066d3e7aace5d8781ef047e5c6c00",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_seen/pick_two_obj_and_place-Box-None-CoffeeTable-213/trial_T20190906_200927_069627",
+      "template_key": "pick_two_obj_and_place-Box-None-CoffeeTable",
+      "gamefile_sha256": "62aadd9e4beb1c48f1cde459d56b9287c4a4c647a59c8093487b3e3ed0d8eb82",
+      "trajectory_sha256": "c0a6172901bc13e27e28502562f7b2fa7651d4a7c9e3aab4c2d28c8e6c942af0",
+      "pool_ordinal": 3,
+      "tg9_role": "historical_executed_excluded",
+      "eligible_for_internal_validation": false,
+      "executed_result_labels": [
+        "tg6_trajectory_failure_analysis_executed"
+      ],
+      "prior_schedule_labels": [],
+      "schedule_contaminated": false,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "b3fbc36a863adeb7b10d1719f2b297855533f961cc5e980d598c468c58662146",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_seen/pick_two_obj_and_place-CD-None-Drawer-304/trial_T20190907_230232_832893",
+      "template_key": "pick_two_obj_and_place-CD-None-Drawer",
+      "gamefile_sha256": "22ece0c7c8a46fb385c7b02da3efabcc6164579f194211aeb237623236bcc54b",
+      "trajectory_sha256": "9552acd233912cf40af9fdb9f9e45f6b1b977fe4058251bb64980f878cdb4871",
+      "pool_ordinal": 4,
+      "tg9_role": "historical_executed_excluded",
+      "eligible_for_internal_validation": false,
+      "executed_result_labels": [
+        "tg6_trajectory_failure_analysis_executed"
+      ],
+      "prior_schedule_labels": [],
+      "schedule_contaminated": false,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "f2e84eee3901c7a77458c4a03be4dca88b54f615a0e4f05b8b53de1408af29b2",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_seen/pick_two_obj_and_place-CreditCard-None-Dresser-311/trial_T20190907_201917_045715",
+      "template_key": "pick_two_obj_and_place-CreditCard-None-Dresser",
+      "gamefile_sha256": "fd0192a6279517b9fa4a9422e9b4ba43030da775a92654ca23704d66fa35d6bf",
+      "trajectory_sha256": "5faabd3c5e5e234547745bd2cff05582440ce8219e3255682ff81ccacbbfae70",
+      "pool_ordinal": 5,
+      "tg9_role": "historical_executed_excluded",
+      "eligible_for_internal_validation": false,
+      "executed_result_labels": [
+        "tg7_progress_memory_executed"
+      ],
+      "prior_schedule_labels": [],
+      "schedule_contaminated": false,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "c2a43fd4f9597cdcce4fc25749b6dc9f4e71e1ceab1745f1f6caa3f29227eef1",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_seen/pick_two_obj_and_place-CreditCard-None-Safe-323/trial_T20190907_001129_214240",
+      "template_key": "pick_two_obj_and_place-CreditCard-None-Safe",
+      "gamefile_sha256": "1f845d84c3c9a29d2498e442165b8f0ab7b3ceddad50ca6fc42313cafac5ece1",
+      "trajectory_sha256": "dc1490b86f5a8cb77a56592014761bea17c79be3d0b1404b1293b493f36965c3",
+      "pool_ordinal": 6,
+      "tg9_role": "historical_executed_excluded",
+      "eligible_for_internal_validation": false,
+      "executed_result_labels": [
+        "tg7_progress_memory_executed"
+      ],
+      "prior_schedule_labels": [],
+      "schedule_contaminated": false,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "8de18eeeaef7687b07de2281b09e3c37735b15fb3e4d45fd138b9dead4bd80f8",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_seen/pick_two_obj_and_place-Glassbottle-None-Shelf-1/trial_T20190907_122204_941737",
+      "template_key": "pick_two_obj_and_place-Glassbottle-None-Shelf",
+      "gamefile_sha256": "2a168d1d1654fe78ae7c2a9ef209a178b4641d17ba075dc77ab472f56051e57a",
+      "trajectory_sha256": "9bd0da1cdfbfdc72a591549278893cf69bfe3bff6ed2e484b30ca08ae219261a",
+      "pool_ordinal": 7,
+      "tg9_role": "historical_executed_excluded",
+      "eligible_for_internal_validation": false,
+      "executed_result_labels": [
+        "tg7_progress_memory_executed"
+      ],
+      "prior_schedule_labels": [],
+      "schedule_contaminated": false,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "f1adf02a185e43f917aa5a3c7380aec014a621ac88965551cd01645c0324b478",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_seen/pick_two_obj_and_place-Knife-None-Drawer-18/trial_T20190907_065232_689984",
+      "template_key": "pick_two_obj_and_place-Knife-None-Drawer",
+      "gamefile_sha256": "b2ca7b329e56c4cabb44929490244d325ee0a48bec542b28ecfaf9fbdc5fd825",
+      "trajectory_sha256": "a992019d730dbe0a0d581f0bc5a3a00a6fb54acae366df235db91b68bc3253b3",
+      "pool_ordinal": 8,
+      "tg9_role": "historical_executed_excluded",
+      "eligible_for_internal_validation": false,
+      "executed_result_labels": [
+        "tg7_progress_memory_executed"
+      ],
+      "prior_schedule_labels": [],
+      "schedule_contaminated": false,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "407aa4a1ddec39401899cd967cd998b78d1b68fa12822e4eaae2fca65dd4271f",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_seen/pick_two_obj_and_place-Newspaper-None-Drawer-224/trial_T20190911_101248_326533",
+      "template_key": "pick_two_obj_and_place-Newspaper-None-Drawer",
+      "gamefile_sha256": "d675ea576b4319cc8f87c90657121705377215ba565a63a6c3d296161813a29a",
+      "trajectory_sha256": "c5f6a91a2d130ae0c034831e0f240e2647d78777bda3a1fcce674e37da15bdf6",
+      "pool_ordinal": 9,
+      "tg9_role": "diagnosis_only_tg8_executed",
+      "eligible_for_internal_validation": false,
+      "executed_result_labels": [
+        "tg8_observable_subgoal_executed"
+      ],
+      "prior_schedule_labels": [
+        "tg8_schedule_v1_zero_execution",
+        "tg8_schedule_v4_executed_later"
+      ],
+      "schedule_contaminated": false,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "18c0713158588e50e893f22c28ddcdd1c3fabd4791d58eeb61ea0747b11e20a2",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_seen/pick_two_obj_and_place-Pan-None-CounterTop-14/trial_T20190907_012519_974044",
+      "template_key": "pick_two_obj_and_place-Pan-None-CounterTop",
+      "gamefile_sha256": "2527ef2801bc2f05aa593823c82b957d63993237d15849a5e16afb933754faf1",
+      "trajectory_sha256": "816931493d20ba985aa55200dff0c3fb3a3558d0e2e1e9ba3550eb5b0a10069d",
+      "pool_ordinal": 10,
+      "tg9_role": "diagnosis_only_tg8_executed",
+      "eligible_for_internal_validation": false,
+      "executed_result_labels": [
+        "tg8_observable_subgoal_executed"
+      ],
+      "prior_schedule_labels": [
+        "tg8_schedule_v1_zero_execution",
+        "tg8_schedule_v4_executed_later"
+      ],
+      "schedule_contaminated": false,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "9500566231ad4923974760720f4db728239d14eb4dc8d8a55da703a5ccf52c69",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_seen/pick_two_obj_and_place-RemoteControl-None-Ottoman-203/trial_T20190906_182952_858723",
+      "template_key": "pick_two_obj_and_place-RemoteControl-None-Ottoman",
+      "gamefile_sha256": "dc82b56974574c518d0846090caa450094f86123b9c20a786041401c8e982d95",
+      "trajectory_sha256": "795a09efe64b270be0f14b34b40fcf50816b0fea67a4e9ba4be245dd87b3271b",
+      "pool_ordinal": 11,
+      "tg9_role": "internal_validation",
+      "eligible_for_internal_validation": true,
+      "executed_result_labels": [],
+      "prior_schedule_labels": [
+        "tg8_schedule_v1_zero_execution",
+        "tg8_schedule_v3_zero_execution"
+      ],
+      "schedule_contaminated": true,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": false
+    },
+    {
+      "task_identity": "d06b8761032d092ff7768c38bff4afef50be0282a63e95492fcd92fe49a672d2",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_seen/pick_two_obj_and_place-SoapBar-None-GarbageCan-418/trial_T20190909_055538_380023",
+      "template_key": "pick_two_obj_and_place-SoapBar-None-GarbageCan",
+      "gamefile_sha256": "f8de4ec83992a61fc4b738848b7039d1c7a86f1322a5445c5128089428d9c964",
+      "trajectory_sha256": "1039ac7db0b3a606c886344c7177402b9bff47736abbc843201eaf3691b522b9",
+      "pool_ordinal": 12,
+      "tg9_role": "internal_validation",
+      "eligible_for_internal_validation": true,
+      "executed_result_labels": [],
+      "prior_schedule_labels": [
+        "tg8_schedule_v1_zero_execution",
+        "tg8_schedule_v3_zero_execution"
+      ],
+      "schedule_contaminated": true,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "636f12ec414272e08fb20759618a008de9bebb084ccee16e2076b34284547add",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_seen/pick_two_obj_and_place-SoapBar-None-GarbageCan-418/trial_T20190909_055649_717880",
+      "template_key": "pick_two_obj_and_place-SoapBar-None-GarbageCan",
+      "gamefile_sha256": "e7fef3359e2d16f23d39c2afa041c34b96ff569b403337795f455a5f7fcf4b8b",
+      "trajectory_sha256": "9178779f6d515f6cfbdac54f62a65c11b6c85bb38e3ef20025f6254eeecd2d7b",
+      "pool_ordinal": 13,
+      "tg9_role": "internal_validation",
+      "eligible_for_internal_validation": true,
+      "executed_result_labels": [],
+      "prior_schedule_labels": [],
+      "schedule_contaminated": false,
+      "prior_schedule_identity_blind": true,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "b8f216c6f0346fa7b87babb6f534241cdc0bda70179b16f10f336900b4857071",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_seen/pick_two_obj_and_place-Spatula-None-Drawer-13/trial_T20190908_183331_203888",
+      "template_key": "pick_two_obj_and_place-Spatula-None-Drawer",
+      "gamefile_sha256": "b1a1dfb082a72753115127d553ff6e9d680470d7be6021fce230d63c8b630e8d",
+      "trajectory_sha256": "aeef163211a77059811e7b7874509f9a0e3eb2c798d36663a6939317b2744e2d",
+      "pool_ordinal": 14,
+      "tg9_role": "internal_validation",
+      "eligible_for_internal_validation": true,
+      "executed_result_labels": [],
+      "prior_schedule_labels": [
+        "tg8_schedule_v3_zero_execution"
+      ],
+      "schedule_contaminated": true,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": false
+    },
+    {
+      "task_identity": "f965e61b35a96d3bff980a93f387a7073422ae9951a4123c09cbc115669a5f4e",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_seen/pick_two_obj_and_place-SprayBottle-None-Cabinet-407/trial_T20190907_144556_144188",
+      "template_key": "pick_two_obj_and_place-SprayBottle-None-Cabinet",
+      "gamefile_sha256": "4fc6a1ecda5638800cc874ab7cd06444af5864f0385a494cd80341263c4da9b4",
+      "trajectory_sha256": "38d1696f0cbd44bb4870b17177e260921b4fe51417b45d6d86b73aa1f80d3305",
+      "pool_ordinal": 15,
+      "tg9_role": "internal_validation",
+      "eligible_for_internal_validation": true,
+      "executed_result_labels": [],
+      "prior_schedule_labels": [],
+      "schedule_contaminated": false,
+      "prior_schedule_identity_blind": true,
+      "template_previously_executed": false
+    },
+    {
+      "task_identity": "c231c61f93800e0ba68087cbe790019a067345138dc6b22291507dd85096fb84",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_seen/pick_two_obj_and_place-SprayBottle-None-GarbageCan-419/trial_T20190908_164236_518264",
+      "template_key": "pick_two_obj_and_place-SprayBottle-None-GarbageCan",
+      "gamefile_sha256": "804d324448334c2c3e3cf9cdd61d29296ebdc39573fc39ffba3f90dfda8d44d1",
+      "trajectory_sha256": "dace14b91abd1d6cd406706f9f98de36d8ecb37d060353280f1f9b1a801a9a88",
+      "pool_ordinal": 16,
+      "tg9_role": "diagnosis_only_tg8_executed",
+      "eligible_for_internal_validation": false,
+      "executed_result_labels": [
+        "tg8_observable_subgoal_executed"
+      ],
+      "prior_schedule_labels": [
+        "tg8_schedule_v2_zero_execution",
+        "tg8_schedule_v4_executed_later"
+      ],
+      "schedule_contaminated": false,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "f9f10b38747f0a0f0c2ec930755e6a249617213b7818807a00b3818e4be8e1e0",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_seen/pick_two_obj_and_place-SprayBottle-None-Toilet-402/trial_T20190910_222914_814642",
+      "template_key": "pick_two_obj_and_place-SprayBottle-None-Toilet",
+      "gamefile_sha256": "5d49c7eaa9655f60ad7106cad650c68be48afa047cac7c8a008396a0aeb712e5",
+      "trajectory_sha256": "1b7255a12487fb4cb78e37d769d1dd5cb2a9c456928b96fa54cfa4a6b4b4cdfd",
+      "pool_ordinal": 17,
+      "tg9_role": "internal_validation",
+      "eligible_for_internal_validation": true,
+      "executed_result_labels": [],
+      "prior_schedule_labels": [
+        "tg8_schedule_v2_zero_execution",
+        "tg8_schedule_v3_zero_execution"
+      ],
+      "schedule_contaminated": true,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "346112755c4b8a29fdc149d9ace656a4a520bfb7dc1d31c600bde5a80da5dca5",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_seen/pick_two_obj_and_place-SprayBottle-None-Toilet-429/trial_T20190907_033843_707544",
+      "template_key": "pick_two_obj_and_place-SprayBottle-None-Toilet",
+      "gamefile_sha256": "8eff5d86460073fb6904eadce58b5aa6d93f20029c8391b8fa6c54e456effeac",
+      "trajectory_sha256": "74c369e3813dc96a90ba688304a01ad24956abe2a6b574fc9c4f54ba8feb0f15",
+      "pool_ordinal": 18,
+      "tg9_role": "diagnosis_only_tg8_executed",
+      "eligible_for_internal_validation": false,
+      "executed_result_labels": [
+        "tg8_observable_subgoal_executed"
+      ],
+      "prior_schedule_labels": [
+        "tg8_schedule_v4_executed_later"
+      ],
+      "schedule_contaminated": false,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "8a5cad18750c75cf291c5d38a27458d0b3c74dc69771e9cddfb3852900174e14",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_seen/pick_two_obj_and_place-TissueBox-None-Toilet-426/trial_T20190909_044602_338962",
+      "template_key": "pick_two_obj_and_place-TissueBox-None-Toilet",
+      "gamefile_sha256": "fbd4bb96af087d5e5dd5c0a17ed7aa299c80c46503cff727ca999b753758bcb7",
+      "trajectory_sha256": "41a11d5898d6ff2f00a801860287b37d6fdb02167584675724bd8f9c7d43decd",
+      "pool_ordinal": 19,
+      "tg9_role": "internal_validation",
+      "eligible_for_internal_validation": true,
+      "executed_result_labels": [],
+      "prior_schedule_labels": [
+        "tg8_schedule_v2_zero_execution"
+      ],
+      "schedule_contaminated": true,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": false
+    },
+    {
+      "task_identity": "30ed2e26bd15d17a5709fea9bec2ae0916c044d8b90f16f46eacaeeadcf90337",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_seen/pick_two_obj_and_place-ToiletPaper-None-Drawer-423/trial_T20190907_111251_461099",
+      "template_key": "pick_two_obj_and_place-ToiletPaper-None-Drawer",
+      "gamefile_sha256": "6473fe50acbac49c016b220932788b12c2d884b22351a9bbca57e764c0499dcc",
+      "trajectory_sha256": "faafbe9e7a90e98b40e55ce130ed7491f8c3d457aa52b5499038be553524455e",
+      "pool_ordinal": 20,
+      "tg9_role": "internal_validation",
+      "eligible_for_internal_validation": true,
+      "executed_result_labels": [],
+      "prior_schedule_labels": [
+        "tg8_schedule_v2_zero_execution"
+      ],
+      "schedule_contaminated": true,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": false
+    },
+    {
+      "task_identity": "a8f3a83e37a89a5c12dbafabca4102ce5c63b11650468124d0ee81d05105506c",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_seen/pick_two_obj_and_place-ToiletPaper-None-Toilet-408/trial_T20190909_080302_174780",
+      "template_key": "pick_two_obj_and_place-ToiletPaper-None-Toilet",
+      "gamefile_sha256": "f4c5395a21b036b4ceb7ab142d166422fe64778cc8c54ea8124d71fdee6fa593",
+      "trajectory_sha256": "773a52756d01863e8705cd975905f6347e9acf30780fe533d00da02e41106624",
+      "pool_ordinal": 21,
+      "tg9_role": "internal_validation",
+      "eligible_for_internal_validation": true,
+      "executed_result_labels": [],
+      "prior_schedule_labels": [
+        "tg8_schedule_v3_zero_execution"
+      ],
+      "schedule_contaminated": true,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": false
+    },
+    {
+      "task_identity": "8046b7d7ed641ae42d3acc408f3343026feb8e1ca0bec99127a2e7b8e2970b32",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_seen/pick_two_obj_and_place-Vase-None-Desk-204/trial_T20190906_181531_703961",
+      "template_key": "pick_two_obj_and_place-Vase-None-Desk",
+      "gamefile_sha256": "b87f5546c0369fd9e8c7a620915fad64d5829cb8a29989c56011da5bdb2471aa",
+      "trajectory_sha256": "6a24ade28e9b4aafa9afe6f94872e127d7f5d38a989fbff1c68743d8ebe72e12",
+      "pool_ordinal": 22,
+      "tg9_role": "internal_validation",
+      "eligible_for_internal_validation": true,
+      "executed_result_labels": [],
+      "prior_schedule_labels": [
+        "tg8_schedule_v2_zero_execution"
+      ],
+      "schedule_contaminated": true,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": false
+    },
+    {
+      "task_identity": "78d2ee391b6190cc8de422f6eb960e41d7c34f7996d46fc9224f536149b59e66",
+      "split": "valid_seen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_seen/pick_two_obj_and_place-Watch-None-Dresser-205/trial_T20190907_182211_592010",
+      "template_key": "pick_two_obj_and_place-Watch-None-Dresser",
+      "gamefile_sha256": "187a2946a3b1b5920de50a1a497d653b680d3113bc97a96fdf0c0f84ee4a7dd5",
+      "trajectory_sha256": "26c96c3ba2eed7444c612a061a9f53851bf5ca7517d9d9b3a7693343e0c6da75",
+      "pool_ordinal": 23,
+      "tg9_role": "diagnosis_only_tg8_executed",
+      "eligible_for_internal_validation": false,
+      "executed_result_labels": [
+        "tg8_observable_subgoal_executed"
+      ],
+      "prior_schedule_labels": [
+        "tg8_schedule_v2_zero_execution",
+        "tg8_schedule_v4_executed_later"
+      ],
+      "schedule_contaminated": false,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "5f5b9330b207bda019b77caf50a380096c4fd7f27496edc123efd003493f0f72",
+      "split": "valid_unseen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_unseen/pick_two_obj_and_place-CD-None-Safe-308/trial_T20190907_050942_897916",
+      "template_key": "pick_two_obj_and_place-CD-None-Safe",
+      "gamefile_sha256": "2a437313dc4ca919fe4f134b40dc995f43ebb6336d008117390c77617454c452",
+      "trajectory_sha256": "4bc04736c3b48ef393a6a6eff4ee1362fe22fc39f49c2ca6dc6c692f6511339f",
+      "pool_ordinal": 24,
+      "tg9_role": "historical_executed_excluded",
+      "eligible_for_internal_validation": false,
+      "executed_result_labels": [
+        "tg6_trajectory_failure_analysis_executed"
+      ],
+      "prior_schedule_labels": [],
+      "schedule_contaminated": false,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "3309ad07f1de0c7d410661e36ea822742241ee7bbc12328fc0d3bc97cac83522",
+      "split": "valid_unseen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_unseen/pick_two_obj_and_place-CD-None-Safe-308/trial_T20190907_051013_060265",
+      "template_key": "pick_two_obj_and_place-CD-None-Safe",
+      "gamefile_sha256": "80bddef1cc036e41a459750ebecd368bf6eef71788ffc1e410580d185a843d0a",
+      "trajectory_sha256": "783964633b8c59ad4b0c3dd37bd78283fce8db62775c01a826f132c2815f6f95",
+      "pool_ordinal": 25,
+      "tg9_role": "historical_executed_excluded",
+      "eligible_for_internal_validation": false,
+      "executed_result_labels": [
+        "tg6_trajectory_failure_analysis_executed"
+      ],
+      "prior_schedule_labels": [],
+      "schedule_contaminated": false,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "70fb1818f9a20510fa021238835649afdad8fa4e640497877af56bb7b487f4c7",
+      "split": "valid_unseen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_unseen/pick_two_obj_and_place-CD-None-Safe-308/trial_T20190907_051056_585414",
+      "template_key": "pick_two_obj_and_place-CD-None-Safe",
+      "gamefile_sha256": "41b83872881dda417ce81fe9c72ad18ce70fd57fc8479f78972197ed346c22a4",
+      "trajectory_sha256": "537e82e99457eb8c78e6d6359fd21b4192251fd81cac9968c505baed115fe01f",
+      "pool_ordinal": 26,
+      "tg9_role": "historical_executed_excluded",
+      "eligible_for_internal_validation": false,
+      "executed_result_labels": [
+        "tg6_trajectory_failure_analysis_executed"
+      ],
+      "prior_schedule_labels": [],
+      "schedule_contaminated": false,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "3c6fe8b09a2eb924c046776e1f1c00c4cac7d93d676505cf5bf25501b1058a64",
+      "split": "valid_unseen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_unseen/pick_two_obj_and_place-KeyChain-None-Safe-219/trial_T20190909_011803_423115",
+      "template_key": "pick_two_obj_and_place-KeyChain-None-Safe",
+      "gamefile_sha256": "a3c5ee6098d80b761d5a416730c315ce11a5e784771cc0ae006d499b2b641a5c",
+      "trajectory_sha256": "d164fb2c0dc1b6118b6a6768dc286e0a668cbf890382d080488e7f16cae47982",
+      "pool_ordinal": 27,
+      "tg9_role": "historical_executed_excluded",
+      "eligible_for_internal_validation": false,
+      "executed_result_labels": [
+        "tg7_progress_memory_executed"
+      ],
+      "prior_schedule_labels": [],
+      "schedule_contaminated": false,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "e84b630d728bac6aa6ea5f50ea173b6e02fa742e93328ba2480b17b9f42202bc",
+      "split": "valid_unseen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_unseen/pick_two_obj_and_place-KeyChain-None-Safe-219/trial_T20190909_012027_782483",
+      "template_key": "pick_two_obj_and_place-KeyChain-None-Safe",
+      "gamefile_sha256": "b3d2ce0a6c54ee8af379b9bd58aef58170fb4ff16098601d961289bd916f6d55",
+      "trajectory_sha256": "2882d8982fb45c756fbb376d0956c4d117ba24ae6fcd644339ff0eb97b004efa",
+      "pool_ordinal": 28,
+      "tg9_role": "historical_executed_excluded",
+      "eligible_for_internal_validation": false,
+      "executed_result_labels": [
+        "tg7_progress_memory_executed"
+      ],
+      "prior_schedule_labels": [],
+      "schedule_contaminated": false,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "2e4197971723b1dbbc95de0e65be051f34d2c853e6856d76daa0e1f020667433",
+      "split": "valid_unseen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_unseen/pick_two_obj_and_place-PepperShaker-None-Drawer-10/trial_T20190908_010306_215435",
+      "template_key": "pick_two_obj_and_place-PepperShaker-None-Drawer",
+      "gamefile_sha256": "1f25f00f185e667734650951678a7ce4f1280bcf9b23fdec30094fec88226ba1",
+      "trajectory_sha256": "91a519c0947359eb79f2ca02ba6945890d1da1eae96e8f7d16ccf24bb31a9ed2",
+      "pool_ordinal": 29,
+      "tg9_role": "historical_executed_excluded",
+      "eligible_for_internal_validation": false,
+      "executed_result_labels": [
+        "tg7_progress_memory_executed"
+      ],
+      "prior_schedule_labels": [],
+      "schedule_contaminated": false,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "7b3065bb6b09aa08469bf12bfe37518fd1044a19728b996211d82ab195cd24c9",
+      "split": "valid_unseen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_unseen/pick_two_obj_and_place-PepperShaker-None-Drawer-10/trial_T20190912_221016_460197",
+      "template_key": "pick_two_obj_and_place-PepperShaker-None-Drawer",
+      "gamefile_sha256": "5619db4dedbd1014045613594b2d96105068890c7d273479058f12696a7a486f",
+      "trajectory_sha256": "83f28961410c735e81450a4599e08392c565f0d041524ac139a9505af1f02649",
+      "pool_ordinal": 30,
+      "tg9_role": "historical_executed_excluded",
+      "eligible_for_internal_validation": false,
+      "executed_result_labels": [
+        "tg7_progress_memory_executed"
+      ],
+      "prior_schedule_labels": [],
+      "schedule_contaminated": false,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "deb8fa701f897064f8e78cb390ccba622d8f356b9c2310fc394679263e4b6e54",
+      "split": "valid_unseen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_unseen/pick_two_obj_and_place-PepperShaker-None-Drawer-10/trial_T20190912_221141_608117",
+      "template_key": "pick_two_obj_and_place-PepperShaker-None-Drawer",
+      "gamefile_sha256": "095af73c38a770486b9572184d671c7426a24465efdcd1daf3b2210e1e69b015",
+      "trajectory_sha256": "ddceb9e0fb185db121d471653cfb199f0b155215189aaee26138c627fa20b11d",
+      "pool_ordinal": 31,
+      "tg9_role": "diagnosis_only_tg8_executed",
+      "eligible_for_internal_validation": false,
+      "executed_result_labels": [
+        "tg8_observable_subgoal_executed"
+      ],
+      "prior_schedule_labels": [
+        "tg8_schedule_v1_zero_execution",
+        "tg8_schedule_v3_zero_execution",
+        "tg8_schedule_v4_executed_later"
+      ],
+      "schedule_contaminated": false,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "70730d599e261d5ff0f5acb13098c178bb6d8d81b9e83cde3d357bbeaf6ff868",
+      "split": "valid_unseen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_unseen/pick_two_obj_and_place-Pillow-None-Sofa-219/trial_T20190907_163240_345855",
+      "template_key": "pick_two_obj_and_place-Pillow-None-Sofa",
+      "gamefile_sha256": "215014912000dcced6346efa94518a10758f60199786bfa367bc38572bf6470f",
+      "trajectory_sha256": "9b1ef8e76ac6b18b5f3c9047dca9f901e26228d1805c67c42cce833e63799815",
+      "pool_ordinal": 32,
+      "tg9_role": "diagnosis_only_tg8_executed",
+      "eligible_for_internal_validation": false,
+      "executed_result_labels": [
+        "tg8_observable_subgoal_executed"
+      ],
+      "prior_schedule_labels": [
+        "tg8_schedule_v1_zero_execution",
+        "tg8_schedule_v4_executed_later"
+      ],
+      "schedule_contaminated": false,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "127fb8819a846bad2501358357372a997cdd6be4f41bb19f42a45814139dffec",
+      "split": "valid_unseen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_unseen/pick_two_obj_and_place-Pillow-None-Sofa-219/trial_T20190907_163327_486300",
+      "template_key": "pick_two_obj_and_place-Pillow-None-Sofa",
+      "gamefile_sha256": "2f60029dc6b8a3cfb1ddb44e93ac376e2d028dfb96893ed0e43a1c40cbe13b8c",
+      "trajectory_sha256": "17bc47b7986e60139c7ce1007e7549607d9a094fc899f828419959b1c525785d",
+      "pool_ordinal": 33,
+      "tg9_role": "internal_validation",
+      "eligible_for_internal_validation": true,
+      "executed_result_labels": [],
+      "prior_schedule_labels": [
+        "tg8_schedule_v1_zero_execution"
+      ],
+      "schedule_contaminated": true,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "4e33349a659a85e3895e8ffe4c4270a0f88b24bb6ca819de0d7d0b6c5b8cfbc5",
+      "split": "valid_unseen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_unseen/pick_two_obj_and_place-Pillow-None-Sofa-219/trial_T20190907_163408_914117",
+      "template_key": "pick_two_obj_and_place-Pillow-None-Sofa",
+      "gamefile_sha256": "54002dabdfe58786e790ef3e9968181355487447cb12583fdafbfb893d6be0d7",
+      "trajectory_sha256": "9f2673910e4397b568ece7a8b0d71946a8b59a5ad3ec3cb7baecb0d6eb275776",
+      "pool_ordinal": 34,
+      "tg9_role": "internal_validation",
+      "eligible_for_internal_validation": true,
+      "executed_result_labels": [],
+      "prior_schedule_labels": [
+        "tg8_schedule_v1_zero_execution",
+        "tg8_schedule_v3_zero_execution"
+      ],
+      "schedule_contaminated": true,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "10c44363f18380938cf4b1f579c82f1038680d83a346065f3ebbe28dd3859150",
+      "split": "valid_unseen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_unseen/pick_two_obj_and_place-SoapBar-None-Cabinet-424/trial_T20190909_081720_491733",
+      "template_key": "pick_two_obj_and_place-SoapBar-None-Cabinet",
+      "gamefile_sha256": "6c3745d1960c4caedbc326cef8422060184819fd1229b247d3cba36385dc78fe",
+      "trajectory_sha256": "3abc875e984b66fe529d629be95592accb6d52aa33d9893dd3b3dcd1a0b5c0e9",
+      "pool_ordinal": 35,
+      "tg9_role": "internal_validation",
+      "eligible_for_internal_validation": true,
+      "executed_result_labels": [],
+      "prior_schedule_labels": [
+        "tg8_schedule_v2_zero_execution"
+      ],
+      "schedule_contaminated": true,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "3150970cd60e9aa950adcd86f04cc95818934184f5894f9259ee8d1c65f718ef",
+      "split": "valid_unseen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_unseen/pick_two_obj_and_place-SoapBar-None-Cabinet-424/trial_T20190909_081746_857594",
+      "template_key": "pick_two_obj_and_place-SoapBar-None-Cabinet",
+      "gamefile_sha256": "062fc4d5fd6da688fe8bca30b600ee9c31a1aa34f5e75d2f37d0b73b55c37574",
+      "trajectory_sha256": "8ffc4e7a0cea84cc8ed8d81d863107af4f6c5f7de4af23518584642181d470cf",
+      "pool_ordinal": 36,
+      "tg9_role": "diagnosis_only_tg8_executed",
+      "eligible_for_internal_validation": false,
+      "executed_result_labels": [
+        "tg8_observable_subgoal_executed"
+      ],
+      "prior_schedule_labels": [
+        "tg8_schedule_v2_zero_execution",
+        "tg8_schedule_v3_zero_execution",
+        "tg8_schedule_v4_executed_later"
+      ],
+      "schedule_contaminated": false,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "662a6d4dead14b7bce2da64b0b38d0e9ebdfe84d0a9dc35fa17d48bd69f1d3a3",
+      "split": "valid_unseen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_unseen/pick_two_obj_and_place-SoapBar-None-GarbageCan-424/trial_T20190909_064053_839817",
+      "template_key": "pick_two_obj_and_place-SoapBar-None-GarbageCan",
+      "gamefile_sha256": "78bc903632973d31f559832307cc248553715c98d6d123a4df7bf3cade6a721a",
+      "trajectory_sha256": "57accc57c7a94f37e21064041d6ae285a4358ca8eef907ae54a35cd710247832",
+      "pool_ordinal": 37,
+      "tg9_role": "internal_validation",
+      "eligible_for_internal_validation": true,
+      "executed_result_labels": [],
+      "prior_schedule_labels": [
+        "tg8_schedule_v2_zero_execution"
+      ],
+      "schedule_contaminated": true,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "683131f013120b99963d669a184e28dc9955e116add967c65b71d80ae44c1238",
+      "split": "valid_unseen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_unseen/pick_two_obj_and_place-SoapBar-None-GarbageCan-424/trial_T20190909_064221_368939",
+      "template_key": "pick_two_obj_and_place-SoapBar-None-GarbageCan",
+      "gamefile_sha256": "77cb2ee04f1b473715f8c1fe98ed592a44e05b57c0ad3e80607054842d64425f",
+      "trajectory_sha256": "1d8043655e6196f1c30904760456a5d2acf242614dcb53237c16bf870d820b9b",
+      "pool_ordinal": 38,
+      "tg9_role": "internal_validation",
+      "eligible_for_internal_validation": true,
+      "executed_result_labels": [],
+      "prior_schedule_labels": [
+        "tg8_schedule_v2_zero_execution",
+        "tg8_schedule_v3_zero_execution"
+      ],
+      "schedule_contaminated": true,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "5be70830f42100425d13051259ce48989385532c6d1583ea091d4ff8dd2ae76e",
+      "split": "valid_unseen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_unseen/pick_two_obj_and_place-SoapBar-None-GarbageCan-424/trial_T20190909_064309_357168",
+      "template_key": "pick_two_obj_and_place-SoapBar-None-GarbageCan",
+      "gamefile_sha256": "39ca720f2b4949dfb7d38df9a616be27e8d36f70453d465f3542b6147b0fd27a",
+      "trajectory_sha256": "4f6984cbfb55a727796aadf0f40ff6b2f9e970cb153732654fc0a3c73bac77cb",
+      "pool_ordinal": 39,
+      "tg9_role": "diagnosis_only_tg8_executed",
+      "eligible_for_internal_validation": false,
+      "executed_result_labels": [
+        "tg8_observable_subgoal_executed"
+      ],
+      "prior_schedule_labels": [
+        "tg8_schedule_v2_zero_execution",
+        "tg8_schedule_v4_executed_later"
+      ],
+      "schedule_contaminated": false,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    },
+    {
+      "task_identity": "b848af8139b351a6229535fcaabd5532a396135043bcc8feb785a0fbf8c3633f",
+      "split": "valid_unseen",
+      "task_family": "pick_two_obj_and_place",
+      "task_relative_path": "valid_unseen/pick_two_obj_and_place-ToiletPaper-None-Cabinet-424/trial_T20190906_202926_527010",
+      "template_key": "pick_two_obj_and_place-ToiletPaper-None-Cabinet",
+      "gamefile_sha256": "a1fe4a4ea6b600a54fb61e924a0605a6290a9a8fa6b220d9a6a2f595ed777a43",
+      "trajectory_sha256": "3b6c1469016f2474bc4e33fa0463b83f39cbb95c0fecaee6dcb470bd9edb8a06",
+      "pool_ordinal": 40,
+      "tg9_role": "diagnosis_only_tg8_executed",
+      "eligible_for_internal_validation": false,
+      "executed_result_labels": [
+        "tg8_observable_subgoal_executed"
+      ],
+      "prior_schedule_labels": [
+        "tg8_schedule_v2_zero_execution",
+        "tg8_schedule_v3_zero_execution",
+        "tg8_schedule_v4_executed_later"
+      ],
+      "schedule_contaminated": false,
+      "prior_schedule_identity_blind": false,
+      "template_previously_executed": true
+    }
+  ],
+  "network_calls": 0,
+  "provider_calls": 0,
+  "model_calls": 0,
+  "api_calls": 0,
+  "paid_api_calls": 0
+}

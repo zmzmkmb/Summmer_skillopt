@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase4b_contract_repair_preflight_v1",
+  "status": "zero_network_preflight_closed",
+  "source_phase4a_design_fingerprint": "2a7a6814b261ad336902fa8c4c6048a6114f62ffa242aae267a3700d0e97a2db",
+  "source_phase4b_preflight_fingerprint": "0826f7a4cd5b673ce2e2dfed50a0cecd8806b0b8176c1ac004987b3a0f8bd243",
+  "source_phase4b_analysis_fingerprint": "75f54900bc79b1a9a49f715219b7bfb20571c91a261e71b2e850f9e92713e885",
+  "diagnosis": "The six-field response contract was stored outside messages and was therefore removed by the provider adapter transport projection. Evidence sentence IDs were also not explicitly exposed in the user-visible context.",
+  "design": {
+    "development_tasks": 20,
+    "task_families": ["attribute_comparison", "bridge_attribute_comparison"],
+    "tasks_per_family": 10,
+    "conditions": ["cold", "global_only", "contextual_typed", "shuffled_typed", "incompatible_control"],
+    "proposal_rows": 100,
+    "wholly_new_tasks_required": true,
+    "transport_projection_audit_required": true,
+    "contract_visible_inside_messages_required": true,
+    "explicit_evidence_ids_required": true
+  },
+  "future_execution_contract": {
+    "status": "not_authorized",
+    "model_id": "qwen3.7-plus",
+    "temperature": 0,
+    "enable_thinking": false,
+    "retries": 0,
+    "max_tokens_present": false,
+    "response_format": {"type": "json_object"},
+    "request_interval_seconds": 1.0,
+    "stage_cost_ceiling_cny": 2.0,
+    "cumulative_cost_ceiling_cny": 15.0,
+    "terminal_stop_on_first_failed_attempt": true,
+    "authorization_closes_on_completion_or_terminal_stop": true
+  },
+  "calibration_gate": {
+    "contract_valid_rate_at_least": 0.95,
+    "contextual_selection_rate_at_least": 0.90,
+    "evidence_ids_resolve_rate_at_least": 0.95,
+    "no_phase4c_authorization_from_this_preflight": true
+  },
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "model_calls_allowed": false,
+    "paid_api_allowed": false,
+    "qwen_authorization_open": false,
+    "phase4c_allowed": false,
+    "formal_scaling_allowed": false
+  }
+}

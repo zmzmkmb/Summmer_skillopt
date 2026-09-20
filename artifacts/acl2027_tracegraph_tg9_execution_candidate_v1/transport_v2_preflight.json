@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "status": "prepared_closed_pending_fresh_exact_authorization",
+  "created_date": "2026-09-18",
+  "experiment_aggregate_fingerprint": "6006009c4d662c45d166c4ca6f3503f789e6b081ce7fca81d8cd373542442385",
+  "transport_fingerprint": "d47aeed58b829b3437c56fa7795ab63dc367c7dee8aabe139942c8e3b58e2af3",
+  "launcher": "scripts/start_acl2027_tg9_factorial_v2.ps1",
+  "launcher_sha256": "0ac5fa28335137087194d25e08db20fef393621223e7629c6faf1f26cfea2f39",
+  "system_awake_monitor": "scripts/monitor_acl2027_tg9_factorial_v1.ps1",
+  "system_awake_monitor_sha256": "2659187fdfd77f084205488c812c6b003b52e62fc5dc632f95922d03e3e54ebc",
+  "monitor_selftest": "artifacts/acl2027_tracegraph_tg9_execution_candidate_v1/monitor_selftest.log",
+  "monitor_selftest_sha256": "65f17660cebea815f5be89c47a2b3f036a042f23377dfa9526f278545e92556d",
+  "preserved_interruption_record": "artifacts/acl2027_tracegraph_tg9_factorial_v1/independent_20260918_v1/interruption_record.json",
+  "preserved_interruption_record_sha256": "5946366cd9b075faf8654bc3b963152071f838ea59588f01c3774a3878b2a971",
+  "corrected_launch_order": [
+    "validate fresh authorized config and receipt",
+    "create a new independent output directory",
+    "start and verify persistent WSL keeper",
+    "acquire and verify Windows system-awake request",
+    "start the private-network systemd experiment service",
+    "verify active service, Linux PID, keeper PID and guardian PID"
+  ],
+  "proposed_run_directory": "artifacts/acl2027_tracegraph_tg9_factorial_v1/independent_20260918_v2",
+  "execution_authorized": false,
+  "episodes_run": 0,
+  "actions_taken": 0
+}

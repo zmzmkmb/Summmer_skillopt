@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase1d_triage_pilot_v1",
+  "phase": "1D",
+  "title": "Fabricated development pilot for accept/reject/abstain deployment triage",
+  "execution": {
+    "paid_api_allowed": false,
+    "formal_scaling_allowed": false,
+    "network_calls_allowed": false,
+    "evidence_kind": "fabricated_development_only"
+  },
+  "protocol": {
+    "prior_types": ["copied-global", "global-only", "contextual"],
+    "evidence_regimes": ["sparse", "sufficient", "conflicted"],
+    "replicates_per_cell": 16,
+    "decision_actions": ["accept", "reject", "abstain"],
+    "abstain_semantics": "do_not_deploy_but_retain_candidate",
+    "discard_is_gate_action": false,
+    "thresholds_frozen_before_generation": true
+  },
+  "decision_rule": {
+    "accept": "contextual prior, sufficient evidence, proxy_delta >= 0.05, disagreement <= 0.10",
+    "reject": "sufficient evidence with non-contextual prior or proxy_delta < 0.05",
+    "abstain": "sparse or conflicted evidence"
+  },
+  "comparators": ["binary_proxy_gate", "triage_gate"],
+  "development_only": true,
+  "held_out_inputs": [],
+  "network_calls": 0
+}

@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "initial_host_pid": 22072,
+  "submitted_at": "2026-09-16T23:03:19.4042343+08:00",
+  "outcome": "host exited before authorization with Not authorized; nothing launched",
+  "new_receipt_exists_after_failure": false,
+  "new_authorized_config_exists_after_failure": false,
+  "new_experiment_output_exists_after_failure": false,
+  "episodes_started": 0,
+  "experimental_authorization_consumed": false,
+  "frozen_files_modified": false,
+  "diagnosis": "The confirmation was not delivered to Read-Host after native preflight children. A standalone detached Read-Host probe accepted the same text. The relay sends the already-authorized text only after observing the exact prompt.",
+  "recovery_scope": "Repair the preauthorization input transport only. Do not repeat any experiment, reuse any generated receipt, or remove the original host submission claim/logs.",
+  "relay": "artifacts/acl2027_tg8_manual_control_20260916/relay_confirmation.ps1"
+}

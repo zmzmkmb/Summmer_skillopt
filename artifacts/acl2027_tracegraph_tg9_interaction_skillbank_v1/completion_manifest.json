@@ -1,0 +1,36 @@
+{
+  "schema_version": "tg9-interaction-skillbank-v1",
+  "status": "complete_zero_network_train_only_construction",
+  "created_date": "2026-09-18",
+  "builder": "scripts/build_acl2027_tracegraph_tg9_interaction_skillbank_v1.py",
+  "builder_sha256": "c925369cc15de0adbf696df6ffc1ad541a2a285db4bb791a6f689c79c4a7debc",
+  "source_manifest": "artifacts/acl2027_tracegraph_tg1_skillbank_preflight_v1/skillbank_source_manifest.json",
+  "source_manifest_sha256": "f0027b4ab28a80371d4e3a43f9208e956c99ecc691efaae8f0741805ee17fdec",
+  "interaction_skillbank": "artifacts/acl2027_tracegraph_tg9_interaction_skillbank_v1/interaction_skillbank.jsonl",
+  "interaction_skillbank_sha256": "cdc2813a46d2ddafcb54aa12cdb3cd3d6cad453d117befef9caf4cc38ba2c67c",
+  "record_count": 7079,
+  "action_counts": {
+    "OpenObject": 3509,
+    "CloseObject": 3570
+  },
+  "source_split": "train",
+  "emitted_fields": [
+    "canonical_actions",
+    "construction_protocol_fingerprint",
+    "gamefile_sha256",
+    "low_action_index",
+    "skill_id",
+    "source_split",
+    "task_type",
+    "traj_data_sha256",
+    "trajectory_id"
+  ],
+  "hidden_geometry_or_planner_fields_emitted": false,
+  "episodes_run": 0,
+  "actions_taken": 0,
+  "network_calls": 0,
+  "provider_calls": 0,
+  "model_calls": 0,
+  "api_calls": 0,
+  "paid_api_calls": 0
+}

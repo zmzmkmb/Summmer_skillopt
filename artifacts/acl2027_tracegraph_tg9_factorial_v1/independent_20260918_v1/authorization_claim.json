@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "status": "claimed_for_single_execution",
+  "claimed_at": "2026-09-18T18:33:52+08:00",
+  "authorization_receipt_sha256": "49c34a95f3e34f239af2a45903aaf99980672abd471f7055c7da1f8be88d01a6",
+  "aggregate_fingerprint": "6006009c4d662c45d166c4ca6f3503f789e6b081ce7fca81d8cd373542442385",
+  "runner_config_binding_sha256": "20a0814073484436f5d495575f958a9e5e68900ae6351cedb57bafe9ad9ba327",
+  "reusable": false,
+  "run_directory": "artifacts/acl2027_tracegraph_tg9_factorial_v1/independent_20260918_v1"
+}

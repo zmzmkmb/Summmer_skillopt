@@ -1,0 +1,46 @@
+{
+  "authorization_id": "phase2-formal-history-recovery-token-plan-v12",
+  "authorized_calls": 128,
+  "authorized_stage": "formal_history_recovery",
+  "bindings": {
+    "combined_schedule_sha256": "9938015382753acd38e1f0f38399eb76576c6e083a03fdd86e4ce1af56cf94e3",
+    "live_runner_sha256": "945410044e09ad8e0e4cf3837026c91b12a1cb28a3592ca62c34b102d845f97b",
+    "preflight_config_sha256": "75ccc23ec14d40481997bf47f2179d5ce4c320c97427e8b4ed4f2e18d2407635",
+    "preflight_manifest_sha256": "6c6fd37b0f352ba76b2fc78a978a95b6a38a43ec0db9d6179d18b1cad1d35477",
+    "recovery_schedule_sha256": "1643b4252a3b56a2b17be8db378956b6115c440585a9a852edfb43e7e5ba08b0"
+  },
+  "credential_sha256": "c633a901caf472c4a161651f45c53e5d9d962ca1e5dde40cea8e106da2b5ec6f",
+  "cumulative_cost_ceiling_cny": 1.64,
+  "enable_thinking": false,
+  "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+  "forbidden_stages": [
+    "probe",
+    "held_out",
+    "formal_scaling"
+  ],
+  "formal_scaling_allowed": false,
+  "max_provider_attempts": 128,
+  "max_tokens_present": false,
+  "model_id": "qwen3.7-plus",
+  "paid_api_allowed": true,
+  "provider_calls_allowed": true,
+  "qwen_authorization_open": true,
+  "request_interval_seconds": 1.0,
+  "response_format": {
+    "type": "json_object"
+  },
+  "retries": 0,
+  "schema_version": 12,
+  "stage_call_ceiling": 128,
+  "stage_cost_ceiling_cny": 1.64,
+  "status": "open",
+  "temperature": 0,
+  "user_authorization": {
+    "authorized_calls": 128,
+    "formal_scaling_authorized": false,
+    "held_out_authorized": false,
+    "later_stages_authorized": false,
+    "probe_authorized": false,
+    "scope": "phase2_formal_history_recovery_only"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "schema_version": 4,
+  "experiment": "acl2027_phase3h_counterfactual_answer_sensitivity_live_preflight_v4",
+  "status": "zero_network_live_execution_preflight_closed",
+  "source_design": {
+    "experiment": "acl2027_phase3h_counterfactual_answer_sensitivity_preflight_v3",
+    "aggregate_fingerprint": "61d55a4c3134c0ccf349aa400d3fd2333376b7e7775c3730a7a1016fc942eafb",
+    "schedule_rows": 200
+  },
+  "execution_contract": {
+    "scope": "phase3h_counterfactual_answer_sensitivity_only",
+    "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+    "model_id": "qwen3.7-plus",
+    "authorized_calls": 200,
+    "max_provider_attempts": 200,
+    "temperature": 0,
+    "enable_thinking": false,
+    "retries": 0,
+    "max_tokens_present": false,
+    "response_format": {"type": "json_object"},
+    "request_interval_seconds": 1.0,
+    "stage_cost_ceiling_cny": 3.0,
+    "cumulative_cost_ceiling_cny": 15.0,
+    "known_cumulative_cost_lower_bound_cny": 10.334338,
+    "payload_classes": [
+      "frozen_task_prompts",
+      "frozen_task_contexts",
+      "frozen_procedure_candidate_bundles"
+    ],
+    "terminal_stop_on_first_failed_attempt": true,
+    "authorization_closes_on_completion_or_terminal_stop": true,
+    "usage_accounting_required": true,
+    "request_start_ledger_required": true,
+    "response_ledger_required": true,
+    "hash_chain_required": true,
+    "exact_prefix_resume_only": true
+  },
+  "forbidden_scope": [
+    "other_models",
+    "later_phase3_stages",
+    "cross_domain_scaling",
+    "formal_scaling"
+  ],
+  "authorization": {
+    "status": "fresh_exact_explicit_user_authorization_required",
+    "receipt_created": false,
+    "authorization_open": false,
+    "data_egress_authorized": false,
+    "provider_calls_authorized": false,
+    "paid_api_authorized": false,
+    "authorization_statement_template": "我明确授权执行 Phase 3H 反事实答案敏感性实验，绑定设计指纹 61d55a4c3134c0ccf349aa400d3fd2333376b7e7775c3730a7a1016fc942eafb 和执行预检指纹 {preflight_aggregate_fingerprint}，将冻结的 200 个任务提示、上下文及程序候选包发送至 https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1，使用付费模型 qwen3.7-plus，temperature 0，关闭 thinking，零重试，不设 max_tokens，JSON object 响应，每次请求间隔 1 秒，本阶段费用上限 CNY 3.00，累计费用上限 CNY 15.00，接受首个失败尝试终止且授权自动关闭；不授权其他模型、后续 Phase 3、跨领域扩展或正式扩展，并授权收到本声明后立即执行。"
+  },
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "model_calls_allowed": false,
+    "paid_api_allowed": false,
+    "qwen_authorization_open": false,
+    "later_stages_allowed": false,
+    "cross_domain_scaling_allowed": false,
+    "formal_scaling_allowed": false
+  }
+}

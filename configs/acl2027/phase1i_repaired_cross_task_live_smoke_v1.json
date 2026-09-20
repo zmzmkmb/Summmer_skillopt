@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase1i_repaired_cross_task_live_smoke_v1",
+  "phase": "1I",
+  "title": "Authorized repaired two-family live smoke",
+  "status": "planned",
+  "objective": "Execute exactly the two Phase 1H frozen requests and audit task validity, exact usage, and workbook persistence before any batch experiment.",
+  "authorization": {
+    "authorized": true,
+    "scope": "exactly two Token Plan paid smoke calls",
+    "authorized_logical_calls": 2,
+    "max_provider_attempts": 2,
+    "explicit_retries": 0,
+    "officeqa_24_authorized": false,
+    "spreadsheetbench_40_authorized": false,
+    "formal_scaling_authorized": false
+  },
+  "execution": {
+    "default_mode": "dry-run",
+    "paid_api_allowed": true,
+    "network_calls_allowed": true,
+    "formal_scaling_allowed": false,
+    "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+    "api_key_env": "DASHSCOPE_API_KEY",
+    "model_id": "qwen3.6-flash",
+    "temperature": 0,
+    "enable_thinking": false,
+    "timeout_seconds": 120,
+    "sdk_max_retries": 0,
+    "batch_closed": true
+  },
+  "frozen_preflight": {
+    "config_path": "configs/acl2027/phase1h_repaired_cross_task_smoke_preflight_v1.json",
+    "config_sha256": "5d4f4c7fb239aa1cfc8d5cf09800ed50300e4b9141d5862d85c4e66f587d0d0e",
+    "payload_review_path": "artifacts/acl2027_phase1h_repaired_cross_task_smoke_preflight_v1/payload_review.json",
+    "payload_review_sha256": "170b5a7f356807d4ddaed42667392bee562ab31dca6b2ff3186db02213b2066a",
+    "task_order": ["OfficeQA", "SpreadsheetBench"],
+    "task_ids": ["UID0001", "45635"],
+    "request_hashes": {
+      "OfficeQA": "47b00e72aad2925d904f1ae66f50a6dc19ac3a0ec50241550d6f6c2e346a8c39",
+      "SpreadsheetBench": "f57b377fe13233f3177f84f3b98f07dd3abfb1cdd3dd2b59542926a7a92ff4d2"
+    }
+  },
+  "validation": {
+    "officeqa_required_time_basis": "calendar",
+    "officeqa_expected_period_count": 12,
+    "officeqa_reference_answer_source": "data/officeqa_verified/officeqa_full.csv",
+    "spreadsheetbench_expected_target_range": "B5:E7",
+    "spreadsheetbench_task_dir": "data/spreadsheetbench_verified_400/spreadsheet/45635",
+    "spreadsheetbench_require_exact_formula_match_for_smoke": true,
+    "retain_raw_response_and_normalizations": true,
+    "require_exact_usage_identity": true
+  },
+  "decision_gate": {
+    "smoke_pass": "both calls return complete exact usage; OfficeQA passes provenance, calendar-period, answer, and result checks; SpreadsheetBench passes exact 12-cell schema, formula persistence, and frozen golden-formula comparison",
+    "smoke_fail": "record all attempted calls, close paid permission, do not launch the batch, and classify transport, schema, temporal, formula, or execution failure",
+    "batch": "OfficeQA 24 and SpreadsheetBench 40 remain closed regardless of smoke outcome pending separate review"
+  },
+  "write_scope": [
+    "configs/acl2027/phase1i_repaired_cross_task_live_smoke_v1.json",
+    "scripts/run_acl2027_phase1i_smoke.py",
+    "tests/test_acl2027_phase1i_smoke.py",
+    "artifacts/acl2027_phase1i_repaired_cross_task_live_smoke_v1",
+    "paper/acl2027/results/phase1i_repaired_cross_task_live_smoke_v1.md",
+    "paper/acl2027/CONTRIBUTION_EVIDENCE_LEDGER.md",
+    "paper/acl2027/experiment_state.json"
+  ]
+}

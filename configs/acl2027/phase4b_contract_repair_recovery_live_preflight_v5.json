@@ -1,0 +1,70 @@
+{
+  "schema_version": 5,
+  "experiment": "acl2027_phase4b_contract_repair_recovery_live_preflight_v5",
+  "status": "zero_network_live_execution_preflight_closed",
+  "source_recovery": {
+    "experiment": "acl2027_phase4b_contract_repair_recovery_preflight_v4",
+    "aggregate_fingerprint": "fc668155d0e1d787fe45bf381f5958d8f9d5d78759be3c0bab3951580254f066",
+    "recovery_rows": 28,
+    "combined_analysis_rows": 100
+  },
+  "execution_contract": {
+    "scope": "phase4b_repaired_development_calibration_recovery_only",
+    "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+    "model_id": "qwen3.7-plus",
+    "authorized_calls": 28,
+    "max_provider_attempts": 28,
+    "temperature": 0,
+    "enable_thinking": false,
+    "retries": 0,
+    "max_tokens_present": false,
+    "response_format": {"type": "json_object"},
+    "request_interval_seconds": 1.0,
+    "stage_cost_ceiling_cny": 0.30,
+    "cumulative_cost_ceiling_cny": 15.00,
+    "known_cumulative_cost_lower_bound_cny": 12.328920,
+    "orphan_usage_reserve_cny": 0.011136,
+    "projected_known_upper_bound_cny": 12.640056,
+    "cost_policy": "Reserve the maximum observed completed-response local cost for the unknown orphan; stop before the new stage exceeds CNY 0.30 or cumulative spend exceeds CNY 15.00.",
+    "terminal_stop_on_first_failed_attempt": true,
+    "authorization_closes_on_completion_or_terminal_stop": true,
+    "usage_accounting_required": true,
+    "request_start_ledger_required": true,
+    "response_ledger_required": true,
+    "hash_chain_required": true,
+    "exact_prefix_resume_only": true
+  },
+  "known_transport_equivalence": {
+    "unique_transport_payloads_in_combined_grid": 80,
+    "duplicate_pair_count": 20,
+    "paired_conditions": ["global_only", "contextual_typed"],
+    "causal_comparison_identifiable": false
+  },
+  "authorization": {
+    "status": "fresh_exact_explicit_user_authorization_required",
+    "receipt_created": false,
+    "authorization_open": false,
+    "data_egress_authorized": false,
+    "provider_calls_authorized": false,
+    "paid_api_authorized": false
+  },
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "model_calls_allowed": false,
+    "paid_api_allowed": false,
+    "qwen_authorization_open": false,
+    "phase4c_allowed": false,
+    "replication_allowed": false,
+    "cross_domain_scaling_allowed": false,
+    "formal_scaling_allowed": false
+  },
+  "forbidden_scope": [
+    "retry_or_resume_any_r3_identity",
+    "phase4c",
+    "other_models",
+    "replication",
+    "cross_domain_scaling",
+    "formal_scaling"
+  ]
+}

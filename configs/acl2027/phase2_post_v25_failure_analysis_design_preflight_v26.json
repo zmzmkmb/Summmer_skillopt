@@ -1,0 +1,90 @@
+{
+  "schema_version": 26,
+  "experiment": "acl2027_phase2_post_v25_failure_analysis_design_preflight_v26",
+  "status": "design_only_closed",
+  "phase": "2",
+  "stage": "post_v25_failure_analysis_design",
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "model_calls_allowed": false,
+    "paid_api_allowed": false,
+    "qwen_authorization_open": false,
+    "formal_scaling_allowed": false
+  },
+  "analysis_contract": {
+    "immutable_inputs": ["v23_combined_held_out", "v25_replication"],
+    "preserve_original_gates": true,
+    "breakdowns": ["dataset", "skill_family", "task_family", "task_type", "strict_pair_outcome", "alias_tolerant_pair_outcome"],
+    "explanations_to_distinguish": ["no_prior_effect", "verifier_alias_sensitivity", "typed_coverage", "prompt_length_confound", "task_capability"],
+    "alias_tolerant_rule": "strict normalized equality or one normalized non-empty answer contains the other",
+    "old_results_are_not_rescored_or_regated": true
+  },
+  "falsifiable_hypothesis": {
+    "statement": "If scoped verified history has a reusable effect, an independent larger grid will show an alias-robust contextual-typed-prior advantage over global-only context, with recovery from global-prior degradation rather than isolated exact-match flips.",
+    "mechanism_stratum": "tasks where cold is correct and global_only is wrong",
+    "mechanism_comparator": "contextual_typed_prior recovery rate minus copied_global recovery rate"
+  },
+  "future_schedule": {
+    "status": "not_authorized_design_only",
+    "task_source": "fresh deterministic selection from frozen SearchQA and 2WikiMultiHopQA pools after all prior task exclusions",
+    "families": ["fact_retrieval", "attribute_comparison", "bridge_attribute_comparison", "entity_bridge", "relation_inference"],
+    "tasks_per_family": 80,
+    "tasks": 400,
+    "conditions": ["cold", "copied_global", "global_only", "contextual_typed_prior"],
+    "logical_calls": 1600,
+    "model_id_proposal": "qwen3.7-plus",
+    "temperature": 0,
+    "retries": 0,
+    "max_tokens_present": false,
+    "enable_thinking": false,
+    "response_format": {"type": "json_object"},
+    "authorization_artifact_created": false,
+    "fresh_explicit_provider_authorization_required": true
+  },
+  "decision_rules": {
+    "primary": "paired contextual_typed_prior minus global_only accuracy on 400 new tasks under both strict and alias-tolerant scoring",
+    "positive": "strict_margin >= 0.05 and alias_margin >= 0.05 and strict_wins - strict_losses >= 20 and alias_wins - alias_losses >= 20 and at least 4 of 5 alias family margins are nonnegative and mechanism_stratum_n >= 20 and typed_recovery_minus_copied_global >= 0.10",
+    "negative": "(alias_margin <= 0 and alias_wins <= alias_losses) or (strict_margin <= -0.025 and alias_margin <= -0.025)",
+    "otherwise": "inconclusive",
+    "insufficient_mechanism_stratum": "inconclusive",
+    "v23_v25_results_remain_descriptive_inputs_only": true
+  },
+  "bindings": {
+    "v23_combined_audit_fingerprint": "9ebaa09c1afdb81e1fa59f7fb429dbc31f8df7b5b26dd10070dfc31552297c2b",
+    "v24_design_fingerprint": "9096f3ac47dc01248146cecf2754914f7ddb2896f6e7be46f715c609249b5407",
+    "v25_replication_audit_fingerprint": "35a683a78dd6057b8e3e5122373de024706eba033e3742c04eaf081fdba0c779",
+    "source_files": {
+      "preflight_source_sha256": "c2fa7946f2a90062ba912fc02ebf34079a0712a365a3db0a53c0d6c6eb781305",
+      "preflight_test_sha256": "a9c71f1d0b29627fd2d377b87a99e578a60a36d90f136a40db8b5a26088cc6d9",
+      "v13_manifest_sha256": "71547b70324b699a2a21212eb1ccc309d6afa2d1a9fbe86149b66a14e6ae1bc8",
+      "v17_prior_bundles_sha256": "f4de47c538fedf1d28ecba8c07d8f4605f7fff4be1e8e300634c7af273a6d63d",
+      "v21_ledger_sha256": "8e3fb62d70477f61f4e06d8e8ffa95b08205f6767e6675466fdc5958da1652ea",
+      "v21_schedule_sha256": "ab3c625434fcbb89f4cb1a607a560e5b8586a2f9add345d3953b216b1db4871a",
+      "v22_gold_sha256": "30eb07f4d89041816389a149ea4ab42cc5dc41968b2ac5d33e49ee719bdbff62",
+      "v22_schedule_sha256": "3d3ef2e767fe162c8047ed498e1d5931457b1412c7eea93a5935dc1f48549f6d",
+      "v23_audit_sha256": "eb79277a65b0a84f4698540c0c1f8c63b430646b7e5a8e8014d5de05547afc2a",
+      "v23_ledger_sha256": "99d6fc7090faa252ef4eb58c3f227587ae40eca2015e223c9e3848a62ef3220d",
+      "v23_run_audit_sha256": "1d3a65848a7e9c940630217b868e913e4cac318b436fef6616fa536324d26047",
+      "v24_gold_sha256": "7b0737623af2caaa430ce5d84005512b93bd97fd604dc1e1060d83f94fd494a4",
+      "v24_manifest_sha256": "644b7b3dc211fe54736df1688a1b70d151c948da0cc42acf7d0fd4bd3e0ccd74",
+      "v24_schedule_sha256": "04dfa54ecd797985e8e07a918a0f6370a8281e7aaeaab9bfc9f042473ce7b61d",
+      "v25_audit_sha256": "ea8f8b0c384b8f814f15416844a13beddee4713856a303e6218d9285d498d79d",
+      "v25_closure_sha256": "1f978bb7a9bf7d3ca373678130cd35309a4c677151435e454e75b8c5de243c3b",
+      "v25_ledger_sha256": "a079fc2e6de23ccdc69160abec267c57d30e7ab4c4189a59dd584ed06212b718",
+      "v25_run_audit_sha256": "d82e32b3d21b21644b6be0780470da67b620a3449c3bf5f812ad69479c6c3fd4"
+    }
+  },
+  "forbidden": [
+    "provider_execution",
+    "network_calls",
+    "paid_api_calls",
+    "opening_or_creating_live_authorization",
+    "changing_v23_or_v25_gates",
+    "reusing_any_prior_evaluation_task",
+    "reusing_any_spent_logical_id_request_hash_or_provider_response_id",
+    "other_models",
+    "later_phase2_stages",
+    "formal_scaling"
+  ]
+}

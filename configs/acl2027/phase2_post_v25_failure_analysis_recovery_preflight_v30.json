@@ -1,0 +1,38 @@
+{
+  "schema_version": 30,
+  "experiment": "acl2027_phase2_post_v25_failure_analysis_recovery_preflight_v30",
+  "status": "zero_network_recovery_design_only",
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "paid_api_allowed": false,
+    "qwen_authorization_open": false,
+    "formal_scaling_allowed": false
+  },
+  "recovery_contract": {
+    "preserve_complete_v27_and_v29_task_grids": true,
+    "exclude_all_v27_and_v29_spent_identities": true,
+    "replace_v29_terminal_incomplete_task_grid": true,
+    "recovery_calls": 220,
+    "combined_tasks": 400,
+    "conditions_per_task": 4,
+    "fresh_explicit_authorization_required": true
+  },
+  "proposed_authorization": {
+    "scope": "post_v25_failure_analysis_second_recovery_only",
+    "requested_calls": 220,
+    "max_provider_attempts": 220,
+    "model_id": "qwen3.7-plus",
+    "temperature": 0,
+    "retries": 0,
+    "max_tokens_present": false,
+    "response_format": {"type": "json_object"},
+    "request_interval_seconds": 1.0,
+    "stage_cost_ceiling_cny": 1.5,
+    "cumulative_cost_ceiling_cny": 8.0,
+    "known_cumulative_cost_lower_bound_cny": 6.13433,
+    "later_stages_authorized": false,
+    "formal_scaling_authorized": false,
+    "status": "fresh_explicit_user_authorization_required"
+  }
+}

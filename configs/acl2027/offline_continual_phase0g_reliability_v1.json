@@ -1,0 +1,110 @@
+{
+  "schema_version": 4,
+  "experiment": "acl2027_phase0g_guard_reliability",
+  "scope": "synthetic offline large-seed reliability diagnostic; frozen Phase 0G guard settings; not downstream LLM accuracy",
+  "stream_type": "contextual",
+  "seeds": [
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70,
+    71,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77,
+    78,
+    79,
+    80
+  ],
+  "n_rules": 48,
+  "domains": [
+    "searchqa",
+    "law",
+    "health"
+  ],
+  "block_order": [
+    "searchqa",
+    "law",
+    "health",
+    "searchqa",
+    "law",
+    "health"
+  ],
+  "tasks_per_block": 25,
+  "probe_tasks_per_domain": 8,
+  "top_k": 3,
+  "budget": 170,
+  "token_target": 0.72,
+  "target_window": 20,
+  "target_sustain": 5,
+  "prior_strength": 2.0,
+  "recovery_correlation_target": 0.25,
+  "recovery_sustain": 5,
+  "utility_conditions": [
+    "all-cold",
+    "adversarial"
+  ],
+  "corruptions": [
+    {
+      "name": "none",
+      "mode": "none",
+      "block": null
+    }
+  ],
+  "methods": [
+    {
+      "name": "relevance_topk",
+      "policy": "relevance",
+      "credit": "none"
+    },
+    {
+      "name": "fixed_0p5_shared",
+      "policy": "greedy-utility",
+      "credit": "shared",
+      "estimator": "contextual",
+      "context_weight": 0.5
+    },
+    {
+      "name": "fixed_guard_p1",
+      "policy": "greedy-utility",
+      "credit": "shared",
+      "estimator": "contextual",
+      "context_weight": 0.5,
+      "prior_guard": "reset-cold",
+      "prior_guard_tolerance": 0.06,
+      "prior_guard_max_probes_per_domain": 1,
+      "prior_guard_sequential": false,
+      "prior_guard_confidence_z": 1.96,
+      "prior_guard_min_samples": 6,
+      "prior_guard_relevance_cost_share": 0.125
+    },
+    {
+      "name": "fixed_guard_seq_z1",
+      "policy": "greedy-utility",
+      "credit": "shared",
+      "estimator": "contextual",
+      "context_weight": 0.5,
+      "prior_guard": "reset-cold",
+      "prior_guard_tolerance": 0.06,
+      "prior_guard_max_probes_per_domain": 8,
+      "prior_guard_sequential": true,
+      "prior_guard_confidence_z": 1.0,
+      "prior_guard_min_samples": 6,
+      "prior_guard_relevance_cost_share": 0.125
+    },
+    {
+      "name": "oracle_upper_bound",
+      "policy": "oracle",
+      "credit": "oracle-per-rule"
+    }
+  ]
+}

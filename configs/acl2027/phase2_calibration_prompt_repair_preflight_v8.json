@@ -1,0 +1,45 @@
+{
+  "schema_version": 8,
+  "experiment": "acl2027_phase2_calibration_prompt_repair_preflight_v8",
+  "phase": "2",
+  "status": "preflight_only_closed",
+  "diagnosed_v7": {
+    "ledger_path": "artifacts/acl2027_phase2_calibration_live_v7/ledger.json",
+    "ledger_sha256": "13f6680d2a66ca2304c43fda72e5effdb1ee61aa0f2c39a6938d34a90e04f6fc",
+    "audit_path": "artifacts/acl2027_phase2_calibration_live_v7/calibration_audit.json",
+    "audit_sha256": "8cdb1c3d5f96972626d779a3ed28db7dc271c5defbd2a9f07fe739c1834fd28f",
+    "strict_contract_valid": 0,
+    "plain_text_outputs": 60
+  },
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "paid_api_allowed": false,
+    "qwen_authorization_open": false,
+    "formal_scaling_allowed": false
+  },
+  "route": {
+    "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+    "api_key_env": "DASHSCOPE_API_KEY",
+    "model_id": "qwen3.7-plus",
+    "temperature": 0,
+    "enable_thinking": false,
+    "response_format": {"type": "json_object"},
+    "request_interval_seconds": 1.0,
+    "retries": 0,
+    "timeout_seconds": 120,
+    "forbidden_request_keys": ["max_tokens"]
+  },
+  "prompt_contract": {
+    "version": "phase2-prompt-v8-exact-json",
+    "system_message": "Answer the question from the supplied context. Return exactly one JSON object and no other text, markdown, or explanation. The object must contain exactly one key named answer whose value is a non-empty short string. Required shape: {\"answer\":\"<short answer>\"}.",
+    "parser": "scripts/acl2027_phase2_response_verifier_v3.py::parse_response"
+  },
+  "future_calibration_boundary": {
+    "logical_calls": 60,
+    "max_provider_attempts": 60,
+    "stage_cost_ceiling_cny": 0.5,
+    "cumulative_cost_ceiling_cny": 0.5,
+    "forbidden_stages": ["development_acquisition", "formal_history", "probe", "held_out", "formal_scaling"]
+  }
+}

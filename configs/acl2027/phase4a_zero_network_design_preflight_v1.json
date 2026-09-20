@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase4a_zero_network_design_preflight_v1",
+  "status": "zero_network_design_only_not_authorized",
+  "objective": "Freeze a stronger answer-grounding protocol after the inconclusive Phase 3H gate, with uniform evidence traces, new development and held-out splits, and preregistered causal thresholds.",
+  "bindings": {
+    "phase3h_v5_audit": "artifacts/acl2027_phase3h_counterfactual_answer_sensitivity_live_v5",
+    "phase3h_design_fingerprint": "61d55a4c3134c0ccf349aa400d3fd2333376b7e7775c3730a7a1016fc942eafb",
+    "phase3h_live_preflight_fingerprint": "9355217fec78e792e421cc12d807ad9846e3f50f84724d6856c0f3bc19aa5e23"
+  },
+  "design": {
+    "task_families": ["attribute_comparison", "bridge_attribute_comparison"],
+    "development_tasks": 20,
+    "heldout_tasks": 80,
+    "conditions": ["cold", "global_only", "contextual_typed", "shuffled_typed", "incompatible_control"],
+    "logical_calls_proposed": 500,
+    "split_rule": "10 development and 40 held-out tasks per family, selected by independent SHA256 ranks after full prior-identity exclusion",
+    "new_task_ids_required": true,
+    "private_gold_excluded_from_requests": true,
+    "full_prior_identity_scan_required": true
+  },
+  "response_contract": {
+    "exact_keys": ["skill_assessments", "selected_skill_id", "evidence_sentence_ids", "extracted_operands", "intermediate_result", "final_answer"],
+    "evidence_sentence_ids": "non-empty list of source sentence identifiers; every identifier must resolve to supplied context",
+    "extracted_operands": "object containing only operands explicitly present in the supplied evidence",
+    "intermediate_result": "short observable operation/result label, not chain-of-thought",
+    "final_answer": "non-empty short answer"
+  },
+  "analysis_plan": {
+    "positive_gate": {
+      "contract_valid_rate_at_least": 0.95,
+      "contextual_selection_rate_at_least": 0.90,
+      "contextual_minus_cold_accuracy_at_least": 0.10,
+      "contextual_minus_global_only_accuracy_at_least": 0.08,
+      "contextual_minus_shuffled_accuracy_at_least": 0.08,
+      "paired_bootstrap_ci_lower_bound_above": 0.0,
+      "answer_grounding_rate_at_least": 0.65,
+      "task_family_directions_consistent": true
+    },
+    "negative_gate": {
+      "complete_heldout_population_required": true,
+      "contextual_advantage_over_cold_or_global_only_absent": true
+    },
+    "inconclusive_gate": "Any complete result satisfying neither frozen positive nor negative gate.",
+    "stop_rule": "Do not authorize replication, cross-domain testing, or formal scaling unless every Phase 4C positive gate passes.",
+    "no_posthoc_regating": true
+  },
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "model_calls_allowed": false,
+    "paid_api_allowed": false,
+    "later_stage_calls_allowed": false,
+    "cross_domain_calls_allowed": false,
+    "formal_scaling_allowed": false
+  },
+  "future_execution_proposal": {
+    "status": "not_authorized",
+    "authorization_artifact_created": false,
+    "fresh_explicit_payload_egress_and_cost_authorization_required": true
+  }
+}

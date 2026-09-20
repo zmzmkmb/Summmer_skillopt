@@ -2,17 +2,26 @@
   "experiment": "jos-experiment-v1",
   "tag": "jos-experiment-v1",
   "commit": "f4ae9b4",
-  "description": "JoS formal MOAR experiments — 200 items x 2 models x 3 seeds",
+  "description": "JoS formal MOAR experiments plus explicitly registered baseline and auxiliary runs",
   "date": "2026-07-29",
   "budget": 2000,
   "top_k": 5,
-  "seeds": [42, 43, 44],
+  "seeds": [
+    42,
+    43,
+    44
+  ],
   "moar_config": {
     "pop_size": 30,
     "generations": 15,
-    "crossover_p": 0.90,
-    "mutation_p": 0.10,
-    "weights": [0.40, 0.30, 0.20, 0.10],
+    "crossover_p": 0.9,
+    "mutation_p": 0.1,
+    "weights": [
+      0.4,
+      0.3,
+      0.2,
+      0.1
+    ],
     "selection_mode": "weighted_sum",
     "utility_method": "precision",
     "frozen": true
@@ -26,7 +35,14 @@
     "targetS": "qwen-flash (DashScope, openai_compatible)",
     "targetL": "qwen3.6-flash (MaaS token-plan, openai_compatible)"
   },
-  "methods": ["Core Only", "TF-IDF Top-5", "MOAR", "BM25", "Greedy-Cold", "Greedy-Utility"],
+  "methods": [
+    "Core Only",
+    "TF-IDF Top-5",
+    "MOAR",
+    "BM25",
+    "Greedy-Cold",
+    "Greedy-Utility"
+  ],
   "skill": {
     "path": "outputs/searchqa_rag/best_skill.md",
     "sha256": "815b13fc116414ed1101b210748a0f0d5ee50bf030a2ea5eee1efa346659ee7c",
@@ -55,5 +71,201 @@
   "enrichment": {
     "script": "scripts/enrich_formal_results.py",
     "note": "n_rules corrected to len(selected_indices); selected_tokens from count_tokens(); budget_violated recomputed"
+  },
+  "artifact_schema_version": 2,
+  "baseline_runs": [
+    {
+      "id": "targetL_anthropic_bm25_rep42",
+      "condition": "targetL_anthropic",
+      "model": "qwen3.6-flash",
+      "method": "BM25",
+      "seed": 42,
+      "path": "targetL_anthropic/jos_formal_bm25_targetL_rep42.json",
+      "seed_source": "manifest"
+    },
+    {
+      "id": "targetL_anthropic_bm25_rep43",
+      "condition": "targetL_anthropic",
+      "model": "qwen3.6-flash",
+      "method": "BM25",
+      "seed": 43,
+      "path": "targetL_anthropic/jos_formal_bm25_targetL_rep43.json",
+      "seed_source": "manifest"
+    },
+    {
+      "id": "targetL_anthropic_bm25_rep44",
+      "condition": "targetL_anthropic",
+      "model": "qwen3.6-flash",
+      "method": "BM25",
+      "seed": 44,
+      "path": "targetL_anthropic/jos_formal_bm25_targetL_rep44.json",
+      "seed_source": "manifest"
+    },
+    {
+      "id": "targetL_anthropic_greedy_cold_rep43",
+      "condition": "targetL_anthropic",
+      "model": "qwen3.6-flash",
+      "method": "Greedy-Cold",
+      "seed": 43,
+      "path": "targetL_anthropic/jos_formal_greedy_cold_targetL_rep43.json",
+      "seed_source": "manifest"
+    },
+    {
+      "id": "targetL_anthropic_greedy_cold_rep44",
+      "condition": "targetL_anthropic",
+      "model": "qwen3.6-flash",
+      "method": "Greedy-Cold",
+      "seed": 44,
+      "path": "targetL_anthropic/jos_formal_greedy_cold_targetL_rep44.json",
+      "seed_source": "manifest"
+    },
+    {
+      "id": "targetL_anthropic_greedy_util_rep43",
+      "condition": "targetL_anthropic",
+      "model": "qwen3.6-flash",
+      "method": "Greedy-Utility",
+      "seed": 43,
+      "path": "targetL_anthropic/jos_formal_greedy_util_targetL_rep43.json",
+      "seed_source": "manifest"
+    },
+    {
+      "id": "targetL_anthropic_greedy_util_rep44",
+      "condition": "targetL_anthropic",
+      "model": "qwen3.6-flash",
+      "method": "Greedy-Utility",
+      "seed": 44,
+      "path": "targetL_anthropic/jos_formal_greedy_util_targetL_rep44.json",
+      "seed_source": "manifest"
+    },
+    {
+      "id": "targetS_bm25_rep42",
+      "condition": "targetS",
+      "model": "qwen-flash",
+      "method": "BM25",
+      "seed": 42,
+      "path": "targetS/jos_formal_bm25_rep42.json",
+      "seed_source": "manifest"
+    },
+    {
+      "id": "targetS_bm25_rep43",
+      "condition": "targetS",
+      "model": "qwen-flash",
+      "method": "BM25",
+      "seed": 43,
+      "path": "targetS/jos_formal_bm25_rep43.json",
+      "seed_source": "manifest"
+    },
+    {
+      "id": "targetS_bm25_rep44",
+      "condition": "targetS",
+      "model": "qwen-flash",
+      "method": "BM25",
+      "seed": 44,
+      "path": "targetS/jos_formal_bm25_rep44.json",
+      "seed_source": "manifest"
+    },
+    {
+      "id": "targetS_greedy_cold_rep42",
+      "condition": "targetS",
+      "model": "qwen-flash",
+      "method": "Greedy-Cold",
+      "seed": 42,
+      "path": "targetS/jos_formal_greedy_cold_rep42.json",
+      "seed_source": "manifest"
+    },
+    {
+      "id": "targetS_greedy_cold_rep43",
+      "condition": "targetS",
+      "model": "qwen-flash",
+      "method": "Greedy-Cold",
+      "seed": 43,
+      "path": "targetS/jos_formal_greedy_cold_rep43.json",
+      "seed_source": "manifest"
+    },
+    {
+      "id": "targetS_greedy_cold_rep44",
+      "condition": "targetS",
+      "model": "qwen-flash",
+      "method": "Greedy-Cold",
+      "seed": 44,
+      "path": "targetS/jos_formal_greedy_cold_rep44.json",
+      "seed_source": "manifest"
+    },
+    {
+      "id": "targetS_greedy_util_rep42",
+      "condition": "targetS",
+      "model": "qwen-flash",
+      "method": "Greedy-Utility",
+      "seed": 42,
+      "path": "targetS/jos_formal_greedy_util_rep42.json",
+      "seed_source": "manifest"
+    },
+    {
+      "id": "targetS_greedy_util_rep43",
+      "condition": "targetS",
+      "model": "qwen-flash",
+      "method": "Greedy-Utility",
+      "seed": 43,
+      "path": "targetS/jos_formal_greedy_util_rep43.json",
+      "seed_source": "manifest"
+    },
+    {
+      "id": "targetS_greedy_util_rep44",
+      "condition": "targetS",
+      "model": "qwen-flash",
+      "method": "Greedy-Utility",
+      "seed": 44,
+      "path": "targetS/jos_formal_greedy_util_rep44.json",
+      "seed_source": "manifest"
+    }
+  ],
+  "auxiliary_formal_runs": [
+    {
+      "id": "targetL_anthropic_formal_rep42",
+      "condition": "targetL_anthropic",
+      "model": "qwen3.6-flash",
+      "seed": 42,
+      "path": "targetL_anthropic/jos_formal_targetL_rep42.json",
+      "include_in_canonical_table": false
+    },
+    {
+      "id": "targetL_anthropic_formal_rep43",
+      "condition": "targetL_anthropic",
+      "model": "qwen3.6-flash",
+      "seed": 43,
+      "path": "targetL_anthropic/jos_formal_targetL_rep43.json",
+      "include_in_canonical_table": false
+    },
+    {
+      "id": "targetL_anthropic_formal_rep44",
+      "condition": "targetL_anthropic",
+      "model": "qwen3.6-flash",
+      "seed": 44,
+      "path": "targetL_anthropic/jos_formal_targetL_rep44.json",
+      "include_in_canonical_table": false
+    }
+  ],
+  "audit_policy": {
+    "canonical_formal_runs": "files entries matching targetS/targetL seed keys",
+    "baseline_runs": "baseline_runs entries, grouped by condition/model/method",
+    "auxiliary_formal_runs": "declared for provenance but excluded from canonical formal table",
+    "independence": "per-example output fingerprint; copied content is excluded",
+    "resolved_historical_issues": "Explicit exclusions and superseded outputs are retained for provenance, reported as warnings, and ignored by strict canonical aggregation."
+  },
+  "excluded_runs": {
+    "targetL_seed44": {
+      "duplicate_of": "targetL_seed42",
+      "reason": "MaaS quota was exhausted; the stored output was copied from seed 42 and is excluded from all statistics."
+    }
+  },
+  "historical_outputs": {
+    "aggregate_results.csv": {
+      "status": "superseded",
+      "replacements": [
+        "audited_results.csv",
+        "audited_baselines.csv"
+      ],
+      "reason": "The historical aggregate counted declared seeds without checking per-example output independence."
+    }
   }
 }

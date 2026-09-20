@@ -1,0 +1,64 @@
+{
+  "schema_version": 3,
+  "phase_id": "TG8-tracegraph-observable-subgoal-selector-v3",
+  "status": "passed",
+  "cases": [
+    {
+      "name": "realistic_search_pickup_chain",
+      "passed": true,
+      "details": {
+        "first_action": "go to cabinet 1",
+        "second_action": "take apple 1 from countertop 1",
+        "completed": [
+          "search_source"
+        ]
+      }
+    },
+    {
+      "name": "target_action_without_delta",
+      "passed": true,
+      "details": {
+        "false_progress": true
+      }
+    },
+    {
+      "name": "wrong_object_put_rejected",
+      "passed": true,
+      "details": {
+        "pending": "search_destination"
+      }
+    },
+    {
+      "name": "tamper_and_hidden_field_rejected",
+      "passed": true,
+      "details": {
+        "tamper_cases": 2
+      }
+    },
+    {
+      "name": "representation_controller_factor_separation",
+      "passed": true,
+      "details": {
+        "lexical": "go to fridge",
+        "anti_cycle": "take apple from countertop",
+        "structured": "take apple from countertop"
+      }
+    }
+  ],
+  "case_count": 5,
+  "passed_case_count": 5,
+  "execution_authorized": false,
+  "readiness_allowed": false,
+  "episodes_run": 0,
+  "actions_taken": 0,
+  "network_calls": 0,
+  "provider_calls": 0,
+  "model_calls": 0,
+  "api_calls": 0,
+  "paid_api_calls": 0,
+  "runtime_allowed_inputs": [
+    "observation",
+    "historical_actions",
+    "admissible_actions"
+  ]
+}

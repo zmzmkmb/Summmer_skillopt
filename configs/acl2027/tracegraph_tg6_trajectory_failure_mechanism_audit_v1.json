@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "phase_id": "TG6-tracegraph-trajectory-failure-mechanism-audit-v1",
+  "experiment_line": "tracegraph-observable-state-skill-composition",
+  "mode": "zero_network_posthoc_audit",
+  "parent_result": "artifacts/acl2027_tracegraph_tg6_trajectory_failure_analysis_authorized_attempt_v2/result.json",
+  "parent_result_sha256": "D804D727F3D90BEEA4FC90F0216F1F6EEB6754FDCEEE00816309EA7240A81B67",
+  "parent_schedule": "artifacts/acl2027_tracegraph_tg6_trajectory_failure_analysis_preflight_v2/development_schedule.json",
+  "parent_schedule_sha256": "8f6b5cf362a9bcfdbc2f2818f676d6016503cbdda635b6b641a18dfeab7919ae",
+  "skillbank": "artifacts/acl2027_tracegraph_tg1_skillbank_construction_v2/skillbank.jsonl",
+  "skillbank_sha256": "15059dd2cc5b99fc69d0bae79109ec20c8d000ec9d550ce237d06ee9ffd6a331",
+  "result_output": "artifacts/acl2027_tracegraph_tg6_trajectory_failure_mechanism_audit_v1/audit.json",
+  "manifest_output": "artifacts/acl2027_tracegraph_tg6_trajectory_failure_mechanism_audit_v1/manifest.json",
+  "report_output": "paper/acl2027/results/tracegraph_tg6_trajectory_failure_mechanism_audit_v1.md",
+  "runtime_allowed_inputs": [
+    "observation",
+    "historical_actions",
+    "admissible_actions"
+  ],
+  "runtime_forbidden_inputs": [
+    "task_description",
+    "raw_trajectory",
+    "planner_state",
+    "pddl_params",
+    "scene_state",
+    "expert_future_actions",
+    "evaluation_label",
+    "phase0_to_phase6_artifact"
+  ],
+  "posthoc_private_metadata_allowed": true,
+  "posthoc_private_metadata_use": "descriptive task-family and target-surface audit only; never supplied to a selector or used to change a gate",
+  "network_calls_allowed": false,
+  "provider_calls_allowed": false,
+  "model_calls_allowed": false,
+  "api_calls_allowed": false,
+  "paid_api_calls_allowed": false,
+  "phase0_to_phase6_reuse_allowed": false,
+  "phase6_execution_allowed": false,
+  "webshop_execution_allowed": false,
+  "other_models_allowed": false,
+  "other_datasets_allowed": false,
+  "episodes_run": 0
+}

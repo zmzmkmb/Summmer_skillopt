@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "artifact_type": "acl2027_phase2_candidate_materialization",
+  "verifier_version": "phase2-candidate-verifier-v2",
+  "minimum_independent_verified_supports_per_family": 8,
+  "required_families": [
+    "fact_retrieval",
+    "attribute_comparison",
+    "bridge_attribute_comparison",
+    "entity_bridge",
+    "relation_inference"
+  ],
+  "required_trajectory_fields": [
+    "trajectory_id",
+    "task_id",
+    "logical_call_id",
+    "request_hash",
+    "response_sha256",
+    "verifier_confirmed_success",
+    "family",
+    "candidate_id",
+    "support_id",
+    "provenance"
+  ],
+  "forbid_evaluation_partitions": ["probe", "held_out"],
+  "failure_status": "coverage-incomplete",
+  "failure_is_method_failure": false
+}

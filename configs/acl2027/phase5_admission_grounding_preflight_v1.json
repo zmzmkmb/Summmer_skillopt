@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase5_admission_grounding_preflight_v1",
+  "objective": "Separate prior activation from evidence-grounded admission and answer utility under preregistered abstention/fallback conditions.",
+  "execution": {"network_calls_allowed": false, "provider_calls_allowed": false, "model_calls_allowed": false, "paid_api_allowed": false, "cross_domain_scaling_allowed": false, "formal_scaling_allowed": false},
+  "design": {"tasks": 40, "rows": 240, "conditions": ["cold", "always_use_typed", "admission_typed", "shuffled_typed", "incompatible_control", "evidence_abstain"], "families": ["attribute_comparison", "bridge_attribute_comparison"], "private_gold_excluded": true},
+  "analysis_plan": {"primary_outcome": "answer accuracy and answer-sensitive grounding among contract-valid complete task grids", "secondary_outcomes": ["admission precision", "abstention precision", "operation change without answer change", "token cost proxy"], "positive_gate": {"contract_valid_rate_at_least": 0.95, "admission_grounding_rate_at_least": 0.60, "admission_accuracy_minus_always_use_at_least": 0.05, "abstention_reduces_incompatible_errors": true, "both_families_same_direction": true}, "negative_gate": {"complete_task_grids_at_least": 30, "admission_grounding_rate_below": 0.25}, "inconclusive_gate": "Any result satisfying neither frozen gate or failing coverage.", "stop_rule": "No cross-domain or formal scaling unless the positive gate passes; selector uptake alone is insufficient.", "no_posthoc_regating": true},
+  "authorization": {"status": "not_authorized", "fresh_exact_user_authorization_required": true}
+}

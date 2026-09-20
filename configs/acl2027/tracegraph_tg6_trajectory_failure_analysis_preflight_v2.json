@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "phase_id": "TG6-tracegraph-trajectory-failure-analysis-preflight-v2",
+  "experiment_line": "tracegraph-observable-state-skill-composition",
+  "mode": "zero_network_design_only",
+  "parent_completed_phase": "TG6-tracegraph-repaired-local-execution-v4",
+  "parent_result": "artifacts/acl2027_tracegraph_tg6_repaired_local_execution_runner_v4/result.json",
+  "parent_result_sha256": "b9cbd8f87a08f2c2f2b88e1028992a8f117d69b40878ba96db2daf6c65037527",
+  "heldout_schedule": "artifacts/acl2027_tracegraph_tg4_heldout_mechanism_preflight_v1/heldout_schedule.json",
+  "heldout_schedule_sha256": "9e3acdad7a106fb20374d9885fc8da9f29ffba329c17c11134f193962887bb87",
+  "skillbank": "artifacts/acl2027_tracegraph_tg1_skillbank_construction_v2/skillbank.jsonl",
+  "skillbank_sha256": "15059dd2cc5b99fc69d0bae79109ec20c8d000ec9d550ce237d06ee9ffd6a331",
+  "source_data_root": "C:/Users/CMCC/ALFWORLD_DATA",
+  "source_data_root_wsl": "/mnt/c/Users/CMCC/ALFWORLD_DATA",
+  "task_family": "mixed_trajectory_diagnostic",
+  "development_task_count": 24,
+  "development_split_counts": {
+    "valid_seen": 12,
+    "valid_unseen": 12
+  },
+  "strata": [
+    {
+      "id": "direct_cycle_replication",
+      "role": "primary_diagnostic",
+      "task_families": [
+        "look_at_obj_in_light"
+      ],
+      "split_counts": {
+        "valid_seen": 2,
+        "valid_unseen": 7
+      },
+      "selection_rule": "Select the first fresh paired task identities in lexicographic order after excluding every TG4 and TG6-v4 identity."
+    },
+    {
+      "id": "multi_step_transfer",
+      "role": "secondary_transfer",
+      "task_families": [
+        "pick_and_place_simple",
+        "pick_two_obj_and_place"
+      ],
+      "split_counts": {
+        "valid_seen": 10,
+        "valid_unseen": 5
+      },
+      "family_split_quotas": {
+        "pick_and_place_simple": {
+          "valid_seen": 5,
+          "valid_unseen": 2
+        },
+        "pick_two_obj_and_place": {
+          "valid_seen": 5,
+          "valid_unseen": 3
+        }
+      },
+      "selection_rule": "Within each family and split, select the first fresh paired task identities in lexicographic order after excluding every TG4 and TG6-v4 identity."
+    }
+  ],
+  "selection_rule": "Use all nine available fresh look_at_obj_in_light identities as the primary direct-cycle stratum, then select fresh pick_and_place_simple and pick_two_obj_and_place identities using the frozen family-by-split quotas. Do not silently substitute another family.",
+  "development_schedule": "artifacts/acl2027_tracegraph_tg6_trajectory_failure_analysis_preflight_v2/development_schedule.json",
+  "preflight_output": "artifacts/acl2027_tracegraph_tg6_trajectory_failure_analysis_preflight_v2/preflight.json",
+  "conditions": [
+    {
+      "id": "baseline_first_eligible",
+      "role": "frozen_baseline",
+      "description": "Use the current first-eligible admissible action rule exactly as exercised by TG6 v4."
+    },
+    {
+      "id": "history_aware_anti_cycle",
+      "role": "trajectory_ablation",
+      "description": "Use historical_actions and observable-state fingerprints to penalize repeated recent action-state cycles while preserving admissibility."
+    },
+    {
+      "id": "observable_progress_aware",
+      "role": "trajectory_ablation",
+      "description": "After cycle detection, use only observation, historical_actions, and admissible_actions to prefer observable novelty and skill/edge changes while preserving admissibility."
+    }
+  ],
+  "planned_episode_rows": 72,
+  "max_steps_per_episode": 50,
+  "max_retries": 0,
+  "stop_rule": "stop on first hard invariant violation",
+  "paired_seed_rule": "Use one fixed seed per development task and reuse that seed across all three conditions.",
+  "runtime_allowed_inputs": [
+    "observation",
+    "historical_actions",
+    "admissible_actions"
+  ],
+  "runtime_forbidden_inputs": [
+    "task_description",
+    "raw_trajectory",
+    "planner_state",
+    "pddl_params",
+    "scene_state",
+    "expert_future_actions",
+    "evaluation_label",
+    "phase0_to_phase6_artifact"
+  ],
+  "primary_metrics": [
+    "episode_success",
+    "completion_within_50_steps",
+    "two_cycle_rate",
+    "repeated_state_rate",
+    "unique_action_count",
+    "unique_observable_state_count",
+    "skill_switch_count",
+    "abstention_rate",
+    "trace_validity"
+  ],
+  "analysis_strata": {
+    "primary": "direct_cycle_replication",
+    "secondary": "multi_step_transfer",
+    "reporting_rule": "Report every metric overall and separately by stratum, task family, split, and condition; do not pool family effects into a single causal claim without the stratum breakdown."
+  },
+  "decision_gate": {
+    "mechanism_positive": "On the primary direct-cycle stratum, at least one trajectory ablation reduces two_cycle_rate by at least 50% relative to baseline; across all 24 paired tasks it does not exceed 25% abstention, preserves 100% trace validity, and gains at least 2 paired successes over baseline.",
+    "observability_limited": "On the primary direct-cycle stratum, at least one trajectory ablation reduces two_cycle_rate by at least 50%, but neither ablation reaches more than 1/24 total successes and the post-hoc indistinguishable-goal audit finds an allowed-input equivalence class with conflicting goals.",
+    "negative": "Neither trajectory ablation reduces primary-stratum two_cycle_rate by at least 50%, or any condition violates admissibility, trace completeness, or runtime input isolation.",
+    "inconclusive": "The results satisfy none of the predeclared positive, observability-limited, or negative rules."
+  },
+  "identifiability_audit": {
+    "status": "planned_posthoc_diagnostic_only",
+    "runtime_use": false,
+    "purpose": "Check whether identical allowed-input histories can correspond to conflicting task goals without feeding goal metadata into any runtime condition.",
+    "must_not_enter_runtime": [
+      "task_description",
+      "evaluation_label",
+      "hidden_goal",
+      "planner_state"
+    ]
+  },
+  "official_source_fallback_allowed": false,
+  "network_calls_allowed": false,
+  "provider_calls_allowed": false,
+  "model_calls_allowed": false,
+  "api_calls_allowed": false,
+  "paid_api_calls_allowed": false,
+  "phase0_to_phase6_reuse_allowed": false,
+  "phase6_execution_allowed": false,
+  "webshop_execution_allowed": false,
+  "other_models_allowed": false,
+  "other_datasets_allowed": false,
+  "tuning_on_parent_heldout_allowed": false,
+  "execution_authorized": false,
+  "fresh_exact_user_authorization_required": true
+}

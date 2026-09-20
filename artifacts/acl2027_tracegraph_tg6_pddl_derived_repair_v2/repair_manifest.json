@@ -1,0 +1,595 @@
+{
+  "schema_version": 2,
+  "phase_id": "TG6-tracegraph-pddl-derived-repair-v2",
+  "experiment_line": "tracegraph-observable-state-skill-composition",
+  "status": "completed_zero_network_textworld_reset_preflight",
+  "task_count": 40,
+  "repaired_task_count": 10,
+  "repair_rule": "Add a unique non-openable synthetic floor receptacle for every goal-required pickupable or toggleable object lacking inReceptacle.",
+  "parent_repair_manifest": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v1/repair_manifest.json",
+  "parent_repair_manifest_sha256": "a75b32a9ef27ae42221dca2c6518ed9b35e4a6ba665468a85c57300e88499fb4",
+  "schedule": "artifacts\\acl2027_tracegraph_tg4_heldout_mechanism_preflight_v1\\heldout_schedule.json",
+  "schedule_sha256": "9e3acdad7a106fb20374d9885fc8da9f29ffba329c17c11134f193962887bb87",
+  "source_files_mutated": false,
+  "episodes_run": 0,
+  "network_calls": 0,
+  "provider_calls": 0,
+  "model_calls": 0,
+  "paid_api_calls": 0,
+  "rows_detail": [
+    {
+      "task_identity": "6f09d81cf1bf2e02e540b1f76a83092d822d75f7e82367ec00dfe9de4bec35a8",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-AlarmClock-None-DeskLamp-323/trial_T20190909_044715_250790",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_seen\\look_at_obj_in_light-AlarmClock-None-DeskLamp-323\\trial_T20190909_044715_250790\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_seen/look_at_obj_in_light-AlarmClock-None-DeskLamp-323/trial_T20190909_044715_250790/game.tw-pddl",
+      "source_sha256": "5c38f2e95b0679ff1f6fffa255d4a6378a70d297a97b6ed62e422d7fde354e4c",
+      "derived_sha256": "5c38f2e95b0679ff1f6fffa255d4a6378a70d297a97b6ed62e422d7fde354e4c",
+      "changed": false,
+      "repaired_objects": [],
+      "repair_reason": "all goal-required interactive objects already have receptacles"
+    },
+    {
+      "task_identity": "e4c4ebe7ccde6b7112813ca0554195d85cb29a7233b0944679b55964207d241a",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-BaseballBat-None-DeskLamp-303/trial_T20190907_060414_846460",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_seen\\look_at_obj_in_light-BaseballBat-None-DeskLamp-303\\trial_T20190907_060414_846460\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_seen/look_at_obj_in_light-BaseballBat-None-DeskLamp-303/trial_T20190907_060414_846460/game.tw-pddl",
+      "source_sha256": "7a286e3701487e648a79d9127b61beea4a907266717f75dc22a99c0dba138fab",
+      "derived_sha256": "7a286e3701487e648a79d9127b61beea4a907266717f75dc22a99c0dba138fab",
+      "changed": false,
+      "repaired_objects": [],
+      "repair_reason": "all goal-required interactive objects already have receptacles"
+    },
+    {
+      "task_identity": "95bf73dddd786ada972142cab71cfffcc178d31a8d72add5d6462ebcb4dc7a4f",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-Bowl-None-DeskLamp-301/trial_T20190909_150719_492274",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_seen\\look_at_obj_in_light-Bowl-None-DeskLamp-301\\trial_T20190909_150719_492274\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_seen/look_at_obj_in_light-Bowl-None-DeskLamp-301/trial_T20190909_150719_492274/game.tw-pddl",
+      "source_sha256": "9f39dd8ad05dcc93a709a149ed9faccab62521e0b0b1a680d9406966f5248840",
+      "derived_sha256": "9f39dd8ad05dcc93a709a149ed9faccab62521e0b0b1a680d9406966f5248840",
+      "changed": false,
+      "repaired_objects": [],
+      "repair_reason": "all goal-required interactive objects already have receptacles"
+    },
+    {
+      "task_identity": "8fc718e1895302383db0143e4879c4c6bd0caa01fbb74e99734aab9ce29a04fe",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-Bowl-None-DeskLamp-316/trial_T20190908_230702_962704",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_seen\\look_at_obj_in_light-Bowl-None-DeskLamp-316\\trial_T20190908_230702_962704\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_seen/look_at_obj_in_light-Bowl-None-DeskLamp-316/trial_T20190908_230702_962704/game.tw-pddl",
+      "source_sha256": "140ae4d6da8e275a05e5019298d52b72bcc3b05748bc6c3596a81f478cc79f43",
+      "derived_sha256": "140ae4d6da8e275a05e5019298d52b72bcc3b05748bc6c3596a81f478cc79f43",
+      "changed": false,
+      "repaired_objects": [],
+      "repair_reason": "all goal-required interactive objects already have receptacles"
+    },
+    {
+      "task_identity": "ca429486bb87719b35f542561dac75c470ca3244d76ff486614644710b57400c",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-Box-None-DeskLamp-205/trial_T20190907_074425_330493",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_seen\\look_at_obj_in_light-Box-None-DeskLamp-205\\trial_T20190907_074425_330493\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_seen/look_at_obj_in_light-Box-None-DeskLamp-205/trial_T20190907_074425_330493/game.tw-pddl",
+      "source_sha256": "5f268bdd74a296ed19c033bcbe1ad878a34c97c8342eafc9765e468a5dd25416",
+      "derived_sha256": "5f268bdd74a296ed19c033bcbe1ad878a34c97c8342eafc9765e468a5dd25416",
+      "changed": false,
+      "repaired_objects": [],
+      "repair_reason": "all goal-required interactive objects already have receptacles"
+    },
+    {
+      "task_identity": "8086766e568128367f9d40d92256bd7bdd9817b854df3bd61221fcbfb1b6854f",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-CD-None-DeskLamp-302/trial_T20190907_154618_526741",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_seen\\look_at_obj_in_light-CD-None-DeskLamp-302\\trial_T20190907_154618_526741\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_seen/look_at_obj_in_light-CD-None-DeskLamp-302/trial_T20190907_154618_526741/game.tw-pddl",
+      "source_sha256": "7a2d3863df3d126682bf784aff9d91fb315f73e5b064aafbb50487e57943f522",
+      "derived_sha256": "7a2d3863df3d126682bf784aff9d91fb315f73e5b064aafbb50487e57943f522",
+      "changed": false,
+      "repaired_objects": [],
+      "repair_reason": "all goal-required interactive objects already have receptacles"
+    },
+    {
+      "task_identity": "41f42511c095d79f37afd0e4bcc65b6b50b2791cf5f25e06dc914228ea1b2e83",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-CD-None-DeskLamp-314/trial_T20190907_114323_767231",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_seen\\look_at_obj_in_light-CD-None-DeskLamp-314\\trial_T20190907_114323_767231\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_seen/look_at_obj_in_light-CD-None-DeskLamp-314/trial_T20190907_114323_767231/game.tw-pddl",
+      "source_sha256": "1d5c2fab2f4bfec5029ca43c88bbc190b5642881871eacecbbc41b2584827882",
+      "derived_sha256": "1d5c2fab2f4bfec5029ca43c88bbc190b5642881871eacecbbc41b2584827882",
+      "changed": false,
+      "repaired_objects": [],
+      "repair_reason": "all goal-required interactive objects already have receptacles"
+    },
+    {
+      "task_identity": "b9e7dd183ebe26f2e3641e94a0bb32d6da3e837a34e46f5b2a13b010f3658d3a",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-CD-None-DeskLamp-320/trial_T20190907_224451_655673",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_seen\\look_at_obj_in_light-CD-None-DeskLamp-320\\trial_T20190907_224451_655673\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_seen/look_at_obj_in_light-CD-None-DeskLamp-320/trial_T20190907_224451_655673/game.tw-pddl",
+      "source_sha256": "01b61b195cace7aa7866b6b4392232fd88877b7b25f4c384e98f0fd5919f82b8",
+      "derived_sha256": "01b61b195cace7aa7866b6b4392232fd88877b7b25f4c384e98f0fd5919f82b8",
+      "changed": false,
+      "repaired_objects": [],
+      "repair_reason": "all goal-required interactive objects already have receptacles"
+    },
+    {
+      "task_identity": "f74b868c34ab1b4cb914c3058ec09e1c3f82aec32fa6df63d032740b92c144f1",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-Cloth-None-DeskLamp-303/trial_T20190908_170503_844252",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_seen\\look_at_obj_in_light-Cloth-None-DeskLamp-303\\trial_T20190908_170503_844252\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_seen/look_at_obj_in_light-Cloth-None-DeskLamp-303/trial_T20190908_170503_844252/game.tw-pddl",
+      "source_sha256": "65022d540cca13375d05ffd413c8afe07c8d00c56a1555795ab2c282c11a45b5",
+      "derived_sha256": "65022d540cca13375d05ffd413c8afe07c8d00c56a1555795ab2c282c11a45b5",
+      "changed": false,
+      "repaired_objects": [],
+      "repair_reason": "all goal-required interactive objects already have receptacles"
+    },
+    {
+      "task_identity": "9556304b31bde99819e40bdab48426bf757d0de709a1ac3d682254eb67aaebb1",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-CreditCard-None-FloorLamp-206/trial_T20190908_083541_210340",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_seen\\look_at_obj_in_light-CreditCard-None-FloorLamp-206\\trial_T20190908_083541_210340\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_seen/look_at_obj_in_light-CreditCard-None-FloorLamp-206/trial_T20190908_083541_210340/game.tw-pddl",
+      "source_sha256": "55cef5015b9ae3c23704a034bdbc0716a5dd98a2a0133aa73e0913765928b7cb",
+      "derived_sha256": "17427839de0dff7acfc214a32485b2fcf5e30091ee74e0841fd2813131902e02",
+      "changed": true,
+      "repaired_objects": [
+        {
+          "object": "FloorLamp_bar__minus_01_dot_57_bar__plus_00_dot_00_bar__plus_01_dot_30",
+          "location": "loc_bar__minus_6_bar_2_bar_0_bar_60",
+          "goal_type": "FloorLampType",
+          "receptacle": "TraceGraphFloorReceptacle_9e830a89ed27"
+        }
+      ],
+      "repair_reason": "goal-required pickup/toggle objects lacked inReceptacle"
+    },
+    {
+      "task_identity": "f19f673d9c50c586d13b5440b201ef09ab2e150181068b678c45028d6c97ea74",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-CreditCard-None-FloorLamp-207/trial_T20190907_031918_448619",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_seen\\look_at_obj_in_light-CreditCard-None-FloorLamp-207\\trial_T20190907_031918_448619\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_seen/look_at_obj_in_light-CreditCard-None-FloorLamp-207/trial_T20190907_031918_448619/game.tw-pddl",
+      "source_sha256": "6b482bea16e9184af4641069d5fe5cb636daf36b0a5c6d8f43ee80e260cbe3e5",
+      "derived_sha256": "4a7654084a5b21322cd2e1126f53e283cd2999e224337755b90e003272cc8dd1",
+      "changed": true,
+      "repaired_objects": [
+        {
+          "object": "FloorLamp_bar__plus_01_dot_23_bar__plus_00_dot_00_bar__plus_03_dot_80",
+          "location": "loc_bar_3_bar_14_bar_1_bar_60",
+          "goal_type": "FloorLampType",
+          "receptacle": "TraceGraphFloorReceptacle_a9554e3fd182"
+        }
+      ],
+      "repair_reason": "goal-required pickup/toggle objects lacked inReceptacle"
+    },
+    {
+      "task_identity": "70f2994489d82210e1033e76006a5b303f206d6d249b662bc22ba674b09c5d99",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-CreditCard-None-FloorLamp-227/trial_T20190908_173545_981227",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_seen\\look_at_obj_in_light-CreditCard-None-FloorLamp-227\\trial_T20190908_173545_981227\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_seen/look_at_obj_in_light-CreditCard-None-FloorLamp-227/trial_T20190908_173545_981227/game.tw-pddl",
+      "source_sha256": "ed1d9fe6883f29ca2551c1b1126757100255db609d088bd4827433f8a906a857",
+      "derived_sha256": "87c0e976c929eec3ea9d1a1743ee5d51201a8a9c8a1f342aebba0ee963de31fb",
+      "changed": true,
+      "repaired_objects": [
+        {
+          "object": "FloorLamp_bar__minus_00_dot_37_bar__plus_00_dot_03_bar__plus_04_dot_99",
+          "location": "loc_bar__minus_3_bar_19_bar_1_bar_60",
+          "goal_type": "FloorLampType",
+          "receptacle": "TraceGraphFloorReceptacle_6cb9a8be35ad"
+        }
+      ],
+      "repair_reason": "goal-required pickup/toggle objects lacked inReceptacle"
+    },
+    {
+      "task_identity": "1cf88c90400c0142d77ed14a5a3f97e47c6c5d8f1b0abbc36c4dba42956e80ec",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-CreditCard-None-FloorLamp-227/trial_T20190908_173610_612042",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_seen\\look_at_obj_in_light-CreditCard-None-FloorLamp-227\\trial_T20190908_173610_612042\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_seen/look_at_obj_in_light-CreditCard-None-FloorLamp-227/trial_T20190908_173610_612042/game.tw-pddl",
+      "source_sha256": "a43c0cca2e9103241ad8b15f0f99c314ff0ba9db1d3828608940c5ab95df14ac",
+      "derived_sha256": "6dd863135b58337d19489dbc86a68f7585ebff2c85cd5b35faaef41f5898b665",
+      "changed": true,
+      "repaired_objects": [
+        {
+          "object": "FloorLamp_bar__minus_00_dot_37_bar__plus_00_dot_03_bar__plus_04_dot_99",
+          "location": "loc_bar__minus_3_bar_19_bar_1_bar_60",
+          "goal_type": "FloorLampType",
+          "receptacle": "TraceGraphFloorReceptacle_6cb9a8be35ad"
+        }
+      ],
+      "repair_reason": "goal-required pickup/toggle objects lacked inReceptacle"
+    },
+    {
+      "task_identity": "e7822ab63a374143fdcd17e0bf3c58fd2b0eba16bb9751717aba974391a91648",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-KeyChain-None-DeskLamp-327/trial_T20190906_202601_548273",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_seen\\look_at_obj_in_light-KeyChain-None-DeskLamp-327\\trial_T20190906_202601_548273\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_seen/look_at_obj_in_light-KeyChain-None-DeskLamp-327/trial_T20190906_202601_548273/game.tw-pddl",
+      "source_sha256": "9fa4d903b9897e69f6b45feaf0cfa0a2f23b04818f855ec044911722da505954",
+      "derived_sha256": "9fa4d903b9897e69f6b45feaf0cfa0a2f23b04818f855ec044911722da505954",
+      "changed": false,
+      "repaired_objects": [],
+      "repair_reason": "all goal-required interactive objects already have receptacles"
+    },
+    {
+      "task_identity": "f4ca200a1448121107b25f3f39a9570aba817792b416e4207d2d1a6716c24bc2",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-KeyChain-None-FloorLamp-204/trial_T20190909_030908_402835",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_seen\\look_at_obj_in_light-KeyChain-None-FloorLamp-204\\trial_T20190909_030908_402835\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_seen/look_at_obj_in_light-KeyChain-None-FloorLamp-204/trial_T20190909_030908_402835/game.tw-pddl",
+      "source_sha256": "46ab4b548e58afc174944c3adb0adc95bd7b011d8c231b3022096f4246758d4e",
+      "derived_sha256": "38fdcbcec65dc443fda00dbcbe48f3a2298b5b13e7e26697fd0ddebd8d1ff836",
+      "changed": true,
+      "repaired_objects": [
+        {
+          "object": "FloorLamp_bar__plus_00_dot_39_bar__plus_00_dot_00_bar__plus_05_dot_16",
+          "location": "loc_bar_1_bar_18_bar_0_bar_60",
+          "goal_type": "FloorLampType",
+          "receptacle": "TraceGraphFloorReceptacle_45c4d6101c49"
+        }
+      ],
+      "repair_reason": "goal-required pickup/toggle objects lacked inReceptacle"
+    },
+    {
+      "task_identity": "5da64e62fe1079f36ba59127fea4e6f697bf1a57b9bdeafe44480a1298ab6e32",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-KeyChain-None-FloorLamp-213/trial_T20190908_203806_730562",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_seen\\look_at_obj_in_light-KeyChain-None-FloorLamp-213\\trial_T20190908_203806_730562\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_seen/look_at_obj_in_light-KeyChain-None-FloorLamp-213/trial_T20190908_203806_730562/game.tw-pddl",
+      "source_sha256": "97352b8f41209f1b481105ae394d036ba599f9bcfaa0815f6812d812c69c19a0",
+      "derived_sha256": "94edda4a633eaac025e1d322af27ae61dc0dbdffd7055e4d64dc8988caea66de",
+      "changed": true,
+      "repaired_objects": [
+        {
+          "object": "FloorLamp_bar__plus_07_dot_86_bar__plus_00_dot_00_bar__plus_03_dot_40",
+          "location": "loc_bar_32_bar_11_bar_0_bar_60",
+          "goal_type": "FloorLampType",
+          "receptacle": "TraceGraphFloorReceptacle_d2b4c2d1d5e0"
+        }
+      ],
+      "repair_reason": "goal-required pickup/toggle objects lacked inReceptacle"
+    },
+    {
+      "task_identity": "db3ff908198c27495eefd85458fda81738186c5076d66ccf759639bea741f349",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-Laptop-None-DeskLamp-328/trial_T20190908_201550_622420",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_seen\\look_at_obj_in_light-Laptop-None-DeskLamp-328\\trial_T20190908_201550_622420\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_seen/look_at_obj_in_light-Laptop-None-DeskLamp-328/trial_T20190908_201550_622420/game.tw-pddl",
+      "source_sha256": "65c8300427c71894c6b0a7d6097306e093bd5bd8ae0fcf2cd200a54f269df5d7",
+      "derived_sha256": "65c8300427c71894c6b0a7d6097306e093bd5bd8ae0fcf2cd200a54f269df5d7",
+      "changed": false,
+      "repaired_objects": [],
+      "repair_reason": "all goal-required interactive objects already have receptacles"
+    },
+    {
+      "task_identity": "2e866efec64e0f783c081f061ab8e9b3dc39666449fafe0b4fc6c2988dad92c7",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-Laptop-None-FloorLamp-205/trial_T20190907_130001_953970",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_seen\\look_at_obj_in_light-Laptop-None-FloorLamp-205\\trial_T20190907_130001_953970\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_seen/look_at_obj_in_light-Laptop-None-FloorLamp-205/trial_T20190907_130001_953970/game.tw-pddl",
+      "source_sha256": "8cb4a31644e4763a6b4098716ab8c9540ce594d234c73d3d16381b8a2e5b4109",
+      "derived_sha256": "92c50c4fdfe55a9442106f981cdb092247fe5817e43aa2d2674d040b92f74740",
+      "changed": true,
+      "repaired_objects": [
+        {
+          "object": "FloorLamp_bar__minus_04_dot_72_bar__plus_00_dot_00_bar__plus_03_dot_69",
+          "location": "loc_bar__minus_18_bar_12_bar_0_bar_60",
+          "goal_type": "FloorLampType",
+          "receptacle": "TraceGraphFloorReceptacle_3af51c5aeb24"
+        }
+      ],
+      "repair_reason": "goal-required pickup/toggle objects lacked inReceptacle"
+    },
+    {
+      "task_identity": "1ab6deb806c60b516d75b378ec7eb5ee98c7d1a9a019f88784f01211fd88f745",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-Pillow-None-DeskLamp-302/trial_T20190909_150916_682139",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_seen\\look_at_obj_in_light-Pillow-None-DeskLamp-302\\trial_T20190909_150916_682139\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_seen/look_at_obj_in_light-Pillow-None-DeskLamp-302/trial_T20190909_150916_682139/game.tw-pddl",
+      "source_sha256": "764a2e6ba1c71c9bcad7fad2dad2a03c663cdd6aba0a855da13c88504b850e93",
+      "derived_sha256": "764a2e6ba1c71c9bcad7fad2dad2a03c663cdd6aba0a855da13c88504b850e93",
+      "changed": false,
+      "repaired_objects": [],
+      "repair_reason": "all goal-required interactive objects already have receptacles"
+    },
+    {
+      "task_identity": "ce8bcf6b05fca7d332a51b7dbe8f7341e6834e5071d92b1aebd57695a1321a01",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-Pillow-None-DeskLamp-323/trial_T20190908_053153_077977",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_seen\\look_at_obj_in_light-Pillow-None-DeskLamp-323\\trial_T20190908_053153_077977\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_seen/look_at_obj_in_light-Pillow-None-DeskLamp-323/trial_T20190908_053153_077977/game.tw-pddl",
+      "source_sha256": "adaa850933b7d4e8c5b1625e9d65864cf378e68b5e548fde07025fb28198902a",
+      "derived_sha256": "adaa850933b7d4e8c5b1625e9d65864cf378e68b5e548fde07025fb28198902a",
+      "changed": false,
+      "repaired_objects": [],
+      "repair_reason": "all goal-required interactive objects already have receptacles"
+    },
+    {
+      "task_identity": "d4102cb0065c4e70d2e5038b8a8b4fafe7e484f417cbeae2424ad22691594f13",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-AlarmClock-None-DeskLamp-308/trial_T20190908_222917_366542",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-AlarmClock-None-DeskLamp-308\\trial_T20190908_222917_366542\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_unseen/look_at_obj_in_light-AlarmClock-None-DeskLamp-308/trial_T20190908_222917_366542/game.tw-pddl",
+      "source_sha256": "66fba8a15b6208d145d20d2914b0eda9d0da2de93ede31ab45ab67821c135848",
+      "derived_sha256": "66fba8a15b6208d145d20d2914b0eda9d0da2de93ede31ab45ab67821c135848",
+      "changed": false,
+      "repaired_objects": [],
+      "repair_reason": "all goal-required interactive objects already have receptacles"
+    },
+    {
+      "task_identity": "7f8bddc1e805db31422344abe1b44548216a6a1674cd36106f77701bbde49ea6",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-AlarmClock-None-DeskLamp-308/trial_T20190908_222933_607649",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-AlarmClock-None-DeskLamp-308\\trial_T20190908_222933_607649\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_unseen/look_at_obj_in_light-AlarmClock-None-DeskLamp-308/trial_T20190908_222933_607649/game.tw-pddl",
+      "source_sha256": "6a5f55d224800be4437830083c1cea7d21e90750ea80dd9746535412af7c0bf8",
+      "derived_sha256": "6a5f55d224800be4437830083c1cea7d21e90750ea80dd9746535412af7c0bf8",
+      "changed": false,
+      "repaired_objects": [],
+      "repair_reason": "all goal-required interactive objects already have receptacles"
+    },
+    {
+      "task_identity": "178e7106aa2ba1289fd610043a7853737679cd21d26e4fb2fa885333abb0f030",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-AlarmClock-None-DeskLamp-308/trial_T20190908_222951_616606",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-AlarmClock-None-DeskLamp-308\\trial_T20190908_222951_616606\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_unseen/look_at_obj_in_light-AlarmClock-None-DeskLamp-308/trial_T20190908_222951_616606/game.tw-pddl",
+      "source_sha256": "ae6b38f842531ded7570873ed852e3ee724a151c95f3967dc3c0bc26ce340348",
+      "derived_sha256": "ae6b38f842531ded7570873ed852e3ee724a151c95f3967dc3c0bc26ce340348",
+      "changed": false,
+      "repaired_objects": [],
+      "repair_reason": "all goal-required interactive objects already have receptacles"
+    },
+    {
+      "task_identity": "29ff66c4d260797743cec6cf27cf0ddca4e2fa2857605531f68d2608164d49c1",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-BaseballBat-None-DeskLamp-308/trial_T20190906_214631_761426",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-BaseballBat-None-DeskLamp-308\\trial_T20190906_214631_761426\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_unseen/look_at_obj_in_light-BaseballBat-None-DeskLamp-308/trial_T20190906_214631_761426/game.tw-pddl",
+      "source_sha256": "45497bb0ff48da2211b4c40a81b70f4b5255a5bbffddb9a2bc8a962bce1de448",
+      "derived_sha256": "45497bb0ff48da2211b4c40a81b70f4b5255a5bbffddb9a2bc8a962bce1de448",
+      "changed": false,
+      "repaired_objects": [],
+      "repair_reason": "all goal-required interactive objects already have receptacles"
+    },
+    {
+      "task_identity": "4c146e2af432a8522659c30b161229e29a9fe8b139e638b57efb1cfc89793a3e",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-BaseballBat-None-DeskLamp-308/trial_T20190906_214648_973919",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-BaseballBat-None-DeskLamp-308\\trial_T20190906_214648_973919\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_unseen/look_at_obj_in_light-BaseballBat-None-DeskLamp-308/trial_T20190906_214648_973919/game.tw-pddl",
+      "source_sha256": "1455270a5debe63c31bd91ef7d4fad1367a45f1dec6abdea55398a6788e5dc67",
+      "derived_sha256": "1455270a5debe63c31bd91ef7d4fad1367a45f1dec6abdea55398a6788e5dc67",
+      "changed": false,
+      "repaired_objects": [],
+      "repair_reason": "all goal-required interactive objects already have receptacles"
+    },
+    {
+      "task_identity": "0c10c9615d6ae7fa0816524c6a024c873ef08fecdcd3666ed81b7b7be713da40",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-BaseballBat-None-DeskLamp-308/trial_T20190906_214706_219505",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-BaseballBat-None-DeskLamp-308\\trial_T20190906_214706_219505\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_unseen/look_at_obj_in_light-BaseballBat-None-DeskLamp-308/trial_T20190906_214706_219505/game.tw-pddl",
+      "source_sha256": "475455d0770145e5257e2bdaf717bc4df1b04c8fadadfd96abe84c6e162ba139",
+      "derived_sha256": "475455d0770145e5257e2bdaf717bc4df1b04c8fadadfd96abe84c6e162ba139",
+      "changed": false,
+      "repaired_objects": [],
+      "repair_reason": "all goal-required interactive objects already have receptacles"
+    },
+    {
+      "task_identity": "e4c0245485d973d9981008f460b2b7e30d11698d8aa05c326a1646cb70dd62c3",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-BasketBall-None-DeskLamp-308/trial_T20190907_161210_531813",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-BasketBall-None-DeskLamp-308\\trial_T20190907_161210_531813\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_unseen/look_at_obj_in_light-BasketBall-None-DeskLamp-308/trial_T20190907_161210_531813/game.tw-pddl",
+      "source_sha256": "7fd660b87a62d031a6bb20cc8c6674656f379f7490d0afce926472981353a1c2",
+      "derived_sha256": "7fd660b87a62d031a6bb20cc8c6674656f379f7490d0afce926472981353a1c2",
+      "changed": false,
+      "repaired_objects": [],
+      "repair_reason": "all goal-required interactive objects already have receptacles"
+    },
+    {
+      "task_identity": "434e06be5740fef1101f8286e433f91c2491bc53dc9f45334c582a2fa66b6ba8",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-BasketBall-None-DeskLamp-308/trial_T20190907_161235_786153",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-BasketBall-None-DeskLamp-308\\trial_T20190907_161235_786153\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_unseen/look_at_obj_in_light-BasketBall-None-DeskLamp-308/trial_T20190907_161235_786153/game.tw-pddl",
+      "source_sha256": "d8d0616afabccf78a1343e47bf95bb9b0e3fef79ba6e68d4963834a67d106673",
+      "derived_sha256": "d8d0616afabccf78a1343e47bf95bb9b0e3fef79ba6e68d4963834a67d106673",
+      "changed": false,
+      "repaired_objects": [],
+      "repair_reason": "all goal-required interactive objects already have receptacles"
+    },
+    {
+      "task_identity": "4ed9293b62f23d17ac6cd9036a6c281593a71a96996d7a035691ea3e384a2c3b",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-BasketBall-None-DeskLamp-308/trial_T20190907_161252_926204",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-BasketBall-None-DeskLamp-308\\trial_T20190907_161252_926204\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_unseen/look_at_obj_in_light-BasketBall-None-DeskLamp-308/trial_T20190907_161252_926204/game.tw-pddl",
+      "source_sha256": "70df48459eda9c325c17d7e0d9a7c6294de91026e054365cfff90ce0316d90c8",
+      "derived_sha256": "70df48459eda9c325c17d7e0d9a7c6294de91026e054365cfff90ce0316d90c8",
+      "changed": false,
+      "repaired_objects": [],
+      "repair_reason": "all goal-required interactive objects already have receptacles"
+    },
+    {
+      "task_identity": "5cc3defbf882c788a1e5a977e3cdde7e133533fdf2d53788ad3aa3bbdbb0fc52",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-Book-None-DeskLamp-308/trial_T20190908_020029_636862",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-Book-None-DeskLamp-308\\trial_T20190908_020029_636862\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_unseen/look_at_obj_in_light-Book-None-DeskLamp-308/trial_T20190908_020029_636862/game.tw-pddl",
+      "source_sha256": "c7518c28043379e97dc7ab84d0daa8fcb0057e4036dd60e3cd8bb6f1b68bc984",
+      "derived_sha256": "c7518c28043379e97dc7ab84d0daa8fcb0057e4036dd60e3cd8bb6f1b68bc984",
+      "changed": false,
+      "repaired_objects": [],
+      "repair_reason": "all goal-required interactive objects already have receptacles"
+    },
+    {
+      "task_identity": "0e2e0924f88c16ca82c573942e964aa63ae5bbf614143ef0590c8f458c5899fc",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-Book-None-DeskLamp-308/trial_T20190908_020048_814402",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-Book-None-DeskLamp-308\\trial_T20190908_020048_814402\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_unseen/look_at_obj_in_light-Book-None-DeskLamp-308/trial_T20190908_020048_814402/game.tw-pddl",
+      "source_sha256": "2c9444c4f14efaca1753dbe6f92cfa7763161fa70c01999c6dd882cbe887e7ef",
+      "derived_sha256": "2c9444c4f14efaca1753dbe6f92cfa7763161fa70c01999c6dd882cbe887e7ef",
+      "changed": false,
+      "repaired_objects": [],
+      "repair_reason": "all goal-required interactive objects already have receptacles"
+    },
+    {
+      "task_identity": "a5d3a28b2adecc41e3e40d64b49f0fcb52653ffb3652090afa7748318ecd4d95",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-Book-None-DeskLamp-308/trial_T20190908_144951_587345",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-Book-None-DeskLamp-308\\trial_T20190908_144951_587345\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_unseen/look_at_obj_in_light-Book-None-DeskLamp-308/trial_T20190908_144951_587345/game.tw-pddl",
+      "source_sha256": "d5e6d47ca64423b318f93cc4d10c4df6aa2a08ef4255293d5862ccb261e3e591",
+      "derived_sha256": "d5e6d47ca64423b318f93cc4d10c4df6aa2a08ef4255293d5862ccb261e3e591",
+      "changed": false,
+      "repaired_objects": [],
+      "repair_reason": "all goal-required interactive objects already have receptacles"
+    },
+    {
+      "task_identity": "b0a8850ba694ba4e1750199345a63d7eb262a234c752cdacb55fb2c362ffcd3f",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-Bowl-None-DeskLamp-308/trial_T20190907_133919_856963",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-Bowl-None-DeskLamp-308\\trial_T20190907_133919_856963\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_unseen/look_at_obj_in_light-Bowl-None-DeskLamp-308/trial_T20190907_133919_856963/game.tw-pddl",
+      "source_sha256": "3dfe5c8291e184c60cac6bd8a2d63e2d2223b9ecd941a1d19f2c13ec345047bb",
+      "derived_sha256": "3dfe5c8291e184c60cac6bd8a2d63e2d2223b9ecd941a1d19f2c13ec345047bb",
+      "changed": false,
+      "repaired_objects": [],
+      "repair_reason": "all goal-required interactive objects already have receptacles"
+    },
+    {
+      "task_identity": "fa19035643dc03875dfe7b4a4a1676f3897f402a9091550a489ddf3bb4fe76dd",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-Bowl-None-DeskLamp-308/trial_T20190907_133935_066606",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-Bowl-None-DeskLamp-308\\trial_T20190907_133935_066606\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_unseen/look_at_obj_in_light-Bowl-None-DeskLamp-308/trial_T20190907_133935_066606/game.tw-pddl",
+      "source_sha256": "7f9346e60c2a56f842f0b0be311aa95a8196452ca060d60c8d5d5485b080c7b1",
+      "derived_sha256": "7f9346e60c2a56f842f0b0be311aa95a8196452ca060d60c8d5d5485b080c7b1",
+      "changed": false,
+      "repaired_objects": [],
+      "repair_reason": "all goal-required interactive objects already have receptacles"
+    },
+    {
+      "task_identity": "88fc5894f2977e3c97e7d14d74f12e3727a6afc5794d4df645f9bd6d4ce35ab7",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-Bowl-None-DeskLamp-308/trial_T20190907_133953_562557",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-Bowl-None-DeskLamp-308\\trial_T20190907_133953_562557\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_unseen/look_at_obj_in_light-Bowl-None-DeskLamp-308/trial_T20190907_133953_562557/game.tw-pddl",
+      "source_sha256": "5760fadfa5c5ea7c7591dd9b9383fe6af56655a72796ebf90027820707a2c7a1",
+      "derived_sha256": "5760fadfa5c5ea7c7591dd9b9383fe6af56655a72796ebf90027820707a2c7a1",
+      "changed": false,
+      "repaired_objects": [],
+      "repair_reason": "all goal-required interactive objects already have receptacles"
+    },
+    {
+      "task_identity": "a5a8eac9715dc8124009d69541ec0d15cc496a3d3c8cd52607946fb8abdd441e",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-Box-None-FloorLamp-219/trial_T20190907_102952_001375",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-Box-None-FloorLamp-219\\trial_T20190907_102952_001375\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_unseen/look_at_obj_in_light-Box-None-FloorLamp-219/trial_T20190907_102952_001375/game.tw-pddl",
+      "source_sha256": "69dc563a93f45806d9106d2d5d952c12d3b68f9845905a2d5d2f72efa97d054a",
+      "derived_sha256": "cdc82658941ae57605cb2737f9fc1542f88317d50abf23c616f6c7e80d4f708a",
+      "changed": true,
+      "repaired_objects": [
+        {
+          "object": "FloorLamp_bar__minus_00_dot_65_bar__plus_00_dot_27_bar__plus_04_dot_43",
+          "location": "loc_bar__minus_6_bar_15_bar_1_bar_60",
+          "goal_type": "FloorLampType",
+          "receptacle": "TraceGraphFloorReceptacle_ce09e3abe273"
+        },
+        {
+          "object": "FloorLamp_bar__minus_05_dot_60_bar__plus_00_dot_00_bar__plus_04_dot_64",
+          "location": "loc_bar__minus_21_bar_16_bar_0_bar_60",
+          "goal_type": "FloorLampType",
+          "receptacle": "TraceGraphFloorReceptacle_87cccab09199"
+        }
+      ],
+      "repair_reason": "goal-required pickup/toggle objects lacked inReceptacle"
+    },
+    {
+      "task_identity": "3870960b8b29d8602b54ce21c25973ce2b54d6a65b336ebb5c195d392909d30f",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-Box-None-FloorLamp-219/trial_T20190907_103005_855069",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-Box-None-FloorLamp-219\\trial_T20190907_103005_855069\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_unseen/look_at_obj_in_light-Box-None-FloorLamp-219/trial_T20190907_103005_855069/game.tw-pddl",
+      "source_sha256": "d6e203c7d59fc5e09a76cb23dc19127538821bebde524882565f92cd762edf10",
+      "derived_sha256": "8d6fe059a4ef6c455dc051dcdf0aaf58adb88ed2154f57950ba9a3898d360935",
+      "changed": true,
+      "repaired_objects": [
+        {
+          "object": "FloorLamp_bar__minus_00_dot_65_bar__plus_00_dot_27_bar__plus_04_dot_43",
+          "location": "loc_bar__minus_6_bar_15_bar_1_bar_60",
+          "goal_type": "FloorLampType",
+          "receptacle": "TraceGraphFloorReceptacle_ce09e3abe273"
+        },
+        {
+          "object": "FloorLamp_bar__minus_05_dot_60_bar__plus_00_dot_00_bar__plus_04_dot_64",
+          "location": "loc_bar__minus_21_bar_16_bar_0_bar_60",
+          "goal_type": "FloorLampType",
+          "receptacle": "TraceGraphFloorReceptacle_87cccab09199"
+        }
+      ],
+      "repair_reason": "goal-required pickup/toggle objects lacked inReceptacle"
+    },
+    {
+      "task_identity": "2965606e9682fa4b5d4c37cb4c075c8b8ca12f042326a850ccea411f1a4382f4",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-Box-None-FloorLamp-219/trial_T20190907_103041_110705",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-Box-None-FloorLamp-219\\trial_T20190907_103041_110705\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_unseen/look_at_obj_in_light-Box-None-FloorLamp-219/trial_T20190907_103041_110705/game.tw-pddl",
+      "source_sha256": "db51a34593d54b65ef1561b55b8e1f5a3151e969cdb86b11682420d8f3562239",
+      "derived_sha256": "972123f3968324c25e5020aa0969920e36e9faed2bd5338393c3f5a6f29bad77",
+      "changed": true,
+      "repaired_objects": [
+        {
+          "object": "FloorLamp_bar__minus_00_dot_65_bar__plus_00_dot_27_bar__plus_04_dot_43",
+          "location": "loc_bar__minus_6_bar_15_bar_1_bar_60",
+          "goal_type": "FloorLampType",
+          "receptacle": "TraceGraphFloorReceptacle_ce09e3abe273"
+        },
+        {
+          "object": "FloorLamp_bar__minus_05_dot_60_bar__plus_00_dot_00_bar__plus_04_dot_64",
+          "location": "loc_bar__minus_21_bar_16_bar_0_bar_60",
+          "goal_type": "FloorLampType",
+          "receptacle": "TraceGraphFloorReceptacle_87cccab09199"
+        }
+      ],
+      "repair_reason": "goal-required pickup/toggle objects lacked inReceptacle"
+    },
+    {
+      "task_identity": "3e2589cdb0997e9561c357b7b6123b59ed3fdda2134cd9f8a6732fdd3088480a",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-CD-None-DeskLamp-308/trial_T20190908_141942_810052",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-CD-None-DeskLamp-308\\trial_T20190908_141942_810052\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_unseen/look_at_obj_in_light-CD-None-DeskLamp-308/trial_T20190908_141942_810052/game.tw-pddl",
+      "source_sha256": "a8819bb1bb956c7ae34f27bd7bbc254670af3da6c36dc32b796b4964142e8aec",
+      "derived_sha256": "a8819bb1bb956c7ae34f27bd7bbc254670af3da6c36dc32b796b4964142e8aec",
+      "changed": false,
+      "repaired_objects": [],
+      "repair_reason": "all goal-required interactive objects already have receptacles"
+    },
+    {
+      "task_identity": "baa9a87c161a2cd24f6dda18bdd236f7e89ea0565cd208d4cc5151930070bc68",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-CD-None-DeskLamp-308/trial_T20190908_141958_463362",
+      "source_gamefile": "E:\\桌面\\暑期实训\\SummerSkillOpt\\artifacts\\acl2027_tracegraph_tg6_pddl_derived_repair_v1\\derived\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-CD-None-DeskLamp-308\\trial_T20190908_141958_463362\\game.tw-pddl",
+      "derived_gamefile": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/derived/json_2.1.1/valid_unseen/look_at_obj_in_light-CD-None-DeskLamp-308/trial_T20190908_141958_463362/game.tw-pddl",
+      "source_sha256": "4a803346a393adbfd2ddc5809afd86b02ee76ef3c95ad19cc00b434dfe95e4a1",
+      "derived_sha256": "4a803346a393adbfd2ddc5809afd86b02ee76ef3c95ad19cc00b434dfe95e4a1",
+      "changed": false,
+      "repaired_objects": [],
+      "repair_reason": "all goal-required interactive objects already have receptacles"
+    }
+  ],
+  "zero_step_evidence": "artifacts/acl2027_tracegraph_tg6_pddl_derived_repair_v2/zero_step_evidence.json",
+  "zero_step_evidence_sha256": "5c0aee25718d1edca68e6e06c5954b2210186c8f4de2d805f067549fa246dc7b",
+  "pending_source_manifest": "tracegraph_tg6_pddl_derived_repair_v2.pending/repair_manifest.json",
+  "pending_source_manifest_sha256": "2d604905b9c45b81b07478741c45f191b4da31e6198b454f6394464effa64e1e",
+  "textworld_reset_status": "passed_40_of_40",
+  "aggregate_fingerprint": "7aa7adbcfcdd8018b5a16045fee949883c6cb0cc547dde0063949adb4da33f43"
+}

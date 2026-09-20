@@ -1,0 +1,38 @@
+{
+  "authorization_closes_on_completion_or_terminal_stop": true,
+  "authorization_statement_sha256": "4d1ba713a63ae15b03b53c1311363c049c25760be765c3104c83f8c9577187f6",
+  "authorization_statement_verbatim": "I explicitly authorize Phase 5 admission/grounding execution, binding design fingerprint c61009e80f5f662c5b62c87239aff4a9fce86c759a98c6250f1a4e941b11a7de and live preflight fingerprint 602b27d182b8fc8dfd7f64897a44a2a89ed8ecc3f037f568108407c25b52fd1c, using 240 frozen requests to https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1 with qwen3.7-plus, temperature 0, thinking disabled, zero retries, no max_tokens, JSON-object responses, one-second pacing, CNY 3.00 stage and CNY 15.00 cumulative ceilings, first-failure stop, exact-prefix resume, durable hash-chain ledgers, and automatic closure. I authorize no replication, other models, cross-domain scaling, or formal scaling.",
+  "authorized_calls": 240,
+  "cumulative_cost_ceiling_cny": 15.0,
+  "data_egress_authorized": true,
+  "enable_thinking": false,
+  "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+  "exact_prefix_resume_only": true,
+  "forbidden_scope": [
+    "replication",
+    "other_models",
+    "cross_domain_scaling",
+    "formal_scaling"
+  ],
+  "hash_chain_required": true,
+  "max_provider_attempts": 240,
+  "max_tokens_present": false,
+  "model_id": "qwen3.7-plus",
+  "paid_usage_authorized": true,
+  "preflight_aggregate_fingerprint": "602b27d182b8fc8dfd7f64897a44a2a89ed8ecc3f037f568108407c25b52fd1c",
+  "request_interval_seconds": 1.0,
+  "request_start_ledger_required": true,
+  "response_format": {
+    "type": "json_object"
+  },
+  "response_ledger_required": true,
+  "retries": 0,
+  "schema_version": 1,
+  "scope": "phase5_admission_grounding_only",
+  "source_design_fingerprint": "c61009e80f5f662c5b62c87239aff4a9fce86c759a98c6250f1a4e941b11a7de",
+  "stage_cost_ceiling_cny": 3.0,
+  "status": "explicit_user_authorization_received",
+  "temperature": 0,
+  "terminal_stop_on_first_failed_attempt": true,
+  "usage_accounting_required": true
+}

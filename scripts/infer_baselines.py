@@ -35,6 +35,7 @@ from skillopt.model import (
     set_target_backend, set_target_deployment,
 )
 from skillopt.rag_rule_selector import RuleMemory
+from skillopt.evaluation.run_registry import attach_run_metadata, append_run_registry
 
 
 def _load_env(path: str | None = None):
@@ -112,6 +113,9 @@ def infer(method, skill_content, items, top_k, budget, weights, workers, **kwarg
     extra: dict = {}
     rm = RuleMemory(skill_content, method="tfidf", top_k=top_k, token_budget=budget)
     rules = [r.full_text for r in rm.dynamic_rules]
+    rule_ids = rm.dynamic_rule_ids
+    extra["rule_set_fingerprint"] = rm.rule_set_fingerprint
+    extra["n_dynamic_rules"] = rm.n_dynamic
     core = rm.core_rules_text
     n = len(rules)
 
@@ -256,6 +260,9 @@ def infer(method, skill_content, items, top_k, budget, weights, workers, **kwarg
         d.update({
             "n_rules": len(sd["sel"]),
             "selected_indices": sd["sel"],
+            "selected_rule_ids": [
+                rule_ids[idx] for idx in sd["sel"] if 0 <= idx < len(rule_ids)
+            ],
             "sel_chars": sd["sel_chars"],
             "selected_tokens": sel_tokens,
             "budget_violated": sel_tokens > budget,
@@ -309,9 +316,15 @@ def parse_args():
     p.add_argument("--budget", type=int, default=2000)
     p.add_argument("--weights", default="0.4,0.3,0.2,0.1")
     p.add_argument("--workers", type=int, default=16)
+    p.add_argument("--seed", type=int, default=42)
     p.add_argument("--utility-file", type=str, default="",
                    help="Required for greedy-util: path to frozen moar_utility.json")
     p.add_argument("--out", default="")
+    p.add_argument(
+        "--registry",
+        default=os.path.join(_PROJECT_ROOT, "outputs", "run_registry.jsonl"),
+        help="Append immutable run metadata to this JSONL file; pass an empty string to disable.",
+    )
     return p.parse_args()
 
 
@@ -370,10 +383,14 @@ def main():
         **extra,
         "per_question": per_item,
     }
+    attach_run_metadata(summary, kind="baseline", seed=args.seed)
     os.makedirs(os.path.dirname(out) or ".", exist_ok=True)
     with open(out, "w", encoding="utf-8") as f:
         json.dump(summary, f, indent=2, ensure_ascii=False)
     print(f"Saved: {out}")
+    if args.registry:
+        append_run_registry(args.registry, result_path=out, payload=summary, kind="baseline")
+        print(f"Registry: {args.registry}")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase2_expansion_freeze_v1",
+  "phase": "2",
+  "status": "design_only_blocked_preflight",
+  "arm": "B_stronger",
+  "execution": {"network_calls_allowed": false, "provider_calls_allowed": false, "paid_api_allowed": false, "formal_scaling_allowed": false, "qwen_authorization_open": false},
+  "model": {"model_id": "qwen3.7-plus", "temperature": 0, "retries": 0, "max_tokens_present": false},
+  "skill_families": ["fact_retrieval", "attribute_comparison", "bridge_attribute_comparison", "entity_bridge", "relation_inference"],
+  "conditions": ["cold", "copied_global", "global_only", "contextual_typed_prior"],
+  "partition_order": ["calibration", "development_acquisition", "formal_history", "probe", "held_out"],
+  "partition_targets": {"calibration": 12, "development_acquisition": 2, "formal_history": 32, "probe": 8, "held_out": 16},
+  "partition_selector": "SHA256(\"phase2-v1:<partition>:<family>:<seed>:<task_id>\")",
+  "seed": "phase2-b-v1",
+  "source_dataset_manifest": {"files": ["data/searchqa_id_split/train/items.json", "data/searchqa_id_split/val/items.json", "data/searchqa_id_split/test/items.json", "data/searchqa_phase1u/calibration.json", "data/2wikimultihopqa_verified/source/dev.json", "data/2wikimultihopqa_verified/partitions/calibration.json", "data/2wikimultihopqa_verified/partitions/history.json", "data/2wikimultihopqa_verified/partitions/development_probe.json", "data/2wikimultihopqa_verified/partitions/held_out_downstream.json"]},
+  "request_plan_contract": {
+    "calibration_calls": 60, "history_max_attempts": 170, "probe_calls": 160, "held_out_calls": 320,
+    "logical_requests_target": 710, "zero_retry_worst_case_physical_attempts": 710,
+    "cost_components_cny": {"calibration": 0.386880, "history": 1.444320, "probe": 1.455360, "held_out": 2.910720},
+    "cost_estimate_cny": 6.197280, "conservative_ceiling_cny": 7.50,
+    "resume": "append-only exact prefix", "hashing": "canonical JSON SHA256", "known_usage_invalid_counts_as_attempt": true,
+    "hard_stops": ["request_hash_drift", "authorization_drift", "duplicate_logical_id", "unknown_usage", "provider_exception", "non_prefix_resume", "cost_ceiling"],
+    "failure_ledger": "retain every failure, invalid, refusal, incomplete response and exact usage in provenance ledger"
+  },
+  "canonical_request_schema": ["logical_call_id", "call_index", "phase", "arm", "partition", "task_family", "task_type", "skill_family", "task_id", "condition", "candidate_id", "candidate_version", "typed_scope", "prompt_template_version", "seed", "payload_hash", "canonical_request_body", "request_hash", "expected_accounting", "provenance"],
+  "stages": {
+    "Stage 0": "zero-network preflight",
+    "Stage 1": "calibration; retain all responses and exact usage",
+    "Stage 2": "development acquisition; retain all responses and exact usage",
+    "Stage 3": "formal history acquisition; cap 32 attempts per family",
+    "Stage 4": "candidate materialization and coverage gate; >=8 independent verified supports per family",
+    "Stage 5": "probe; prohibited unless Stage 4 passes",
+    "Stage 6": "held-out causal pilot; prohibited unless Stage 4 passes",
+    "Stage 7": "local analysis and closure"
+  },
+  "coverage_gate": {"minimum_independent_verified_supports_per_family": 8, "failure_status": "coverage-incomplete", "probe_and_held_out_allowed_only_if_passed": true, "coverage_failure_is_not_method_failure": true},
+  "local_policy_rule": "retaining triage and destructive gating may reuse a saved response ledger only when the model-visible prompt/context and request body are unchanged; otherwise use an independent condition and physical call; gate labels are locally computed",
+  "thresholds_phase1t_frozen": {"accept": {"margin_gte": 0.125, "helpful_gte": 3, "harmful_eq": 0}, "reject": {"margin_lte": -0.125, "harmful_gte": 2}, "otherwise": "abstain"},
+  "analysis_preregistration": {
+    "metrics": ["answer_accuracy", "support_accuracy", "joint_accuracy", "paired_margin", "helpful_pair_count", "harmful_pair_count", "false_safe", "false_harm", "abstention_rate", "retained_candidate_recovery", "useful_candidates_lost_by_destructive_gating", "cumulative_input_tokens", "cumulative_output_tokens", "cumulative_total_tokens", "reward_per_1000_cumulative_tokens"],
+    "stratify_by": ["task_family", "task_type", "skill_family"],
+    "primary_comparison": "contextual_typed_prior vs global_only",
+    "secondary_comparisons": ["contextual_typed_prior vs cold", "contextual_typed_prior vs copied_global", "retaining_triage vs destructive_gating"],
+    "evidence_labels": ["protocol evidence", "capability evidence", "method-effect evidence"],
+    "interpretation": {"positive": "bounded claim only for specified dataset, model, task range and frozen protocol", "negative": "excludes only preregistered effect at specified substrate, coverage and sample size", "otherwise": "inconclusive", "more_candidates_or_coverage": "not method-effect evidence", "capability_failure": "not prior-transfer failure", "coverage_failure": "not method failure"}
+  },
+  "authorization": "This file opens no authorization. Review the blocked freeze, materialize missing payloads under a new audited version, then obtain new explicit user authorization."
+}

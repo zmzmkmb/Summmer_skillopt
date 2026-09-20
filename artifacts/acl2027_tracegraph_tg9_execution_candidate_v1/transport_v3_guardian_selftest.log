@@ -1,0 +1,3 @@
+{"display_requested":false,"pid":6396,"unit":"tg9-transport-v3-selftest.service","event":"awake_acquired","at":"2026-09-18T19:02:38.6631071+08:00"}
+{"state":"inactive","event":"service_start_timeout","at":"2026-09-18T19:03:09.4217301+08:00"}
+{"at":"2026-09-18T19:03:09.4257298+08:00","event":"awake_released"}

@@ -1,0 +1,105 @@
+{
+  "schema_version": 2,
+  "experiment": "acl2027_phase2_staged_live_runner_preflight_v2",
+  "status": "preflight_only_closed",
+  "execution": {
+    "network_calls_allowed": false,
+    "paid_api_allowed": false,
+    "provider_calls_allowed": false,
+    "qwen_authorization_open": false,
+    "formal_scaling_allowed": false
+  },
+  "frozen_bindings": {
+    "freeze_config_path": "configs/acl2027/phase2_expansion_freeze_v2.json",
+    "freeze_config_sha256": "43e89e39a2bf536a3ab183d7e0a43dbe4221beeb54f912e76823190b4880439c",
+    "request_plan": {
+      "path": "artifacts/acl2027_phase2_expansion_freeze_v2/request_plan.json",
+      "sha256": "1c4caf62111a71cd6bf0af98fd8c14174117e7203c577151608d7a868db6732b"
+    },
+    "partition_audit": {
+      "path": "artifacts/acl2027_phase2_expansion_freeze_v2/partition_audit.json",
+      "sha256": "403a0b806116ec0bb847afe5e4b5c1d160ff2c7b900feaec2456cd0c52c02133"
+    }
+  },
+  "schedule_binding": {
+    "path": "artifacts/acl2027_phase2_staged_live_runner_preflight_v2/staged_execution_schedule.json",
+    "sha256": "01c4e03660648cf8d5b150f78bf783f273b99899fa6fa4ac8be495090e44dd60",
+    "semantics": "staged exact-prefix ordered by partition then original_call_index"
+  },
+  "model_route": {
+    "model_id": "qwen3.7-plus",
+    "temperature": 0,
+    "retries": 0,
+    "max_tokens_present": false,
+    "endpoint_route": "dashscope-compatible-mode-chat-completions"
+  },
+  "stage_order": ["calibration", "development_acquisition", "formal_history", "candidate_materialization_coverage_gate", "probe", "held_out", "local_analysis_closure"],
+  "stages": {
+    "calibration": 60,
+    "development_acquisition": 10,
+    "formal_history": 160,
+    "probe": 160,
+    "held_out": 320
+  },
+  "stage_estimated_cost_cny": {
+    "calibration": 0.386880,
+    "development_acquisition": 0.084960,
+    "formal_history": 1.359360,
+    "probe": 1.455360,
+    "held_out": 2.910720,
+    "total": 6.197280
+  },
+  "cost_control": {
+    "input_cny_per_million": 2.0,
+    "output_cny_per_million": 8.0,
+    "stage_ceilings_cny": {
+      "calibration": 0.50,
+      "development_acquisition": 0.11,
+      "formal_history": 1.64,
+      "probe": 1.75,
+      "held_out": 3.50
+    },
+    "cumulative_ceiling_cny": 7.50,
+    "ceiling_is_request_parameter": false
+  },
+  "coverage_gate": {
+    "schema_config_path": "configs/acl2027/phase2_candidate_materialization_schema_v2.json",
+    "schema_config_sha256": "4580ece4b6a7d9c1f1bf1c6213c56402a78cada66a387f20c26a730c1e0a8861",
+    "verifier_config_sha256": "4580ece4b6a7d9c1f1bf1c6213c56402a78cada66a387f20c26a730c1e0a8861",
+    "real_artifact_status": "not_materialized",
+    "failure_status": "coverage-incomplete",
+    "failure_is_method_failure": false
+  },
+  "probe_gate": {
+    "schema_config_path": "configs/acl2027/phase2_probe_audit_schema_v2.json",
+    "schema_config_sha256": "69f218361c955670986c97d072233b170905f6fb99e3c9145de8a7975677a01f",
+    "analyzer_config_sha256": "69f218361c955670986c97d072233b170905f6fb99e3c9145de8a7975677a01f",
+    "real_artifact_status": "not_materialized"
+  },
+  "conditions": {
+    "primary": ["contextual_typed_prior", "global_only"],
+    "secondary": ["cold", "copied_global"],
+    "response_reuse": "only identical request_hash; condition and semantic inputs may not drift"
+  },
+  "resume": "append-only exact-prefix of staged_execution_schedule; historical authorization hashes resolve through immutable registry",
+  "hard_stops": [
+    "freeze_config_plan_schedule_authorization_hash_drift",
+    "authorization_registry_unresolved",
+    "non_staged_exact_prefix_resume",
+    "duplicate_logical_id_request_response_or_support",
+    "stage_skip_or_order_drift",
+    "stage_not_authorized",
+    "current_authorization_call_ceiling",
+    "stage_cost_ceiling",
+    "global_cumulative_cost_ceiling",
+    "provider_exception",
+    "unknown_missing_or_invalid_usage",
+    "retry_attempt",
+    "max_tokens_present",
+    "model_temperature_or_route_drift",
+    "coverage_artifact_verifier_or_ledger_binding_drift",
+    "coverage_not_passed_before_probe_or_held_out",
+    "probe_not_completely_audited_before_held_out",
+    "ledger_schedule_bijection_failure"
+  ]
+}

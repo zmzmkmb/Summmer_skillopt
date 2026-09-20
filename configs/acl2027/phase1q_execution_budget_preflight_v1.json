@@ -1,0 +1,242 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase1q_execution_budget_preflight_v1",
+  "phase": "1Q",
+  "title": "Zero-network execution eligibility and cost matrix preflight",
+  "status": "planned",
+  "objective": "Freeze candidate and fallback provenance, audit all Phase 1P task identities, and derive exact call and conservative CNY planning matrices without provider calls.",
+  "execution": {
+    "protocol_only": true,
+    "paid_api_allowed": false,
+    "network_calls_allowed": false,
+    "provider_calls": 0,
+    "formal_scaling_allowed": false,
+    "qwen3_8_max_allowed": false,
+    "legacy_officeqa_24_batch_allowed": false,
+    "legacy_spreadsheetbench_40_batch_allowed": false,
+    "future_model": "qwen3.7-plus_or_later_separately_authorized_single_model",
+    "max_provider_attempts_per_logical_call": 1,
+    "retries_allowed": false,
+    "request_body_forbidden_keys": ["max_tokens"]
+  },
+  "source_contracts": {
+    "phase1p_config": {
+      "path": "configs/acl2027/phase1p_contribution_aligned_protocol_v1.json",
+      "sha256": "c4fbe13e5b744b71b88dd0378852e103505a74ad4faefc176ac247ab068237e4"
+    },
+    "phase1p_manifest": {
+      "path": "artifacts/acl2027_phase1p_contribution_aligned_protocol_v1/run_manifest.json",
+      "sha256": "a88359859bc37e0e8e88d3a6b799138d5efee757cfc83170e76ed80c7b877247"
+    },
+    "phase1o_manifest": {
+      "path": "artifacts/acl2027_phase1o_task_route_adjudication_v1/run_manifest.json",
+      "sha256": "ed87aa5ecdddf394dfa257cb11c5b88b454ae98db72b85b55b9126ec8745dd1e"
+    },
+    "officeqa_skill": {
+      "path": "skillopt/envs/officeqa/skills/initial.md",
+      "sha256": "7271eda331f41fb5380772afb316e324f74f5fe3cc90f6c0f9882240f06b7af5",
+      "domain": "OfficeQA"
+    },
+    "spreadsheetbench_skill": {
+      "path": "skillopt/envs/spreadsheetbench/skills/initial.md",
+      "sha256": "4a2645fa05bd47eb5e781b3c168c22c545ad825e55530bf382487f7c819c89be",
+      "domain": "SpreadsheetBench"
+    },
+    "officeqa_payload": "data/officeqa_verified/officeqa_full.csv",
+    "officeqa_docs_root": "data/officeqa_verified",
+    "spreadsheetbench_payload": "data/spreadsheetbench_verified_400/dataset.json",
+    "spreadsheetbench_root": "data/spreadsheetbench_verified_400"
+  },
+  "candidate_provenance": {
+    "global_prior_library": {
+      "library_id": "phase1q_global_library_officeqa_spreadsheetbench_v1",
+      "entries": ["officeqa_skill", "spreadsheetbench_skill"],
+      "construction": "Content-addressed ordered library of the two Phase 1F skill documents; no learned or held-out-derived skill is introduced."
+    },
+    "prior_bindings": {
+      "copied-global": {
+        "global_slot": "global_prior_library",
+        "domain_slots": {
+          "OfficeQA": "copy_of_global_prior_library",
+          "SpreadsheetBench": "copy_of_global_prior_library"
+        },
+        "semantics": "Legacy error comparator: duplicate the same global library into every contextual domain slot."
+      },
+      "global-only": {
+        "global_slot": "global_prior_library",
+        "domain_slots": {
+          "OfficeQA": "cold_empty_state",
+          "SpreadsheetBench": "cold_empty_state"
+        },
+        "semantics": "Initialize the shared global library only; both domain slots remain cold."
+      },
+      "contextual": {
+        "global_slot": "global_prior_library",
+        "domain_slots": {
+          "OfficeQA": "officeqa_skill",
+          "SpreadsheetBench": "spreadsheetbench_skill"
+        },
+        "semantics": "Preserve the matching content-addressed skill in each explicitly labeled domain slot."
+      }
+    },
+    "fallback": {
+      "fallback_id": "fresh_cold_executor_backed_v1",
+      "global_slot": "cold_empty_state",
+      "domain_slots": {
+        "OfficeQA": "cold_empty_state",
+        "SpreadsheetBench": "cold_empty_state"
+      },
+      "same_model_prompt_task_and_executor": true,
+      "candidate_skill_content_omitted": true,
+      "state_reused_across_conditions": false
+    },
+    "condition_bindings": [
+      {
+        "prior_condition": "copied-global",
+        "gate_policy": "candidate_retaining_triage",
+        "candidate_id": "copied-global__candidate-retaining-triage__v1",
+        "fallback_id": "fresh_cold_executor_backed_v1",
+        "candidate_retained_after_negative_decision": true
+      },
+      {
+        "prior_condition": "copied-global",
+        "gate_policy": "destructive_gate",
+        "candidate_id": "copied-global__destructive-gate__v1",
+        "fallback_id": "fresh_cold_executor_backed_v1",
+        "candidate_retained_after_negative_decision": false
+      },
+      {
+        "prior_condition": "global-only",
+        "gate_policy": "candidate_retaining_triage",
+        "candidate_id": "global-only__candidate-retaining-triage__v1",
+        "fallback_id": "fresh_cold_executor_backed_v1",
+        "candidate_retained_after_negative_decision": true
+      },
+      {
+        "prior_condition": "global-only",
+        "gate_policy": "destructive_gate",
+        "candidate_id": "global-only__destructive-gate__v1",
+        "fallback_id": "fresh_cold_executor_backed_v1",
+        "candidate_retained_after_negative_decision": false
+      },
+      {
+        "prior_condition": "contextual",
+        "gate_policy": "candidate_retaining_triage",
+        "candidate_id": "contextual__candidate-retaining-triage__v1",
+        "fallback_id": "fresh_cold_executor_backed_v1",
+        "candidate_retained_after_negative_decision": true
+      },
+      {
+        "prior_condition": "contextual",
+        "gate_policy": "destructive_gate",
+        "candidate_id": "contextual__destructive-gate__v1",
+        "fallback_id": "fresh_cold_executor_backed_v1",
+        "candidate_retained_after_negative_decision": false
+      }
+    ]
+  },
+  "executor_eligibility": {
+    "OfficeQA": {
+      "required_local_checks": [
+        "payload_row_exists",
+        "question_present",
+        "source_reference_present",
+        "parsed_source_json_exists",
+        "referenced_page_has_local_content"
+      ],
+      "eligible_route": "execute_candidate_and_fallback_with_deterministic_recomputation",
+      "unsupported_route": "abstain",
+      "reference_answer_access_during_preflight": false
+    },
+    "SpreadsheetBench": {
+      "required_local_checks": [
+        "payload_row_exists",
+        "cell_level_manipulation",
+        "one_initial_workbook",
+        "one_golden_workbook",
+        "answer_range_parseable",
+        "target_sheet_exists",
+        "both_workbooks_open"
+      ],
+      "eligible_route": "execute_candidate_and_fallback_with_persisted_workbook_scoring",
+      "unsupported_route": "abstain",
+      "golden_cell_value_access_during_preflight": false
+    },
+    "silent_exclusion_allowed": false
+  },
+  "call_accounting": {
+    "prior_conditions": 3,
+    "probe_strata": 2,
+    "gate_policies": 2,
+    "task_families": 2,
+    "condition_cells": 24,
+    "probe_tasks_per_cell": 4,
+    "counterfactual_branches_per_task": 2,
+    "branches": ["candidate", "fallback"],
+    "response_reuse_across_condition_cells": false,
+    "physical_requests_equal_condition_accounted_calls": true,
+    "formula": "condition_cells * (probe_tasks_per_cell + held_out_tasks_per_cell) * counterfactual_branches_per_task",
+    "plans": {
+      "development_only": {
+        "held_out_tasks_per_cell": 0
+      },
+      "staged_confirmation": {
+        "held_out_tasks_per_cell": 4,
+        "held_out_prefix_ids": {
+          "OfficeQA": ["UID0041", "UID0109", "UID0052", "UID0154"],
+          "SpreadsheetBench": ["55979", "59595", "48620", "53383"]
+        }
+      },
+      "full_frozen_design": {
+        "held_out_tasks_per_cell": 16
+      }
+    }
+  },
+  "cost_planning": {
+    "interpretation": "Planning envelopes only. They are neither provider quotations nor request-side output limits.",
+    "request_max_tokens_omitted": true,
+    "provider_price_verification_required_before_paid_authorization": true,
+    "reference_usage": {
+      "OfficeQA": {
+        "source": "artifacts/acl2027_phase1n_plus_live_confirmation_v1/run_01.json",
+        "input_tokens": 1545,
+        "output_tokens": 1552
+      },
+      "SpreadsheetBench": {
+        "source": "artifacts/acl2027_phase1n_plus_live_confirmation_v1/run_02.json",
+        "input_tokens": 422,
+        "output_tokens": 1320
+      }
+    },
+    "per_call_planning_envelopes": {
+      "OfficeQA": {
+        "input_tokens": 2400,
+        "output_tokens": 2400
+      },
+      "SpreadsheetBench": {
+        "input_tokens": 700,
+        "output_tokens": 2000
+      }
+    },
+    "planning_ceiling_rates_cny_per_million_tokens": {
+      "input": 20.0,
+      "output": 80.0,
+      "provenance": "Conservative configurable planning assumption, not an Alibaba Cloud or Token Plan quotation."
+    },
+    "hard_execution_budget_authorized": false
+  },
+  "decision_gate": {
+    "pass": "All immutable hashes match; all 48 task identities receive an explicit execute-or-abstain decision; unsupported tasks are never excluded; candidate/fallback bindings are complete; exact call identities hold; and all monetary values are labeled planning assumptions.",
+    "scientific_scope": "Execution-readiness and budget evidence only. This phase does not test typed-prior effects, probe representativeness, or triage effectiveness.",
+    "future_authorization": "Any paid successor must separately verify current provider rates, freeze the selected plan and model, preserve max_tokens omission, and receive explicit user authorization."
+  },
+  "write_scope": [
+    "configs/acl2027/phase1q_execution_budget_preflight_v1.json",
+    "scripts/validate_acl2027_phase1q_execution_budget.py",
+    "tests/test_acl2027_phase1q_execution_budget.py",
+    "artifacts/acl2027_phase1q_execution_budget_preflight_v1",
+    "paper/acl2027/results/phase1q_execution_budget_preflight_v1.md",
+    "paper/acl2027/CONTRIBUTION_EVIDENCE_LEDGER.md",
+    "paper/acl2027/experiment_state.json"
+  ]
+}

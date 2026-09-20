@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "verified_at": "2026-09-16T23:23:55.4924419+08:00",
+  "plan_binding_sha256": "bb68465f38a85105042dc086426415f1b6b2465c67997569d5bc412399c072ba",
+  "authorization_provenance": "configs/acl2027/tracegraph_tg8_manual_chat_authorization_20260916.json",
+  "authorized_config": "configs/acl2027/tracegraph_tg8_manual_authorized_20260916.json",
+  "authorized_config_sha256": "aba5b4567e8d635587e6f58c2bf0493bae8a821f0b3cbacbd58d0e8ecdcbd205",
+  "authorization_receipt_sha256": "f0cdf278bffd858564cfcf997cad8b68cfdd8c5eeb278e5fe28d830bfb878231",
+  "systemd_unit": "tg8-v2-f0cdf278bffd858564cf",
+  "windows_relay_pid": 27988,
+  "windows_awake_supervisor_pid": 18772,
+  "windows_wsl_keeper_pid": 29516,
+  "linux_main_pid": 380,
+  "linux_boot_id": "f3c6b3c2-1b29-4d06-98fd-36f8bf986050",
+  "service_started_at": "2026-09-16T23:21:26+08:00",
+  "windows_launch_record_at": "2026-09-16T23:21:27.7635434+08:00",
+  "service_runtime_max_seconds": 21600,
+  "service_nominal_deadline": "2026-09-17T05:21:26+08:00",
+  "host_deadline_printed": "2026-09-17T05:21:27+08:00",
+  "shutdown_grace_seconds": 30,
+  "service_active_state": "active",
+  "service_sub_state": "running",
+  "service_restart_policy": "no",
+  "service_restart_count": 0,
+  "service_private_network": true,
+  "system_awake_request_present": true,
+  "display_awake_request_present": false,
+  "run_directory": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1",
+  "saved_prefix_audit": {
+    "rows": 6,
+    "unique_ids": 6,
+    "steps": 216,
+    "successes": 2,
+    "schedule_order_valid": true,
+    "step_caps_valid": true,
+    "exact_three_runtime_fields": true,
+    "complete_history_valid": true,
+    "selected_action_admissibility_valid": true,
+    "recorded_hard_invariant_violations": 0,
+    "result_present": false,
+    "exit_present": false,
+    "full_factorial_audited": false
+  },
+  "preauthorization_host_failures": [
+    {
+      "pid": 22072,
+      "reason": "Input was not received by Read-Host",
+      "authorization_or_experiment_created": false
+    },
+    {
+      "pid": 26184,
+      "reason": "Native PowerShell module discovery did not expose Get-FileHash",
+      "authorization_or_experiment_created": false
+    }
+  ],
+  "transport_resolution": "A separately recorded prompt-synchronized relay explicitly loads the native Utility module. Detached CheckOnly, hash-command and native-WSL stdin smoke passed before it activated the unchanged frozen entrypoint.",
+  "formal_run_submissions": 1,
+  "experimental_retries": 0,
+  "authorization_reusable": false,
+  "codex_heartbeat_created": false,
+  "note": "Interim startup evidence only. The local supervisor remains responsible for wakefulness and the deadline. Do not launch, resume or retry. A suspended or powered-off host cannot enforce a wall deadline while stopped."
+}

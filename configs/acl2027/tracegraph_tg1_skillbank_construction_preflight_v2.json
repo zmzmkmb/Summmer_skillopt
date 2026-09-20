@@ -1,0 +1,18 @@
+{
+  "schema_version": 2,
+  "phase_id": "TG1-tracegraph-alfworld-skillbank-construction-preflight-v2",
+  "experiment_line": "tracegraph-observable-state-skill-composition",
+  "source_manifest": "artifacts/acl2027_tracegraph_tg1_skillbank_preflight_v1/skillbank_source_manifest.json",
+  "source_manifest_sha256": "f0027b4ab28a80371d4e3a43f9208e956c99ecc691efaae8f0741805ee17fdec",
+  "source_root": "ALFWORLD_DATA/json_2.1.1/train",
+  "allowed_split": "train",
+  "construction_enabled": true,
+  "network_calls_allowed": false,
+  "provider_calls_allowed": false,
+  "model_calls_allowed": false,
+  "authorization_receipts_allowed": false,
+  "runtime_allowed_inputs": ["observation", "historical_actions", "admissible_actions"],
+  "runtime_forbidden_fields": ["raw_traj_data", "images", "planner_state", "pddl_params", "object_poses", "human_task_descriptions", "expert_future_actions", "evaluation_trajectory", "phase0_to_phase6_artifact"],
+  "required_record_fields": ["skill_id", "trajectory_id", "source_split", "gamefile_sha256", "traj_data_sha256", "task_type", "span_start", "span_end", "canonical_actions", "construction_protocol_fingerprint"],
+  "output": "artifacts/acl2027_tracegraph_tg1_skillbank_construction_v2/skillbank.jsonl"
+}

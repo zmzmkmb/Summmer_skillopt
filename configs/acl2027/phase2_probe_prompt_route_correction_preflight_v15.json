@@ -1,0 +1,35 @@
+{
+  "schema_version": 15,
+  "experiment": "acl2027_phase2_probe_prompt_route_correction_preflight_v15",
+  "status": "preflight_only_closed_correction_required",
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "paid_api_allowed": false,
+    "qwen_authorization_open": false,
+    "formal_scaling_allowed": false
+  },
+  "diagnostic": {
+    "terminal_v14_error": "HTTPError: HTTP Error 400: Bad Request",
+    "spent_v14_logical_request_excluded": true,
+    "spent_v14_attempts": 1,
+    "future_provider_authorization": false,
+    "correction_required_before_probe": true
+  },
+  "bindings": {
+    "v14_preflight_aggregate_fingerprint": "fef263a8bd77df2e59cbbf392dacc194611927d0b66b16e9a95ffae41516d52a",
+    "v14_schedule_sha256": "01c4e03660648cf8d5b150f78bf783f273b99899fa6fa4ac8be495090e44dd60",
+    "v14_ledger_sha256": "32dd2739dc6227a2424fde6908e79f161dba366833be79859210fa824cce11ec",
+    "v8_calibration_schedule_path": "artifacts/acl2027_phase2_calibration_prompt_repair_preflight_v8/calibration_schedule.json",
+    "v8_calibration_schedule_sha256": "d3547c076ded0e10068338b41057f63cb0b9a67cd059c413a9eace245c13f872",
+    "provider_adapter_path": "scripts/acl2027_phase2_token_plan_provider_adapter_v8.py",
+    "provider_adapter_sha256": "6761e757eee26d9bfab3918930565eda70fa9857bc755a21992c5f8364381eba"
+  },
+  "findings": [
+    "Frozen probe system prompt does not explicitly require a JSON object or answer key.",
+    "Frozen probe request body has no response_format field.",
+    "Successful v8 repair contract explicitly requires {answer: short string} JSON and sends response_format=json_object.",
+    "A new replacement schedule and fresh probe-only authorization are required; v14's spent request must not be retried."
+  ],
+  "forbidden": ["held_out", "later_phase2_stages", "formal_scaling"]
+}

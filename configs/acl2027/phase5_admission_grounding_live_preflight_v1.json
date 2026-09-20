@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase5_admission_grounding_live_preflight_v1",
+  "status": "zero_network_live_execution_preflight_closed",
+  "source_design_fingerprint": "c61009e80f5f662c5b62c87239aff4a9fce86c759a98c6250f1a4e941b11a7de",
+  "execution_contract": {
+    "scope": "phase5_admission_grounding_only",
+    "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+    "model_id": "qwen3.7-plus",
+    "authorized_calls": 240,
+    "max_provider_attempts": 240,
+    "temperature": 0,
+    "enable_thinking": false,
+    "retries": 0,
+    "max_tokens_present": false,
+    "response_format": {"type": "json_object"},
+    "request_interval_seconds": 1.0,
+    "stage_cost_ceiling_cny": 3.0,
+    "cumulative_cost_ceiling_cny": 15.0,
+    "terminal_stop_on_first_failed_attempt": true,
+    "authorization_closes_on_completion_or_terminal_stop": true,
+    "usage_accounting_required": true,
+    "request_start_ledger_required": true,
+    "response_ledger_required": true,
+    "hash_chain_required": true,
+    "exact_prefix_resume_only": true
+  },
+  "forbidden_scope": ["replication", "other_models", "cross_domain_scaling", "formal_scaling"],
+  "authorization": {"receipt_created": false, "authorization_open": false, "data_egress_authorized": false, "provider_calls_authorized": false, "paid_api_authorized": false}
+}

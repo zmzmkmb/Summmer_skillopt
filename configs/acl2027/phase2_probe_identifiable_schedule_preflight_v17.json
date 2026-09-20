@@ -1,0 +1,73 @@
+{
+  "schema_version": 17,
+  "experiment": "acl2027_phase2_probe_identifiable_schedule_preflight_v17",
+  "status": "preflight_only_closed",
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "paid_api_allowed": false,
+    "qwen_authorization_open": false,
+    "formal_scaling_allowed": false
+  },
+  "schedule_contract": {
+    "tasks": 40,
+    "conditions": ["cold", "copied_global", "global_only", "contextual_typed_prior"],
+    "logical_calls": 160,
+    "all_logical_ids_new": true,
+    "all_request_hashes_new": true,
+    "staged_execution_indices": "1..160 within the independent v17 probe schedule",
+    "payload_hash_present": true,
+    "spent_v14_task_grid_excluded": true,
+    "replacement_task_id": "b10f01cf02e04443a3de620e24f5f86c",
+    "model_id": "qwen3.7-plus",
+    "temperature": 0,
+    "retries": 0,
+    "max_tokens_present": false,
+    "response_format": {"type": "json_object"},
+    "enable_thinking": false
+  },
+  "prior_contract": {
+    "source": "v13 verifier-confirmed formal-history trajectories only",
+    "global_examples_per_family": 2,
+    "global_examples_total": 10,
+    "typed_examples_per_family": 10,
+    "primary_example_count_matched": true,
+    "cold": "explicit empty prior",
+    "global_only": "balanced 10-example global bundle in global slot",
+    "copied_global": "same global bundle copied into the task-family typed slot",
+    "contextual_typed_prior": "10 verified examples from the task skill family",
+    "selection": "minimum deterministic SHA-256 keys over v13 support IDs",
+    "answer_source": "immutable raw provider responses for v13 verifier-confirmed trajectories",
+    "private_probe_or_held_out_gold_used_for_priors": false,
+    "probe_task_overlap_with_prior_support": 0,
+    "held_out_task_overlap_with_prior_support": 0
+  },
+  "bindings": {
+    "v4_aggregate_fingerprint": "17752bb2d26f38e253c91a5f789654dad209eb6c16a1dd68203a942fa354e8d9",
+    "v4_manifest_sha256": "19108e7ed5837bbd199a1d36bfb78886b4998a8da72337a9ea5e439562ec35c7",
+    "v13_aggregate_fingerprint": "b85558e67b05589384b628d1bbc082b840ea3b8175260ec71a2cd14a0d82f244",
+    "v13_manifest_sha256": "71547b70324b699a2a21212eb1ccc309d6afa2d1a9fbe86149b66a14e6ae1bc8",
+    "v16_aggregate_fingerprint": "cdaa7a9a5bae4f2726ad3bd1d0a6867c7d6edfb595015d03d45684c7c420e8f2",
+    "v16_manifest_sha256": "e05f6e69cb23adfc6a8148286f9ae72250c91a4055ecb5557fdfd8efbf559fa5",
+    "v13_candidate_sha256": "0059732a15c74f6688acf2ae2a1873f33fa87f2971e8e6c9d3c0aaf5a028ac5d",
+    "combined_history_schedule_sha256": "9938015382753acd38e1f0f38399eb76576c6e083a03fdd86e4ce1af56cf94e3",
+    "v11_ledger_sha256": "3c63c3e9d0894fe3f5a24187f6914668f4217fc0ada7653d4471897cf95f48e8",
+    "v12_ledger_sha256": "a6c78260b19f17ab6e8e028116bdffbc17b8781d376051c9a793e898405fbaba",
+    "v16_replacement_audit_sha256": "b52e52055736a32f91ae7696bee98bb49bbfa8943d9c177a60229ba40c804298",
+    "v14_terminal_ledger_sha256": "32dd2739dc6227a2424fde6908e79f161dba366833be79859210fa824cce11ec",
+    "original_probe_schedule_sha256": "01c4e03660648cf8d5b150f78bf783f273b99899fa6fa4ac8be495090e44dd60",
+    "original_probe_gold_sha256": "669b26e604ac0b8ee99445be7e35abdf630c44df3b859f5af7a5d1fcfbab9407",
+    "held_out_gold_sha256": "ccd2c7bf3288d92c38a714cfbc8ad8d4093de8c9bf29f5d40fc514299376077a"
+  },
+  "authorization_request": {
+    "scope": "probe_only",
+    "requested_calls": 160,
+    "max_provider_attempts": 160,
+    "stage_cost_ceiling_cny": 7.50,
+    "cumulative_cost_ceiling_cny": 7.50,
+    "held_out_authorized": false,
+    "later_stages_authorized": false,
+    "formal_scaling_authorized": false,
+    "status": "parameters_proposed_not_authorized"
+  }
+}

@@ -1,0 +1,158 @@
+{
+    "schema_version":  1,
+    "phase_id":  "TG7-tracegraph-progress-memory-runner-v3-authorized-ubuntu-wsl",
+    "experiment_line":  "tracegraph-observable-state-skill-composition",
+    "mode":  "authorized_zero_network_runner",
+    "parent_preflight":  "artifacts/acl2027_tracegraph_tg7_progress_memory_preflight_v1/preflight.json",
+    "parent_preflight_sha256":  "906284fa424b6edab06b289d50c91fbcabf628fe07402338c92009ca54e327d0",
+    "development_schedule":  "artifacts/acl2027_tracegraph_tg7_progress_memory_preflight_v1/development_schedule.json",
+    "development_schedule_sha256":  "ef8287f756afc32e972a3519b3910f4ac0fb2d2a178745d508332ddd373775ab",
+    "plan":  "paper/acl2027/TRACEGRAPH_TG7_PROGRESS_MEMORY_PLAN_V1.md",
+    "plan_sha256":  "1bc439de32311a69de52cb038a93f4119c3b55017e3e89c93238560deedf1c4b",
+    "skillbank":  "artifacts/acl2027_tracegraph_tg1_skillbank_construction_v2/skillbank.jsonl",
+    "skillbank_sha256":  "15059dd2cc5b99fc69d0bae79109ec20c8d000ec9d550ce237d06ee9ffd6a331",
+    "source_data_root":  "/mnt/c/Users/CMCC/ALFWORLD_DATA",
+    "source_data_root_wsl":  "/mnt/c/Users/CMCC/ALFWORLD_DATA",
+    "development_task_count":  24,
+    "condition_count":  3,
+    "planned_episode_rows":  72,
+    "max_steps_per_episode":  50,
+    "max_retries":  0,
+    "stop_rule":  "stop on first hard invariant violation",
+    "paired_seed_rule":  "Use seed 4200 + task ordinal for all three conditions of each task.",
+    "conditions":  [
+                       {
+                           "id":  "baseline_first_eligible",
+                           "role":  "frozen_baseline"
+                       },
+                       {
+                           "id":  "task_anchor_aware",
+                           "role":  "anchor_ablation"
+                       },
+                       {
+                           "id":  "progress_memory",
+                           "role":  "progress_representation_ablation"
+                       }
+                   ],
+    "runtime_allowed_inputs":  [
+                                   "observation",
+                                   "historical_actions",
+                                   "admissible_actions"
+                               ],
+    "runtime_forbidden_inputs":  [
+                                     "task_description",
+                                     "raw_trajectory",
+                                     "planner_state",
+                                     "pddl_params",
+                                     "scene_state",
+                                     "expert_future_actions",
+                                     "evaluation_label",
+                                     "phase0_to_phase6_artifact",
+                                     "tg6_private_metadata"
+                                 ],
+    "zero_step_readiness_output":  "artifacts/acl2027_tracegraph_tg7_progress_memory_runner_v1/readiness_wsl_20260908.json",
+    "episode_result_output":  "artifacts/acl2027_tracegraph_tg7_progress_memory_runner_v1/result_authorized_wsl_20260908.json",
+    "selector_definition":  {
+                                "anchor_source":  "initial_observation_only",
+                                "anchor_tokenization":  "normalized task clause content tokens",
+                                "baseline_tie_break":  [
+                                                           "admissible_action_order",
+                                                           "stable_skill_id"
+                                                       ],
+                                "anchor_tie_break":  [
+                                                         "anchor_token_overlap_descending",
+                                                         "admissible_action_order",
+                                                         "stable_skill_id"
+                                                     ],
+                                "progress_memory_tie_break":  [
+                                                                  "unresolved_anchor_overlap_descending",
+                                                                  "action_not_seen",
+                                                                  "skill_different_from_previous",
+                                                                  "action_outside_detected_cycle_pair",
+                                                                  "admissible_action_order",
+                                                                  "stable_skill_id"
+                                                              ],
+                                "progress_ledger_sources":  [
+                                                                "runtime_inputs.observation",
+                                                                "runtime_inputs.historical_actions",
+                                                                "runtime_inputs.admissible_actions"
+                                                            ]
+                            },
+    "primary_metrics":  [
+                            "episode_success",
+                            "completion_within_50_steps",
+                            "two_cycle_rate",
+                            "repeated_snapshot_rate",
+                            "target_surface_hit_rate_posthoc_only",
+                            "progress_ledger_validity",
+                            "progress_ledger_provenance_completeness",
+                            "terminal_action_admissibility",
+                            "trace_validity",
+                            "abstention_rate"
+                        ],
+    "decision_gate":  {
+                          "progress_supported":  "progress_memory gains at least 2 paired successes over baseline, reduces pooled multistep two_cycle_rate by at least 50%, preserves 100% trace validity and admissibility, and has at most 25% abstention.",
+                          "anchor_only":  "task_anchor_aware improves target-surface hits or success, but progress_memory adds no further improvement.",
+                          "representation_limited":  "Both augmented conditions preserve the runtime contract but fail to improve completion, while post-hoc conflicting-goal collision classes remain.",
+                          "negative":  "Any condition violates runtime input isolation, trace completeness, admissibility, or SkillGraph constraints.",
+                          "inconclusive":  "All other outcomes."
+                      },
+    "execution_authorized":  true,
+    "readiness_only_allowed":  false,
+    "episode_execution_allowed":  true,
+    "fresh_exact_user_authorization_required":  true,
+    "official_source_fallback_allowed":  false,
+    "network_calls_allowed":  false,
+    "provider_calls_allowed":  false,
+    "model_calls_allowed":  false,
+    "api_calls_allowed":  false,
+    "paid_api_calls_allowed":  false,
+    "phase0_to_phase6_reuse_allowed":  false,
+    "phase6_execution_allowed":  false,
+    "webshop_execution_allowed":  false,
+    "other_models_allowed":  false,
+    "other_datasets_allowed":  false,
+    "tuning_on_parent_heldout_allowed":  false,
+    "episode_execution_requires_exact_authorization":  true,
+    "source_data_root_windows":  "C:/Users/CMCC/ALFWORLD_DATA",
+    "runner_variant":  "ubuntu_wsl_v2",
+    "runtime_platform":  "WSL2 Ubuntu",
+    "runtime_python":  "3.12.3",
+    "readiness_artifact":  "artifacts/acl2027_tracegraph_tg7_progress_memory_runner_v1/readiness_wsl_20260908.json",
+    "readiness_artifact_sha256":  "b5ed392361360e0c3152e43a73f42da87be74b545a2521b1491fbb9c6089f3fc",
+    "readiness_gate":  {
+                           "status":  "passed",
+                           "task_count":  24,
+                           "passed_task_count":  24,
+                           "failed_task_count":  0,
+                           "episodes_run":  0,
+                           "actions_taken":  0,
+                           "network_calls":  0,
+                           "provider_calls":  0,
+                           "model_calls":  0,
+                           "api_calls":  0,
+                           "paid_api_calls":  0
+                       },
+    "exact_authorization_scope":  {
+                                      "planned_episode_rows":  72,
+                                      "max_steps_per_episode":  50,
+                                      "max_retries":  0,
+                                      "stop_rule":  "stop on first hard invariant violation",
+                                      "runtime_allowed_inputs":  [
+                                                                     "observation",
+                                                                     "historical_actions",
+                                                                     "admissible_actions"
+                                                                 ]
+                                  },
+    "authorization_status":  "authorized",
+    "authorization_receipt":  "configs/acl2027/tracegraph_tg7_progress_memory_authorization_receipt_20260908.json",
+    "authorization_receipt_sha256":  "f842a45a81412964aacc4ffb2e1364d3fb11147540d07ba151aa13ab4d4b0b67",
+    "authorized_candidate_config":  "configs/acl2027/tracegraph_tg7_progress_memory_runner_v2_ubuntu_wsl.json",
+    "authorized_candidate_config_sha256":  "ff78a67030b00a85b594da064f9c0fa6cedc1e2685438bd0ab674496b0aea737",
+    "preflight_aggregate_fingerprint":  "48470f6d571cf4a40547304ea475a536ab9855b40efaf644839b40e7fcdfc0d2",
+    "completion_manifest_sha256":  "7164f2fb6a8401546496fd6197db86dfb791d937302c199792d34d7e1d279909",
+    "runner":  "scripts/acl2027_tracegraph_tg7_progress_memory_runner_v3_authorized_ubuntu_wsl.py",
+    "runner_sha256":  "8bd017b27ab5f79e487bfb3fa25c9390822aa36bb74aea9b744ebf3dc7d48c35",
+    "authorization_basis":  "User explicitly authorizes TG7 using the bound Ubuntu WSL config, preflight aggregate 48470f6d571cf4a40547304ea475a536ab9855b40efaf644839b40e7fcdfc0d2, readiness SHA-256 b5ed392361360e0c3152e43a73f42da87be74b545a2521b1491fbb9c6089f3fc, exactly 72 rows, at most 50 steps per episode, zero retries, stop on first hard invariant violation, and runtime inputs limited to observation, historical_actions, and admissible_actions.",
+    "authorized_at":  "2026-09-08"
+}

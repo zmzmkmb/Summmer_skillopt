@@ -1,0 +1,53 @@
+{
+  "authorization_id": "phase2-development-acquisition-token-plan-v10",
+  "authorized_calls": 10,
+  "authorized_stage": "development_acquisition",
+  "bindings": {
+    "development_gold_sha256": "58b1879f9c8954b60e2630b94a89a777a9c3b60a0ed01e8f630c36e278f2de3b",
+    "preflight_config_sha256": "881aad47cd5ae922bbfc381e7267039243fa8226e948bb5a4b73a89a5dd42de4",
+    "preflight_manifest_sha256": "3853f9e424a2b1578e6ba0bef9c3f6f8719e5a280e4dfe3f5dc3eca0b5f7c287",
+    "provider_adapter_sha256": "6761e757eee26d9bfab3918930565eda70fa9857bc755a21992c5f8364381eba",
+    "runner_source_sha256": "da8c489af22f58dd63c27e3af5ee5a09ad33277fca897006cf78a76d8d4c824a",
+    "schedule_sha256": "7c9386910b28f19b520abf1424ee2ddc9525b934caaf0c2d081edcf59cf83a77",
+    "v9_config_sha256": "791b415343d0b0ca09fdde2a797ccd2f960a41df96654d0bcb079d0daf143a4e"
+  },
+  "credential_sha256": "c633a901caf472c4a161651f45c53e5d9d962ca1e5dde40cea8e106da2b5ec6f",
+  "cumulative_cost_ceiling_cny": 0.11,
+  "enable_thinking": false,
+  "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+  "forbidden_stages": [
+    "formal_history",
+    "probe",
+    "held_out",
+    "formal_scaling"
+  ],
+  "formal_scaling_allowed": false,
+  "max_provider_attempts": 10,
+  "max_tokens_present": false,
+  "model_id": "qwen3.7-plus",
+  "opened_at": "2026-08-14T07:32:06.597128+00:00",
+  "paid_api_allowed": true,
+  "provider_calls_allowed": true,
+  "qwen_authorization_open": true,
+  "request_interval_seconds": 1.0,
+  "response_format": {
+    "type": "json_object"
+  },
+  "retries": 0,
+  "schema_version": 10,
+  "stage_call_ceiling": 10,
+  "stage_cost_ceiling_cny": 0.11,
+  "status": "open",
+  "temperature": 0,
+  "user_authorization": {
+    "authorized_calls": 10,
+    "formal_history_authorized": false,
+    "formal_scaling_authorized": false,
+    "held_out_authorized": false,
+    "later_stages_authorized": false,
+    "max_tokens_present": false,
+    "model_id": "qwen3.7-plus",
+    "probe_authorized": false,
+    "scope": "phase2_development_acquisition_only"
+  }
+}

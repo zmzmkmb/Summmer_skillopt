@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase1z_final_real_heldout_v1",
+  "phase": "1Z",
+  "title": "Final real held-out method-effect adjudication and Phase 1 closure",
+  "status": "planned",
+  "objective": "Adjudicate whether Phase 1Z is scientifically executable from the frozen Phase 1Y candidates and close Phase 1 without provider execution when the preregistered candidate gate fails.",
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "paid_api_allowed": false,
+    "formal_scaling_allowed": false,
+    "max_provider_attempts": 0,
+    "retries": 0
+  },
+  "immutable_inputs": {
+    "phase1y_live_results": {
+      "path": "artifacts/acl2027_phase1y_history_live_v1/results.jsonl",
+      "sha256": "e7621870cea9edcd6826a44301b1479dd47ef3d33e87c47c36b5d37853056293"
+    },
+    "phase1y_candidate_audit": {
+      "path": "artifacts/acl2027_phase1y_live_candidates_v1/audit.json",
+      "sha256": "c2663d4ced1662e1b15e4931e971ddaa9e0fd744e9ddd336acaac6cc8174a116"
+    },
+    "phase1y_typed_candidates": {
+      "path": "artifacts/acl2027_phase1y_live_candidates_v1/typed_candidates.jsonl",
+      "sha256": "6ce37994dc551478efa93a7612c4bc83768ca2c229ad8a5c03bdb73938c1d8f3"
+    }
+  },
+  "execution_gate": {
+    "minimum_supporting_successes_per_typed_scope": 2,
+    "required_skill_families": [
+      "attribute_comparison",
+      "bridge_attribute_comparison",
+      "entity_bridge",
+      "fact_retrieval",
+      "relation_inference"
+    ],
+    "evaluation_partition_leakage_allowed": false,
+    "on_gate_failure": "inconclusive_without_phase1z_provider_execution"
+  },
+  "frozen_expected_observation": {
+    "verified_trajectories": 8,
+    "typed_candidates": 3,
+    "covered_skill_families": 3,
+    "required_skill_families": 5,
+    "missing_skill_families": ["entity_bridge", "relation_inference"],
+    "theoretical_minimum_additional_successful_history_calls": 2,
+    "exact_guaranteed_additional_calls": null,
+    "currently_authorized_additional_calls": 0
+  },
+  "decision_rule": {
+    "execute": "Run the held-out pilot only when every required typed scope has at least two distinct verifier-confirmed history supports and no evaluation leakage exists.",
+    "close": "If the execution gate fails, make zero Phase 1Z provider calls, record an inconclusive result, and close Phase 1 without adding another Phase 1 stage."
+  }
+}

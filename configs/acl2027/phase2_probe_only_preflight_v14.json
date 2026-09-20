@@ -1,0 +1,41 @@
+{
+  "schema_version": 14,
+  "experiment": "acl2027_phase2_probe_only_v14",
+  "status": "preflight_only_closed",
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "paid_api_allowed": false,
+    "qwen_authorization_open": false,
+    "formal_scaling_allowed": false
+  },
+  "stage": {
+    "authorized_stage": "probe",
+    "authorized_calls": 160,
+    "stage_call_ceiling": 160,
+    "stage_cost_ceiling_cny": 7.50,
+    "cumulative_cost_ceiling_cny": 7.50,
+    "retries": 0,
+    "max_tokens_present": false,
+    "temperature": 0,
+    "model_id": "qwen3.7-plus",
+    "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+    "request_interval_seconds": 1.0
+  },
+  "bindings": {
+    "v4_manifest_path": "artifacts/acl2027_phase2_staged_live_runner_preflight_v4/run_manifest.json",
+    "v4_aggregate_fingerprint": "17752bb2d26f38e253c91a5f789654dad209eb6c16a1dd68203a942fa354e8d9",
+    "v4_schedule_path": "artifacts/acl2027_phase2_staged_live_runner_preflight_v2/staged_execution_schedule.json",
+    "v4_schedule_sha256": "01c4e03660648cf8d5b150f78bf783f273b99899fa6fa4ac8be495090e44dd60",
+    "freeze_config_sha256": "43e89e39a2bf536a3ab183d7e0a43dbe4221beeb54f912e76823190b4880439c",
+    "v13_manifest_path": "artifacts/acl2027_phase2_formal_history_recovery_preflight_v13/run_manifest.json",
+    "v13_aggregate_fingerprint": "b85558e67b05589384b628d1bbc082b840ea3b8175260ec71a2cd14a0d82f244",
+    "v13_candidate_path": "artifacts/acl2027_phase2_formal_history_recovery_preflight_v13/combined_candidates_v13.json",
+    "v13_candidate_sha256": "0059732a15c74f6688acf2ae2a1873f33fa87f2971e8e6c9d3c0aaf5a028ac5d",
+    "probe_schema_path": "configs/acl2027/phase2_probe_audit_schema_v3.json",
+    "probe_gold_sha256": "669b26e604ac0b8ee99445be7e35abdf630c44df3b859f5af7a5d1fcfbab9407"
+  },
+  "forbidden_stages": ["held_out", "formal_scaling", "later_phase2_stages"],
+  "coverage_gate": {"required": true, "minimum_per_family": 8},
+  "probe_gate": {"schema_version": 3, "required_rows": 160, "conditions": ["contextual_typed_prior", "global_only", "cold", "copied_global"]}
+}

@@ -1,0 +1,233 @@
+{
+  "schema_version": 4,
+  "status": "complete",
+  "phase_status": "completed_zero_network_design_preflight",
+  "phase_id": "TG8-tracegraph-observable-subgoal-preflight-v4",
+  "experiment_line": "tracegraph-observable-state-skill-composition",
+  "config": "configs/acl2027/tracegraph_tg8_observable_subgoal_preflight_v4.json",
+  "config_sha256": "9c39499796eebc41a2855a5e374b855cefb3affc58275261b56ffb2cbc60efdb",
+  "plan": "paper/acl2027/TRACEGRAPH_TG8_OBSERVABLE_SUBGOAL_PLAN_V4.md",
+  "plan_sha256": "e542ee3098aa008f75dceba8d65b008c8619b465947a14153f31a21ab9445788",
+  "parent_design_preflight": "artifacts/acl2027_tracegraph_tg8_observable_subgoal_preflight_v3/preflight.json",
+  "parent_design_preflight_sha256": "c2c8ea8bf4cfeda611a327101b00ffc85d24393695d89b364ca3ffb1f07afe17",
+  "parent_design_review": "paper/acl2027/results/tracegraph_tg8_preflight_review_v3.md",
+  "parent_design_review_sha256": "ae7ff04984cca22692e678826e83b12ba2c3c113277ad50f4898b1ded5faf0de",
+  "generator_dependencies": [
+    {
+      "path": "scripts/run_acl2027_tracegraph_tg8_observable_subgoal_preflight_v3.py",
+      "sha256": "379f31d36ccf03ff6d5e2717d58e563519c426dcd14ae43fbfd1ee861f455a29"
+    },
+    {
+      "path": "scripts/run_acl2027_tracegraph_tg8_observable_subgoal_preflight_v2.py",
+      "sha256": "735aafd6764f9fc4d6b0b6e7a576b11b92c8cd3268c7f0e35c5f0ab08c552598"
+    }
+  ],
+  "superseded_unexecuted_designs": [
+    {
+      "path": "artifacts/acl2027_tracegraph_tg8_observable_subgoal_preflight_v1/completion_manifest.json",
+      "sha256": "46e7f6753e245618df197990be6a0fa6fb2b8501bb410b0cba7efba8129cdb41"
+    },
+    {
+      "path": "artifacts/acl2027_tracegraph_tg8_observable_subgoal_preflight_v2/completion_manifest.json",
+      "sha256": "13077617f31e0849f40bb24d82904944634bb3a51cd245b7eb1053072662ed0e"
+    },
+    {
+      "path": "artifacts/acl2027_tracegraph_tg8_observable_subgoal_preflight_v3/completion_manifest.json",
+      "sha256": "e8e6ec3ce9ebb182d22500d0577b1aaf7b3aecd2460ac54b2806c2be234d2a2e"
+    }
+  ],
+  "executed_identity_exclusion_sources": [
+    {
+      "path": "artifacts/acl2027_tracegraph_tg4_heldout_mechanism_preflight_v1/heldout_schedule.json",
+      "sha256": "9e3acdad7a106fb20374d9885fc8da9f29ffba329c17c11134f193962887bb87",
+      "task_identity_count": 40
+    },
+    {
+      "path": "artifacts/acl2027_tracegraph_tg6_trajectory_failure_analysis_preflight_v2/development_schedule.json",
+      "sha256": "8f6b5cf362a9bcfdbc2f2818f676d6016503cbdda635b6b641a18dfeab7919ae",
+      "task_identity_count": 24
+    },
+    {
+      "path": "artifacts/acl2027_tracegraph_tg6_trajectory_failure_analysis_authorized_attempt_v2/result.json",
+      "sha256": "d804d727f3d90beea4fc90f0216f1f6eeb6754fdceee00816309ea7240a81b67",
+      "task_identity_count": 24
+    },
+    {
+      "path": "artifacts/acl2027_tracegraph_tg6_repaired_local_execution_runner_v4/result.json",
+      "sha256": "b9cbd8f87a08f2c2f2b88e1028992a8f117d69b40878ba96db2daf6c65037527",
+      "task_identity_count": 40
+    },
+    {
+      "path": "artifacts/acl2027_tracegraph_tg7_progress_memory_preflight_v1/development_schedule.json",
+      "sha256": "ef8287f756afc32e972a3519b3910f4ac0fb2d2a178745d508332ddd373775ab",
+      "task_identity_count": 24
+    },
+    {
+      "path": "artifacts/acl2027_tracegraph_tg7_progress_memory_runner_v1/result_authorized_wsl_20260909.json",
+      "sha256": "34ea3456f7d361761b9c6eff369c466a799a1c2427da18f703060c27546ed4ff",
+      "task_identity_count": 24
+    }
+  ],
+  "skillbank": "artifacts/acl2027_tracegraph_tg1_skillbank_construction_v2/skillbank.jsonl",
+  "skillbank_sha256": "15059dd2cc5b99fc69d0bae79109ec20c8d000ec9d550ce237d06ee9ffd6a331",
+  "development_schedule": "artifacts/acl2027_tracegraph_tg8_observable_subgoal_preflight_v4/development_schedule.json",
+  "development_schedule_sha256": "1115337803f8899e0637f69643f169d0de3bc67fe8e9f7e2f021e6b914695aa7",
+  "development_task_count": 30,
+  "globally_unique_template_count": 30,
+  "replicate_count": 3,
+  "planned_episode_rows": 360,
+  "materialized_row_count": 360,
+  "split_counts": {
+    "valid_seen": 15,
+    "valid_unseen": 15
+  },
+  "family_counts": {
+    "pick_and_place_simple": 10,
+    "pick_two_obj_and_place": 10,
+    "pick_clean_then_place_in_recep": 10
+  },
+  "template_counts": {
+    "valid_seen/pick_and_place_simple": 5,
+    "valid_seen/pick_two_obj_and_place": 5,
+    "valid_seen/pick_clean_then_place_in_recep": 5,
+    "valid_unseen/pick_and_place_simple": 5,
+    "valid_unseen/pick_two_obj_and_place": 5,
+    "valid_unseen/pick_clean_then_place_in_recep": 5
+  },
+  "condition_position_counts": {
+    "lexical_greedy@0": 23,
+    "lexical_greedy@1": 22,
+    "lexical_greedy@2": 22,
+    "lexical_greedy@3": 23,
+    "lexical_anti_cycle@0": 23,
+    "lexical_anti_cycle@1": 23,
+    "lexical_anti_cycle@2": 22,
+    "lexical_anti_cycle@3": 22,
+    "observable_subgoal_greedy@0": 22,
+    "observable_subgoal_greedy@1": 23,
+    "observable_subgoal_greedy@2": 23,
+    "observable_subgoal_greedy@3": 22,
+    "observable_subgoal_anti_cycle@0": 22,
+    "observable_subgoal_anti_cycle@1": 22,
+    "observable_subgoal_anti_cycle@2": 23,
+    "observable_subgoal_anti_cycle@3": 23
+  },
+  "conditions": [
+    {
+      "id": "lexical_greedy",
+      "representation": "lexical",
+      "controller": "greedy"
+    },
+    {
+      "id": "lexical_anti_cycle",
+      "representation": "lexical",
+      "controller": "anti_cycle"
+    },
+    {
+      "id": "observable_subgoal_greedy",
+      "representation": "observable_subgoal",
+      "controller": "greedy"
+    },
+    {
+      "id": "observable_subgoal_anti_cycle",
+      "representation": "observable_subgoal",
+      "controller": "anti_cycle"
+    }
+  ],
+  "max_steps_per_episode": 75,
+  "primary_step_landmark": 50,
+  "sensitivity_step_landmark": 75,
+  "max_retries": 0,
+  "stop_rule": "stop on first hard invariant violation and invalidate the full factorial run",
+  "paired_seed_rule": "seed = 5200 + 100*replicate_index + task_ordinal",
+  "condition_order_rule": "hash-rank 90 task-replicate blocks, assign cyclic Latin rotations, materialize every row",
+  "runtime_allowed_inputs": [
+    "observation",
+    "historical_actions",
+    "admissible_actions"
+  ],
+  "runtime_forbidden_inputs": [
+    "task_description",
+    "raw_trajectory",
+    "planner_state",
+    "pddl_params",
+    "scene_state",
+    "expert_future_actions",
+    "evaluation_label",
+    "phase0_to_phase6_artifact",
+    "tg6_private_metadata",
+    "tg7_private_metadata",
+    "tg8_private_metadata"
+  ],
+  "selector_contract": {
+    "candidate_set": "identical SkillGraph-eligible admissible actions in all conditions",
+    "lexical_score": "unresolved normalized task-token overlap",
+    "structured_score": "next-subgoal action-family match then entity-token overlap",
+    "greedy_tie_break": [
+      "representation_score_desc",
+      "admissible_action_order",
+      "stable_skill_id"
+    ],
+    "anti_cycle_tie_break": [
+      "representation_score_desc",
+      "action_not_seen",
+      "outside_detected_two_cycle",
+      "admissible_action_order",
+      "stable_skill_id"
+    ],
+    "abstention_rule": "abstain only when no SkillGraph-eligible admissible action exists",
+    "history_cap": 75,
+    "subgoal_grammar_version": "tg8-observable-subgoal-grammar-v1",
+    "snapshot_canonicalization_version": "observation-plus-admissible-actions-v1"
+  },
+  "estimands": {
+    "representation_main_effect": "mean((observable_subgoal_greedy-lexical_greedy)+(observable_subgoal_anti_cycle-lexical_anti_cycle))/2",
+    "controller_main_effect": "mean((lexical_anti_cycle-lexical_greedy)+(observable_subgoal_anti_cycle-observable_subgoal_greedy))/2",
+    "interaction": "mean((observable_subgoal_anti_cycle-observable_subgoal_greedy)-(lexical_anti_cycle-lexical_greedy))",
+    "bootstrap": "paired task-cluster bootstrap; preserve three replicates and four conditions; 10000 resamples; 95% percentile CI"
+  },
+  "primary_metrics": [
+    "completion_by_step_50",
+    "episode_two_cycle_incidence_by_step_50"
+  ],
+  "secondary_metrics": [
+    "completion_by_step_75",
+    "observable_progress_event_rate",
+    "false_progress_rate",
+    "first_progress_step",
+    "repeated_snapshot_rate",
+    "unique_snapshot_count",
+    "ledger_validity",
+    "ledger_provenance_completeness",
+    "trace_validity",
+    "terminal_admissibility",
+    "latency",
+    "history_truncation"
+  ],
+  "decision_gate": {
+    "representation_signal": "representation_main_effect 95% cluster-bootstrap CI excludes zero in the preregistered direction",
+    "controller_signal": "controller_main_effect 95% cluster-bootstrap CI excludes zero in the preregistered direction",
+    "interaction_signal": "interaction 95% cluster-bootstrap CI excludes zero",
+    "pilot_inconclusive": "all relevant CIs cross zero",
+    "invalid": "any hard runtime-input, trace, SkillGraph, or terminal-admissibility violation invalidates the full run"
+  },
+  "no_overlap_audit": {
+    "executed_excluded_identity_count": 88,
+    "selected_executed_identity_overlap": 0,
+    "superseded_designs_zero_execution_verified": true,
+    "phase0_to_phase6_reuse": false,
+    "skillbank_source_split": "train_only"
+  },
+  "execution_authorized": false,
+  "fresh_exact_user_authorization_required": true,
+  "readiness_allowed": false,
+  "readiness_blocker": "selector implementation and adversarial unit tests not yet frozen",
+  "episodes_run": 0,
+  "actions_taken": 0,
+  "network_calls": 0,
+  "provider_calls": 0,
+  "model_calls": 0,
+  "api_calls": 0,
+  "paid_api_calls": 0,
+  "aggregate_fingerprint": "098bee6f10b47fb8dbe656785c3732a949448047f72bb0454bb48545299ceffe"
+}

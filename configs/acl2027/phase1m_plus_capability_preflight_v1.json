@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase1m_plus_capability_preflight_v1",
+  "phase": "1M",
+  "title": "Zero-network qwen3.7-plus preflight without client output cap",
+  "status": "planned",
+  "objective": "Freeze exactly two qwen3.7-plus requests with identical task messages to Phase 1L while omitting the client-side max_tokens parameter.",
+  "execution": {
+    "paid_api_allowed": false,
+    "network_calls_allowed": false,
+    "provider_calls": 0,
+    "formal_scaling_allowed": false,
+    "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+    "model_id": "qwen3.7-plus",
+    "temperature": 0,
+    "enable_thinking": false,
+    "omit_max_tokens": true,
+    "sdk_max_retries": 0,
+    "batch_closed": true
+  },
+  "source": {
+    "request_plan": "artifacts/acl2027_phase1k_paired_model_capability_preflight_v1/request_plan.json",
+    "request_plan_sha256": "46f82a0386e7cc33fa1d134f829275fdf8e4bf8b31bf8c42237a371713edbd89",
+    "selected_request_indices": [1, 2],
+    "task_order": ["OfficeQA", "SpreadsheetBench"],
+    "task_ids": ["UID0001", "45635"]
+  },
+  "authorization_boundary": {
+    "preflight_calls": 0,
+    "future_logical_calls": 2,
+    "future_max_provider_attempts": 2,
+    "future_explicit_retries": 0,
+    "future_calls_authorized": false,
+    "qwen3.8_max_authorized": false,
+    "officeqa_24_authorized": false,
+    "spreadsheetbench_40_authorized": false
+  },
+  "decision_gate": {
+    "pass": "exactly two qwen3.7-plus requests, identical task messages, no max_tokens key, zero calls, no leakage, and complete immutable hashes",
+    "live_successor": "requires a new immutable config and separate authorization for exactly two qwen3.7-plus calls with no retries",
+    "batch": "OfficeQA 24 and SpreadsheetBench 40 remain closed"
+  },
+  "write_scope": [
+    "configs/acl2027/phase1m_plus_capability_preflight_v1.json",
+    "scripts/prepare_acl2027_phase1m_plus_preflight.py",
+    "tests/test_acl2027_phase1m_plus_preflight.py",
+    "artifacts/acl2027_phase1m_plus_capability_preflight_v1",
+    "paper/acl2027/results/phase1m_plus_capability_preflight_v1.md",
+    "paper/acl2027/CONTRIBUTION_EVIDENCE_LEDGER.md",
+    "paper/acl2027/experiment_state.json"
+  ]
+}

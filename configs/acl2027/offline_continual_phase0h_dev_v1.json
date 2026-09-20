@@ -1,0 +1,126 @@
+{
+  "schema_version": 4,
+  "experiment": "acl2027_phase0h_helpful_prior_informative_probe_dev",
+  "scope": "synthetic offline Phase 0H development calibration: helpful oracle prior retention and deterministic informative probes; not downstream LLM accuracy",
+  "stream_type": "contextual",
+  "seeds": [
+    81,
+    82,
+    83,
+    84,
+    85
+  ],
+  "n_rules": 48,
+  "domains": [
+    "searchqa",
+    "law",
+    "health"
+  ],
+  "block_order": [
+    "searchqa",
+    "law",
+    "health",
+    "searchqa",
+    "law",
+    "health"
+  ],
+  "tasks_per_block": 25,
+  "probe_tasks_per_domain": 8,
+  "top_k": 3,
+  "budget": 170,
+  "token_target": 0.72,
+  "target_window": 20,
+  "target_sustain": 5,
+  "prior_strength": 2.0,
+  "recovery_correlation_target": 0.25,
+  "recovery_sustain": 5,
+  "utility_conditions": [
+    "all-cold",
+    "oracle",
+    "adversarial"
+  ],
+  "corruptions": [
+    {
+      "name": "none",
+      "mode": "none",
+      "block": null
+    }
+  ],
+  "methods": [
+    {
+      "name": "relevance_topk",
+      "policy": "relevance",
+      "credit": "none"
+    },
+    {
+      "name": "fixed_0p5_shared",
+      "policy": "greedy-utility",
+      "credit": "shared",
+      "estimator": "contextual",
+      "context_weight": 0.5
+    },
+    {
+      "name": "fixed_guard_p1",
+      "policy": "greedy-utility",
+      "credit": "shared",
+      "estimator": "contextual",
+      "context_weight": 0.5,
+      "prior_guard": "reset-cold",
+      "prior_guard_tolerance": 0.06,
+      "prior_guard_max_probes_per_domain": 1,
+      "prior_guard_sequential": false,
+      "prior_guard_confidence_z": 1.96,
+      "prior_guard_min_samples": 6,
+      "prior_guard_relevance_cost_share": 0.125
+    },
+    {
+      "name": "fixed_guard_p1_informative",
+      "policy": "greedy-utility",
+      "credit": "shared",
+      "estimator": "contextual",
+      "context_weight": 0.5,
+      "prior_guard": "reset-cold",
+      "prior_guard_tolerance": 0.06,
+      "prior_guard_max_probes_per_domain": 1,
+      "prior_guard_sequential": false,
+      "prior_guard_confidence_z": 1.96,
+      "prior_guard_min_samples": 6,
+      "prior_guard_relevance_cost_share": 0.125,
+      "prior_guard_probe_order": "selection-disagreement"
+    },
+    {
+      "name": "fixed_guard_seq_z1",
+      "policy": "greedy-utility",
+      "credit": "shared",
+      "estimator": "contextual",
+      "context_weight": 0.5,
+      "prior_guard": "reset-cold",
+      "prior_guard_tolerance": 0.06,
+      "prior_guard_max_probes_per_domain": 8,
+      "prior_guard_sequential": true,
+      "prior_guard_confidence_z": 1.0,
+      "prior_guard_min_samples": 6,
+      "prior_guard_relevance_cost_share": 0.125
+    },
+    {
+      "name": "fixed_guard_seq_z1_informative",
+      "policy": "greedy-utility",
+      "credit": "shared",
+      "estimator": "contextual",
+      "context_weight": 0.5,
+      "prior_guard": "reset-cold",
+      "prior_guard_tolerance": 0.06,
+      "prior_guard_max_probes_per_domain": 8,
+      "prior_guard_sequential": true,
+      "prior_guard_confidence_z": 1.0,
+      "prior_guard_min_samples": 6,
+      "prior_guard_relevance_cost_share": 0.125,
+      "prior_guard_probe_order": "selection-disagreement"
+    },
+    {
+      "name": "oracle_upper_bound",
+      "policy": "oracle",
+      "credit": "oracle-per-rule"
+    }
+  ]
+}

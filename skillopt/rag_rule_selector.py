@@ -24,6 +24,8 @@ import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
+from skillopt.rule_identity import rule_set_fingerprint, rule_text_hash, stable_rule_id
+
 
 @dataclass
 class Rule:
@@ -37,6 +39,14 @@ class Rule:
     weight: float = 1.0  # future: updated by forget-gate
     historical_gain: float = 0.0  # future: per-rule validation contribution
     conflict_score: float = 0.0  # future: conflict detection signal
+    rule_id: str = ""
+    text_hash: str = ""
+
+    def __post_init__(self) -> None:
+        if not self.text_hash:
+            self.text_hash = rule_text_hash(self.full_text)
+        if not self.rule_id:
+            self.rule_id = stable_rule_id(self.full_text)
 
     def __repr__(self) -> str:
         kind = "CORE" if self.is_core else "DYN"
@@ -154,6 +164,24 @@ class RuleMemory:
     @property
     def n_dynamic(self) -> int:
         return len(self._dynamic_rules)
+
+    @property
+    def dynamic_rule_ids(self) -> list[str]:
+        """Content-addressed IDs aligned with :attr:`dynamic_rules`."""
+        return [rule.rule_id for rule in self._dynamic_rules]
+
+    @property
+    def rule_set_fingerprint(self) -> str:
+        """Order-invariant fingerprint of all parsed rules."""
+        return rule_set_fingerprint(rule.full_text for rule in self._rules)
+
+    def rule_ids_for_indices(self, indices: list[int]) -> list[str]:
+        """Translate process-local dynamic indices into durable rule IDs."""
+        return [
+            self._dynamic_rules[index].rule_id
+            for index in indices
+            if 0 <= index < len(self._dynamic_rules)
+        ]
 
     # ── Retrieval ─────────────────────────────────────────────────────────
 

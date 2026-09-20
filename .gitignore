@@ -59,6 +59,20 @@ docs/render_ablation_paper_tables.py
 docs/让*
 .gradio/
 .venv
+.venv-*/
+
+# Generated knowledge-graph exports
+/graphify-out/
+
+# Local ACL 2027 run directories and interrupted checkpoints
+/acl2027_searchqa_*/
+/*.pending
+/*.pending.*
+/*.pending/
+/*_pending.json
+/state_copy_probe.*
+/tracegraph_tg6_pddl_derived_repair_v2.pending/
+//
 
 # Local experiment launchers — contain machine-specific endpoints/identities, never commit
 tests/run_*.sh

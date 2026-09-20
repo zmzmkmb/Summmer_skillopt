@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "phase_id": "TG6-tracegraph-local-execution-preflight-v1",
+  "experiment_line": "tracegraph-observable-state-skill-composition",
+  "mode": "zero_network_local_execution_scope_only",
+  "heldout_schedule": "artifacts/acl2027_tracegraph_tg4_heldout_mechanism_preflight_v1/heldout_schedule.json",
+  "heldout_schedule_sha256": "9e3acdad7a106fb20374d9885fc8da9f29ffba329c17c11134f193962887bb87",
+  "runtime_runner_dryrun": "artifacts/acl2027_tracegraph_tg5_runtime_runner_preflight_v1/dryrun.json",
+  "runtime_runner_dryrun_sha256": "5fe798315f491cd157b16efa1aa33aee293c21add60dab8fe40379079312856e",
+  "episode_count": 40,
+  "max_retries": 0,
+  "stop_rule": "stop on first hard invariant violation",
+  "runtime_allowed_inputs": ["observation", "historical_actions", "admissible_actions"],
+  "runtime_forbidden_inputs": ["task_description", "raw_trajectory", "planner_state", "pddl_params", "scene_state", "expert_future_actions", "evaluation_label", "phase0_to_phase6_artifact"],
+  "network_calls_allowed": false,
+  "provider_calls_allowed": false,
+  "model_calls_allowed": false,
+  "authorization_receipts_allowed": false,
+  "execution_authorized": false,
+  "webshop_status": "blocked_pending_preregistered_alfworld_mechanism_gate"
+}

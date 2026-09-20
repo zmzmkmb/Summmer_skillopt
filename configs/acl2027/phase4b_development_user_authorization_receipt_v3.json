@@ -1,0 +1,58 @@
+{
+  "authorization_closes_on_completion_or_terminal_stop": true,
+  "authorization_source": "user_message_2026-08-18",
+  "authorization_statement_sha256": "dd4cf17c97b765fcd6b533eb499e627619b0d80ae01332dde8c6b000549a44cd",
+  "authorized_calls": 100,
+  "authorized_destination": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+  "authorized_payload_classes": [
+    "frozen_task_prompts",
+    "frozen_task_contexts",
+    "frozen_skill_candidate_bundles"
+  ],
+  "bindings": {
+    "adapter_sha256": "6761e757eee26d9bfab3918930565eda70fa9857bc755a21992c5f8364381eba",
+    "preflight_manifest_sha256": "352e08f10c1e2f290bac5eac30e2995fe4b949eee67221181018297c08492d53",
+    "preflight_request_sha256": "58c7b03f806192abed742eaafd1e4c1db6efec8e79b87ab5e6afe4cf397d8453",
+    "prior_v2_closure_sha256": "4531fc893bfa9c2045cbb578e52503c4d3cd0f538ca6f2588b0b27cbb6d3217f",
+    "prior_v2_correction_sha256": "020961bcd75169f40e47cb59f04519c50ea0f20c7a4e80b10e523ea05cce4e49",
+    "runner_sha256": "122fce0c0f1728252bfce1271c4317127585aa3a5f1d5b2c3c90dd887d76559f",
+    "schedule_sha256": "00c6b65b836285e69d26ba88c77e333781e146bc7f01e826d016ac97c132cf89",
+    "wrapper_sha256": "0ca4a2d9b81e22ce0b37ab047e1beb4891f3adc5c4ae513e15a7d1b695f35cb5"
+  },
+  "cumulative_cost_ceiling_cny": 15.0,
+  "data_egress_authorized": true,
+  "enable_thinking": false,
+  "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+  "exact_prefix_resume_only": true,
+  "execution": {
+    "formal_scaling_allowed": false,
+    "network_calls_allowed": false,
+    "paid_api_allowed": false,
+    "provider_calls_allowed": false,
+    "qwen_authorization_open": false
+  },
+  "forbidden_stages": [
+    "other_models",
+    "later_phase4",
+    "cross_domain_scaling",
+    "formal_scaling"
+  ],
+  "known_cumulative_cost_lower_bound_cny": 11.33942,
+  "max_provider_attempts": 100,
+  "max_tokens_present": false,
+  "model_id": "qwen3.7-plus",
+  "paid_usage_authorized": true,
+  "phase4a_design_fingerprint": "2a7a6814b261ad336902fa8c4c6048a6114f62ffa242aae267a3700d0e97a2db",
+  "phase4b_live_preflight_fingerprint": "0826f7a4cd5b673ce2e2dfed50a0cecd8806b0b8176c1ac004987b3a0f8bd243",
+  "request_interval_seconds": 1.0,
+  "response_format": {
+    "type": "json_object"
+  },
+  "retries": 0,
+  "schema_version": 3,
+  "scope": "phase4b_development_calibration_only",
+  "stage_cost_ceiling_cny": 2.0,
+  "status": "explicit_user_authorization_received_execution_not_open",
+  "temperature": 0,
+  "terminal_stop_on_first_failed_attempt": true
+}

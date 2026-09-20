@@ -1,0 +1,39 @@
+{
+  "schema_version": 27,
+  "experiment": "acl2027_phase2_post_v25_failure_analysis_live_v27",
+  "status": "explicit_user_authorization_received_execution_not_open",
+  "authorization_id": "phase2-post-v25-failure-analysis-followup-v27",
+  "scope": "post_v25_failure_analysis_followup_only",
+  "authorized_stage": "post_v25_failure_analysis_followup",
+  "authorized_calls": 1600,
+  "max_provider_attempts": 1600,
+  "model_id": "qwen3.7-plus",
+  "temperature": 0,
+  "retries": 0,
+  "max_tokens_present": false,
+  "enable_thinking": false,
+  "response_format": {"type": "json_object"},
+  "stage_cost_ceiling_cny": 10.0,
+  "cumulative_cost_ceiling_cny": 10.0,
+  "later_stages_authorized": false,
+  "formal_scaling_authorized": false,
+  "request_interval_seconds": 1.0,
+  "v26_aggregate_fingerprint": "6c27bceb77541e05cbb4b255796d806e72d83b95205744f10a7f877f49058564",
+  "bindings": {
+    "v26_config_sha256": "c1cba7c64d462240cf581794ea3a7fd669ae13942c9a2e8860812241e275d180",
+    "v26_manifest_sha256": "d300a32607ee892e3e00579cdb9acb1a3c8580af05a1dbf90a9cf240b14d5292",
+    "v26_schedule_sha256": "328afd840a21bebedb0eab956af73c04375e8f124f24cd03b5eaf51dcc4afa53",
+    "v26_gold_sha256": "fdc0a531772afa435d0845b4f2fade75438da3683c0f0ae83c74dd9e5247c134",
+    "v26_identity_audit_sha256": "cd9b362d432104a7194220c8212d89478c5c21a3321af6b2b32e758dc303d8e8"
+  },
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "paid_api_allowed": false,
+    "qwen_authorization_open": false,
+    "formal_scaling_allowed": false
+  },
+  "forbidden_stages": ["calibration", "development_acquisition", "formal_history", "probe", "held_out", "other_models", "later_phase2_stages", "formal_scaling"],
+  "user_message_verbatim": "授权，你预计phase2什么时候能完成",
+  "authorization_interpretation": "Authorize only the exact frozen v26 1600-row qwen3.7-plus follow-up at temperature 0, zero retries, no max_tokens, JSON object responses, one-second minimum pacing, and CNY 10.00 stage/cumulative ceilings."
+}

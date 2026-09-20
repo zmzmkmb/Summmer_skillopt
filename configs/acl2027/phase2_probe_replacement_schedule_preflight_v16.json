@@ -1,0 +1,32 @@
+{
+  "schema_version": 16,
+  "experiment": "acl2027_phase2_probe_replacement_schedule_preflight_v16",
+  "status": "blocked_condition_semantics",
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "paid_api_allowed": false,
+    "qwen_authorization_open": false,
+    "formal_scaling_allowed": false
+  },
+  "target": {
+    "probe_tasks": 40,
+    "conditions_per_task": 4,
+    "logical_calls": 160,
+    "replace_complete_spent_task_grid": true,
+    "explicit_json_contract_required": true
+  },
+  "bindings": {
+    "v15_aggregate_fingerprint": "833aa6e99bda15722458147031f170e95d62a11cee0c6e63f6096eda9d0301b8",
+    "v14_schedule_sha256": "01c4e03660648cf8d5b150f78bf783f273b99899fa6fa4ac8be495090e44dd60",
+    "v14_ledger_sha256": "32dd2739dc6227a2424fde6908e79f161dba366833be79859210fa824cce11ec",
+    "v13_candidate_sha256": "0059732a15c74f6688acf2ae2a1873f33fa87f2971e8e6c9d3c0aaf5a028ac5d"
+  },
+  "blocking_gate": {
+    "candidate_ids_must_be_materialized": true,
+    "candidate_versions_must_not_be_pending": true,
+    "condition_specific_model_visible_prior_payloads_required": true,
+    "authorization_request_allowed": false
+  },
+  "forbidden": ["provider_execution", "held_out", "later_phase2_stages", "formal_scaling"]
+}

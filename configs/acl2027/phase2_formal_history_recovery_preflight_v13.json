@@ -1,0 +1,41 @@
+{
+  "schema_version": 13,
+  "experiment": "acl2027_phase2_formal_history_recovery_preflight_v13",
+  "status": "preflight_only_closed",
+  "purpose": "Zero-network correction of v12 materialization identity rules; no provider execution.",
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "paid_api_allowed": false,
+    "qwen_authorization_open": false,
+    "formal_scaling_allowed": false
+  },
+  "input_contract": {
+    "preserved_v11_completed_rows": 32,
+    "recovery_v12_completed_rows": 128,
+    "combined_history_rows": 160,
+    "minimum_per_family": 8,
+    "duplicate_answer_hashes_allowed": true,
+    "duplicate_logical_requests_allowed": false,
+    "duplicate_request_hashes_allowed": false,
+    "duplicate_provider_response_ids_allowed": false
+  },
+  "coverage_gate": {
+    "minimum_per_family": 8,
+    "schema_path": "configs/acl2027/phase2_candidate_materialization_schema_v3.json"
+  },
+  "trusted_evaluation": {
+    "combined_gold_path": "artifacts/acl2027_phase2_formal_history_recovery_preflight_v12/combined_formal_history_gold.json",
+    "combined_gold_sha256": "85b023272bc0a61980da8dd9a0c09185e4003ed06d634c03ae90974d6a62bdcf"
+  },
+  "bindings": {
+    "v12_aggregate_fingerprint": "8827222c7d290050969531b7ee6a7c049ac287b0e3098b0ba4f8b15c43b762fe",
+    "v12_config_sha256": "75ccc23ec14d40481997bf47f2179d5ce4c320c97427e8b4ed4f2e18d2407635",
+    "v12_manifest_sha256": "6c6fd37b0f352ba76b2fc78a978a95b6a38a43ec0db9d6179d18b1cad1d35477",
+    "v11_ledger_sha256": "3c63c3e9d0894fe3f5a24187f6914668f4217fc0ada7653d4471897cf95f48e8",
+    "v12_ledger_sha256": "a6c78260b19f17ab6e8e028116bdffbc17b8781d376051c9a793e898405fbaba",
+    "combined_schedule_sha256": "9938015382753acd38e1f0f38399eb76576c6e083a03fdd86e4ce1af56cf94e3",
+    "materializer_source_sha256": "356038c684acbb54b98f82d3b945dbc3b953ea12a83dd3a928a35a2c26ee50ea",
+    "preflight_source_sha256": "9cac09596ee791ad33b691666aeaa95cc7beed7861b93f7c29abe99a33a49dc9"
+  }
+}

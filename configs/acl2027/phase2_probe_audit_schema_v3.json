@@ -1,0 +1,11 @@
+{
+  "schema_version": 3,
+  "artifact_type": "acl2027_phase2_probe_audit_v3",
+  "analyzer_version": "phase2-probe-analyzer-v3",
+  "required_probe_calls": 160,
+  "conditions": ["contextual_typed_prior", "global_only", "cold", "copied_global"],
+  "primary_comparison": ["contextual_typed_prior", "global_only"],
+  "secondary_conditions": ["cold", "copied_global"],
+  "caller_passed_field_accepted": false,
+  "held_out_gold_accessed": false
+}

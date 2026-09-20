@@ -1,0 +1,48 @@
+{
+  "schema_version": "tg9-readiness-v1",
+  "status": "passed_for_step_50_blocked_for_step_75",
+  "phase_id": "TG9-tracegraph-readiness-v1",
+  "effective_environment_horizon": 50,
+  "primary_endpoint": "completion_by_step_50",
+  "completion_by_step_75_available": false,
+  "planned_rows": 180,
+  "runtime_allowed_inputs": [
+    "observation",
+    "historical_actions",
+    "admissible_actions"
+  ],
+  "bound_inputs": {
+    "task_pool_preflight": {
+      "path": "artifacts/acl2027_tracegraph_tg9_task_pool_preflight_v1/preflight.json",
+      "sha256": "de1e773c832dd85ae9bdfcfbca81ff77fe8c0d8c0805589d982ff51dd71fde33"
+    },
+    "schedule": {
+      "path": "artifacts/acl2027_tracegraph_tg9_task_pool_preflight_v1/internal_validation_schedule.json",
+      "sha256": "ff2546ffa353627cfa07968de494360af7d05b69eb9b01e7588e84345de00a61"
+    },
+    "selector": {
+      "path": "scripts/run_acl2027_tracegraph_tg9_selector_v1.py",
+      "sha256": "fb187c3febf30943a910622de1fd4fe22c4eeb9ccce94e0f13b23684f100cba7"
+    },
+    "base_skillbank": {
+      "path": "artifacts/acl2027_tracegraph_tg1_skillbank_construction_v2/skillbank.jsonl",
+      "sha256": "15059dd2cc5b99fc69d0bae79109ec20c8d000ec9d550ce237d06ee9ffd6a331"
+    },
+    "interaction_skillbank": {
+      "path": "artifacts/acl2027_tracegraph_tg9_interaction_skillbank_v1/interaction_skillbank.jsonl",
+      "sha256": "cdc2813a46d2ddafcb54aa12cdb3cd3d6cad453d117befef9caf4cc38ba2c67c"
+    },
+    "environment_config": {
+      "path": "skillopt/envs/alfworld/vendor/config_tw.yaml",
+      "sha256": "dbbe8c16527b430bae08b4e902c97ac3701282557ce7b02d074f685091eac638"
+    }
+  },
+  "episodes_run": 0,
+  "actions_taken": 0,
+  "network_calls": 0,
+  "provider_calls": 0,
+  "model_calls": 0,
+  "api_calls": 0,
+  "paid_api_calls": 0,
+  "execution_authorized": false
+}

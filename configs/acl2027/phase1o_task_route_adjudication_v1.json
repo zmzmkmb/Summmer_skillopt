@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase1o_task_route_adjudication_v1",
+  "phase": "1O",
+  "title": "Zero-network real-task route adjudication",
+  "status": "planned",
+  "objective": "Adjudicate OfficeQA and SpreadsheetBench routes with construct-first, score-afterward executors that cannot access reference outputs during construction.",
+  "execution": {
+    "paid_api_allowed": false,
+    "network_calls_allowed": false,
+    "provider_calls": 0,
+    "formal_scaling_allowed": false,
+    "qwen3_8_max_allowed": false,
+    "officeqa_24_allowed": false,
+    "spreadsheetbench_40_allowed": false
+  },
+  "immutable_inputs": {
+    "officeqa_phase1n_run": {"path": "artifacts/acl2027_phase1n_plus_live_confirmation_v1/run_01.json", "sha256": "858871073c42172fb4daf237385a7986e25c75e6522b5a315aad4a39f5348386"},
+    "spreadsheetbench_phase1n_run": {"path": "artifacts/acl2027_phase1n_plus_live_confirmation_v1/run_02.json", "sha256": "eba5d8fdf826ced387de0b46899145e879c85f9185e0976f3e1ea6084b7b4050"},
+    "officeqa_reference_csv": {"path": "data/officeqa_verified/officeqa_full.csv", "sha256": "b5eb1ce0cb343842bccb2f5b067793b4ed90e03e8bf64cb0d40d759bb768ff77"},
+    "spreadsheetbench_initial_workbook": {"path": "data/spreadsheetbench_verified_400/spreadsheet/45635/1_45635_init.xlsx", "sha256": "9237cbc5403586757797784f01e9c58dcf5e430fb8bf454975e523922f40e6ee"},
+    "spreadsheetbench_golden_workbook": {"path": "data/spreadsheetbench_verified_400/spreadsheet/45635/1_45635_golden.xlsx", "sha256": "2af13693395e23d4623d6ff4582937462939eade3099d24e8b19ea255b367056"}
+  },
+  "constructors": {
+    "officeqa": {
+      "task_id": "UID0001",
+      "allowed_inputs": ["officeqa_phase1n_run"],
+      "required_time_basis": "calendar",
+      "expected_period_count": 12,
+      "operation": "sum",
+      "reference_answer_forbidden": true,
+      "route_on_supported_evidence": "keep_with_deterministic_executor_and_abstain_on_evidence_mismatch"
+    },
+    "spreadsheetbench": {
+      "task_id": "45635",
+      "allowed_inputs": ["spreadsheetbench_initial_workbook"],
+      "target_range": "B5:E7",
+      "source_rows": [1, 2, 3],
+      "points_per_column": 6,
+      "scoring_contract": "For each target column independently, award six points divided equally among source-row cells tied for that column maximum; award zero otherwise.",
+      "golden_workbook_forbidden": true,
+      "route_on_exact_match": "redesign_as_constrained_executor_backed_task"
+    }
+  },
+  "evaluators": {
+    "officeqa": {"allowed_inputs": ["persisted_officeqa_construction", "officeqa_reference_csv"]},
+    "spreadsheetbench": {"allowed_inputs": ["persisted_spreadsheetbench_construction", "persisted_generated_workbook", "spreadsheetbench_golden_workbook"]}
+  },
+  "decision_gate": {
+    "pass": "Zero network and paid calls; all immutable hashes match; OfficeQA construction recomputes 2602 without reference access and independently matches the reference; SpreadsheetBench construction writes 12 formulas without golden access and independent scoring obtains 12/12 exact matches.",
+    "scientific_scope": "Route and protocol adjudication only; does not establish typed-prior effects, sparse-probe representativeness, or triage efficacy.",
+    "failure": "Replace or narrow any task family whose leakage-free constrained route does not pass independent scoring."
+  },
+  "write_scope": [
+    "configs/acl2027/phase1o_task_route_adjudication_v1.json",
+    "scripts/analyze_acl2027_phase1o_task_routes.py",
+    "tests/test_acl2027_phase1o_task_routes.py",
+    "artifacts/acl2027_phase1o_task_route_adjudication_v1",
+    "paper/acl2027/results/phase1o_task_route_adjudication_v1.md",
+    "paper/acl2027/CONTRIBUTION_EVIDENCE_LEDGER.md",
+    "paper/acl2027/experiment_state.json"
+  ]
+}

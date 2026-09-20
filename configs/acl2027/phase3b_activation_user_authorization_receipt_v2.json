@@ -1,0 +1,38 @@
+{
+  "schema_version": 2,
+  "experiment": "acl2027_phase3b_activation_live_v2",
+  "status": "explicit_user_authorization_received_execution_not_open",
+  "authorization_id": "phase3b-activation-live-v2",
+  "scope": "phase3b_activation_pilot_only",
+  "authorized_stage": "activation_pilot",
+  "authorized_calls": 300,
+  "max_provider_attempts": 300,
+  "model_id": "qwen3.7-plus",
+  "temperature": 0,
+  "retries": 0,
+  "max_tokens_present": false,
+  "enable_thinking": false,
+  "response_format": {"type": "json_object"},
+  "request_interval_seconds": 1.0,
+  "stage_cost_ceiling_cny": 3.0,
+  "cumulative_cost_ceiling_cny": 11.0,
+  "known_cumulative_cost_lower_bound_cny": 7.218738,
+  "later_stages_authorized": false,
+  "formal_scaling_authorized": false,
+  "phase3b_aggregate_fingerprint": "fe1bb5316f57e4aa4dba14e19a173a44c60575263bd54018b8b33e6d256de7b8",
+  "bindings": {
+    "phase3b_manifest_sha256": "865dca65374c15d505875cc3cb64f2b8a59a51c1006212521a6cae25daf08a32",
+    "phase3b_schedule_sha256": "ac55436461a0ffab56069c145f9cd28d2f32a3bce3a2108348c227f828818377",
+    "phase3b_gold_sha256": "1210e7233c1dcb4857cd16b7fc55ca5b823cff23ca146caabb51a6f61d772f23",
+    "phase3b_analysis_plan_sha256": "7dafa319c49230b87928e6573cc878c792959a26d0c4ea53571bb23f6194dc60"
+  },
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "paid_api_allowed": false,
+    "qwen_authorization_open": false,
+    "formal_scaling_allowed": false
+  },
+  "forbidden_stages": ["calibration", "development_acquisition", "formal_history", "probe", "held_out", "other_models", "later_phase3_stages", "formal_scaling"],
+  "user_message_verbatim": "授权执行这 300 次真实调用"
+}

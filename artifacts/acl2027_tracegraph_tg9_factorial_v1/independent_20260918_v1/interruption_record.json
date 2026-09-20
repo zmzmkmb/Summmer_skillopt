@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "status": "invalid_interrupted_before_result_persistence",
+  "recorded_at": "2026-09-18T18:44:00+08:00",
+  "authorization_receipt_sha256": "49c34a95f3e34f239af2a45903aaf99980672abd471f7055c7da1f8be88d01a6",
+  "authorization_reusable": false,
+  "aggregate_fingerprint": "6006009c4d662c45d166c4ca6f3503f789e6b081ce7fca81d8cd373542442385",
+  "attempts": [
+    {
+      "unit": "tg9-v1-49c34a95f3e34f239af2.service",
+      "invocation_id": "b9b1630af3c64b0fa4d18ed8595617be",
+      "status": "preexecution_transport_failure",
+      "error": "ModuleNotFoundError: No module named 'gymnasium'",
+      "environment_reset_reached": false,
+      "episodes_run": 0,
+      "actions_taken": 0,
+      "experimental_retry": false
+    },
+    {
+      "unit": "tg9-v1-49c34a95f3e34f239af2-relay1.service",
+      "invocation_id": "ef388044e4ac4e878a3a703cfe863bee",
+      "status": "externally_stopped_after_environment_initialization",
+      "started_at": "2026-09-18T18:39:22+08:00",
+      "stopped_at": "2026-09-18T18:39:45+08:00",
+      "systemd_result": "success_after_external_stop",
+      "result_present": false,
+      "environment_builder_reached": true,
+      "environment_reset_reached": "unknown",
+      "episodes_run": "unknown",
+      "actions_taken": "unknown",
+      "experimental_result_valid": false
+    }
+  ],
+  "planned_rows": 180,
+  "persisted_rows": 0,
+  "result_present": false,
+  "hard_invariant_interpretation": "unavailable",
+  "scientific_interpretation": "none",
+  "likely_host_cause": "The WSL distribution had no persistent Windows keeper process. The transient systemd service was stopped when the host-side WSL lifetime ended. This is an operational inference, not a proven scientific failure.",
+  "next_gate": "A fresh exact authorization is required. The corrected launcher must start and verify a WSL keeper and Windows system-awake guardian before starting the experiment service."
+}

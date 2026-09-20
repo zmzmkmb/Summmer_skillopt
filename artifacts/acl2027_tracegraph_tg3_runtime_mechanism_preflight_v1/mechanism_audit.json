@@ -1,0 +1,19 @@
+{
+  "experiment_line": "tracegraph-observable-state-skill-composition",
+  "phase_id": "TG3-tracegraph-runtime-mechanism-preflight-v1",
+  "cases": {
+    "eligible_edge": true,
+    "inadmissible_skill_rejection": true,
+    "trace_completeness": true,
+    "hidden_state_rejection": true
+  },
+  "all_passed": true,
+  "fixture_skill_ids": [
+    "0002fe62f224930a21d2ebd9170d7dd395e9a2a2b04264dbbb2c195aae8cef9f",
+    "00047c7502116b98040625481192edd445096e9003fb3676fafdd299bb545b0b"
+  ],
+  "network_calls": 0,
+  "provider_calls": 0,
+  "model_calls": 0,
+  "paid_api_calls": 0
+}

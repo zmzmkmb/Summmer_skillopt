@@ -38,6 +38,7 @@ from skillopt.model import (
 )
 from skillopt.model.common import default_model_for_backend
 from skillopt.rag_rule_selector import RuleMemory
+from skillopt.evaluation.run_registry import attach_run_metadata, append_run_registry
 
 
 def _load_env(path: str | None = None):
@@ -196,6 +197,11 @@ def parse_args():
     p.add_argument("--moar-crossover-p", type=float, default=0.90,
                    help="NSGA-II 交叉概率")
     p.add_argument("--out", type=str, default="")
+    p.add_argument(
+        "--registry",
+        default=os.path.join(_PROJECT_ROOT, "outputs", "run_registry.jsonl"),
+        help="Append immutable run metadata to this JSONL file; pass an empty string to disable.",
+    )
     return p.parse_args()
 
 
@@ -328,6 +334,7 @@ def main():
         for i in range(n_items):
             d = dict(batch_results[i])
             d["selected_indices"] = selected_indices_list[i] if i < len(selected_indices_list) else []
+            d["selected_rule_ids"] = rm.rule_ids_for_indices(d["selected_indices"])
             d["n_rules"] = n_rules_list[i] if i < len(n_rules_list) else 0
             d["prompt_chars"] = char_counts[i] if i < len(char_counts) else 0
             d["build_ms"] = build_times[i] * 1000 if i < len(build_times) else 0
@@ -407,6 +414,8 @@ def main():
     summary = {
         "skill": os.path.abspath(skill_path),
         "skill_sha256": skill_sha256,
+        "rule_set_fingerprint": next(iter(methods.values())).rule_set_fingerprint,
+        "n_dynamic_rules": next(iter(methods.values())).n_dynamic,
         "target_model": args.target_model,
         "optimizer_model": args.optimizer_model,
         "commit": commit,
@@ -423,6 +432,7 @@ def main():
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "results": results,
     }
+    attach_run_metadata(summary, kind="formal", seed=args.seed)
     def _serialize(obj):
         """递归转换 numpy 类型为 Python 原生类型."""
         import numpy as _np
@@ -441,6 +451,9 @@ def main():
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(_serialize(summary), f, ensure_ascii=False, indent=2)
     print(f"\nSaved to: {out_path}")
+    if args.registry:
+        append_run_registry(args.registry, result_path=out_path, payload=summary, kind="formal")
+        print(f"Registry: {args.registry}")
 
 
 if __name__ == "__main__":

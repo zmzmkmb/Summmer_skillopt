@@ -1,0 +1,81 @@
+{
+  "bindings": {
+    "combined_schedule_sha256": "9938015382753acd38e1f0f38399eb76576c6e083a03fdd86e4ce1af56cf94e3",
+    "live_runner_source_sha256": "945410044e09ad8e0e4cf3837026c91b12a1cb28a3592ca62c34b102d845f97b",
+    "live_test_source_sha256": "020c9a4e2536986105666643113317511961e5c81a686d32b8649f814ba5eba6",
+    "partition_audit_sha256": "403a0b806116ec0bb847afe5e4b5c1d160ff2c7b900feaec2456cd0c52c02133",
+    "pool_builder_source_sha256": "3d98ebfb7347dbd66e33c2e55302e0373ba82cc3b6ea78551e3aa7bcc059702f",
+    "recovery_schedule_sha256": "1643b4252a3b56a2b17be8db378956b6115c440585a9a852edfb43e7e5ba08b0",
+    "replacement_audit_sha256": "afc26efa5b3d678a8a07c3d048deec7ea4c366513d60cee324fe05bf20017780",
+    "runner_source_sha256": "f146b74145a9fe2ee9fb90f0b46ef6ed13748d7c5922dfc32f82fcdd0a48a344",
+    "source_2wiki_sha256": "21b0a6ffef454f887b5a7a6115db443d3476e99fefeb05d4c5fb73be01582554",
+    "test_source_sha256": "aead2a3dda6abfb04f438843b12d3548d60f12b892ac1307d3f16d2f474c09dd",
+    "v11_closure_sha256": "1dd67e292216cfbd9a1d5ce52796dfb33a576c8d0c4c056d125783fec68c3a97",
+    "v11_ledger_sha256": "3c63c3e9d0894fe3f5a24187f6914668f4217fc0ada7653d4471897cf95f48e8",
+    "v11_schedule_sha256": "3878a6e1cf3ca5ab486767f49d74325c7ca9261210e6ec356a1eedebc7653f4a"
+  },
+  "cost_control": {
+    "combined_exact_cost_claim_forbidden": true,
+    "input_cny_per_million": 2.0,
+    "new_stage_ceiling_cny": 1.64,
+    "output_cny_per_million": 8.0,
+    "v11_known_cost_lower_bound_cny": 0.075602,
+    "v11_terminal_cost_unknown": true
+  },
+  "counters": {
+    "model_calls": 0,
+    "network_calls": 0,
+    "paid_api_calls": 0,
+    "provider_calls": 0
+  },
+  "coverage_gate": {
+    "minimum_per_family": 8,
+    "schema_path": "configs/acl2027/phase2_candidate_materialization_schema_v3.json"
+  },
+  "execution": {
+    "formal_scaling_allowed": false,
+    "network_calls_allowed": false,
+    "paid_api_allowed": false,
+    "provider_calls_allowed": false,
+    "qwen_authorization_open": false
+  },
+  "experiment": "acl2027_phase2_formal_history_recovery_preflight_v12",
+  "forbidden_stages": [
+    "probe",
+    "held_out",
+    "formal_scaling"
+  ],
+  "model_route": {
+    "enable_thinking": false,
+    "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+    "max_tokens_present": false,
+    "model_id": "qwen3.7-plus",
+    "request_interval_seconds": 1.0,
+    "response_format": {
+      "type": "json_object"
+    },
+    "retries": 0,
+    "temperature": 0
+  },
+  "recovery_contract": {
+    "calls_per_family": 32,
+    "combined_formal_history_rows": 160,
+    "new_logical_calls": 128,
+    "preserved_v11_completed_rows": 32,
+    "replacement_calls": 1,
+    "target_verified_supports_per_family": 8,
+    "terminal_request_must_not_be_retried": true,
+    "terminal_spent_rows": 1,
+    "terminal_spent_task_id": "6d77bf0f08ad11ebbd83ac1f6bf848b6",
+    "unattempted_v11_calls_reissued_with_new_request_hashes": 127
+  },
+  "schema_version": 12,
+  "status": "preflight_only_closed",
+  "trusted_evaluation": {
+    "combined_gold_path": "artifacts/acl2027_phase2_formal_history_recovery_preflight_v12/combined_formal_history_gold.json",
+    "combined_gold_sha256": "85b023272bc0a61980da8dd9a0c09185e4003ed06d634c03ae90974d6a62bdcf",
+    "materializer_source_sha256": "9cfd5abc4607ecb6216063a5e835e00346bc359255c939fdb7f86f0fde0b55e3",
+    "verifier_config_sha256": "518c2aa43a48b83523ca42abd5189ab5b736f498f52ec505517697d89faa8e01",
+    "verifier_source_sha256": "929cf11168ba294fd769c16a7fb953bb9801ccf98cae64355c438c9c65e308c7"
+  }
+}

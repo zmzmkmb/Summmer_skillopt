@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase3d_specificity_abstention_preflight_v1",
+  "status": "zero_network_design_only_not_authorized",
+  "objective": "Freeze a real-task design that distinguishes correct skill selection from indiscriminate adoption and tests whether repaired specificity mediates answer utility.",
+  "bindings": {
+    "phase3b_aggregate_fingerprint": "d228d3b907091a8001d3f3379bd1ad1ded2af1cf30dfe0c148226a6be9cc435f",
+    "phase3c_aggregate_fingerprint": "0e1769ea906c18907f7161aea5fd93b30add92738b6cce26be32091dfb1b30fd",
+    "phase3c_gate_preserved": "inconclusive",
+    "source_files": {
+      "candidate_source_module_sha256": "2fb3f5270134118e0df45b397d937c9f407a3b80bf691aa04ae3e10cd0994386",
+      "phase3b_analysis_sha256": "36b0c916acf0798769c377705e5c1379ba839d50f2f240a5ef43c694649cd5e5",
+      "phase3b_preflight_manifest_sha256": "865dca65374c15d505875cc3cb64f2b8a59a51c1006212521a6cae25daf08a32",
+      "phase3c_audit_sha256": "5684671954a2c82f5f2788fb1159d623c422ed182b0a01e9584c5cc93a2aa237",
+      "phase3c_config_sha256": "68b4c1078ee188e026a3b099d1addb1dad32afee7e2f05b6dbacac43cc83f512",
+      "preflight_source_sha256": "70bde0357102790008c945fb8113e40a0187c06ec1590822be504a6d50c38310",
+      "preflight_test_sha256": "a397f59dfedaa1c0ad5f89b784da9743e6f6566322a8d67de619b48ea0ec22ee",
+      "v17_prior_bundles_sha256": "f4de47c538fedf1d28ecba8c07d8f4605f7fff4be1e8e300634c7af273a6d63d"
+    }
+  },
+  "design": {
+    "target_families": [
+      "attribute_comparison",
+      "bridge_attribute_comparison"
+    ],
+    "tasks_per_family": 20,
+    "tasks": 40,
+    "conditions": [
+      "cold",
+      "global_only",
+      "contextual_single",
+      "irrelevant_single",
+      "dual_contextual_first",
+      "dual_irrelevant_first"
+    ],
+    "logical_calls": 240,
+    "selection": "20 lowest SHA256(phase3d-v1:specificity-abstention:<family>:<task_id>) unused task IDs per target family",
+    "selection_must_be_gold_independent": true,
+    "new_task_ids_required": true,
+    "irrelevant_family_map": {
+      "attribute_comparison": "bridge_attribute_comparison",
+      "bridge_attribute_comparison": "entity_bridge"
+    },
+    "dual_order_control": true
+  },
+  "response_contract": {
+    "exact_keys": [
+      "skill_assessments",
+      "selected_skill_id",
+      "intermediate_operation",
+      "final_answer"
+    ],
+    "skill_assessments": "one {skill_id, applicable} object per presented candidate, in presentation order",
+    "selected_skill_id": "one presented candidate ID or the frozen sentinel none",
+    "intermediate_operation": "non-empty short operation label, not chain-of-thought",
+    "final_answer": "non-empty short answer"
+  },
+  "analysis_plan": {
+    "primary_specificity_metrics": [
+      "contextual_single_correct_selection_rate",
+      "irrelevant_single_rejection_rate",
+      "dual_correct_selection_rate",
+      "dual_wrong_selection_rate",
+      "dual_order_effect_absolute_difference"
+    ],
+    "outcome_mediation_metrics": [
+      "contextual_vs_irrelevant_operation_change_rate",
+      "contextual_vs_irrelevant_normalized_answer_change_rate",
+      "contextual_alias_net_wins_over_irrelevant",
+      "contextual_alias_net_loss_vs_cold"
+    ],
+    "positive_gate": {
+      "contextual_single_correct_selection_rate_at_least": 0.75,
+      "irrelevant_single_rejection_rate_at_least": 0.75,
+      "each_family_irrelevant_single_rejection_rate_at_least": 0.65,
+      "dual_correct_selection_rate_at_least": 0.65,
+      "dual_wrong_selection_rate_at_most": 0.10,
+      "dual_order_effect_absolute_difference_at_most": 0.15,
+      "contextual_vs_irrelevant_operation_change_rate_at_least": 0.30,
+      "contextual_vs_irrelevant_normalized_answer_change_rate_at_least": 0.10,
+      "contextual_alias_net_wins_over_irrelevant_at_least": 2,
+      "contextual_alias_net_loss_vs_cold_at_most": 1
+    },
+    "negative_gate": {
+      "contextual_single_correct_selection_rate_below": 0.50,
+      "or_irrelevant_single_rejection_rate_below": 0.50,
+      "or_dual_wrong_selection_rate_at_least_dual_correct_selection_rate": true
+    },
+    "inconclusive_gate": "Any completed result satisfying neither the positive nor negative gate.",
+    "stop_rule": "Do not cross-domain scale unless the full positive specificity-and-mediation gate passes. If specificity passes without mediation, redesign task capability and answer sensitivity before further execution.",
+    "family_reporting_required": true,
+    "no_posthoc_regating": true
+  },
+  "future_execution_proposal": {
+    "status": "not_authorized",
+    "model_id": "qwen3.7-plus",
+    "temperature": 0,
+    "enable_thinking": false,
+    "retries": 0,
+    "max_tokens_present": false,
+    "response_format": {
+      "type": "json_object"
+    },
+    "authorization_artifact_created": false,
+    "fresh_explicit_authorization_required": true
+  },
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "model_calls_allowed": false,
+    "paid_api_allowed": false,
+    "formal_scaling_allowed": false
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "authorization_id": "phase2-probe-only-identifiable-v18",
+  "authorization_receipt_sha256": "dbdbb2a9a964039e956cb5d364a7ad6444e366c3c9ea1e3a0830bb8c1c0767ec",
+  "authorization_request_sha256": "fa9e0a824bbbbe37b408a8cfa1a0bd126349c003dbe9877617c691b2b69ea80c",
+  "authorization_sha256": "f10c9cb4d21ae4909734be8937228492462851df6752a865bde80d1654f85ca9",
+  "completed_calls": 49,
+  "exact_local_cost_cny": null,
+  "formal_scaling_allowed": false,
+  "formal_scaling_calls": 0,
+  "held_out_calls": 0,
+  "known_local_cost_lower_bound_cny": 0.200218,
+  "later_stage_calls": 0,
+  "paid_api_allowed": false,
+  "provider_attempts": 50,
+  "provider_calls_allowed": false,
+  "qwen_authorization_open": false,
+  "reason": "terminal_hard_stop:HardStop:HTTPError: HTTP Error 400: Bad Request",
+  "schema_version": 18,
+  "status": "closed",
+  "usage_status": "known_lower_bound"
+}

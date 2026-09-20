@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase1y_verified_history_skill_candidates_v1",
+  "phase": "1Y",
+  "title": "Zero-network verified-history and typed skill-candidate materialization",
+  "status": "planned",
+  "objective": "Audit frozen SearchQA and 2WikiMultiHopQA history partitions, replay only locally stored model responses, and materialize typed candidates without network or provider calls.",
+  "execution": {
+    "network_calls_allowed": false,
+    "dataset_download_allowed": false,
+    "provider_calls_allowed": false,
+    "paid_api_allowed": false,
+    "formal_scaling_allowed": false,
+    "qwen3_8_max_allowed": false,
+    "legacy_officeqa_spreadsheetbench_batch_allowed": false,
+    "max_provider_attempts": 0,
+    "retries": 0
+  },
+  "bindings": {
+    "phase1t_design": {
+      "path": "artifacts/acl2027_phase1t_heldout_deployment_identifiability_v1/design_audit.json",
+      "sha256": "dd5a45d13889c53c8f313946d924987113d2306404f99e93256efa2a5b5c8e81"
+    },
+    "phase1u_audit": {
+      "path": "artifacts/acl2027_phase1u_calibration_payload_readiness_v1/payload_audit.json",
+      "sha256": "6604ef63517129291aead96afaebb5e21fc6ac30931f0b4ad3350bcb90eeb41a"
+    },
+    "searchqa_split_manifest": {
+      "path": "data/searchqa_id_split/split_manifest.json",
+      "sha256": "85295dc2960c3f00d585ade44b87be7728ef20a2347f551bc0531e75088d582a"
+    },
+    "searchqa_history_ids": {
+      "path": "data/searchqa_id_split/train/items.json",
+      "sha256": "86ba477accef4d4104e55b0a6e81a72c1e0e6009fcd0acaa1f8b138050011fec"
+    },
+    "searchqa_calibration_ids": {
+      "path": "data/searchqa_id_split/val/items.json",
+      "sha256": "b3d94e9a187b048139440ab03436b6c1cc4f000f7f609f05e3fb244ab4d5836d"
+    },
+    "searchqa_probe_ids": {
+      "path": "data/searchqa_id_split/val/items.json",
+      "sha256": "b3d94e9a187b048139440ab03436b6c1cc4f000f7f609f05e3fb244ab4d5836d"
+    },
+    "searchqa_held_out_ids": {
+      "path": "data/searchqa_id_split/test/items.json",
+      "sha256": "9750dca312e5cdc14f99bbcbdf94d2abafe3f2fc242be98ce9f6c36bc3f1df6d"
+    },
+    "two_wiki_history": {
+      "path": "data/2wikimultihopqa_verified/partitions/history.json",
+      "sha256": "6aa5ead61a00587b9bb99e56ee74cfd07f8027f2da4e5d8372839911581ab15f"
+    },
+    "two_wiki_calibration": {
+      "path": "data/2wikimultihopqa_verified/partitions/calibration.json",
+      "sha256": "a98479817858e4aea42435e1cdbd4eba10fcc49208105523851e7ccb9f888e29"
+    },
+    "two_wiki_probe": {
+      "path": "data/2wikimultihopqa_verified/partitions/development_probe.json",
+      "sha256": "aa4abce9facaae836534d116d40f0a8cc635b0507743103a68ac470dcf3efb12"
+    },
+    "two_wiki_held_out": {
+      "path": "data/2wikimultihopqa_verified/partitions/held_out_downstream.json",
+      "sha256": "4e1af1fa8be20c4f4b2e64139d88911579e0c88973ae9feb7ec77fdcfcb93977"
+    },
+    "phase1b_spent_calls": {
+      "path": "acl2027_searchqa_phase1b_token_plan_live_pilot_v5_smoke/calls.jsonl",
+      "sha256": "957e804909b7eaf4b8ad9c905925caff58f96bb47c9b0853ea61782a87de9171"
+    },
+    "phase1x_results": {
+      "path": "artifacts/acl2027_phase1x_calibration_live_v1/results.jsonl",
+      "sha256": "da20c987505f0df11aa037fd6392ec5641390ad5f6e95515efe212e4f6a6e846"
+    },
+    "phase1w_cost_contract": {
+      "path": "configs/acl2027/phase1w_calibration_live_preflight_v1.json",
+      "sha256": "6e668c0cc4db1aa2c38332b02aaad5f31305fbae9bc2f3eb85843fa07a7a9f65"
+    }
+  },
+  "candidate_contract": {
+    "minimum_supporting_successes": 2,
+    "minimum_distinct_task_ids": 2,
+    "required_task_families": ["SearchQA", "2WikiMultiHopQA"],
+    "required_2wiki_skill_families": ["attribute_comparison", "bridge_attribute_comparison", "entity_bridge", "relation_inference"],
+    "typed_scope_required": true,
+    "held_out_outputs_forbidden": true,
+    "gold_records_are_not_trajectories": true
+  },
+  "local_discovery": {
+    "trajectory_sources": [
+      "acl2027_searchqa_phase1b_token_plan_live_pilot_v5_smoke/calls.jsonl",
+      "artifacts/acl2027_phase1x_calibration_live_v1/results.jsonl"
+    ],
+    "verifier_source": "scripts/prepare_acl2027_phase1v_calibration.py::parse_response,verify_response",
+    "scan_is_local_only": true
+  },
+  "phase1t_searchqa_partition_keys": {
+    "calibration": "calibration_ids",
+    "history": "history_ids",
+    "probe": "development_probe_ids",
+    "held_out": "held_out_downstream_ids"
+  },
+  "future_request_contract": {
+    "model_id": "qwen3.7-plus",
+    "temperature": 0,
+    "max_tokens_present": false,
+    "retries": 0,
+    "resume": "exact_append_only_prefix",
+    "hard_stops": ["unknown_usage", "provider_exception", "request_hash_drift", "authorization_drift", "cost_ceiling"],
+    "minimum_history_attempts_conditional_all_success": 10,
+    "minimum_history_successes": 10,
+    "minimum_history_successes_by_family": {"SearchQA": 2, "2WikiMultiHopQA": 8},
+    "freezeable_2wiki_attempts": 8,
+    "unfreezeable_searchqa_attempts": 2,
+    "phase1z_tasks_if_candidate_gate_clears": 288,
+    "phase1z_conditions_to_audit_if_candidate_gate_clears": ["cold", "copied_global", "global_only", "contextual_typed_prior"],
+    "phase1z_exact_minimum_calls_currently": null,
+    "phase1z_legacy_unoptimized_upper_bound_calls": 1152,
+    "phase1z_minimum_call_status": "undefined_until_typed_candidates_exist_and_response_reuse_is_audited",
+    "pricing_basis": "Phase 1W list-price contract: CNY 2 per million input tokens and CNY 8 per million output tokens; conservative 4096 output tokens per call and 51505 input tokens per 24-call equivalent.",
+    "history_attempt_cost_estimate_cny": 0.3706,
+    "phase1z_legacy_upper_bound_cost_estimate_cny": 42.6927,
+    "combined_legacy_upper_bound_cost_estimate_cny": 43.0633,
+    "accounting_ceiling_cny": 50,
+    "authorization_status": "closed_no_provider_calls"
+  }
+}

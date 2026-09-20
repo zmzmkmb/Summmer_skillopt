@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase2_staged_live_runner_preflight_v1",
+  "status": "preflight_only_closed",
+  "execution": {"paid_api_allowed": false, "provider_calls_allowed": false, "qwen_authorization_open": false, "formal_scaling_allowed": false, "network_calls_allowed": false},
+  "frozen_bindings": {
+    "freeze_config_path": "configs/acl2027/phase2_expansion_freeze_v2.json",
+    "freeze_config_sha256": "43e89e39a2bf536a3ab183d7e0a43dbe4221beeb54f912e76823190b4880439c",
+    "request_plan": {"path": "artifacts/acl2027_phase2_expansion_freeze_v2/request_plan.json", "sha256": "1c4caf62111a71cd6bf0af98fd8c14174117e7203c577151608d7a868db6732b"},
+    "partition_audit": {"path": "artifacts/acl2027_phase2_expansion_freeze_v2/partition_audit.json", "sha256": "403a0b806116ec0bb847afe5e4b5c1d160ff2c7b900feaec2456cd0c52c02133"}
+  },
+  "authorization_contract": {"closed_config_path": "configs/acl2027/phase2_staged_live_runner_authorization_v1.json", "authorization_must_bind_this_preflight_sha256": true, "ledger_records_bind_authorization_sha256": true, "future_open_authorization_requires_separately_versioned_config": true},
+  "model_route": {"model_id": "qwen3.7-plus", "temperature": 0, "retries": 0, "max_tokens_present": false, "endpoint_route": "frozen provider route supplied only by future authorization"},
+  "stage_order": ["calibration", "development_acquisition", "formal_history", "candidate_materialization_coverage_gate", "probe", "held_out", "local_analysis_closure"],
+  "stages": {"calibration": 60, "development_acquisition": 10, "formal_history": 160, "candidate_materialization_coverage_gate": 0, "probe": 160, "held_out": 320, "local_analysis_closure": 0},
+  "stage_estimated_cost_cny": {"calibration": 0.38688, "development_acquisition": 0.08496, "formal_history": 1.35936, "probe": 1.45536, "held_out": 2.91072},
+  "coverage_gate": {"families": ["fact_retrieval", "attribute_comparison", "bridge_attribute_comparison", "entity_bridge", "relation_inference"], "minimum_independent_verified_supports_per_family": 8, "failure_status": "coverage-incomplete", "failure_is_method_failure": false, "forbid_answer_peeking": true, "forbid_duplicate_trajectory_support": true},
+  "conditions": {"primary": ["contextual_typed_prior", "global_only"], "secondary": ["cold", "copied_global"], "response_reuse": "only identical model-visible body, parameters, semantic inputs, and request_hash; otherwise independent ledger"},
+  "cost_control": {"input_cny_per_million": 2.0, "output_cny_per_million": 8.0, "stage_ceilings_cny": {"calibration": 0.50, "development_acquisition": 0.11, "formal_history": 1.64, "probe": 1.75, "held_out": 3.50}, "cumulative_ceiling_cny": 7.50, "ceiling_is_request_parameter": false},
+  "hard_stops": ["authorization_config_drift", "authorization_hash_drift", "freeze_config_hash_drift", "request_plan_hash_drift", "partition_audit_hash_drift", "logical_request_hash_drift", "non_exact_prefix_resume", "duplicate_logical_id", "request_order_drift", "provider_exception", "unknown_or_missing_usage", "retry_attempt", "max_tokens_present", "model_temperature_or_route_drift", "stage_not_authorized", "stage_call_ceiling_exceeded", "authorized_call_ceiling_exceeded", "coverage_gate_not_passed", "probe_audit_gate_not_passed", "stage_cost_ceiling_exceeded", "cumulative_cost_ceiling_exceeded", "ledger_mismatch"],
+  "resume": "append-only exact-prefix; preserve raw response, exact usage, error, authorization hash, and prefix ledger on hard stop"
+}

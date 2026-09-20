@@ -1,0 +1,59 @@
+{
+  "schema_version": 3,
+  "experiment": "acl2027_phase3d_specificity_abstention_live_v3",
+  "status": "explicit_user_authorization_received_execution_not_open",
+  "authorization_id": "phase3d-specificity-abstention-live-v3",
+  "scope": "phase3d_specificity_abstention_only",
+  "authorized_stage": "specificity_abstention",
+  "authorized_calls": 240,
+  "max_provider_attempts": 240,
+  "model_id": "qwen3.7-plus",
+  "temperature": 0,
+  "enable_thinking": false,
+  "retries": 0,
+  "max_tokens_present": false,
+  "response_format": {"type": "json_object"},
+  "request_interval_seconds": 1.0,
+  "stage_cost_ceiling_cny": 3.0,
+  "cumulative_cost_ceiling_cny": 15.0,
+  "known_cumulative_cost_lower_bound_cny": 7.218738,
+  "phase3d_design_fingerprint": "59143bd2c63bf73c4f747121d547216a2665c7bd722fb7c672b0e12e9db2e5b0",
+  "phase3d_live_preflight_fingerprint": "1b57aabe12711ef646674dc39dcc01990c8e0088c667c30fe0818d47c26f4970",
+  "data_egress_authorized": true,
+  "authorized_destination": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+  "authorized_payload_classes": [
+    "frozen_task_prompts",
+    "frozen_task_contexts",
+    "frozen_historical_skill_candidate_bundles"
+  ],
+  "paid_usage_authorized": true,
+  "terminal_stop_on_first_failed_attempt": true,
+  "authorization_closes_on_completion_or_terminal_stop": true,
+  "later_stages_authorized": false,
+  "cross_domain_scaling_authorized": false,
+  "formal_scaling_authorized": false,
+  "forbidden_stages": [
+    "other_models",
+    "later_phase3_stages",
+    "cross_domain_scaling",
+    "formal_scaling"
+  ],
+  "bindings": {
+    "v2_config_sha256": "5f18bebfe7d259f8c958a69fa7651d59fb68fe2e613f7abb75e18df68446ce8d",
+    "v2_manifest_sha256": "e166bffd2ffd2d454244bd631b3bccbb7097852ceef94bf1216e50e863e67a0e",
+    "v2_authorization_request_sha256": "65eb83f6f6b42e371ba11f657fe06c2b4d48f496d004ad87d379959fb6316e8b",
+    "v1_manifest_sha256": "717076413f04de51f3c7e32e0b336f004bc0c4783f2199a12eb3bfd9fd9a8512",
+    "v1_schedule_sha256": "f7be94eac2e0b1c5ffbb529e9b3ae192f9846013b6e9a86315b46a68f4ff4642",
+    "v1_private_gold_sha256": "ab9d53ebe9fa8a63a13c02a8a79cc95454e845a44b150a41373145183a87026d",
+    "v1_analysis_plan_sha256": "ebc1e956059fc81df62f2aaee0d38b571d3e2541807cedc1a166f99389ec131d"
+  },
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "paid_api_allowed": false,
+    "qwen_authorization_open": false,
+    "formal_scaling_allowed": false
+  },
+  "authorization_normalization": "The user's Markdown link display was normalized to the explicitly named Token Plan endpoint; all other terms are verbatim-equivalent.",
+  "user_message_verbatim": "我明确授权执行 Phase 3D 特异性与弃权实验，绑定设计指纹 59143bd2c63bf73c4f747121d547216a2665c7bd722fb7c672b0e12e9db2e5b0 和执行预检指纹 1b57aabe12711ef646674dc39dcc01990c8e0088c667c30fe0818d47c26f4970，将冻结的 240 个任务提示、上下文及历史技能候选包发送至 https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1，使用付费模型 qwen3.7-plus，temperature 0，关闭 thinking，零重试，不设 max_tokens，JSON object 响应，每次请求间隔 1 秒，本阶段费用上限 CNY 3.00，累计费用上限 CNY 15.00，接受首个失败尝试终止且授权自动关闭；不授权其他模型、后续 Phase 3、跨领域扩展或正式扩展，并授权收到本声明后立即执行。"
+}

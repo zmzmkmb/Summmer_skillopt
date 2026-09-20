@@ -1,0 +1,53 @@
+{
+  "schema_version": 7,
+  "experiment": "acl2027_phase2_calibration_live_v7",
+  "authorization_id": "phase2-calibration-token-plan-v7-20260814",
+  "status": "open",
+  "bindings": {
+    "route_preflight_config_sha256": "ff82a73ddf199a3e3f087a85f95f634473abfdfde106c756ba1126c6d28bac79",
+    "route_preflight_manifest_sha256": "e949e266c827772de49ea7c6c0e498295d6ae61baf10f73d0fd3c5a123b32b99",
+    "parent_v4_aggregate_fingerprint": "17752bb2d26f38e253c91a5f789654dad209eb6c16a1dd68203a942fa354e8d9",
+    "schedule_sha256": "01c4e03660648cf8d5b150f78bf783f273b99899fa6fa4ac8be495090e44dd60",
+    "adapter_sha256": "b6d8e0a38f4e2820de65b7232f8d2de491f5de291b47537a4057045a3aa22c80",
+    "runner_sha256": "7ff936270866344a4a1b01a66b62e82b49f034b1abe22ababcb4edff7cdc1d4b"
+  },
+  "live_execution_bindings": {
+    "live_orchestrator_sha256": "e0878fc94c2d0111708e8944c6c730f90dd5cb3b75a0040f79ee5d6854cdb312",
+    "audit_source_sha256": "929270d2a6b526b52f54ef10065fd1b459858891bdf9c456b06e0f743043fcb8"
+  },
+  "credential_sha256": "c633a901caf472c4a161651f45c53e5d9d962ca1e5dde40cea8e106da2b5ec6f",
+  "user_authorization": {
+    "received_date": "2026-08-14",
+    "scope": "phase2_v7_calibration_only",
+    "authorized_calls": 60,
+    "request_max_tokens_limit_requested": false,
+    "user_cny_limit_requested": false,
+    "not_inherited_by_later_stages": true,
+    "formal_scaling_authorized": false
+  },
+  "paid_api_allowed": true,
+  "provider_calls_allowed": true,
+  "qwen_authorization_open": true,
+  "formal_scaling_allowed": false,
+  "authorized_stage": "calibration",
+  "authorized_calls": 60,
+  "stage_call_ceiling": 60,
+  "max_provider_attempts": 60,
+  "stage_cost_ceiling_cny": 0.5,
+  "cumulative_cost_ceiling_cny": 0.5,
+  "repository_safety_ceiling_not_user_budget": true,
+  "model_id": "qwen3.7-plus",
+  "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+  "temperature": 0,
+  "enable_thinking": false,
+  "request_interval_seconds": 1.0,
+  "retries": 0,
+  "max_tokens_present": false,
+  "forbidden_stages": [
+    "development_acquisition",
+    "formal_history",
+    "probe",
+    "held_out",
+    "formal_scaling"
+  ]
+}

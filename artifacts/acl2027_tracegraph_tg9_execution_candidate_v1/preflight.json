@@ -1,0 +1,48 @@
+{
+  "schema_version": "tg9-execution-candidate-v1",
+  "status": "frozen_closed_pending_fresh_exact_authorization",
+  "created_date": "2026-09-18",
+  "bindings": {
+    "runner_config_sha256": "ae42409e8a099b6866ade8f9164d781a3cbe813708a8b6a5f36ae662b29616a0",
+    "schedule_sha256": "ff2546ffa353627cfa07968de494360af7d05b69eb9b01e7588e84345de00a61",
+    "selector_sha256": "fb187c3febf30943a910622de1fd4fe22c4eeb9ccce94e0f13b23684f100cba7",
+    "base_skillbank_sha256": "15059dd2cc5b99fc69d0bae79109ec20c8d000ec9d550ce237d06ee9ffd6a331",
+    "interaction_skillbank_sha256": "cdc2813a46d2ddafcb54aa12cdb3cd3d6cad453d117befef9caf4cc38ba2c67c",
+    "readiness_sha256": "2e4e4126d8d74b48e799a7f28901ca23e005ead4481a5cbf4cbdfa40f2129b38",
+    "runner_sha256": "9ca6b073dbd51248ce2a597f58832a6f960dce7aae2bab773b6624b147f9b60e",
+    "analysis_script_sha256": "f9fa7d87f9745110048048bfbdf0f95384630f3ab981df0f3f40de246206b71e",
+    "governance_manifest_sha256": {
+      "acl2027_tracegraph_tg9_failure_audit_v1": "05e40551fedc92f05fd0dd62d710e98c5e557ecb511ac86cad22f098108445fd",
+      "acl2027_tracegraph_tg9_task_pool_preflight_v1": "895a577d6a8d67bbb5ab6844e1cc9b5bf39ac8e204d9049e42f5d9e0062e0b33",
+      "acl2027_tracegraph_tg9_interaction_skillbank_v1": "a6b4b11606eeca7b8f9158a4d7e9f6acd3f85c46ccfb3a2d7b051bd7e612db53"
+    },
+    "conditions": [
+      "type_level_current_coverage",
+      "instance_bound_current_coverage",
+      "type_level_open_close_coverage",
+      "instance_bound_open_close_coverage"
+    ],
+    "runtime_allowed_inputs": [
+      "observation",
+      "historical_actions",
+      "admissible_actions"
+    ],
+    "planned_rows": 180,
+    "max_steps_per_episode": 50,
+    "max_retries": 0,
+    "stop_on_first_hard_invariant_violation": true
+  },
+  "aggregate_fingerprint": "6006009c4d662c45d166c4ca6f3503f789e6b081ce7fca81d8cd373542442385",
+  "primary_endpoint": "completion_by_step_50",
+  "step_75_endpoint_status": "unavailable",
+  "validation_label": "internal_validation_not_blind_confirmatory",
+  "execution_authorized": false,
+  "readiness_allowed": false,
+  "episodes_run": 0,
+  "actions_taken": 0,
+  "network_calls": 0,
+  "provider_calls": 0,
+  "model_calls": 0,
+  "api_calls": 0,
+  "paid_api_calls": 0
+}

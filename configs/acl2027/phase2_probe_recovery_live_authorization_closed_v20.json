@@ -1,0 +1,21 @@
+{
+  "authorization_id": "phase2-probe-recovery-only-v20",
+  "authorization_receipt_sha256": "f4c2ce9370087b3d66184cc55bfd6a79e3c813ba5e18eef8ccba33ac2690ab06",
+  "authorization_request_sha256": "4f0cc58d989c01d703f1cf2ef4bddbedcce5520825c72235529999470a749bbf",
+  "authorization_sha256": "867d1cc58f7ceb965e10af32b6502d0d29602cf245b92a105a98f5ec087c5343",
+  "completed_calls": 112,
+  "exact_local_cost_cny": 0.507768,
+  "formal_scaling_allowed": false,
+  "formal_scaling_calls": 0,
+  "held_out_calls": 0,
+  "known_local_cost_lower_bound_cny": 0.507768,
+  "later_stage_calls": 0,
+  "paid_api_allowed": false,
+  "provider_attempts": 112,
+  "provider_calls_allowed": false,
+  "qwen_authorization_open": false,
+  "reason": "completed_exact_112",
+  "schema_version": 20,
+  "status": "closed",
+  "usage_status": "exact"
+}

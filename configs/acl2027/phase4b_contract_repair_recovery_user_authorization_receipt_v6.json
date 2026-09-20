@@ -1,0 +1,60 @@
+{
+  "authorization_closes_on_completion_or_terminal_stop": true,
+  "authorization_source": "user_message_2026-08-18",
+  "authorization_statement_matches_preflight_verbatim": true,
+  "authorization_statement_sha256": "9553493a0d712637febdaf6fa5b49bc6bd0c286e85d4bb2b5bcc23eb5dff27a4",
+  "authorized_calls": 28,
+  "authorized_destination": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+  "bindings": {
+    "adapter_sha256": "6761e757eee26d9bfab3918930565eda70fa9857bc755a21992c5f8364381eba",
+    "preflight_manifest_sha256": "0794f9542030a424f32f4ffb7f4ba161d327190baee08191e0932337ec4b27d8",
+    "preflight_request_sha256": "178cb747c58934835205003b65acf2010da36ce8bd09e8975d27ce5cdd0f0c8c",
+    "r3_request_start_ledger_sha256": "a776d28381effbb02408ecc32694b2797b9da5c7de907fd3e3b8af0708a8f4a3",
+    "runner_sha256": "8be73f8dcef7460f677f144a1243a876dd9c2ef559789b505344be76908b3c50",
+    "schedule_sha256": "2a2467ebf8e678a7b524758d7112df99769a113ef73dba1ecc11b35a819fb88a"
+  },
+  "cost_policy": "Reserve the maximum observed completed-response local cost for the unknown orphan; stop before the new stage exceeds CNY 0.30 or cumulative spend exceeds CNY 15.00.",
+  "cumulative_cost_ceiling_cny": 15.0,
+  "data_egress_authorized": true,
+  "enable_thinking": false,
+  "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+  "exact_prefix_resume_only": true,
+  "execution": {
+    "formal_scaling_allowed": false,
+    "network_calls_allowed": false,
+    "paid_api_allowed": false,
+    "provider_calls_allowed": false,
+    "qwen_authorization_open": false
+  },
+  "forbidden_stages": [
+    "phase4c",
+    "other_models",
+    "replication",
+    "cross_domain_scaling",
+    "formal_scaling"
+  ],
+  "hash_chain_required": true,
+  "known_cumulative_cost_lower_bound_cny": 12.32892,
+  "live_preflight_fingerprint": "4b220ba56d8cf0990ecf86df791f79b8218db427c81a117b6c78a775d58f5a0d",
+  "max_provider_attempts": 28,
+  "max_tokens_present": false,
+  "model_id": "qwen3.7-plus",
+  "orphan_usage_reserve_cny": 0.011136,
+  "paid_usage_authorized": true,
+  "projected_known_upper_bound_cny": 12.640056,
+  "request_interval_seconds": 1.0,
+  "request_start_ledger_required": true,
+  "response_format": {
+    "type": "json_object"
+  },
+  "response_ledger_required": true,
+  "retries": 0,
+  "schema_version": 6,
+  "scope": "phase4b_repaired_development_calibration_recovery_only",
+  "source_recovery_fingerprint": "fc668155d0e1d787fe45bf381f5958d8f9d5d78759be3c0bab3951580254f066",
+  "stage_cost_ceiling_cny": 0.3,
+  "status": "explicit_user_authorization_received_execution_not_open",
+  "temperature": 0,
+  "terminal_stop_on_first_failed_attempt": true,
+  "usage_accounting_required": true
+}

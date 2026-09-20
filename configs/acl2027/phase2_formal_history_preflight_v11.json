@@ -1,0 +1,61 @@
+{
+  "bindings": {
+    "formal_history_gold_sha256": "676f41b52785ba0f0a63ac30097f59411b99e7345602edeed2e178c5b8511715",
+    "materializer_source_sha256": "69a3ea9734cd5a08dd1fef480741dcc303da8b70c2786eea4f7af575c2a10403",
+    "provider_adapter_sha256": "6761e757eee26d9bfab3918930565eda70fa9857bc755a21992c5f8364381eba",
+    "runner_source_sha256": "4fcfa080831201c7c5a098985e28722e7fa0edc7f3cb95973e4cfb2ca7ff0765",
+    "source_schedule_sha256": "01c4e03660648cf8d5b150f78bf783f273b99899fa6fa4ac8be495090e44dd60",
+    "v4_config_sha256": "4775d9e55fb97316460e38e9c0a8fd07181b799a8aa9670a7a022194df3b7954",
+    "verifier_source_sha256": "929cf11168ba294fd769c16a7fb953bb9801ccf98cae64355c438c9c65e308c7"
+  },
+  "counters": {
+    "network_calls": 0,
+    "paid_api_calls": 0,
+    "provider_calls": 0
+  },
+  "coverage_gate": {
+    "minimum_per_family": 8,
+    "schema_path": "configs/acl2027/phase2_candidate_materialization_schema_v3.json",
+    "verifier_config_sha256": "518c2aa43a48b83523ca42abd5189ab5b736f498f52ec505517697d89faa8e01"
+  },
+  "execution": {
+    "formal_scaling_allowed": false,
+    "network_calls_allowed": false,
+    "paid_api_allowed": false,
+    "provider_calls_allowed": false,
+    "qwen_authorization_open": false
+  },
+  "experiment": "acl2027_phase2_formal_history_v11",
+  "forbidden_stages": [
+    "probe",
+    "held_out",
+    "formal_scaling"
+  ],
+  "schema_version": 11,
+  "stage": {
+    "calls_per_family": 32,
+    "enable_thinking": false,
+    "logical_calls": 160,
+    "max_tokens_present": false,
+    "model_id": "qwen3.7-plus",
+    "name": "formal_history",
+    "request_interval_seconds": 1.0,
+    "response_format": {
+      "type": "json_object"
+    },
+    "retries": 0,
+    "stage_cost_ceiling_cny": 1.64,
+    "target_verified_supports_per_family": 8,
+    "temperature": 0
+  },
+  "status": "preflight_only_closed",
+  "trusted_evaluation": {
+    "formal_history_gold_sha256": "676f41b52785ba0f0a63ac30097f59411b99e7345602edeed2e178c5b8511715",
+    "materializer_source_sha256": "69a3ea9734cd5a08dd1fef480741dcc303da8b70c2786eea4f7af575c2a10403",
+    "probe_analyzer_config_sha256": "68d606b73a0e02dce9434ed0ff1f1b0ef78f4d645a1c3cfea559d932e5f46039",
+    "probe_analyzer_source_sha256": "0145c56dbf2a2191c2371186d276bb424cd2994276559ce4db6e2e5c55648629",
+    "probe_gold_sha256": "669b26e604ac0b8ee99445be7e35abdf630c44df3b859f5af7a5d1fcfbab9407",
+    "verifier_config_sha256": "518c2aa43a48b83523ca42abd5189ab5b736f498f52ec505517697d89faa8e01",
+    "verifier_source_sha256": "929cf11168ba294fd769c16a7fb953bb9801ccf98cae64355c438c9c65e308c7"
+  }
+}

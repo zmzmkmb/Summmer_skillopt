@@ -1,0 +1,13 @@
+﻿{
+  "schema_version": 1,
+  "experiment": "acl2027_phase6_scope_aware_admission_preflight_v1",
+  "experiment_line": "scope-aware-admission-answer-level-grounding",
+  "objective": "Identify whether typed evidence can be safely admitted at answer level without leaking private gold.",
+  "dataset": {"name": "2WikiMultiHopQA", "split": "dev", "tasks": 40, "tasks_per_family": 20, "families": ["attribute_comparison", "bridge_attribute_comparison"], "historical_identity_exclusion": "all task, logical, request, transport, and provider-response identities in prior artifacts"},
+  "schedule": {"rows": 240, "conditions": ["cold", "always_use_typed", "admission_typed", "shuffled_typed", "incompatible_control", "evidence_abstain"], "balanced_rows_per_condition": 40},
+  "response_contract": {"exact_top_level_keys": ["skill_assessments", "admission_decision", "selected_skill_id", "evidence_sentence_ids", "extracted_operands", "intermediate_result", "final_answer"], "skill_assessments": "candidate-ID keyed object; each value has exactly applicable:boolean and rationale:string", "admission_decision": ["admit", "abstain", "fallback"], "selected_skill_id": "candidate ID or none", "evidence_sentence_ids": "non-empty list of unique known IDs, each resolving to one canonical sentence", "forbidden": ["additional_top_level_keys", "markdown", "code_fence", "unknown_candidate_keys", "unknown_evidence_ids"]},
+  "answer_normalization": {"version": "unicode-casefold-whitespace-v1", "rule": "casefold, trim, collapse whitespace, preserve non-ASCII letters and punctuation"},
+  "analysis_plan": {"primary_outcomes": ["contract_valid", "evidence_resolving", "admission_match", "selected_match", "answer_correct", "counterfactual_answer"], "live_gate": {"complete_task_grids_at_least": 30, "contract_valid_rate_at_least": 0.95, "evidence_resolving_rate_at_least": 0.90, "admission_typed_accuracy_minus_always_use_typed_at_least": -0.05, "incompatible_control_abstention_rate_at_least": 0.90, "shuffled_typed_abstention_rate_at_least": 0.90, "incompatible_control_counterfactual_rate_at_most": 0.10, "shuffled_typed_counterfactual_rate_at_most": 0.10, "both_families_same_direction": true}, "decision": "all gates required; otherwise negative or inconclusive, never a claim of general accuracy improvement", "no_posthoc_regating": true},
+  "execution": {"network_calls_allowed": false, "provider_calls_allowed": false, "model_calls_allowed": false, "paid_api_allowed": false, "cross_domain_scaling_allowed": false, "formal_scaling_allowed": false},
+  "future_execution": {"status": "not_authorized", "model_id": "qwen3.7-plus", "temperature": 0, "requests": 240, "retries": 0, "max_tokens": null, "fresh_exact_user_authorization_required": true}
+}

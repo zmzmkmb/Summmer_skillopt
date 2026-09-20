@@ -1,0 +1,35 @@
+{
+  "schema_version": 21,
+  "experiment": "acl2027_phase2_heldout_only_v21",
+  "authorization_id": "phase2-heldout-only-v21",
+  "status": "explicit_user_authorization_received_execution_not_open",
+  "scope": "held_out_only",
+  "authorized_stage": "held_out",
+  "authorized_calls": 320,
+  "max_provider_attempts": 320,
+  "model_id": "qwen3.7-plus",
+  "temperature": 0,
+  "retries": 0,
+  "max_tokens_present": false,
+  "enable_thinking": false,
+  "response_format": {"type": "json_object"},
+  "stage_cost_ceiling_cny": 3.5,
+  "cumulative_cost_ceiling_cny": 7.5,
+  "held_out_authorized": true,
+  "later_stages_authorized": false,
+  "formal_scaling_authorized": false,
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "paid_api_allowed": false,
+    "qwen_authorization_open": false,
+    "formal_scaling_allowed": false,
+    "authorization_opened": false
+  },
+  "forbidden_stages": ["calibration", "development_acquisition", "formal_history", "probe", "later_phase2_stages", "formal_scaling", "qwen3.8-max"],
+  "user_authorization_statement": "User explicitly authorized only the exact v21 held-out schedule with qwen3.7-plus, 320 calls, temperature 0, retries 0, no max_tokens, JSON object responses, CNY 3.50 stage and CNY 7.50 cumulative ceilings. Calibration, development acquisition, formal history, probe, later stages, and formal scaling remain forbidden.",
+  "request_binding": {
+    "authorization_request_sha256": "fc90a41a1936f7b63d1bd3ee1b7709577b3da3f3a2a356bde64fe9d49b2b8930",
+    "preflight_aggregate_fingerprint": "ad438265794ba44e5c401f757e01f547f0bce2dbfb52607e4b8399915834e630"
+  }
+}

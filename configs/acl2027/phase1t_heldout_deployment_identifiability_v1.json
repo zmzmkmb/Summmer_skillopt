@@ -1,0 +1,293 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase1t_heldout_deployment_identifiability_v1",
+  "phase": "1T",
+  "title": "Zero-network capability-gated held-out deployment identifiability redesign",
+  "status": "planned",
+  "objective": "Freeze a successor design that admits only non-floor reusable experience and makes probe representativeness, deployment decisions, token accounting, and retained-candidate recovery identifiable before provider execution.",
+  "execution": {
+    "protocol_only": true,
+    "paid_api_allowed": false,
+    "network_calls_allowed": false,
+    "provider_calls": 0,
+    "formal_scaling_allowed": false,
+    "qwen3_8_max_allowed": false,
+    "legacy_officeqa_spreadsheetbench_batch_allowed": false,
+    "dataset_download_allowed": false
+  },
+  "source_contracts": {
+    "searchqa_split_manifest": "data/searchqa_id_split/split_manifest.json",
+    "searchqa_train_ids": "data/searchqa_id_split/train/items.json",
+    "searchqa_val_ids": "data/searchqa_id_split/val/items.json",
+    "searchqa_test_ids": "data/searchqa_id_split/test/items.json",
+    "searchqa_spent_calls": "acl2027_searchqa_phase1b_token_plan_live_pilot_v5_smoke/calls.jsonl",
+    "searchqa_live_report": "paper/acl2027/results/phase1b_searchqa_token_plan_live_pilot_v5.md",
+    "phase1s_analysis_manifest": "artifacts/acl2027_phase1s_development_method_effect_live_v2/analysis_manifest.json",
+    "phase1s_design_audit": "artifacts/acl2027_phase1s_development_method_effect_live_v2/design_audit.json"
+  },
+  "substrate_eligibility_gate": {
+    "calibration_tasks": 12,
+    "condition": "no_skill",
+    "contract_valid_rate_min": 0.9,
+    "baseline_accuracy_min": 0.25,
+    "baseline_accuracy_max": 0.75,
+    "accuracy_bounds_inclusive": true,
+    "minimum_success_task_types": 3,
+    "minimum_successes": 3,
+    "maximum_success_share_per_task_id": 0.5,
+    "automatic_verifier_required": true,
+    "reusable_skill_families_required": true,
+    "all_criteria_required": true,
+    "historical_results_do_not_auto_qualify": true,
+    "failure_action": "reject_substrate_without_method-effect_execution"
+  },
+  "substrates": {
+    "SearchQA": {
+      "role": "proven_non_floor_anchor_requiring_fresh_gate",
+      "historical_no_skill_em": 0.758929,
+      "historical_contract_valid": "336/336",
+      "historical_interpretation": "The anchor proves a non-floor executor route, but its historical EM is slightly above the new 0.75 ceiling and cannot substitute for the frozen 12-task calibration.",
+      "automatic_verifier": "normalized_exact_match_f1_and_substring_match",
+      "candidate_skill_families": [
+        "entity_resolution",
+        "multi_evidence_composition",
+        "temporal_numeric_disambiguation",
+        "answer_normalization"
+      ],
+      "calibration_selector": {
+        "source_split": "val",
+        "seed": "acl2027-phase1t-searchqa-calibration-v1",
+        "method": "sort_unspent_ids_by_sha256_seed_colon_id_take_first_n",
+        "count": 12,
+        "full_payload_required_before_execution": true
+      },
+      "stream_design": {
+        "history": {
+          "source_split": "train",
+          "count": 120,
+          "seed": "acl2027-phase1t-searchqa-history-v1"
+        },
+        "development_probe": {
+          "source_split": "val",
+          "count": 24,
+          "seed": "acl2027-phase1t-searchqa-probe-v1",
+          "exclude_calibration_ids": true
+        },
+        "held_out_downstream": {
+          "source_split": "test",
+          "count": 120,
+          "seed": "acl2027-phase1t-searchqa-downstream-v1",
+          "exclude_phase1b_spent_ids": true
+        }
+      }
+    },
+    "2WikiMultiHopQA": {
+      "role": "preferred_new_candidate",
+      "local_payload_status": "not_materialized",
+      "download_forbidden_by_this_phase": true,
+      "materialization_contract": {
+        "future_root": "data/2wikimultihopqa_verified",
+        "required_fields": [
+          "id",
+          "question",
+          "answer",
+          "supporting_evidence",
+          "source_split"
+        ],
+        "content_hash_manifest_required": true,
+        "duplicate_id_rejection_required": true,
+        "gold_bearing_pool_required": true
+      },
+      "automatic_verifier": "normalized_exact_match_plus_supporting_evidence_consistency",
+      "candidate_skill_families": [
+        "entity_bridge",
+        "attribute_comparison",
+        "temporal_ordinal_reasoning",
+        "supporting_evidence_selection"
+      ],
+      "task_type_assignment": {
+        "method": "predeclared_metadata_or_deterministic_question_operator_classifier",
+        "minimum_distinct_types_in_calibration": 3,
+        "classifier_must_be_frozen_before_answers": true
+      },
+      "partition_selector": {
+        "pool": "one_materialized_gold_bearing_pool",
+        "method": "sort_ids_by_sha256_partition_seed_colon_id",
+        "calibration_count": 12,
+        "history_count": 120,
+        "development_probe_count": 24,
+        "held_out_downstream_count": 120,
+        "pairwise_disjoint": true,
+        "seeds": {
+          "calibration": "acl2027-phase1t-2wiki-calibration-v1",
+          "history": "acl2027-phase1t-2wiki-history-v1",
+          "development_probe": "acl2027-phase1t-2wiki-probe-v1",
+          "held_out_downstream": "acl2027-phase1t-2wiki-downstream-v1"
+        }
+      }
+    }
+  },
+  "backup_order": [
+    "BFCL_simple_multiple_non_live",
+    "CLUTRR_controlled_support",
+    "ALFWorld_later_procedural_stress"
+  ],
+  "demoted_primary_substrates": {
+    "OfficeQA": "Phase 1S produced 6/96 exact successes, all concentrated on UID0086.",
+    "SpreadsheetBench": "Phase 1S produced 0/96 exact successes.",
+    "LiveMathematicianBench": "User-reported zero-correct trial; no further spend without an independent frozen calibration."
+  },
+  "historical_experience_contract": {
+    "pipeline": [
+      "successful_verified_trajectory",
+      "skill_candidate",
+      "typed_prior",
+      "development_probe",
+      "held_out_deployment",
+      "later_candidate_recovery"
+    ],
+    "trajectory_requires": [
+      "contract_valid_output",
+      "automatic_verifier_success",
+      "immutable_task_id",
+      "prompt_and_response_provenance",
+      "exact_token_usage"
+    ],
+    "skill_candidate_requires": {
+      "minimum_supporting_successes": 2,
+      "minimum_distinct_task_ids": 2,
+      "typed_scope_required": true,
+      "source_trajectory_ids_required": true,
+      "held_out_outputs_forbidden": true
+    },
+    "stream_disjointness_required": true,
+    "spent_phase1s_outputs_forbidden_for_threshold_tuning": true
+  },
+  "numerical_triage": {
+    "paired_metric": "candidate_exact_minus_fresh_fallback_exact",
+    "minimum_paired_probe_tasks": 8,
+    "probe_contract_valid_rate_min": 0.9,
+    "accept": {
+      "mean_margin_min": 0.125,
+      "helpful_pair_count_min": 3,
+      "harmful_pair_count_max": 0
+    },
+    "reject": {
+      "mean_margin_max": -0.125,
+      "harmful_pair_count_min": 2
+    },
+    "abstain": "Every valid probe outcome that satisfies neither accept nor reject.",
+    "no_threshold_tuning_after_held_out_scoring": true
+  },
+  "policy_state_transitions": {
+    "candidate_retaining_triage": {
+      "initial_state": "candidate_available",
+      "accept": "candidate_active",
+      "reject": "candidate_retained_inactive",
+      "abstain": "candidate_retained_pending",
+      "negative_decision_mutates_candidate": false,
+      "recovery_gate": {
+        "eligible_from": [
+          "candidate_retained_inactive",
+          "candidate_retained_pending"
+        ],
+        "consecutive_windows": 2,
+        "window_mean_margin_min": 0.125,
+        "helpful_pair_count_min_per_window": 3,
+        "harmful_pair_count_max_per_window": 0,
+        "success_state": "candidate_recovered_active"
+      }
+    },
+    "destructive_gate": {
+      "initial_state": "candidate_available",
+      "accept": "candidate_active",
+      "reject": "candidate_discarded",
+      "abstain": "candidate_discarded",
+      "discard_is_irreversible": true,
+      "recovery_allowed": false
+    }
+  },
+  "metrics": {
+    "false_safe": "Gate accepts and held-out candidate-minus-fallback mean margin is <= -0.125.",
+    "false_harm": "Gate rejects/discards and held-out candidate-minus-fallback mean margin is >= 0.125.",
+    "helpful_deployment": "Gate accepts and held-out candidate-minus-fallback mean margin is >= 0.125.",
+    "harmful_deployment": "Gate accepts and held-out candidate-minus-fallback mean margin is <= -0.125.",
+    "abstention_rate": "Abstain decisions divided by eligible decisions.",
+    "retained_candidate_recovery": "A previously rejected or abstained retained candidate reaches candidate_recovered_active under two later qualifying windows.",
+    "probe_to_stream_sign_agreement": "Agreement between the sign of the probe mean margin and held-out mean margin.",
+    "exact_token_accounting": "Charge candidate and fallback attempts, including invalid outputs, for calibration, probes, held-out deployment, and recovery windows.",
+    "reward_per_1k_cumulative_tokens": "Sum of exact verified task rewards divided by all candidate plus fallback tokens, multiplied by 1000."
+  },
+  "identifiability_scenarios": [
+    {
+      "id": "helpful_accept",
+      "candidate_exact": [1, 1, 1, 1, 1, 1, 1, 1],
+      "fallback_exact": [0, 0, 0, 0, 1, 1, 1, 1],
+      "contract_valid": [1, 1, 1, 1, 1, 1, 1, 1],
+      "expected_decision": "accept"
+    },
+    {
+      "id": "harmful_reject",
+      "candidate_exact": [0, 0, 0, 0, 1, 1, 1, 1],
+      "fallback_exact": [1, 1, 1, 1, 1, 1, 1, 1],
+      "contract_valid": [1, 1, 1, 1, 1, 1, 1, 1],
+      "expected_decision": "reject"
+    },
+    {
+      "id": "uncertain_abstain",
+      "candidate_exact": [1, 0, 1, 0, 1, 0, 1, 0],
+      "fallback_exact": [0, 0, 1, 0, 1, 0, 1, 1],
+      "contract_valid": [1, 1, 1, 1, 1, 1, 1, 1],
+      "expected_decision": "abstain"
+    },
+    {
+      "id": "invalid_abstain",
+      "candidate_exact": [1, 1, 1, 1, 1, 1, 1, 1],
+      "fallback_exact": [0, 0, 0, 0, 0, 0, 0, 0],
+      "contract_valid": [1, 1, 1, 1, 1, 1, 1, 0],
+      "expected_decision": "abstain"
+    }
+  ],
+  "recovery_scenario": {
+    "initial_decision": "reject",
+    "later_windows": [
+      {
+        "candidate_exact": [1, 1, 1, 1, 1, 1, 1, 1],
+        "fallback_exact": [0, 0, 0, 0, 1, 1, 1, 1]
+      },
+      {
+        "candidate_exact": [1, 1, 1, 1, 1, 1, 1, 1],
+        "fallback_exact": [0, 0, 0, 0, 1, 1, 1, 1]
+      }
+    ],
+    "retaining_expected_state": "candidate_recovered_active",
+    "destructive_expected_state": "candidate_discarded"
+  },
+  "token_accounting_fixture": [
+    {
+      "task_id": "fixture-1",
+      "candidate_tokens": 310,
+      "fallback_tokens": 190
+    },
+    {
+      "task_id": "fixture-2",
+      "candidate_tokens": 280,
+      "fallback_tokens": 220
+    }
+  ],
+  "decision_gate": {
+    "design_pass": "All local source hashes and SearchQA capacities validate; 2Wiki remains explicitly unmaterialized; eligibility, stream, threshold, metric, state-transition, recovery, and exact-accounting contracts pass zero-network tests.",
+    "future_calibration_pass": "A substrate must pass every eligibility criterion on its separately frozen 12-task no-skill calibration before history extraction or method-effect execution.",
+    "future_method_support": "On disjoint held-out streams, candidate-retaining triage must reduce false-safe or false-harm outcomes versus destructive gating while preserving helpful deployments or recovering useful retained candidates at competitive reward per cumulative token.",
+    "preflight_does_not_establish_method_claim": true
+  },
+  "write_scope": [
+    "configs/acl2027/phase1t_heldout_deployment_identifiability_v1.json",
+    "scripts/validate_acl2027_phase1t_design.py",
+    "tests/test_acl2027_phase1t_design.py",
+    "artifacts/acl2027_phase1t_heldout_deployment_identifiability_v1",
+    "paper/acl2027/results/phase1t_heldout_deployment_identifiability_v1.md",
+    "paper/acl2027/CONTRIBUTION_EVIDENCE_LEDGER.md",
+    "paper/acl2027/experiment_state.json"
+  ]
+}

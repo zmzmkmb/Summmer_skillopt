@@ -1,0 +1,34 @@
+{
+  "schema_version": 20,
+  "experiment": "acl2027_phase2_probe_recovery_user_authorization_receipt_v20",
+  "authorization_id": "phase2-probe-recovery-only-v20",
+  "status": "explicit_user_authorization_received_execution_not_open",
+  "scope": "probe_recovery_only",
+  "authorized_stage": "probe",
+  "authorized_calls": 112,
+  "max_provider_attempts": 112,
+  "model_id": "qwen3.7-plus",
+  "temperature": 0,
+  "retries": 0,
+  "max_tokens_present": false,
+  "enable_thinking": false,
+  "response_format": {
+    "type": "json_object"
+  },
+  "stage_cost_ceiling_cny": 7.5,
+  "cumulative_cost_ceiling_cny": 7.5,
+  "held_out_authorized": false,
+  "later_stages_authorized": false,
+  "formal_scaling_authorized": false,
+  "request_binding": {
+    "v19_aggregate_fingerprint": "12582b59aa355f1f0e5c8e1340613edce816a24e7c6d80504087a2114a8a7e4c",
+    "authorization_request_sha256": "4f0cc58d989c01d703f1cf2ef4bddbedcce5520825c72235529999470a749bbf"
+  },
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "paid_api_allowed": false,
+    "qwen_authorization_open": false,
+    "formal_scaling_allowed": false
+  }
+}

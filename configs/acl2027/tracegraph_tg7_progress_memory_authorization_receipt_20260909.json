@@ -1,0 +1,51 @@
+{
+    "schema_version":  1,
+    "experiment":  "tracegraph_tg7_progress_memory_authorization_20260909",
+    "status":  "authorized",
+    "authorization_opened":  true,
+    "authorized_at":  "2026-09-09",
+    "user_authorization_statement_verbatim":  "User explicitly authorizes TG7 using the bound Ubuntu WSL config, preflight aggregate 48470f6d571cf4a40547304ea475a536ab9855b40efaf644839b40e7fcdfc0d2, readiness SHA-256 b5ed392361360e0c3152e43a73f42da87be74b545a2521b1491fbb9c6089f3fc, exactly 72 rows, at most 50 steps per episode, zero retries, stop on first hard invariant violation, and runtime inputs limited to observation, historical_actions, and admissible_actions.",
+    "bindings":  {
+                     "candidate_config":  "configs/acl2027/tracegraph_tg7_progress_memory_runner_v2_ubuntu_wsl.json",
+                     "candidate_config_sha256":  "ff78a67030b00a85b594da064f9c0fa6cedc1e2685438bd0ab674496b0aea737",
+                     "preflight_aggregate_fingerprint":  "48470f6d571cf4a40547304ea475a536ab9855b40efaf644839b40e7fcdfc0d2",
+                     "preflight_completion_manifest":  "artifacts/acl2027_tracegraph_tg7_progress_memory_preflight_v1/completion_manifest.json",
+                     "preflight_completion_manifest_sha256":  "7164f2fb6a8401546496fd6197db86dfb791d937302c199792d34d7e1d279909",
+                     "readiness_artifact":  "artifacts/acl2027_tracegraph_tg7_progress_memory_runner_v1/readiness_wsl_20260908.json",
+                     "readiness_artifact_sha256":  "b5ed392361360e0c3152e43a73f42da87be74b545a2521b1491fbb9c6089f3fc",
+                     "authorized_runner":  "scripts/acl2027_tracegraph_tg7_progress_memory_runner_v4_authorized_ubuntu_wsl.py",
+                     "authorized_runner_sha256":  "39f4d1d9d789ef5183b7dc80ae2bf6d5216d7a2499976a1a90a2d4fdd856d5e5"
+                 },
+    "scope":  {
+                  "development_task_count":  24,
+                  "planned_episode_rows":  72,
+                  "conditions":  [
+                                     "baseline_first_eligible",
+                                     "task_anchor_aware",
+                                     "progress_memory"
+                                 ],
+                  "paired_seed_rule":  "Use seed 4200 + task ordinal for all three conditions of each task.",
+                  "max_steps_per_episode":  50,
+                  "max_retries":  0,
+                  "stop_rule":  "stop on first hard invariant violation",
+                  "runtime_allowed_inputs":  [
+                                                 "observation",
+                                                 "historical_actions",
+                                                 "admissible_actions"
+                                             ]
+              },
+    "forbidden_scope":  [
+                            "network_calls",
+                            "provider_calls",
+                            "model_calls",
+                            "api_calls",
+                            "paid_api_calls",
+                            "official_source_fallback",
+                            "Phase 0-6 reuse",
+                            "Phase 6",
+                            "WebShop",
+                            "other models",
+                            "other datasets",
+                            "tuning on parent held-out data"
+                        ]
+}

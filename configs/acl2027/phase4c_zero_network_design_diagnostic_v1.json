@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase4c_zero_network_design_diagnostic_v1",
+  "status": "zero_network_design_diagnostic_closed",
+  "source_phase4a_fingerprint": "2a7a6814b261ad336902fa8c4c6048a6114f62ffa242aae267a3700d0e97a2db",
+  "source_phase4b_r6_analysis_fingerprint": "80cc655e1dc70795b783ae671f55e9df064c552467db3a42295e795f46016048",
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "model_calls_allowed": false,
+    "paid_api_allowed": false,
+    "phase4c_live_allowed": false,
+    "replication_allowed": false,
+    "cross_domain_scaling_allowed": false,
+    "formal_scaling_allowed": false
+  }
+}

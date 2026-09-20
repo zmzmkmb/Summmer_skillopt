@@ -1,0 +1,11 @@
+{
+  "schema_version": 3,
+  "artifact_type": "acl2027_phase2_candidate_materialization_v3",
+  "verifier_version": "phase2-candidate-verifier-v3",
+  "minimum_per_family": 8,
+  "required_families": ["fact_retrieval", "attribute_comparison", "bridge_attribute_comparison", "entity_bridge", "relation_inference"],
+  "forbidden_gold_partitions": ["probe", "held_out"],
+  "failure_status": "coverage-incomplete",
+  "failure_is_method_failure": false,
+  "caller_verdicts_accepted": false
+}

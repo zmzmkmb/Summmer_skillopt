@@ -1,0 +1,41 @@
+{
+  "schema_version": 5,
+  "experiment": "acl2027_phase2_calibration_live_v5",
+  "authorization_id": "phase2-calibration-v5-20260813",
+  "status": "open",
+  "bindings": {
+    "preflight_config_sha256": "4775d9e55fb97316460e38e9c0a8fd07181b799a8aa9670a7a022194df3b7954",
+    "manifest_aggregate_fingerprint": "17752bb2d26f38e253c91a5f789654dad209eb6c16a1dd68203a942fa354e8d9",
+    "schedule_sha256": "01c4e03660648cf8d5b150f78bf783f273b99899fa6fa4ac8be495090e44dd60",
+    "freeze_config_sha256": "43e89e39a2bf536a3ab183d7e0a43dbe4221beeb54f912e76823190b4880439c",
+    "request_plan_sha256": "1c4caf62111a71cd6bf0af98fd8c14174117e7203c577151608d7a868db6732b",
+    "partition_audit_sha256": "403a0b806116ec0bb847afe5e4b5c1d160ff2c7b900feaec2456cd0c52c02133"
+  },
+  "user_authorization": {
+    "received_date": "2026-08-13",
+    "scope": "calibration_only",
+    "not_inherited_by_later_stages": true
+  },
+  "paid_api_allowed": true,
+  "provider_calls_allowed": true,
+  "qwen_authorization_open": true,
+  "formal_scaling_allowed": false,
+  "authorized_stage": "calibration",
+  "authorized_calls": 60,
+  "stage_call_ceiling": 60,
+  "max_provider_attempts": 60,
+  "stage_cost_ceiling_cny": 0.5,
+  "cumulative_cost_ceiling_cny": 0.5,
+  "model_id": "qwen3.7-plus",
+  "temperature": 0,
+  "retries": 0,
+  "max_tokens_present": false,
+  "endpoint_route": "dashscope-compatible-mode-chat-completions",
+  "forbidden_stages": [
+    "development_acquisition",
+    "formal_history",
+    "probe",
+    "held_out",
+    "formal_scaling"
+  ]
+}

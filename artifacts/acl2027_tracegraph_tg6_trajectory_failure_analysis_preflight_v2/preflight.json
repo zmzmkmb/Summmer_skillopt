@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "status": "complete",
+  "phase_status": "completed_zero_network_design_preflight",
+  "phase_id": "TG6-tracegraph-trajectory-failure-analysis-preflight-v2",
+  "experiment_line": "tracegraph-observable-state-skill-composition",
+  "plan": "paper/acl2027/TRACEGRAPH_TG6_TRAJECTORY_FAILURE_ANALYSIS_PLAN_V2.md",
+  "plan_sha256": "72cdab4e785f8f47bacea65d8de361e0fbc5afb44bc36c542eac6ab256420802",
+  "config": "configs/acl2027/tracegraph_tg6_trajectory_failure_analysis_preflight_v2.json",
+  "config_sha256": "224eb90c3b5672c2326da4ebba342a61837ffe5d3d27ad1fbc92234c5f7da535",
+  "parent_completed_phase": "TG6-tracegraph-repaired-local-execution-v4",
+  "parent_result": "artifacts/acl2027_tracegraph_tg6_repaired_local_execution_runner_v4/result.json",
+  "parent_result_sha256": "b9cbd8f87a08f2c2f2b88e1028992a8f117d69b40878ba96db2daf6c65037527",
+  "heldout_schedule": "artifacts/acl2027_tracegraph_tg4_heldout_mechanism_preflight_v1/heldout_schedule.json",
+  "heldout_schedule_sha256": "9e3acdad7a106fb20374d9885fc8da9f29ffba329c17c11134f193962887bb87",
+  "skillbank": "artifacts/acl2027_tracegraph_tg1_skillbank_construction_v2/skillbank.jsonl",
+  "skillbank_sha256": "15059dd2cc5b99fc69d0bae79109ec20c8d000ec9d550ce237d06ee9ffd6a331",
+  "development_schedule": "artifacts/acl2027_tracegraph_tg6_trajectory_failure_analysis_preflight_v2/development_schedule.json",
+  "development_schedule_sha256": "8f6b5cf362a9bcfdbc2f2818f676d6016503cbdda635b6b641a18dfeab7919ae",
+  "task_family": "mixed_trajectory_diagnostic",
+  "development_task_count": 24,
+  "development_split_counts": {
+    "valid_seen": 12,
+    "valid_unseen": 12
+  },
+  "family_counts": {
+    "look_at_obj_in_light": 9,
+    "pick_and_place_simple": 7,
+    "pick_two_obj_and_place": 8
+  },
+  "stratum_counts": {
+    "direct_cycle_replication": 9,
+    "multi_step_transfer": 15
+  },
+  "strata": [
+    {
+      "id": "direct_cycle_replication",
+      "role": "primary_diagnostic",
+      "task_families": [
+        "look_at_obj_in_light"
+      ],
+      "split_counts": {
+        "valid_seen": 2,
+        "valid_unseen": 7
+      },
+      "selection_rule": "Select the first fresh paired task identities in lexicographic order after excluding every TG4 and TG6-v4 identity."
+    },
+    {
+      "id": "multi_step_transfer",
+      "role": "secondary_transfer",
+      "task_families": [
+        "pick_and_place_simple",
+        "pick_two_obj_and_place"
+      ],
+      "split_counts": {
+        "valid_seen": 10,
+        "valid_unseen": 5
+      },
+      "family_split_quotas": {
+        "pick_and_place_simple": {
+          "valid_seen": 5,
+          "valid_unseen": 2
+        },
+        "pick_two_obj_and_place": {
+          "valid_seen": 5,
+          "valid_unseen": 3
+        }
+      },
+      "selection_rule": "Within each family and split, select the first fresh paired task identities in lexicographic order after excluding every TG4 and TG6-v4 identity."
+    }
+  ],
+  "conditions": [
+    {
+      "id": "baseline_first_eligible",
+      "role": "frozen_baseline",
+      "description": "Use the current first-eligible admissible action rule exactly as exercised by TG6 v4."
+    },
+    {
+      "id": "history_aware_anti_cycle",
+      "role": "trajectory_ablation",
+      "description": "Use historical_actions and observable-state fingerprints to penalize repeated recent action-state cycles while preserving admissibility."
+    },
+    {
+      "id": "observable_progress_aware",
+      "role": "trajectory_ablation",
+      "description": "After cycle detection, use only observation, historical_actions, and admissible_actions to prefer observable novelty and skill/edge changes while preserving admissibility."
+    }
+  ],
+  "planned_episode_rows": 72,
+  "completed_calls": 72,
+  "rows": 72,
+  "max_steps_per_episode": 50,
+  "max_retries": 0,
+  "stop_rule": "stop on first hard invariant violation",
+  "paired_seed_rule": "Use one fixed seed per development task and reuse that seed across all three conditions.",
+  "runtime_allowed_inputs": [
+    "observation",
+    "historical_actions",
+    "admissible_actions"
+  ],
+  "primary_metrics": [
+    "episode_success",
+    "completion_within_50_steps",
+    "two_cycle_rate",
+    "repeated_state_rate",
+    "unique_action_count",
+    "unique_observable_state_count",
+    "skill_switch_count",
+    "abstention_rate",
+    "trace_validity"
+  ],
+  "analysis_strata": {
+    "primary": "direct_cycle_replication",
+    "secondary": "multi_step_transfer",
+    "reporting_rule": "Report every metric overall and separately by stratum, task family, split, and condition; do not pool family effects into a single causal claim without the stratum breakdown."
+  },
+  "decision_gate": {
+    "mechanism_positive": "On the primary direct-cycle stratum, at least one trajectory ablation reduces two_cycle_rate by at least 50% relative to baseline; across all 24 paired tasks it does not exceed 25% abstention, preserves 100% trace validity, and gains at least 2 paired successes over baseline.",
+    "observability_limited": "On the primary direct-cycle stratum, at least one trajectory ablation reduces two_cycle_rate by at least 50%, but neither ablation reaches more than 1/24 total successes and the post-hoc indistinguishable-goal audit finds an allowed-input equivalence class with conflicting goals.",
+    "negative": "Neither trajectory ablation reduces primary-stratum two_cycle_rate by at least 50%, or any condition violates admissibility, trace completeness, or runtime input isolation.",
+    "inconclusive": "The results satisfy none of the predeclared positive, observability-limited, or negative rules."
+  },
+  "identifiability_audit": {
+    "status": "planned_posthoc_diagnostic_only",
+    "runtime_use": false,
+    "purpose": "Check whether identical allowed-input histories can correspond to conflicting task goals without feeding goal metadata into any runtime condition.",
+    "must_not_enter_runtime": [
+      "task_description",
+      "evaluation_label",
+      "hidden_goal",
+      "planner_state"
+    ]
+  },
+  "no_overlap_audit": {
+    "heldout_task_identity_overlap": 0,
+    "parent_result_identity_overlap": 0,
+    "skillbank_source_split": "train_only",
+    "phase0_to_phase6_reuse": false
+  },
+  "execution_authorized": false,
+  "fresh_exact_user_authorization_required": true,
+  "network_calls": 0,
+  "provider_calls": 0,
+  "model_calls": 0,
+  "api_calls": 0,
+  "paid_api_calls": 0,
+  "aggregate_fingerprint": "b82976f1c5be80bd00d67f4e0397f8a72f4eb56282536864ca649a8f9fe74d07"
+}

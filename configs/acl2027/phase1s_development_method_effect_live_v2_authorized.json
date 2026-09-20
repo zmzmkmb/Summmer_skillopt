@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase1s_development_method_effect_live_v2_authorized",
+  "phase": "1S",
+  "title": "Authorized resilient development method-effect execution",
+  "status": "in_progress",
+  "objective": "Execute the immutable 192-call Phase 1S development plan through Token Plan with per-call invalid-output accounting.",
+  "execution": {
+    "paid_api_allowed": true,
+    "network_calls_allowed": true,
+    "provider_calls_authorized": 192,
+    "formal_scaling_allowed": false,
+    "model_id": "qwen3.7-plus",
+    "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+    "endpoint_class": "token_plan_user_confirmed",
+    "api_key_env": "DASHSCOPE_API_KEY",
+    "api_key_prefix": "sk-",
+    "temperature": 0,
+    "enable_thinking": false,
+    "request_body_forbidden_keys": ["max_tokens"],
+    "max_provider_attempts_per_logical_call": 1,
+    "sdk_max_retries": 0,
+    "explicit_retries": 0,
+    "request_interval_seconds": 1.0,
+    "logical_calls": 192,
+    "physical_requests": 192
+  },
+  "immutable_request_plan": {
+    "path": "artifacts/acl2027_phase1r_development_runner_preflight_v1/request_plan.json",
+    "file_sha256": "11eeee3cd21e27c52cfeb17501ad66dfe240747ea328b44e34d367b89f2cbd7e",
+    "stable_sha256": "9eeb21f0a40460deb4db4d480dce3f8bc5f329a2ea3ba98b6d730f3f1391cd41",
+    "logical_calls": 192,
+    "candidate_calls": 96,
+    "fallback_calls": 96,
+    "unique_request_bodies": 52,
+    "response_reuse_across_condition_cells": false
+  },
+  "v2_preflight_binding": {
+    "config": {
+      "path": "configs/acl2027/phase1s_development_method_effect_live_v2.json",
+      "sha256": "f999df3d9eac04ed0109e5611f005bd77c29e4ef1ee34ab3c95c240a7597ec7c"
+    },
+    "audit": {
+      "path": "artifacts/acl2027_phase1s_development_method_effect_live_v2_preflight/preflight_audit.json",
+      "sha256": "d36392442aae339948f134b0aed83a812381b747ea66faeb508c02eb035ae169"
+    },
+    "manifest": {
+      "path": "artifacts/acl2027_phase1s_development_method_effect_live_v2_preflight/run_manifest.json",
+      "sha256": "3608db2ee3a30561bb699c412372526358379643a9fefbba4772151fe7bc1a7f"
+    },
+    "checks_passed": 12,
+    "checks_total": 12
+  },
+  "terminal_v1_binding": {
+    "manifest_path": "artifacts/acl2027_phase1s_development_method_effect_live_v1/run_manifest.json",
+    "manifest_sha256": "289f5567c07bfe225a0cef59feeadc32244d9c7540103eef34669535d8e8553d",
+    "results_path": "artifacts/acl2027_phase1s_development_method_effect_live_v1/results.jsonl",
+    "results_sha256": "3509d61a10d8ec86614f726f786e04faeeb7d5f8216c28c1a39bf25c344dd106",
+    "resumable": false,
+    "spent_call_reused": false
+  },
+  "response_policy": {
+    "raw_provider_text_preserved": true,
+    "known_usage_malformed_json": "record_invalid_and_continue",
+    "known_usage_schema_failure": "record_invalid_and_continue",
+    "invalid_outputs_count_scientifically": true,
+    "unknown_usage": "terminal_hard_stop",
+    "provider_exception": "terminal_hard_stop",
+    "request_plan_drift": "terminal_hard_stop",
+    "authorization_drift": "terminal_hard_stop"
+  },
+  "cost_control": {
+    "currency": "CNY",
+    "accounting_ceiling": 2000.0,
+    "accounting_ceiling_is_request_parameter": false,
+    "max_tokens_is_cost_control": false,
+    "list_price_cny_per_million_input_tokens": 2.0,
+    "list_price_cny_per_million_output_tokens": 8.0,
+    "hard_stop_rule": "Before every provider attempt, stop if accumulated exact list-price accounting has reached CNY 2000. Never translate the ceiling into max_tokens."
+  },
+  "authorization_gate": {
+    "status": "authorized",
+    "authorized_at": "2026-08-11",
+    "authorization_text": "授权按 Phase 1S v2 执行最多 192 次 qwen3.7-plus Token Plan 调用，零重试，不设置 max_tokens，上限 2000元。",
+    "authorized_calls": 192,
+    "authorized_model": "qwen3.7-plus",
+    "authorized_route": "Token Plan compatible endpoint",
+    "authorized_accounting_ceiling_cny": 2000.0,
+    "qwen3.8_max_allowed": false,
+    "legacy_24_40_batch_allowed": false,
+    "staged_384_calls_allowed": false,
+    "full_960_calls_allowed": false
+  },
+  "decision_gate": {
+    "post_execution": "Analyze executor-validated typed-prior, probe-representativeness, and candidate-retaining triage effects with invalid outputs retained as condition outcomes.",
+    "paper_change_trigger": "Report immediately if prior identity has no measurable effect, representative probes fail to improve deployment decisions, or candidate retention has no advantage over destructive gating."
+  },
+  "write_scope": [
+    "configs/acl2027/phase1s_development_method_effect_live_v2_authorized.json",
+    "scripts/run_acl2027_phase1s_development_v2_live.py",
+    "scripts/analyze_acl2027_phase1s_development.py",
+    "tests/test_acl2027_phase1s_development_v2_live.py",
+    "artifacts/acl2027_phase1s_development_method_effect_live_v2",
+    "paper/acl2027/results/phase1s_development_method_effect_live_v2.md",
+    "paper/acl2027/CONTRIBUTION_EVIDENCE_LEDGER.md",
+    "paper/acl2027/experiment_state.json"
+  ]
+}

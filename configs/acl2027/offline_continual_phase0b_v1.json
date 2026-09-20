@@ -1,0 +1,29 @@
+﻿{
+  "schema_version": 2,
+  "experiment": "acl2027_phase0b_contextual_nonregression",
+  "scope": "synthetic offline instrumentation only; no downstream LLM accuracy claim",
+  "seeds": [41, 42, 43],
+  "n_rules": 32,
+  "domains": ["searchqa", "law", "health"],
+  "block_order": ["searchqa", "law", "health", "searchqa"],
+  "tasks_per_block": 30,
+  "probe_tasks_per_domain": 8,
+  "top_k": 3,
+  "budget": 170,
+  "token_target": 0.72,
+  "target_window": 20,
+  "target_sustain": 5,
+  "prior_strength": 2.0,
+  "utility_conditions": ["all-cold", "adversarial"],
+  "methods": [
+    {"name": "relevance_topk", "policy": "relevance", "credit": "none"},
+    {"name": "global_greedy_shared", "policy": "greedy-utility", "credit": "shared"},
+    {"name": "contextual_greedy_shared", "policy": "greedy-utility", "credit": "shared", "estimator": "contextual", "context_weight": 0.75},
+    {"name": "contextual_ucb_shared", "policy": "ucb", "credit": "shared", "estimator": "contextual", "context_weight": 0.75},
+    {"name": "contextual_thompson_shared", "policy": "thompson", "credit": "shared", "estimator": "contextual", "context_weight": 0.75},
+    {"name": "contextual_greedy_loo", "policy": "greedy-utility", "credit": "leave-one-out", "estimator": "contextual", "context_weight": 0.75},
+    {"name": "contextual_greedy_nonreg", "policy": "greedy-utility", "credit": "shared", "estimator": "contextual", "gate": "non-regression", "context_weight": 0.75, "gate_tolerance": 0.01},
+    {"name": "contextual_greedy_balanced", "policy": "greedy-utility", "credit": "shared", "estimator": "contextual", "gate": "balanced", "context_weight": 0.75, "gate_tolerance": 0.01, "gate_min_plasticity": 0.0},
+    {"name": "oracle_upper_bound", "policy": "oracle", "credit": "oracle-per-rule"}
+  ]
+}

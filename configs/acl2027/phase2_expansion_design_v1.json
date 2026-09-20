@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase2_expansion_design_v1",
+  "phase": "2",
+  "title": "Independent history, probe, and held-out expansion for causal typed-prior evidence",
+  "status": "design_only",
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "paid_api_allowed": false,
+    "formal_scaling_allowed": false,
+    "qwen_authorization_open": false,
+    "dataset_download_allowed": false
+  },
+  "phase1_boundary": {
+    "phase1_status": "closed_inconclusive",
+    "phase1z_provider_calls": 0,
+    "phase1z_fingerprint": "5c2a3c0a1140609c3e51e6a093301dcab5949d14d561e162d9cc1a8f9c2f7340",
+    "immutable_artifacts": "read_only",
+    "phase1_repair_stages_forbidden": ["Phase 1AA", "Phase 1AB", "any Phase 1 repair stage"]
+  },
+  "required_skill_families": ["fact_retrieval", "attribute_comparison", "bridge_attribute_comparison", "entity_bridge", "relation_inference"],
+  "candidate_contract": {
+    "supporting_successes_per_family_min": 2,
+    "distinct_verified_trajectories_required": true,
+    "accepted_support_target_is_design_arm_specific": true,
+    "required_provenance": ["raw_model_response", "task_id", "task_family", "task_type", "skill_family", "typed_scope", "verifier_replay", "payload_hash", "request_hash", "provenance"],
+    "gold_is_not_trajectory": true,
+    "held_out_outputs_forbidden": true
+  },
+  "arms": {
+    "A_conservative": {
+      "success_supports_per_family": 4,
+      "development_acquisition_attempts_per_family": 2,
+      "formal_history_attempt_cap_per_family": 16,
+      "history_max_physical_attempts": 90,
+      "probe_tasks_per_family": 4,
+      "held_out_tasks_per_family": 8,
+      "calibration_tasks_per_family": 12,
+      "logical_requests": 390,
+      "cost_estimate_cny": {"calibration": 0.38688, "history": 0.76464, "probe": 0.72768, "held_out": 1.45536, "total": 3.33456, "conservative_ceiling": 4.0}
+    },
+    "B_stronger": {
+      "success_supports_per_family": 8,
+      "development_acquisition_attempts_per_family": 2,
+      "formal_history_attempt_cap_per_family": 32,
+      "history_max_physical_attempts": 170,
+      "probe_tasks_per_family": 8,
+      "held_out_tasks_per_family": 16,
+      "calibration_tasks_per_family": 12,
+      "logical_requests": 710,
+      "cost_estimate_cny": {"calibration": 0.38688, "history": 1.44432, "probe": 1.45536, "held_out": 2.91072, "total": 6.19728, "conservative_ceiling": 7.5},
+      "optional_replication": "one second seed or independent task subset, pre-registered as a separate replication and never pooled into the primary contrast"
+    }
+  },
+  "token_cost_assumptions": {
+    "input_tokens_per_calibration_request": 2200,
+    "output_tokens_per_calibration_request": 256,
+    "input_tokens_per_history_attempt": 2200,
+    "output_tokens_per_history_attempt": 512,
+    "input_tokens_per_probe_or_heldout_request": 2500,
+    "output_tokens_per_probe_or_heldout_request": 512,
+    "input_cny_per_million": 2.0,
+    "output_cny_per_million": 8.0,
+    "calculation": "input_tokens*2/1e6 + output_tokens*8/1e6; exact provider usage replaces estimates",
+    "unknown_usage": "terminal hard stop"
+  },
+  "partitioning": {
+    "families": 5,
+    "partition_order": ["calibration", "development_acquisition", "formal_history", "probe", "held_out"],
+    "selector": "sort immutable gold-bearing task IDs by SHA256(phase2-v1:<partition>:<family>:<seed>:<task_id>)",
+    "partition_manifest": "must record source manifest hash, selector hash, ordered IDs, payload hashes, and pairwise-disjointness matrix",
+    "exclusions": ["all Phase 1B-spent SearchQA IDs", "all Phase 1 calibration IDs", "all Phase 1 probe IDs", "all Phase 1 held-out IDs", "all Phase 1X calibration task IDs", "all prior calibration/probe/held-out task IDs"],
+    "leakage_rule": "No ID, payload, answer, response, or derived candidate may cross partitions; exclusion audit is a pre-execution gate."
+  },
+  "conditions": {
+    "model_response_conditions": ["cold", "copied_global", "global_only", "contextual_typed_prior"],
+    "separate_call_required": "Every distinct condition/task pair gets a distinct request body and physical model call; no response reuse across conditions.",
+    "legal_response_reuse": "The exact preserved response bundle may be scored by retaining triage and destructive gating because those are local policy transitions, not model prompts.",
+    "gate_labels": "Computed locally from frozen probe outcomes and never sent in a model request.",
+    "identifiability_guard": "Request body includes phase2 arm, partition, family, task ID, task type, condition, candidate ID/version, typed scope, policy-state-independent prompt template ID, seed, and canonical payload hash; request hash is SHA256(canonical JSON).",
+    "policy_prompt_rule": "If a policy changes the model-visible prompt or context, it is a new condition and requires its own call; retaining/destructive comparison must otherwise consume the same response ledger."
+  },
+  "pre_registration": {
+    "thresholds": "Use Phase 1T frozen accept/reject/abstain thresholds unchanged.",
+    "minimum_probe_tasks": "At least 4 per family in A and 8 per family in B, all valid after the 90% contract-validity check; a family failing this is not pooled.",
+    "primary_contrast": "contextual_typed_prior versus global_only, paired on the same held-out task IDs but separately called responses",
+    "secondary_contrasts": ["contextual_typed_prior versus cold", "contextual_typed_prior versus copied_global", "retaining triage versus destructive gating"],
+    "stopping": "Before execution, stop a family if its formal history cap cannot yield the target supports or any hard stop fires. After the full frozen held-out set begins, no early positive stopping; only terminal safety, data-integrity, provider-exception, unknown-usage, authorization-drift, or cost-ceiling stops are allowed.",
+    "conclusion_gate": "positive only if the pre-registered primary held-out margin and safety/retention criteria pass; negative if the pre-registered harm/failure criteria pass; otherwise inconclusive. Coverage alone never changes the conclusion.",
+    "midcourse_changes_forbidden": true
+  },
+  "accounting": {
+    "retries": 0,
+    "max_tokens": false,
+    "resume": "append_only exact prefix; request hashes and response hashes immutable",
+    "physical_attempt_rule": "zero retries means physical attempts equal logical requests until a terminal hard stop; known-usage invalid outputs consume an attempt and continue",
+    "hard_stops": ["unknown_usage", "provider_exception", "request_hash_drift", "authorization_drift", "non_prefix_resume", "duplicate_logical_id", "cost_ceiling"],
+    "reward": "verified answer reward and support reward are reported per 1,000 cumulative input+output tokens, including all conditions, invalid responses, fallback/candidate responses, and triage windows"
+  },
+  "evidence_boundary": {
+    "protocol_evidence": ["partition integrity", "hash/provenance integrity", "verifier replay", "condition identifiability", "retaining/destructive state semantics", "exact accounting"],
+    "capability_evidence": ["calibration validity and baseline answer/support/joint accuracy", "verified history success rate and family coverage"],
+    "method_effect_evidence": ["paired held-out answer/support/joint margins, helpful/harmful pairs, false-safe/false-harm, retained recovery, and destructive loss under the frozen protocol"],
+    "forbidden_inference": "More candidates, more supports, or broader coverage alone is not evidence that typed priors improve routing."
+  },
+  "authorization_plan": "Design only. A future run requires a new immutable authorized config, fresh provider-price verification, and explicit user authorization; this file does not enable paid_api_allowed."
+}

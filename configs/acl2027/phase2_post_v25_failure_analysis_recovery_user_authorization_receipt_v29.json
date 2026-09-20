@@ -1,0 +1,37 @@
+{
+  "schema_version": 29,
+  "experiment": "acl2027_phase2_post_v25_failure_analysis_recovery_live_v29",
+  "status": "explicit_user_authorization_received_execution_not_open",
+  "authorization_id": "phase2-post-v25-failure-analysis-recovery-v29",
+  "scope": "post_v25_failure_analysis_recovery_only",
+  "authorized_stage": "post_v25_failure_analysis_recovery",
+  "authorized_calls": 528,
+  "max_provider_attempts": 528,
+  "model_id": "qwen3.7-plus",
+  "temperature": 0,
+  "retries": 0,
+  "max_tokens_present": false,
+  "enable_thinking": false,
+  "response_format": {"type": "json_object"},
+  "request_interval_seconds": 1.0,
+  "stage_cost_ceiling_cny": 3.0,
+  "cumulative_cost_ceiling_cny": 8.0,
+  "v27_known_cost_lower_bound_cny": 4.6268,
+  "later_stages_authorized": false,
+  "formal_scaling_authorized": false,
+  "v28_aggregate_fingerprint": "63f64eb6d3854198c03f0cfdfd0905f803a78ed10d6d4a2d150f351323006640",
+  "bindings": {
+    "v28_manifest_sha256": "f9cdbd7aac0dc2031e3618106a41b9f4b17b6e1f7b142e05fbae397982fcc034",
+    "v28_schedule_sha256": "be7bb2888be1d291074f71f44a04aaa762f8e21a1901c5cddd58ff15c23f9425",
+    "v28_gold_sha256": "b8532bb1288710bb3db82fdcadc4b4994a03a5b77f059f2dfc6745c6e9caff50"
+  },
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "paid_api_allowed": false,
+    "qwen_authorization_open": false,
+    "formal_scaling_allowed": false
+  },
+  "forbidden_stages": ["calibration", "development_acquisition", "formal_history", "probe", "held_out", "other_models", "later_phase2_stages", "formal_scaling"],
+  "user_message_verbatim": "授权执行 v28 的 528 次恢复计划"
+}

@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase3c_uptake_outcome_mediation_audit_v1",
+  "status": "zero_network_diagnostic",
+  "source_phase3b_fingerprint": "d228d3b907091a8001d3f3379bd1ad1ded2af1cf30dfe0c148226a6be9cc435f",
+  "hypothesis": "Family-selective contextual uptake should mediate observable operation or answer changes and yield nonnegative answer utility relative to shuffled and cold controls.",
+  "strata": {
+    "contextual_only": "contextual primary uptake true and shuffled primary uptake false",
+    "both_adopt": "contextual and shuffled primary uptake both true",
+    "neither_adopt": "contextual and shuffled primary uptake both false",
+    "shuffled_only": "contextual primary uptake false and shuffled primary uptake true"
+  },
+  "positive_gate": {
+    "contextual_only_tasks_at_least": 20,
+    "contextual_vs_shuffled_alias_net_wins_at_least": 3,
+    "contextual_vs_cold_alias_net_loss_at_most": 1,
+    "contextual_vs_shuffled_normalized_answer_change_rate_at_least": 0.10
+  },
+  "negative_gate": {
+    "contextual_only_tasks_at_least": 20,
+    "contextual_vs_shuffled_alias_net_wins_at_most": 0,
+    "contextual_vs_cold_alias_net_wins_below": 0
+  },
+  "specificity_warning": {
+    "both_adopt_rate_at_least": 0.50
+  },
+  "execution": {"network_calls_allowed": false, "provider_calls_allowed": false, "paid_api_allowed": false, "formal_scaling_allowed": false}
+}

@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase1r_development_runner_preflight_v1",
+  "phase": "1R",
+  "title": "Zero-network development-only execution runner preflight",
+  "status": "planned",
+  "objective": "Materialize and audit the exact 192-call development-only runner before any provider-rate review or paid authorization.",
+  "execution": {
+    "protocol_only": true,
+    "paid_api_allowed": false,
+    "network_calls_allowed": false,
+    "provider_calls": 0,
+    "formal_scaling_allowed": false,
+    "model_id": "qwen3.7-plus",
+    "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+    "api_key_env": "DASHSCOPE_API_KEY",
+    "temperature": 0,
+    "enable_thinking": false,
+    "request_body_forbidden_keys": ["max_tokens"],
+    "max_provider_attempts_per_logical_call": 1,
+    "sdk_max_retries": 0,
+    "explicit_retries": 0,
+    "response_reuse_across_condition_cells": false,
+    "hard_stop_on": [
+      "unknown_usage",
+      "response_contract_failure",
+      "request_plan_drift",
+      "call_count_drift"
+    ]
+  },
+  "source_contracts": {
+    "phase1p_config": {
+      "path": "configs/acl2027/phase1p_contribution_aligned_protocol_v1.json",
+      "sha256": "c4fbe13e5b744b71b88dd0378852e103505a74ad4faefc176ac247ab068237e4"
+    },
+    "phase1p_manifest": {
+      "path": "artifacts/acl2027_phase1p_contribution_aligned_protocol_v1/run_manifest.json",
+      "sha256": "a88359859bc37e0e8e88d3a6b799138d5efee757cfc83170e76ed80c7b877247"
+    },
+    "phase1q_config": {
+      "path": "configs/acl2027/phase1q_execution_budget_preflight_v1.json",
+      "sha256": "9f4896195833375e45b491e32ccb27979e43f3a0991cf83694778b2e1ca83ed3"
+    },
+    "phase1q_manifest": {
+      "path": "artifacts/acl2027_phase1q_execution_budget_preflight_v1/run_manifest.json",
+      "sha256": "5120715f45e8340481c2729afa2d2183dc8fb56af5c1ef7952a7a7adf8c914aa"
+    },
+    "phase1q_audit": {
+      "path": "artifacts/acl2027_phase1q_execution_budget_preflight_v1/execution_budget_audit.json",
+      "sha256": "de85e8ad2c72f4edea5585ae2147a782bb11545cbf31f72a3ac6da41326df00d"
+    },
+    "officeqa_skill": {
+      "path": "skillopt/envs/officeqa/skills/initial.md",
+      "sha256": "7271eda331f41fb5380772afb316e324f74f5fe3cc90f6c0f9882240f06b7af5"
+    },
+    "spreadsheetbench_skill": {
+      "path": "skillopt/envs/spreadsheetbench/skills/initial.md",
+      "sha256": "4a2645fa05bd47eb5e781b3c168c22c545ad825e55530bf382487f7c819c89be"
+    },
+    "officeqa_payload": "data/officeqa_verified/officeqa_full.csv",
+    "officeqa_docs_root": "data/officeqa_verified",
+    "spreadsheetbench_payload": "data/spreadsheetbench_verified_400/dataset.json",
+    "spreadsheetbench_root": "data/spreadsheetbench_verified_400"
+  },
+  "request_materialization": {
+    "plan": "development_only",
+    "prior_conditions": ["copied-global", "global-only", "contextual"],
+    "probe_strata": ["representative", "shifted"],
+    "gate_policies": ["candidate_retaining_triage", "destructive_gate"],
+    "task_families": ["OfficeQA", "SpreadsheetBench"],
+    "branches": ["candidate", "fallback"],
+    "probe_tasks_per_cell": 4,
+    "condition_cells": 24,
+    "logical_calls": 192,
+    "physical_requests": 192,
+    "officeqa_evidence_max_chars": 12000,
+    "spreadsheet_snapshot_max_nonempty_cells": 512,
+    "spreadsheet_large_sheet_head_rows": 8,
+    "spreadsheet_large_sheet_tail_rows": 3,
+    "logical_call_order": [
+      "prior_condition",
+      "probe_stratum",
+      "gate_policy",
+      "task_family",
+      "probe_index",
+      "branch"
+    ]
+  },
+  "prior_materialization": {
+    "global_library_order": ["officeqa_skill", "spreadsheetbench_skill"],
+    "copied-global": {
+      "global_slot": ["officeqa_skill", "spreadsheetbench_skill"],
+      "domain_slot": ["officeqa_skill", "spreadsheetbench_skill"]
+    },
+    "global-only": {
+      "global_slot": ["officeqa_skill", "spreadsheetbench_skill"],
+      "domain_slot": []
+    },
+    "contextual": {
+      "global_slot": ["officeqa_skill", "spreadsheetbench_skill"],
+      "domain_slot": "matching_task_family_skill"
+    },
+    "fallback": {
+      "global_slot": [],
+      "domain_slot": [],
+      "fresh_state_per_logical_call": true
+    }
+  },
+  "response_contracts": {
+    "OfficeQA": {
+      "required_keys": ["answer", "evidence", "calculation", "abstain", "reason"],
+      "abstain_requires_nonempty_reason": true,
+      "non_abstain_requires_nonempty_evidence": true
+    },
+    "SpreadsheetBench": {
+      "required_keys": ["target_range", "formula_regions", "abstain", "reason"],
+      "formula_region_keys": ["range", "anchor_cell", "formula"],
+      "abstain_requires_nonempty_reason": true,
+      "non_abstain_requires_nonempty_formula_regions": true
+    }
+  },
+  "resume_contract": {
+    "results_format": "append_only_jsonl",
+    "completed_records_must_be_exact_plan_prefix": true,
+    "duplicate_logical_call_ids_forbidden": true,
+    "terminal_failure_is_not_resumable": true,
+    "usage_fields": ["input_tokens", "output_tokens", "total_tokens"],
+    "total_tokens_must_equal_components": true
+  },
+  "decision_gate": {
+    "pass": "Exactly 192 immutable logical calls are materialized; all source hashes, condition identities, request contracts, max_tokens omission, branch accounting, response-use isolation, deterministic resume, exact usage, abstention, and hard-stop simulations pass with zero network and paid calls.",
+    "scientific_scope": "Runner readiness only. This phase adds no typed-prior, representativeness, or triage method-effect evidence.",
+    "future_authorization": "Any paid successor requires current provider-rate verification, a separately immutable live config, and explicit user authorization."
+  },
+  "write_scope": [
+    "configs/acl2027/phase1r_development_runner_preflight_v1.json",
+    "scripts/run_acl2027_phase1r_development.py",
+    "scripts/validate_acl2027_phase1r_development_preflight.py",
+    "tests/test_acl2027_phase1r_development_preflight.py",
+    "artifacts/acl2027_phase1r_development_runner_preflight_v1",
+    "paper/acl2027/results/phase1r_development_runner_preflight_v1.md",
+    "paper/acl2027/CONTRIBUTION_EVIDENCE_LEDGER.md",
+    "paper/acl2027/experiment_state.json"
+  ]
+}

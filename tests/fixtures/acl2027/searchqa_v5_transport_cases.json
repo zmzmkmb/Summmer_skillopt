@@ -1,0 +1,27 @@
+{
+    "schema_version":  1,
+    "contains_spent_searchqa_content":  false,
+    "cases":  [
+                  {
+                      "name":  "inspection_rejection",
+                      "http_status":  400,
+                      "provider_error_code":  "data_inspection_failed",
+                      "provider_error_id":  "chatcmpl-fixture-inspection",
+                      "expected_action":  "terminal_zero_metric"
+                  },
+                  {
+                      "name":  "rate_limit",
+                      "http_status":  429,
+                      "provider_error_code":  "Throttling.RateQuota",
+                      "provider_error_id":  "chatcmpl-fixture-rate",
+                      "expected_action":  "registered_backoff_retry"
+                  },
+                  {
+                      "name":  "unknown_usage",
+                      "http_status":  400,
+                      "provider_error_code":  "fixture_unknown",
+                      "provider_error_id":  "chatcmpl-fixture-unknown",
+                      "expected_action":  "conservative_full_envelope"
+                  }
+              ]
+}

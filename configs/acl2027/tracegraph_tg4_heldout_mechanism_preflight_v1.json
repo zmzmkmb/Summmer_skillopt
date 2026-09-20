@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "phase_id": "TG4-tracegraph-heldout-mechanism-preflight-v1",
+  "experiment_line": "tracegraph-observable-state-skill-composition",
+  "mode": "zero_network_schedule_only",
+  "skillbank": "artifacts/acl2027_tracegraph_tg1_skillbank_construction_v2/skillbank.jsonl",
+  "skillbank_sha256": "15059dd2cc5b99fc69d0bae79109ec20c8d000ec9d550ce237d06ee9ffd6a331",
+  "splits": ["valid_seen", "valid_unseen"],
+  "tasks_per_split": 20,
+  "total_tasks": 40,
+  "schedule": "artifacts/acl2027_tracegraph_tg4_heldout_mechanism_preflight_v1/heldout_schedule.json",
+  "runtime_allowed_inputs": ["observation", "historical_actions", "admissible_actions"],
+  "runtime_forbidden_inputs": ["task_description", "raw_trajectory", "planner_state", "pddl_params", "scene_state", "expert_future_actions", "evaluation_label", "phase0_to_phase6_artifact"],
+  "network_calls_allowed": false,
+  "provider_calls_allowed": false,
+  "model_calls_allowed": false,
+  "authorization_receipts_allowed": false,
+  "episode_execution_enabled": false,
+  "webshop_status": "blocked_pending_preregistered_alfworld_mechanism_gate"
+}

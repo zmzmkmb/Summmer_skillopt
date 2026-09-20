@@ -1,0 +1,36 @@
+{
+  "schema_version": 25,
+  "experiment": "acl2027_phase2_post_v23_replication_live_v25",
+  "status": "explicit_user_authorization_received_execution_not_open",
+  "authorization_id": "phase2-post-v23-replication-only-v25",
+  "scope": "post_v23_replication_only",
+  "authorized_stage": "post_v23_replication",
+  "authorized_calls": 320,
+  "max_provider_attempts": 320,
+  "model_id": "qwen3.7-plus",
+  "temperature": 0,
+  "retries": 0,
+  "max_tokens_present": false,
+  "enable_thinking": false,
+  "response_format": {"type": "json_object"},
+  "stage_cost_ceiling_cny": 3.5,
+  "cumulative_cost_ceiling_cny": 3.5,
+  "later_stages_authorized": false,
+  "formal_scaling_authorized": false,
+  "request_interval_seconds": 1.0,
+  "v24_aggregate_fingerprint": "9096f3ac47dc01248146cecf2754914f7ddb2896f6e7be46f715c609249b5407",
+  "bindings": {
+    "v24_config_sha256": "fb712e03fd198268f61398afc7c819455549ea2e0d13bec37c231ac729abd9b6",
+    "v24_manifest_sha256": "644b7b3dc211fe54736df1688a1b70d151c948da0cc42acf7d0fd4bd3e0ccd74",
+    "v24_schedule_sha256": "04dfa54ecd797985e8e07a918a0f6370a8281e7aaeaab9bfc9f042473ce7b61d"
+  },
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "paid_api_allowed": false,
+    "qwen_authorization_open": false,
+    "formal_scaling_allowed": false
+  },
+  "forbidden_stages": ["calibration", "development_acquisition", "formal_history", "probe", "held_out", "later_phase2_stages", "formal_scaling"],
+  "user_authorization_text": "Authorized exactly 320 qwen3.7-plus post-v23 replication attempts at temperature 0, zero retries, no max_tokens, JSON object, CNY 3.50 stage and cumulative ceilings; no other models, later stages, or formal scaling."
+}

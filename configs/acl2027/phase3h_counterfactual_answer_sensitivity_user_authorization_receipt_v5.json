@@ -1,0 +1,55 @@
+{
+  "authorization_closes_on_completion_or_terminal_stop": true,
+  "authorization_source": "user_message_2026-08-17",
+  "authorization_statement_sha256": "ee0eccf6c64876e50fa2a74243d531f1d1f6b9f36591e7c63e161e9e6b3f4f1a",
+  "authorized_calls": 200,
+  "authorized_destination": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+  "authorized_payload_classes": [
+    "frozen_task_prompts",
+    "frozen_task_contexts",
+    "frozen_procedure_candidate_bundles"
+  ],
+  "bindings": {
+    "adapter_sha256": "6761e757eee26d9bfab3918930565eda70fa9857bc755a21992c5f8364381eba",
+    "design_manifest_sha256": "2a65053ed2d9c733509c10a14b0d352ddfd4eaaa77d48e550ad73e7956851d63",
+    "preflight_manifest_sha256": "d1e647cf4accc3df1a1a6b2cfd753e93dd75125b14405bb760569bf7b0492611",
+    "preflight_request_sha256": "0202ad6acdf251c870d7978d869ad86e2853e1b5f544ed62d5ab83dc9f767e53",
+    "schedule_sha256": "69ed5ebff190b4d69db7ac1da2a01ae46012dd2a091f5a9dba0e971c7658bf7f"
+  },
+  "cumulative_cost_ceiling_cny": 15.0,
+  "data_egress_authorized": true,
+  "enable_thinking": false,
+  "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+  "exact_prefix_resume_only": true,
+  "execution": {
+    "formal_scaling_allowed": false,
+    "network_calls_allowed": false,
+    "paid_api_allowed": false,
+    "provider_calls_allowed": false,
+    "qwen_authorization_open": false
+  },
+  "forbidden_stages": [
+    "other_models",
+    "later_phase3",
+    "cross_domain_scaling",
+    "formal_scaling"
+  ],
+  "known_cumulative_cost_lower_bound_cny": 10.334338,
+  "max_provider_attempts": 200,
+  "max_tokens_present": false,
+  "model_id": "qwen3.7-plus",
+  "paid_usage_authorized": true,
+  "phase3h_design_fingerprint": "61d55a4c3134c0ccf349aa400d3fd2333376b7e7775c3730a7a1016fc942eafb",
+  "phase3h_live_preflight_fingerprint": "9355217fec78e792e421cc12d807ad9846e3f50f84724d6856c0f3bc19aa5e23",
+  "request_interval_seconds": 1.0,
+  "response_format": {
+    "type": "json_object"
+  },
+  "retries": 0,
+  "schema_version": 5,
+  "scope": "phase3h_counterfactual_answer_sensitivity_only",
+  "stage_cost_ceiling_cny": 3.0,
+  "status": "explicit_user_authorization_received_execution_not_open",
+  "temperature": 0,
+  "terminal_stop_on_first_failed_attempt": true
+}

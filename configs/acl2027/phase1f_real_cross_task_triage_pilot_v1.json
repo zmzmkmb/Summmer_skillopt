@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase1f_real_cross_task_triage_pilot_v1",
+  "phase": "1F",
+  "title": "Bounded real cross-task pilot for inherited-experience triage",
+  "status": "planned",
+  "objective": "Evaluate copied-global, global-only, and contextual priors with accept/reject/abstain deployment decisions on OfficeQA and SpreadsheetBench validation tasks.",
+  "execution": {
+    "default_mode": "dry-run",
+    "paid_api_allowed": true,
+    "formal_scaling_allowed": false,
+    "network_calls_allowed": true,
+    "provider_permission": "user-authorized bounded Token Plan smoke; batch requires post-smoke review",
+    "api_key_env": "DASHSCOPE_API_KEY",
+    "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+    "model_id": "qwen3.6-flash",
+    "enable_thinking": false,
+    "max_retries_per_logical_call": 1,
+    "retry_backoff_seconds": 1,
+    "stop_on_missing_usage": true,
+    "stop_on_unknown_provider_error": true,
+    "cost_accounting": "record provider usage and exact token totals; no fixed CNY ceiling in the scientific config",
+    "batch_requires_separate_review": true
+  },
+  "data": {
+    "OfficeQA": {
+      "split": "val",
+      "source_manifest": "data/officeqa_id_split/split_manifest.json",
+      "source_manifest_sha256": "a9ef22cfd14cbeb4c792ec42d0f9969bb31449c463279e0bf6cd6cdccf042b45",
+      "payload_csv": "data/officeqa_verified/officeqa_full.csv",
+      "payload_csv_sha256": "b5eb1ce0cb343842bccb2f5b067793b4ed90e03e8bf64cb0d40d759bb768ff77",
+      "count": 246,
+      "split_count": 24,
+      "smoke_ids": [
+        "UID0001"
+      ]
+    },
+    "SpreadsheetBench": {
+      "split": "val",
+      "source_manifest": "data/spreadsheetbench_id_split/split_manifest.json",
+      "source_manifest_sha256": "5d9c40cbd9cc539449a538fcd3aacbb7571b224bbc87c8bdeeb823349210978a",
+      "payload_dataset": "data/spreadsheetbench_verified_400/dataset.json",
+      "payload_dataset_sha256": "bcecaa89a005bd4e3bbe98da150a86e8062c27f262e575d5e47bd9861b3525e7",
+      "count": 400,
+      "split_count": 40,
+      "smoke_ids": [
+        "45635"
+      ]
+    }
+  },
+  "priors": [
+    "copied-global",
+    "global-only",
+    "contextual"
+  ],
+  "methods": [
+    "identity_correct_reset",
+    "binary_proxy_gate",
+    "triage_gate",
+    "skillopt_moar_frozen"
+  ],
+  "pairing": {
+    "seeds": [
+      202701,
+      202702,
+      202703
+    ],
+    "same_model_prompt_budget_and_task_order": true,
+    "smoke_logical_calls": 2,
+    "batch_officeqa_val": 24,
+    "batch_spreadsheetbench_val": 40
+  },
+  "triage_actions": [
+    "accept",
+    "reject",
+    "abstain"
+  ],
+  "discard": "not emitted by validation gate",
+  "decision_gate": {
+    "smoke_pass": "both task-family calls return parseable output with declared usage and no retry/unknown-error stop",
+    "batch_review": "do not launch full paired batch from this config until smoke artifact is audited and batch is explicitly reviewed",
+    "method_claim": "triage must reduce harmful deployment on at least one new family without rejecting nearly all helpful updates and without losing frozen MOAR quality advantage"
+  },
+  "write_scope": [
+    "configs/acl2027/phase1f_real_cross_task_triage_pilot_v1.json",
+    "artifacts/acl2027_phase1f_real_cross_task_triage_pilot_v1",
+    "paper/acl2027/results/phase1f_real_cross_task_triage_pilot_v1.md",
+    "paper/acl2027/experiment_state.json"
+  ],
+  "frozen_inputs": {
+    "officeqa_skill_sha256": "7271eda331f41fb5380772afb316e324f74f5fe3cc90f6c0f9882240f06b7af5",
+    "spreadsheetbench_skill_sha256": "4a2645fa05bd47eb5e781b3c168c22c545ad825e55530bf382487f7c819c89be"
+  }
+}

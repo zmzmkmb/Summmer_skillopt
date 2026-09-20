@@ -1,0 +1,1228 @@
+{
+  "schema_version": 1,
+  "phase_id": "TG6-tracegraph-pddl-integrity-audit-v1",
+  "experiment_line": "tracegraph-observable-state-skill-composition",
+  "mode": "read_only_pddl_integrity_audit",
+  "schedule": "artifacts\\acl2027_tracegraph_tg4_heldout_mechanism_preflight_v1\\heldout_schedule.json",
+  "schedule_sha256": "9e3acdad7a106fb20374d9885fc8da9f29ffba329c17c11134f193962887bb87",
+  "data_root": "C:\\Users\\CMCC\\ALFWORLD_DATA",
+  "task_count": 40,
+  "rows": [
+    {
+      "task_identity": "6f09d81cf1bf2e02e540b1f76a83092d822d75f7e82367ec00dfe9de4bec35a8",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-AlarmClock-None-DeskLamp-323/trial_T20190909_044715_250790",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_seen\\look_at_obj_in_light-AlarmClock-None-DeskLamp-323\\trial_T20190909_044715_250790\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "AlarmClock",
+      "light_type": "DeskLamp",
+      "target_objects": [
+        "AlarmClock_bar__minus_02_dot_48_bar__plus_00_dot_68_bar__minus_03_dot_30",
+        "AlarmClock_bar__plus_02_dot_04_bar__plus_00_dot_90_bar__minus_03_dot_32",
+        "AlarmClock_bar__plus_02_dot_69_bar__plus_01_dot_23_bar__plus_01_dot_40"
+      ],
+      "target_pickupable": [
+        "AlarmClock_bar__minus_02_dot_48_bar__plus_00_dot_68_bar__minus_03_dot_30",
+        "AlarmClock_bar__plus_02_dot_04_bar__plus_00_dot_90_bar__minus_03_dot_32",
+        "AlarmClock_bar__plus_02_dot_69_bar__plus_01_dot_23_bar__plus_01_dot_40"
+      ],
+      "target_in_receptacle": [
+        "AlarmClock_bar__minus_02_dot_48_bar__plus_00_dot_68_bar__minus_03_dot_30",
+        "AlarmClock_bar__plus_02_dot_04_bar__plus_00_dot_90_bar__minus_03_dot_32",
+        "AlarmClock_bar__plus_02_dot_69_bar__plus_01_dot_23_bar__plus_01_dot_40"
+      ],
+      "light_objects": [
+        "DeskLamp_bar__minus_02_dot_46_bar__plus_00_dot_67_bar__minus_00_dot_53",
+        "DeskLamp_bar__plus_02_dot_76_bar__plus_00_dot_89_bar__minus_03_dot_32"
+      ],
+      "light_toggleable": [
+        "DeskLamp_bar__minus_02_dot_46_bar__plus_00_dot_67_bar__minus_00_dot_53",
+        "DeskLamp_bar__plus_02_dot_76_bar__plus_00_dot_89_bar__minus_03_dot_32"
+      ],
+      "light_in_receptacle": [
+        "DeskLamp_bar__minus_02_dot_46_bar__plus_00_dot_67_bar__minus_00_dot_53",
+        "DeskLamp_bar__plus_02_dot_76_bar__plus_00_dot_89_bar__minus_03_dot_32"
+      ]
+    },
+    {
+      "task_identity": "e4c4ebe7ccde6b7112813ca0554195d85cb29a7233b0944679b55964207d241a",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-BaseballBat-None-DeskLamp-303/trial_T20190907_060414_846460",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_seen\\look_at_obj_in_light-BaseballBat-None-DeskLamp-303\\trial_T20190907_060414_846460\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [
+        "target_object_missing_in_receptacle"
+      ],
+      "target_type": "BaseballBat",
+      "light_type": "DeskLamp",
+      "target_objects": [
+        "BaseballBat_bar__minus_01_dot_63_bar__plus_00_dot_65_bar__plus_00_dot_42"
+      ],
+      "target_pickupable": [
+        "BaseballBat_bar__minus_01_dot_63_bar__plus_00_dot_65_bar__plus_00_dot_42"
+      ],
+      "target_in_receptacle": [],
+      "light_objects": [
+        "DeskLamp_bar__minus_01_dot_85_bar__plus_00_dot_59_bar__minus_00_dot_79"
+      ],
+      "light_toggleable": [
+        "DeskLamp_bar__minus_01_dot_85_bar__plus_00_dot_59_bar__minus_00_dot_79"
+      ],
+      "light_in_receptacle": [
+        "DeskLamp_bar__minus_01_dot_85_bar__plus_00_dot_59_bar__minus_00_dot_79"
+      ]
+    },
+    {
+      "task_identity": "95bf73dddd786ada972142cab71cfffcc178d31a8d72add5d6462ebcb4dc7a4f",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-Bowl-None-DeskLamp-301/trial_T20190909_150719_492274",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_seen\\look_at_obj_in_light-Bowl-None-DeskLamp-301\\trial_T20190909_150719_492274\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "Bowl",
+      "light_type": "DeskLamp",
+      "target_objects": [
+        "Bowl_bar__plus_02_dot_78_bar__plus_00_dot_80_bar__minus_01_dot_22"
+      ],
+      "target_pickupable": [
+        "Bowl_bar__plus_02_dot_78_bar__plus_00_dot_80_bar__minus_01_dot_22"
+      ],
+      "target_in_receptacle": [
+        "Bowl_bar__plus_02_dot_78_bar__plus_00_dot_80_bar__minus_01_dot_22"
+      ],
+      "light_objects": [
+        "DeskLamp_bar__minus_01_dot_31_bar__plus_01_dot_23_bar__minus_00_dot_99"
+      ],
+      "light_toggleable": [
+        "DeskLamp_bar__minus_01_dot_31_bar__plus_01_dot_23_bar__minus_00_dot_99"
+      ],
+      "light_in_receptacle": [
+        "DeskLamp_bar__minus_01_dot_31_bar__plus_01_dot_23_bar__minus_00_dot_99"
+      ]
+    },
+    {
+      "task_identity": "8fc718e1895302383db0143e4879c4c6bd0caa01fbb74e99734aab9ce29a04fe",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-Bowl-None-DeskLamp-316/trial_T20190908_230702_962704",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_seen\\look_at_obj_in_light-Bowl-None-DeskLamp-316\\trial_T20190908_230702_962704\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "Bowl",
+      "light_type": "DeskLamp",
+      "target_objects": [
+        "Bowl_bar__plus_01_dot_22_bar__plus_00_dot_69_bar__minus_02_dot_13"
+      ],
+      "target_pickupable": [
+        "Bowl_bar__plus_01_dot_22_bar__plus_00_dot_69_bar__minus_02_dot_13"
+      ],
+      "target_in_receptacle": [
+        "Bowl_bar__plus_01_dot_22_bar__plus_00_dot_69_bar__minus_02_dot_13"
+      ],
+      "light_objects": [
+        "DeskLamp_bar__minus_00_dot_44_bar__plus_00_dot_69_bar__minus_02_dot_27"
+      ],
+      "light_toggleable": [
+        "DeskLamp_bar__minus_00_dot_44_bar__plus_00_dot_69_bar__minus_02_dot_27"
+      ],
+      "light_in_receptacle": [
+        "DeskLamp_bar__minus_00_dot_44_bar__plus_00_dot_69_bar__minus_02_dot_27"
+      ]
+    },
+    {
+      "task_identity": "ca429486bb87719b35f542561dac75c470ca3244d76ff486614644710b57400c",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-Box-None-DeskLamp-205/trial_T20190907_074425_330493",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_seen\\look_at_obj_in_light-Box-None-DeskLamp-205\\trial_T20190907_074425_330493\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "Box",
+      "light_type": "DeskLamp",
+      "target_objects": [
+        "Box_bar__minus_01_dot_61_bar__plus_00_dot_15_bar__plus_06_dot_85",
+        "Box_bar__minus_01_dot_87_bar__plus_00_dot_87_bar__plus_01_dot_13"
+      ],
+      "target_pickupable": [
+        "Box_bar__minus_01_dot_61_bar__plus_00_dot_15_bar__plus_06_dot_85",
+        "Box_bar__minus_01_dot_87_bar__plus_00_dot_87_bar__plus_01_dot_13"
+      ],
+      "target_in_receptacle": [
+        "Box_bar__minus_01_dot_87_bar__plus_00_dot_87_bar__plus_01_dot_13"
+      ],
+      "light_objects": [
+        "DeskLamp_bar__minus_00_dot_26_bar__plus_00_dot_62_bar__plus_03_dot_31"
+      ],
+      "light_toggleable": [
+        "DeskLamp_bar__minus_00_dot_26_bar__plus_00_dot_62_bar__plus_03_dot_31"
+      ],
+      "light_in_receptacle": [
+        "DeskLamp_bar__minus_00_dot_26_bar__plus_00_dot_62_bar__plus_03_dot_31"
+      ]
+    },
+    {
+      "task_identity": "8086766e568128367f9d40d92256bd7bdd9817b854df3bd61221fcbfb1b6854f",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-CD-None-DeskLamp-302/trial_T20190907_154618_526741",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_seen\\look_at_obj_in_light-CD-None-DeskLamp-302\\trial_T20190907_154618_526741\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "CD",
+      "light_type": "DeskLamp",
+      "target_objects": [
+        "CD_bar__minus_01_dot_31_bar__plus_01_dot_46_bar__minus_01_dot_17"
+      ],
+      "target_pickupable": [
+        "CD_bar__minus_01_dot_31_bar__plus_01_dot_46_bar__minus_01_dot_17"
+      ],
+      "target_in_receptacle": [
+        "CD_bar__minus_01_dot_31_bar__plus_01_dot_46_bar__minus_01_dot_17"
+      ],
+      "light_objects": [
+        "DeskLamp_bar__plus_00_dot_48_bar__plus_00_dot_67_bar__plus_01_dot_35"
+      ],
+      "light_toggleable": [
+        "DeskLamp_bar__plus_00_dot_48_bar__plus_00_dot_67_bar__plus_01_dot_35"
+      ],
+      "light_in_receptacle": [
+        "DeskLamp_bar__plus_00_dot_48_bar__plus_00_dot_67_bar__plus_01_dot_35"
+      ]
+    },
+    {
+      "task_identity": "41f42511c095d79f37afd0e4bcc65b6b50b2791cf5f25e06dc914228ea1b2e83",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-CD-None-DeskLamp-314/trial_T20190907_114323_767231",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_seen\\look_at_obj_in_light-CD-None-DeskLamp-314\\trial_T20190907_114323_767231\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "CD",
+      "light_type": "DeskLamp",
+      "target_objects": [
+        "CD_bar__minus_00_dot_35_bar__plus_00_dot_09_bar__minus_00_dot_19",
+        "CD_bar__minus_00_dot_40_bar__plus_00_dot_09_bar__minus_00_dot_65",
+        "CD_bar__plus_02_dot_23_bar__plus_00_dot_05_bar__plus_02_dot_63"
+      ],
+      "target_pickupable": [
+        "CD_bar__minus_00_dot_35_bar__plus_00_dot_09_bar__minus_00_dot_19",
+        "CD_bar__minus_00_dot_40_bar__plus_00_dot_09_bar__minus_00_dot_65",
+        "CD_bar__plus_02_dot_23_bar__plus_00_dot_05_bar__plus_02_dot_63"
+      ],
+      "target_in_receptacle": [
+        "CD_bar__minus_00_dot_35_bar__plus_00_dot_09_bar__minus_00_dot_19",
+        "CD_bar__minus_00_dot_40_bar__plus_00_dot_09_bar__minus_00_dot_65",
+        "CD_bar__plus_02_dot_23_bar__plus_00_dot_05_bar__plus_02_dot_63"
+      ],
+      "light_objects": [
+        "DeskLamp_bar__minus_00_dot_67_bar__plus_00_dot_92_bar__minus_00_dot_06"
+      ],
+      "light_toggleable": [
+        "DeskLamp_bar__minus_00_dot_67_bar__plus_00_dot_92_bar__minus_00_dot_06"
+      ],
+      "light_in_receptacle": [
+        "DeskLamp_bar__minus_00_dot_67_bar__plus_00_dot_92_bar__minus_00_dot_06"
+      ]
+    },
+    {
+      "task_identity": "b9e7dd183ebe26f2e3641e94a0bb32d6da3e837a34e46f5b2a13b010f3658d3a",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-CD-None-DeskLamp-320/trial_T20190907_224451_655673",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_seen\\look_at_obj_in_light-CD-None-DeskLamp-320\\trial_T20190907_224451_655673\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "CD",
+      "light_type": "DeskLamp",
+      "target_objects": [
+        "CD_bar__minus_01_dot_73_bar__plus_00_dot_07_bar__plus_01_dot_65",
+        "CD_bar__plus_00_dot_65_bar__plus_00_dot_68_bar__minus_01_dot_62",
+        "CD_bar__plus_01_dot_32_bar__plus_00_dot_71_bar__plus_00_dot_22"
+      ],
+      "target_pickupable": [
+        "CD_bar__minus_01_dot_73_bar__plus_00_dot_07_bar__plus_01_dot_65",
+        "CD_bar__plus_00_dot_65_bar__plus_00_dot_68_bar__minus_01_dot_62",
+        "CD_bar__plus_01_dot_32_bar__plus_00_dot_71_bar__plus_00_dot_22"
+      ],
+      "target_in_receptacle": [
+        "CD_bar__plus_00_dot_65_bar__plus_00_dot_68_bar__minus_01_dot_62",
+        "CD_bar__plus_01_dot_32_bar__plus_00_dot_71_bar__plus_00_dot_22"
+      ],
+      "light_objects": [
+        "DeskLamp_bar__minus_01_dot_85_bar__plus_01_dot_06_bar__plus_00_dot_76"
+      ],
+      "light_toggleable": [
+        "DeskLamp_bar__minus_01_dot_85_bar__plus_01_dot_06_bar__plus_00_dot_76"
+      ],
+      "light_in_receptacle": [
+        "DeskLamp_bar__minus_01_dot_85_bar__plus_01_dot_06_bar__plus_00_dot_76"
+      ]
+    },
+    {
+      "task_identity": "f74b868c34ab1b4cb914c3058ec09e1c3f82aec32fa6df63d032740b92c144f1",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-Cloth-None-DeskLamp-303/trial_T20190908_170503_844252",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_seen\\look_at_obj_in_light-Cloth-None-DeskLamp-303\\trial_T20190908_170503_844252\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [
+        "target_object_missing_in_receptacle"
+      ],
+      "target_type": "Cloth",
+      "light_type": "DeskLamp",
+      "target_objects": [
+        "Cloth_bar__plus_02_dot_18_bar__plus_00_dot_00_bar__minus_00_dot_57"
+      ],
+      "target_pickupable": [
+        "Cloth_bar__plus_02_dot_18_bar__plus_00_dot_00_bar__minus_00_dot_57"
+      ],
+      "target_in_receptacle": [],
+      "light_objects": [
+        "DeskLamp_bar__minus_01_dot_85_bar__plus_00_dot_59_bar__minus_00_dot_79"
+      ],
+      "light_toggleable": [
+        "DeskLamp_bar__minus_01_dot_85_bar__plus_00_dot_59_bar__minus_00_dot_79"
+      ],
+      "light_in_receptacle": [
+        "DeskLamp_bar__minus_01_dot_85_bar__plus_00_dot_59_bar__minus_00_dot_79"
+      ]
+    },
+    {
+      "task_identity": "9556304b31bde99819e40bdab48426bf757d0de709a1ac3d682254eb67aaebb1",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-CreditCard-None-FloorLamp-206/trial_T20190908_083541_210340",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_seen\\look_at_obj_in_light-CreditCard-None-FloorLamp-206\\trial_T20190908_083541_210340\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "CreditCard",
+      "light_type": "FloorLamp",
+      "target_objects": [
+        "CreditCard_bar__plus_00_dot_34_bar__plus_00_dot_47_bar__minus_01_dot_25",
+        "CreditCard_bar__plus_00_dot_45_bar__plus_00_dot_76_bar__minus_02_dot_55"
+      ],
+      "target_pickupable": [
+        "CreditCard_bar__plus_00_dot_34_bar__plus_00_dot_47_bar__minus_01_dot_25",
+        "CreditCard_bar__plus_00_dot_45_bar__plus_00_dot_76_bar__minus_02_dot_55"
+      ],
+      "target_in_receptacle": [
+        "CreditCard_bar__plus_00_dot_34_bar__plus_00_dot_47_bar__minus_01_dot_25",
+        "CreditCard_bar__plus_00_dot_45_bar__plus_00_dot_76_bar__minus_02_dot_55"
+      ],
+      "light_objects": [
+        "FloorLamp_bar__minus_01_dot_57_bar__plus_00_dot_00_bar__plus_01_dot_30"
+      ],
+      "light_toggleable": [
+        "FloorLamp_bar__minus_01_dot_57_bar__plus_00_dot_00_bar__plus_01_dot_30"
+      ],
+      "light_in_receptacle": []
+    },
+    {
+      "task_identity": "f19f673d9c50c586d13b5440b201ef09ab2e150181068b678c45028d6c97ea74",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-CreditCard-None-FloorLamp-207/trial_T20190907_031918_448619",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_seen\\look_at_obj_in_light-CreditCard-None-FloorLamp-207\\trial_T20190907_031918_448619\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "CreditCard",
+      "light_type": "FloorLamp",
+      "target_objects": [
+        "CreditCard_bar__minus_01_dot_44_bar__plus_00_dot_49_bar__plus_01_dot_82",
+        "CreditCard_bar__minus_01_dot_70_bar__plus_00_dot_49_bar__plus_01_dot_62",
+        "CreditCard_bar__minus_01_dot_86_bar__plus_01_dot_63_bar__minus_01_dot_55",
+        "CreditCard_bar__plus_01_dot_45_bar__plus_00_dot_76_bar__plus_00_dot_24"
+      ],
+      "target_pickupable": [
+        "CreditCard_bar__minus_01_dot_44_bar__plus_00_dot_49_bar__plus_01_dot_82",
+        "CreditCard_bar__minus_01_dot_70_bar__plus_00_dot_49_bar__plus_01_dot_62",
+        "CreditCard_bar__minus_01_dot_86_bar__plus_01_dot_63_bar__minus_01_dot_55",
+        "CreditCard_bar__plus_01_dot_45_bar__plus_00_dot_76_bar__plus_00_dot_24"
+      ],
+      "target_in_receptacle": [
+        "CreditCard_bar__minus_01_dot_44_bar__plus_00_dot_49_bar__plus_01_dot_82",
+        "CreditCard_bar__minus_01_dot_70_bar__plus_00_dot_49_bar__plus_01_dot_62",
+        "CreditCard_bar__minus_01_dot_86_bar__plus_01_dot_63_bar__minus_01_dot_55",
+        "CreditCard_bar__plus_01_dot_45_bar__plus_00_dot_76_bar__plus_00_dot_24"
+      ],
+      "light_objects": [
+        "FloorLamp_bar__plus_01_dot_23_bar__plus_00_dot_00_bar__plus_03_dot_80"
+      ],
+      "light_toggleable": [
+        "FloorLamp_bar__plus_01_dot_23_bar__plus_00_dot_00_bar__plus_03_dot_80"
+      ],
+      "light_in_receptacle": []
+    },
+    {
+      "task_identity": "70f2994489d82210e1033e76006a5b303f206d6d249b662bc22ba674b09c5d99",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-CreditCard-None-FloorLamp-227/trial_T20190908_173545_981227",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_seen\\look_at_obj_in_light-CreditCard-None-FloorLamp-227\\trial_T20190908_173545_981227\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "CreditCard",
+      "light_type": "FloorLamp",
+      "target_objects": [
+        "CreditCard_bar__minus_00_dot_71_bar__plus_01_dot_27_bar__plus_00_dot_08",
+        "CreditCard_bar__minus_03_dot_93_bar__plus_00_dot_28_bar__plus_03_dot_66",
+        "CreditCard_bar__minus_04_dot_31_bar__plus_01_dot_27_bar__plus_05_dot_21",
+        "CreditCard_bar__minus_06_dot_10_bar__plus_00_dot_75_bar__plus_05_dot_18"
+      ],
+      "target_pickupable": [
+        "CreditCard_bar__minus_00_dot_71_bar__plus_01_dot_27_bar__plus_00_dot_08",
+        "CreditCard_bar__minus_03_dot_93_bar__plus_00_dot_28_bar__plus_03_dot_66",
+        "CreditCard_bar__minus_04_dot_31_bar__plus_01_dot_27_bar__plus_05_dot_21",
+        "CreditCard_bar__minus_06_dot_10_bar__plus_00_dot_75_bar__plus_05_dot_18"
+      ],
+      "target_in_receptacle": [
+        "CreditCard_bar__minus_00_dot_71_bar__plus_01_dot_27_bar__plus_00_dot_08",
+        "CreditCard_bar__minus_03_dot_93_bar__plus_00_dot_28_bar__plus_03_dot_66",
+        "CreditCard_bar__minus_04_dot_31_bar__plus_01_dot_27_bar__plus_05_dot_21",
+        "CreditCard_bar__minus_06_dot_10_bar__plus_00_dot_75_bar__plus_05_dot_18"
+      ],
+      "light_objects": [
+        "FloorLamp_bar__minus_00_dot_37_bar__plus_00_dot_03_bar__plus_04_dot_99"
+      ],
+      "light_toggleable": [
+        "FloorLamp_bar__minus_00_dot_37_bar__plus_00_dot_03_bar__plus_04_dot_99"
+      ],
+      "light_in_receptacle": []
+    },
+    {
+      "task_identity": "1cf88c90400c0142d77ed14a5a3f97e47c6c5d8f1b0abbc36c4dba42956e80ec",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-CreditCard-None-FloorLamp-227/trial_T20190908_173610_612042",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_seen\\look_at_obj_in_light-CreditCard-None-FloorLamp-227\\trial_T20190908_173610_612042\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "CreditCard",
+      "light_type": "FloorLamp",
+      "target_objects": [
+        "CreditCard_bar__minus_02_dot_93_bar__plus_00_dot_28_bar__plus_03_dot_31",
+        "CreditCard_bar__minus_03_dot_01_bar__plus_00_dot_30_bar__plus_02_dot_07",
+        "CreditCard_bar__minus_03_dot_85_bar__plus_00_dot_49_bar__plus_00_dot_12"
+      ],
+      "target_pickupable": [
+        "CreditCard_bar__minus_02_dot_93_bar__plus_00_dot_28_bar__plus_03_dot_31",
+        "CreditCard_bar__minus_03_dot_01_bar__plus_00_dot_30_bar__plus_02_dot_07",
+        "CreditCard_bar__minus_03_dot_85_bar__plus_00_dot_49_bar__plus_00_dot_12"
+      ],
+      "target_in_receptacle": [
+        "CreditCard_bar__minus_02_dot_93_bar__plus_00_dot_28_bar__plus_03_dot_31",
+        "CreditCard_bar__minus_03_dot_01_bar__plus_00_dot_30_bar__plus_02_dot_07",
+        "CreditCard_bar__minus_03_dot_85_bar__plus_00_dot_49_bar__plus_00_dot_12"
+      ],
+      "light_objects": [
+        "FloorLamp_bar__minus_00_dot_37_bar__plus_00_dot_03_bar__plus_04_dot_99"
+      ],
+      "light_toggleable": [
+        "FloorLamp_bar__minus_00_dot_37_bar__plus_00_dot_03_bar__plus_04_dot_99"
+      ],
+      "light_in_receptacle": []
+    },
+    {
+      "task_identity": "e7822ab63a374143fdcd17e0bf3c58fd2b0eba16bb9751717aba974391a91648",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-KeyChain-None-DeskLamp-327/trial_T20190906_202601_548273",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_seen\\look_at_obj_in_light-KeyChain-None-DeskLamp-327\\trial_T20190906_202601_548273\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "KeyChain",
+      "light_type": "DeskLamp",
+      "target_objects": [
+        "KeyChain_bar__minus_01_dot_33_bar__plus_00_dot_40_bar__minus_02_dot_05",
+        "KeyChain_bar__minus_01_dot_52_bar__plus_00_dot_70_bar__minus_02_dot_05",
+        "KeyChain_bar__plus_01_dot_29_bar__plus_01_dot_41_bar__minus_00_dot_38",
+        "KeyChain_bar__plus_01_dot_33_bar__plus_00_dot_38_bar__minus_00_dot_68"
+      ],
+      "target_pickupable": [
+        "KeyChain_bar__minus_01_dot_33_bar__plus_00_dot_40_bar__minus_02_dot_05",
+        "KeyChain_bar__minus_01_dot_52_bar__plus_00_dot_70_bar__minus_02_dot_05",
+        "KeyChain_bar__plus_01_dot_29_bar__plus_01_dot_41_bar__minus_00_dot_38",
+        "KeyChain_bar__plus_01_dot_33_bar__plus_00_dot_38_bar__minus_00_dot_68"
+      ],
+      "target_in_receptacle": [
+        "KeyChain_bar__minus_01_dot_33_bar__plus_00_dot_40_bar__minus_02_dot_05",
+        "KeyChain_bar__minus_01_dot_52_bar__plus_00_dot_70_bar__minus_02_dot_05",
+        "KeyChain_bar__plus_01_dot_29_bar__plus_01_dot_41_bar__minus_00_dot_38",
+        "KeyChain_bar__plus_01_dot_33_bar__plus_00_dot_38_bar__minus_00_dot_68"
+      ],
+      "light_objects": [
+        "DeskLamp_bar__minus_01_dot_49_bar__plus_00_dot_69_bar__minus_02_dot_42"
+      ],
+      "light_toggleable": [
+        "DeskLamp_bar__minus_01_dot_49_bar__plus_00_dot_69_bar__minus_02_dot_42"
+      ],
+      "light_in_receptacle": [
+        "DeskLamp_bar__minus_01_dot_49_bar__plus_00_dot_69_bar__minus_02_dot_42"
+      ]
+    },
+    {
+      "task_identity": "f4ca200a1448121107b25f3f39a9570aba817792b416e4207d2d1a6716c24bc2",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-KeyChain-None-FloorLamp-204/trial_T20190909_030908_402835",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_seen\\look_at_obj_in_light-KeyChain-None-FloorLamp-204\\trial_T20190909_030908_402835\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "KeyChain",
+      "light_type": "FloorLamp",
+      "target_objects": [
+        "KeyChain_bar__minus_00_dot_60_bar__plus_00_dot_69_bar__plus_05_dot_93"
+      ],
+      "target_pickupable": [
+        "KeyChain_bar__minus_00_dot_60_bar__plus_00_dot_69_bar__plus_05_dot_93"
+      ],
+      "target_in_receptacle": [
+        "KeyChain_bar__minus_00_dot_60_bar__plus_00_dot_69_bar__plus_05_dot_93"
+      ],
+      "light_objects": [
+        "FloorLamp_bar__plus_00_dot_39_bar__plus_00_dot_00_bar__plus_05_dot_16"
+      ],
+      "light_toggleable": [
+        "FloorLamp_bar__plus_00_dot_39_bar__plus_00_dot_00_bar__plus_05_dot_16"
+      ],
+      "light_in_receptacle": []
+    },
+    {
+      "task_identity": "5da64e62fe1079f36ba59127fea4e6f697bf1a57b9bdeafe44480a1298ab6e32",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-KeyChain-None-FloorLamp-213/trial_T20190908_203806_730562",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_seen\\look_at_obj_in_light-KeyChain-None-FloorLamp-213\\trial_T20190908_203806_730562\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "KeyChain",
+      "light_type": "FloorLamp",
+      "target_objects": [
+        "KeyChain_bar__plus_09_dot_31_bar__plus_00_dot_43_bar__plus_03_dot_29",
+        "KeyChain_bar__plus_10_dot_65_bar__plus_00_dot_59_bar__plus_01_dot_14",
+        "KeyChain_bar__plus_14_dot_20_bar__plus_00_dot_14_bar__plus_00_dot_71",
+        "KeyChain_bar__plus_14_dot_20_bar__plus_00_dot_55_bar__plus_01_dot_39"
+      ],
+      "target_pickupable": [
+        "KeyChain_bar__plus_09_dot_31_bar__plus_00_dot_43_bar__plus_03_dot_29",
+        "KeyChain_bar__plus_10_dot_65_bar__plus_00_dot_59_bar__plus_01_dot_14",
+        "KeyChain_bar__plus_14_dot_20_bar__plus_00_dot_14_bar__plus_00_dot_71",
+        "KeyChain_bar__plus_14_dot_20_bar__plus_00_dot_55_bar__plus_01_dot_39"
+      ],
+      "target_in_receptacle": [
+        "KeyChain_bar__plus_09_dot_31_bar__plus_00_dot_43_bar__plus_03_dot_29",
+        "KeyChain_bar__plus_10_dot_65_bar__plus_00_dot_59_bar__plus_01_dot_14",
+        "KeyChain_bar__plus_14_dot_20_bar__plus_00_dot_14_bar__plus_00_dot_71",
+        "KeyChain_bar__plus_14_dot_20_bar__plus_00_dot_55_bar__plus_01_dot_39"
+      ],
+      "light_objects": [
+        "FloorLamp_bar__plus_07_dot_86_bar__plus_00_dot_00_bar__plus_03_dot_40"
+      ],
+      "light_toggleable": [
+        "FloorLamp_bar__plus_07_dot_86_bar__plus_00_dot_00_bar__plus_03_dot_40"
+      ],
+      "light_in_receptacle": []
+    },
+    {
+      "task_identity": "db3ff908198c27495eefd85458fda81738186c5076d66ccf759639bea741f349",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-Laptop-None-DeskLamp-328/trial_T20190908_201550_622420",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_seen\\look_at_obj_in_light-Laptop-None-DeskLamp-328\\trial_T20190908_201550_622420\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "Laptop",
+      "light_type": "DeskLamp",
+      "target_objects": [
+        "Laptop_bar__plus_02_dot_36_bar__plus_00_dot_79_bar__minus_01_dot_54"
+      ],
+      "target_pickupable": [
+        "Laptop_bar__plus_02_dot_36_bar__plus_00_dot_79_bar__minus_01_dot_54"
+      ],
+      "target_in_receptacle": [
+        "Laptop_bar__plus_02_dot_36_bar__plus_00_dot_79_bar__minus_01_dot_54"
+      ],
+      "light_objects": [
+        "DeskLamp_bar__plus_03_dot_16_bar__plus_00_dot_79_bar__minus_01_dot_66"
+      ],
+      "light_toggleable": [
+        "DeskLamp_bar__plus_03_dot_16_bar__plus_00_dot_79_bar__minus_01_dot_66"
+      ],
+      "light_in_receptacle": [
+        "DeskLamp_bar__plus_03_dot_16_bar__plus_00_dot_79_bar__minus_01_dot_66"
+      ]
+    },
+    {
+      "task_identity": "2e866efec64e0f783c081f061ab8e9b3dc39666449fafe0b4fc6c2988dad92c7",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-Laptop-None-FloorLamp-205/trial_T20190907_130001_953970",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_seen\\look_at_obj_in_light-Laptop-None-FloorLamp-205\\trial_T20190907_130001_953970\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "Laptop",
+      "light_type": "FloorLamp",
+      "target_objects": [
+        "Laptop_bar__minus_02_dot_49_bar__plus_00_dot_46_bar__plus_03_dot_63",
+        "Laptop_bar__minus_04_dot_38_bar__plus_00_dot_48_bar__plus_05_dot_56"
+      ],
+      "target_pickupable": [
+        "Laptop_bar__minus_02_dot_49_bar__plus_00_dot_46_bar__plus_03_dot_63",
+        "Laptop_bar__minus_04_dot_38_bar__plus_00_dot_48_bar__plus_05_dot_56"
+      ],
+      "target_in_receptacle": [
+        "Laptop_bar__minus_02_dot_49_bar__plus_00_dot_46_bar__plus_03_dot_63",
+        "Laptop_bar__minus_04_dot_38_bar__plus_00_dot_48_bar__plus_05_dot_56"
+      ],
+      "light_objects": [
+        "FloorLamp_bar__minus_04_dot_72_bar__plus_00_dot_00_bar__plus_03_dot_69"
+      ],
+      "light_toggleable": [
+        "FloorLamp_bar__minus_04_dot_72_bar__plus_00_dot_00_bar__plus_03_dot_69"
+      ],
+      "light_in_receptacle": []
+    },
+    {
+      "task_identity": "1ab6deb806c60b516d75b378ec7eb5ee98c7d1a9a019f88784f01211fd88f745",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-Pillow-None-DeskLamp-302/trial_T20190909_150916_682139",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_seen\\look_at_obj_in_light-Pillow-None-DeskLamp-302\\trial_T20190909_150916_682139\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "Pillow",
+      "light_type": "DeskLamp",
+      "target_objects": [
+        "Pillow_bar__plus_01_dot_22_bar__plus_00_dot_64_bar__minus_01_dot_66"
+      ],
+      "target_pickupable": [
+        "Pillow_bar__plus_01_dot_22_bar__plus_00_dot_64_bar__minus_01_dot_66"
+      ],
+      "target_in_receptacle": [
+        "Pillow_bar__plus_01_dot_22_bar__plus_00_dot_64_bar__minus_01_dot_66"
+      ],
+      "light_objects": [
+        "DeskLamp_bar__plus_00_dot_48_bar__plus_00_dot_67_bar__plus_01_dot_35"
+      ],
+      "light_toggleable": [
+        "DeskLamp_bar__plus_00_dot_48_bar__plus_00_dot_67_bar__plus_01_dot_35"
+      ],
+      "light_in_receptacle": [
+        "DeskLamp_bar__plus_00_dot_48_bar__plus_00_dot_67_bar__plus_01_dot_35"
+      ]
+    },
+    {
+      "task_identity": "ce8bcf6b05fca7d332a51b7dbe8f7341e6834e5071d92b1aebd57695a1321a01",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-Pillow-None-DeskLamp-323/trial_T20190908_053153_077977",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_seen\\look_at_obj_in_light-Pillow-None-DeskLamp-323\\trial_T20190908_053153_077977\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "Pillow",
+      "light_type": "DeskLamp",
+      "target_objects": [
+        "Pillow_bar__minus_02_dot_12_bar__plus_00_dot_66_bar__minus_01_dot_52",
+        "Pillow_bar__minus_02_dot_38_bar__plus_00_dot_64_bar__minus_02_dot_33"
+      ],
+      "target_pickupable": [
+        "Pillow_bar__minus_02_dot_12_bar__plus_00_dot_66_bar__minus_01_dot_52",
+        "Pillow_bar__minus_02_dot_38_bar__plus_00_dot_64_bar__minus_02_dot_33"
+      ],
+      "target_in_receptacle": [
+        "Pillow_bar__minus_02_dot_12_bar__plus_00_dot_66_bar__minus_01_dot_52",
+        "Pillow_bar__minus_02_dot_38_bar__plus_00_dot_64_bar__minus_02_dot_33"
+      ],
+      "light_objects": [
+        "DeskLamp_bar__minus_02_dot_46_bar__plus_00_dot_67_bar__minus_00_dot_53",
+        "DeskLamp_bar__plus_02_dot_76_bar__plus_00_dot_89_bar__minus_03_dot_32"
+      ],
+      "light_toggleable": [
+        "DeskLamp_bar__minus_02_dot_46_bar__plus_00_dot_67_bar__minus_00_dot_53",
+        "DeskLamp_bar__plus_02_dot_76_bar__plus_00_dot_89_bar__minus_03_dot_32"
+      ],
+      "light_in_receptacle": [
+        "DeskLamp_bar__minus_02_dot_46_bar__plus_00_dot_67_bar__minus_00_dot_53",
+        "DeskLamp_bar__plus_02_dot_76_bar__plus_00_dot_89_bar__minus_03_dot_32"
+      ]
+    },
+    {
+      "task_identity": "d4102cb0065c4e70d2e5038b8a8b4fafe7e484f417cbeae2424ad22691594f13",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-AlarmClock-None-DeskLamp-308/trial_T20190908_222917_366542",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-AlarmClock-None-DeskLamp-308\\trial_T20190908_222917_366542\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "AlarmClock",
+      "light_type": "DeskLamp",
+      "target_objects": [
+        "AlarmClock_bar__minus_00_dot_82_bar__plus_00_dot_86_bar__minus_01_dot_36"
+      ],
+      "target_pickupable": [
+        "AlarmClock_bar__minus_00_dot_82_bar__plus_00_dot_86_bar__minus_01_dot_36"
+      ],
+      "target_in_receptacle": [
+        "AlarmClock_bar__minus_00_dot_82_bar__plus_00_dot_86_bar__minus_01_dot_36"
+      ],
+      "light_objects": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_toggleable": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_in_receptacle": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ]
+    },
+    {
+      "task_identity": "7f8bddc1e805db31422344abe1b44548216a6a1674cd36106f77701bbde49ea6",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-AlarmClock-None-DeskLamp-308/trial_T20190908_222933_607649",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-AlarmClock-None-DeskLamp-308\\trial_T20190908_222933_607649\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "AlarmClock",
+      "light_type": "DeskLamp",
+      "target_objects": [
+        "AlarmClock_bar__minus_00_dot_82_bar__plus_00_dot_86_bar__minus_00_dot_66"
+      ],
+      "target_pickupable": [
+        "AlarmClock_bar__minus_00_dot_82_bar__plus_00_dot_86_bar__minus_00_dot_66"
+      ],
+      "target_in_receptacle": [
+        "AlarmClock_bar__minus_00_dot_82_bar__plus_00_dot_86_bar__minus_00_dot_66"
+      ],
+      "light_objects": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_toggleable": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_in_receptacle": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ]
+    },
+    {
+      "task_identity": "178e7106aa2ba1289fd610043a7853737679cd21d26e4fb2fa885333abb0f030",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-AlarmClock-None-DeskLamp-308/trial_T20190908_222951_616606",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-AlarmClock-None-DeskLamp-308\\trial_T20190908_222951_616606\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "AlarmClock",
+      "light_type": "DeskLamp",
+      "target_objects": [
+        "AlarmClock_bar__minus_01_dot_40_bar__plus_00_dot_88_bar__plus_00_dot_83"
+      ],
+      "target_pickupable": [
+        "AlarmClock_bar__minus_01_dot_40_bar__plus_00_dot_88_bar__plus_00_dot_83"
+      ],
+      "target_in_receptacle": [
+        "AlarmClock_bar__minus_01_dot_40_bar__plus_00_dot_88_bar__plus_00_dot_83"
+      ],
+      "light_objects": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_toggleable": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_in_receptacle": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ]
+    },
+    {
+      "task_identity": "29ff66c4d260797743cec6cf27cf0ddca4e2fa2857605531f68d2608164d49c1",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-BaseballBat-None-DeskLamp-308/trial_T20190906_214631_761426",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-BaseballBat-None-DeskLamp-308\\trial_T20190906_214631_761426\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [
+        "target_object_missing_in_receptacle"
+      ],
+      "target_type": "BaseballBat",
+      "light_type": "DeskLamp",
+      "target_objects": [
+        "BaseballBat_bar__plus_01_dot_95_bar__plus_00_dot_66_bar__minus_01_dot_81"
+      ],
+      "target_pickupable": [
+        "BaseballBat_bar__plus_01_dot_95_bar__plus_00_dot_66_bar__minus_01_dot_81"
+      ],
+      "target_in_receptacle": [],
+      "light_objects": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_toggleable": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_in_receptacle": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ]
+    },
+    {
+      "task_identity": "4c146e2af432a8522659c30b161229e29a9fe8b139e638b57efb1cfc89793a3e",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-BaseballBat-None-DeskLamp-308/trial_T20190906_214648_973919",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-BaseballBat-None-DeskLamp-308\\trial_T20190906_214648_973919\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [
+        "target_object_missing_in_receptacle"
+      ],
+      "target_type": "BaseballBat",
+      "light_type": "DeskLamp",
+      "target_objects": [
+        "BaseballBat_bar__plus_01_dot_95_bar__plus_00_dot_66_bar__minus_01_dot_81"
+      ],
+      "target_pickupable": [
+        "BaseballBat_bar__plus_01_dot_95_bar__plus_00_dot_66_bar__minus_01_dot_81"
+      ],
+      "target_in_receptacle": [],
+      "light_objects": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_toggleable": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_in_receptacle": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ]
+    },
+    {
+      "task_identity": "0c10c9615d6ae7fa0816524c6a024c873ef08fecdcd3666ed81b7b7be713da40",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-BaseballBat-None-DeskLamp-308/trial_T20190906_214706_219505",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-BaseballBat-None-DeskLamp-308\\trial_T20190906_214706_219505\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [
+        "target_object_missing_in_receptacle"
+      ],
+      "target_type": "BaseballBat",
+      "light_type": "DeskLamp",
+      "target_objects": [
+        "BaseballBat_bar__plus_01_dot_95_bar__plus_00_dot_66_bar__minus_01_dot_81"
+      ],
+      "target_pickupable": [
+        "BaseballBat_bar__plus_01_dot_95_bar__plus_00_dot_66_bar__minus_01_dot_81"
+      ],
+      "target_in_receptacle": [],
+      "light_objects": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_toggleable": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_in_receptacle": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ]
+    },
+    {
+      "task_identity": "e4c0245485d973d9981008f460b2b7e30d11698d8aa05c326a1646cb70dd62c3",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-BasketBall-None-DeskLamp-308/trial_T20190907_161210_531813",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-BasketBall-None-DeskLamp-308\\trial_T20190907_161210_531813\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [
+        "target_object_missing_in_receptacle"
+      ],
+      "target_type": "BasketBall",
+      "light_type": "DeskLamp",
+      "target_objects": [
+        "BasketBall_bar__plus_01_dot_98_bar__plus_00_dot_12_bar__plus_00_dot_21"
+      ],
+      "target_pickupable": [
+        "BasketBall_bar__plus_01_dot_98_bar__plus_00_dot_12_bar__plus_00_dot_21"
+      ],
+      "target_in_receptacle": [],
+      "light_objects": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_toggleable": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_in_receptacle": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ]
+    },
+    {
+      "task_identity": "434e06be5740fef1101f8286e433f91c2491bc53dc9f45334c582a2fa66b6ba8",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-BasketBall-None-DeskLamp-308/trial_T20190907_161235_786153",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-BasketBall-None-DeskLamp-308\\trial_T20190907_161235_786153\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [
+        "target_object_missing_in_receptacle"
+      ],
+      "target_type": "BasketBall",
+      "light_type": "DeskLamp",
+      "target_objects": [
+        "BasketBall_bar__plus_01_dot_98_bar__plus_00_dot_12_bar__plus_00_dot_21"
+      ],
+      "target_pickupable": [
+        "BasketBall_bar__plus_01_dot_98_bar__plus_00_dot_12_bar__plus_00_dot_21"
+      ],
+      "target_in_receptacle": [],
+      "light_objects": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_toggleable": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_in_receptacle": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ]
+    },
+    {
+      "task_identity": "4ed9293b62f23d17ac6cd9036a6c281593a71a96996d7a035691ea3e384a2c3b",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-BasketBall-None-DeskLamp-308/trial_T20190907_161252_926204",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-BasketBall-None-DeskLamp-308\\trial_T20190907_161252_926204\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [
+        "target_object_missing_in_receptacle"
+      ],
+      "target_type": "BasketBall",
+      "light_type": "DeskLamp",
+      "target_objects": [
+        "BasketBall_bar__plus_01_dot_98_bar__plus_00_dot_12_bar__plus_00_dot_21"
+      ],
+      "target_pickupable": [
+        "BasketBall_bar__plus_01_dot_98_bar__plus_00_dot_12_bar__plus_00_dot_21"
+      ],
+      "target_in_receptacle": [],
+      "light_objects": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_toggleable": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_in_receptacle": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ]
+    },
+    {
+      "task_identity": "5cc3defbf882c788a1e5a977e3cdde7e133533fdf2d53788ad3aa3bbdbb0fc52",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-Book-None-DeskLamp-308/trial_T20190908_020029_636862",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-Book-None-DeskLamp-308\\trial_T20190908_020029_636862\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "Book",
+      "light_type": "DeskLamp",
+      "target_objects": [
+        "Book_bar__plus_01_dot_41_bar__plus_00_dot_78_bar__plus_01_dot_08"
+      ],
+      "target_pickupable": [
+        "Book_bar__plus_01_dot_41_bar__plus_00_dot_78_bar__plus_01_dot_08"
+      ],
+      "target_in_receptacle": [
+        "Book_bar__plus_01_dot_41_bar__plus_00_dot_78_bar__plus_01_dot_08"
+      ],
+      "light_objects": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_toggleable": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_in_receptacle": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ]
+    },
+    {
+      "task_identity": "0e2e0924f88c16ca82c573942e964aa63ae5bbf614143ef0590c8f458c5899fc",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-Book-None-DeskLamp-308/trial_T20190908_020048_814402",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-Book-None-DeskLamp-308\\trial_T20190908_020048_814402\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "Book",
+      "light_type": "DeskLamp",
+      "target_objects": [
+        "Book_bar__plus_01_dot_21_bar__plus_00_dot_78_bar__plus_02_dot_52"
+      ],
+      "target_pickupable": [
+        "Book_bar__plus_01_dot_21_bar__plus_00_dot_78_bar__plus_02_dot_52"
+      ],
+      "target_in_receptacle": [
+        "Book_bar__plus_01_dot_21_bar__plus_00_dot_78_bar__plus_02_dot_52"
+      ],
+      "light_objects": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_toggleable": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_in_receptacle": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ]
+    },
+    {
+      "task_identity": "a5d3a28b2adecc41e3e40d64b49f0fcb52653ffb3652090afa7748318ecd4d95",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-Book-None-DeskLamp-308/trial_T20190908_144951_587345",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-Book-None-DeskLamp-308\\trial_T20190908_144951_587345\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "Book",
+      "light_type": "DeskLamp",
+      "target_objects": [
+        "Book_bar__plus_01_dot_00_bar__plus_00_dot_78_bar__plus_01_dot_66"
+      ],
+      "target_pickupable": [
+        "Book_bar__plus_01_dot_00_bar__plus_00_dot_78_bar__plus_01_dot_66"
+      ],
+      "target_in_receptacle": [
+        "Book_bar__plus_01_dot_00_bar__plus_00_dot_78_bar__plus_01_dot_66"
+      ],
+      "light_objects": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_toggleable": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_in_receptacle": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ]
+    },
+    {
+      "task_identity": "b0a8850ba694ba4e1750199345a63d7eb262a234c752cdacb55fb2c362ffcd3f",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-Bowl-None-DeskLamp-308/trial_T20190907_133919_856963",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-Bowl-None-DeskLamp-308\\trial_T20190907_133919_856963\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "Bowl",
+      "light_type": "DeskLamp",
+      "target_objects": [
+        "Bowl_bar__minus_00_dot_82_bar__plus_00_dot_86_bar__minus_01_dot_01"
+      ],
+      "target_pickupable": [
+        "Bowl_bar__minus_00_dot_82_bar__plus_00_dot_86_bar__minus_01_dot_01"
+      ],
+      "target_in_receptacle": [
+        "Bowl_bar__minus_00_dot_82_bar__plus_00_dot_86_bar__minus_01_dot_01"
+      ],
+      "light_objects": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_toggleable": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_in_receptacle": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ]
+    },
+    {
+      "task_identity": "fa19035643dc03875dfe7b4a4a1676f3897f402a9091550a489ddf3bb4fe76dd",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-Bowl-None-DeskLamp-308/trial_T20190907_133935_066606",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-Bowl-None-DeskLamp-308\\trial_T20190907_133935_066606\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "Bowl",
+      "light_type": "DeskLamp",
+      "target_objects": [
+        "Bowl_bar__minus_00_dot_48_bar__plus_00_dot_86_bar__minus_00_dot_84",
+        "Bowl_bar__minus_00_dot_48_bar__plus_00_dot_86_bar__minus_01_dot_70"
+      ],
+      "target_pickupable": [
+        "Bowl_bar__minus_00_dot_48_bar__plus_00_dot_86_bar__minus_00_dot_84",
+        "Bowl_bar__minus_00_dot_48_bar__plus_00_dot_86_bar__minus_01_dot_70"
+      ],
+      "target_in_receptacle": [
+        "Bowl_bar__minus_00_dot_48_bar__plus_00_dot_86_bar__minus_00_dot_84",
+        "Bowl_bar__minus_00_dot_48_bar__plus_00_dot_86_bar__minus_01_dot_70"
+      ],
+      "light_objects": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_toggleable": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_in_receptacle": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ]
+    },
+    {
+      "task_identity": "88fc5894f2977e3c97e7d14d74f12e3727a6afc5794d4df645f9bd6d4ce35ab7",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-Bowl-None-DeskLamp-308/trial_T20190907_133953_562557",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-Bowl-None-DeskLamp-308\\trial_T20190907_133953_562557\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "Bowl",
+      "light_type": "DeskLamp",
+      "target_objects": [
+        "Bowl_bar__minus_00_dot_57_bar__plus_00_dot_86_bar__minus_00_dot_66",
+        "Bowl_bar__minus_00_dot_82_bar__plus_00_dot_86_bar__minus_00_dot_66",
+        "Bowl_bar__minus_02_dot_05_bar__plus_01_dot_35_bar__plus_00_dot_37"
+      ],
+      "target_pickupable": [
+        "Bowl_bar__minus_00_dot_57_bar__plus_00_dot_86_bar__minus_00_dot_66",
+        "Bowl_bar__minus_00_dot_82_bar__plus_00_dot_86_bar__minus_00_dot_66",
+        "Bowl_bar__minus_02_dot_05_bar__plus_01_dot_35_bar__plus_00_dot_37"
+      ],
+      "target_in_receptacle": [
+        "Bowl_bar__minus_00_dot_57_bar__plus_00_dot_86_bar__minus_00_dot_66",
+        "Bowl_bar__minus_00_dot_82_bar__plus_00_dot_86_bar__minus_00_dot_66",
+        "Bowl_bar__minus_02_dot_05_bar__plus_01_dot_35_bar__plus_00_dot_37"
+      ],
+      "light_objects": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_toggleable": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_in_receptacle": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ]
+    },
+    {
+      "task_identity": "a5a8eac9715dc8124009d69541ec0d15cc496a3d3c8cd52607946fb8abdd441e",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-Box-None-FloorLamp-219/trial_T20190907_102952_001375",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-Box-None-FloorLamp-219\\trial_T20190907_102952_001375\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "Box",
+      "light_type": "FloorLamp",
+      "target_objects": [
+        "Box_bar__minus_01_dot_46_bar__plus_00_dot_81_bar__plus_04_dot_30"
+      ],
+      "target_pickupable": [
+        "Box_bar__minus_01_dot_46_bar__plus_00_dot_81_bar__plus_04_dot_30"
+      ],
+      "target_in_receptacle": [
+        "Box_bar__minus_01_dot_46_bar__plus_00_dot_81_bar__plus_04_dot_30"
+      ],
+      "light_objects": [
+        "FloorLamp_bar__minus_00_dot_65_bar__plus_00_dot_27_bar__plus_04_dot_43",
+        "FloorLamp_bar__minus_05_dot_60_bar__plus_00_dot_00_bar__plus_04_dot_64"
+      ],
+      "light_toggleable": [
+        "FloorLamp_bar__minus_00_dot_65_bar__plus_00_dot_27_bar__plus_04_dot_43",
+        "FloorLamp_bar__minus_05_dot_60_bar__plus_00_dot_00_bar__plus_04_dot_64"
+      ],
+      "light_in_receptacle": []
+    },
+    {
+      "task_identity": "3870960b8b29d8602b54ce21c25973ce2b54d6a65b336ebb5c195d392909d30f",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-Box-None-FloorLamp-219/trial_T20190907_103005_855069",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-Box-None-FloorLamp-219\\trial_T20190907_103005_855069\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "Box",
+      "light_type": "FloorLamp",
+      "target_objects": [
+        "Box_bar__minus_00_dot_79_bar__plus_00_dot_83_bar__plus_03_dot_55",
+        "Box_bar__minus_00_dot_87_bar__plus_00_dot_83_bar__plus_01_dot_96",
+        "Box_bar__minus_03_dot_05_bar__plus_00_dot_42_bar__plus_04_dot_34",
+        "Box_bar__minus_04_dot_74_bar__plus_00_dot_43_bar__plus_04_dot_33"
+      ],
+      "target_pickupable": [
+        "Box_bar__minus_00_dot_79_bar__plus_00_dot_83_bar__plus_03_dot_55",
+        "Box_bar__minus_00_dot_87_bar__plus_00_dot_83_bar__plus_01_dot_96",
+        "Box_bar__minus_03_dot_05_bar__plus_00_dot_42_bar__plus_04_dot_34",
+        "Box_bar__minus_04_dot_74_bar__plus_00_dot_43_bar__plus_04_dot_33"
+      ],
+      "target_in_receptacle": [
+        "Box_bar__minus_00_dot_79_bar__plus_00_dot_83_bar__plus_03_dot_55",
+        "Box_bar__minus_00_dot_87_bar__plus_00_dot_83_bar__plus_01_dot_96",
+        "Box_bar__minus_03_dot_05_bar__plus_00_dot_42_bar__plus_04_dot_34",
+        "Box_bar__minus_04_dot_74_bar__plus_00_dot_43_bar__plus_04_dot_33"
+      ],
+      "light_objects": [
+        "FloorLamp_bar__minus_00_dot_65_bar__plus_00_dot_27_bar__plus_04_dot_43",
+        "FloorLamp_bar__minus_05_dot_60_bar__plus_00_dot_00_bar__plus_04_dot_64"
+      ],
+      "light_toggleable": [
+        "FloorLamp_bar__minus_00_dot_65_bar__plus_00_dot_27_bar__plus_04_dot_43",
+        "FloorLamp_bar__minus_05_dot_60_bar__plus_00_dot_00_bar__plus_04_dot_64"
+      ],
+      "light_in_receptacle": []
+    },
+    {
+      "task_identity": "2965606e9682fa4b5d4c37cb4c075c8b8ca12f042326a850ccea411f1a4382f4",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-Box-None-FloorLamp-219/trial_T20190907_103041_110705",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-Box-None-FloorLamp-219\\trial_T20190907_103041_110705\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "Box",
+      "light_type": "FloorLamp",
+      "target_objects": [
+        "Box_bar__minus_00_dot_31_bar__plus_00_dot_30_bar__plus_01_dot_10"
+      ],
+      "target_pickupable": [
+        "Box_bar__minus_00_dot_31_bar__plus_00_dot_30_bar__plus_01_dot_10"
+      ],
+      "target_in_receptacle": [
+        "Box_bar__minus_00_dot_31_bar__plus_00_dot_30_bar__plus_01_dot_10"
+      ],
+      "light_objects": [
+        "FloorLamp_bar__minus_00_dot_65_bar__plus_00_dot_27_bar__plus_04_dot_43",
+        "FloorLamp_bar__minus_05_dot_60_bar__plus_00_dot_00_bar__plus_04_dot_64"
+      ],
+      "light_toggleable": [
+        "FloorLamp_bar__minus_00_dot_65_bar__plus_00_dot_27_bar__plus_04_dot_43",
+        "FloorLamp_bar__minus_05_dot_60_bar__plus_00_dot_00_bar__plus_04_dot_64"
+      ],
+      "light_in_receptacle": []
+    },
+    {
+      "task_identity": "3e2589cdb0997e9561c357b7b6123b59ed3fdda2134cd9f8a6732fdd3088480a",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-CD-None-DeskLamp-308/trial_T20190908_141942_810052",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-CD-None-DeskLamp-308\\trial_T20190908_141942_810052\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "CD",
+      "light_type": "DeskLamp",
+      "target_objects": [
+        "CD_bar__minus_00_dot_40_bar__plus_00_dot_86_bar__minus_00_dot_66"
+      ],
+      "target_pickupable": [
+        "CD_bar__minus_00_dot_40_bar__plus_00_dot_86_bar__minus_00_dot_66"
+      ],
+      "target_in_receptacle": [
+        "CD_bar__minus_00_dot_40_bar__plus_00_dot_86_bar__minus_00_dot_66"
+      ],
+      "light_objects": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_toggleable": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_in_receptacle": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ]
+    },
+    {
+      "task_identity": "baa9a87c161a2cd24f6dda18bdd236f7e89ea0565cd208d4cc5151930070bc68",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-CD-None-DeskLamp-308/trial_T20190908_141958_463362",
+      "gamefile": "C:\\Users\\CMCC\\ALFWORLD_DATA\\json_2.1.1\\valid_unseen\\look_at_obj_in_light-CD-None-DeskLamp-308\\trial_T20190908_141958_463362\\game.tw-pddl",
+      "gamefile_exists": true,
+      "issues": [],
+      "target_type": "CD",
+      "light_type": "DeskLamp",
+      "target_objects": [
+        "CD_bar__minus_00_dot_65_bar__plus_00_dot_86_bar__minus_00_dot_66",
+        "CD_bar__minus_00_dot_67_bar__plus_00_dot_20_bar__minus_00_dot_37",
+        "CD_bar__minus_02_dot_14_bar__plus_00_dot_04_bar__plus_02_dot_47"
+      ],
+      "target_pickupable": [
+        "CD_bar__minus_00_dot_65_bar__plus_00_dot_86_bar__minus_00_dot_66",
+        "CD_bar__minus_00_dot_67_bar__plus_00_dot_20_bar__minus_00_dot_37",
+        "CD_bar__minus_02_dot_14_bar__plus_00_dot_04_bar__plus_02_dot_47"
+      ],
+      "target_in_receptacle": [
+        "CD_bar__minus_00_dot_65_bar__plus_00_dot_86_bar__minus_00_dot_66",
+        "CD_bar__minus_00_dot_67_bar__plus_00_dot_20_bar__minus_00_dot_37"
+      ],
+      "light_objects": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_toggleable": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ],
+      "light_in_receptacle": [
+        "DeskLamp_bar__minus_02_dot_30_bar__plus_00_dot_87_bar__plus_00_dot_75"
+      ]
+    }
+  ],
+  "issue_counts": {
+    "target_object_missing_in_receptacle": 8
+  },
+  "blocking_rule": "ALFRED PickupObject requires inReceptacle(target, receptacle); missing target inReceptacle is an environment-integrity blocker.",
+  "network_calls": 0,
+  "provider_calls": 0,
+  "model_calls": 0,
+  "paid_api_calls": 0,
+  "episodes_run": 0,
+  "phase0_to_phase6_reuse": false,
+  "webshop_executed": false
+}

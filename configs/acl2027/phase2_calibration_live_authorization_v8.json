@@ -1,0 +1,53 @@
+{
+  "schema_version": 8,
+  "experiment": "acl2027_phase2_calibration_live_v8",
+  "authorization_id": "phase2-calibration-token-plan-v8-20260814",
+  "status": "open",
+  "bindings": {
+    "prompt_preflight_config_sha256": "b1f9f8007d67f703f80ba956e5de28935a911fedf11add364d8faf6a8692d14a",
+    "prompt_preflight_manifest_sha256": "379bb127737d4059f1978a5550a1281fd33b4468f82e09cf26680963bf1334dd",
+    "parent_v6_route_manifest_sha256": "e949e266c827772de49ea7c6c0e498295d6ae61baf10f73d0fd3c5a123b32b99",
+    "schedule_sha256": "d3547c076ded0e10068338b41057f63cb0b9a67cd059c413a9eace245c13f872",
+    "adapter_sha256": "6761e757eee26d9bfab3918930565eda70fa9857bc755a21992c5f8364381eba",
+    "runner_sha256": "83f2e75300847485000ab390fb81a132a05fcadee17b446488f4099a2b5b7b3c"
+  },
+  "live_execution_bindings": {
+    "live_orchestrator_sha256": "fef2d570c8adc61f63852e09c4466faf951d5853a3e27edb3aa06ff573c55425",
+    "audit_source_sha256": "506415858fbbc446d24ab0b05da1902897ac47f8de9cbf4fd1d80d56dabe95af"
+  },
+  "credential_sha256": "c633a901caf472c4a161651f45c53e5d9d962ca1e5dde40cea8e106da2b5ec6f",
+  "user_authorization": {
+    "received_date": "2026-08-14",
+    "scope": "phase2_v8_calibration_only",
+    "authorized_calls": 60,
+    "request_max_tokens_limit_requested": false,
+    "not_inherited_by_later_stages": true,
+    "formal_scaling_authorized": false
+  },
+  "paid_api_allowed": true,
+  "provider_calls_allowed": true,
+  "qwen_authorization_open": true,
+  "formal_scaling_allowed": false,
+  "authorized_stage": "calibration",
+  "authorized_calls": 60,
+  "stage_call_ceiling": 60,
+  "max_provider_attempts": 60,
+  "stage_cost_ceiling_cny": 0.5,
+  "cumulative_cost_ceiling_cny": 0.5,
+  "repository_safety_ceiling_not_user_budget": true,
+  "model_id": "qwen3.7-plus",
+  "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+  "temperature": 0,
+  "enable_thinking": false,
+  "response_format": {"type": "json_object"},
+  "request_interval_seconds": 1.0,
+  "retries": 0,
+  "max_tokens_present": false,
+  "forbidden_stages": [
+    "development_acquisition",
+    "formal_history",
+    "probe",
+    "held_out",
+    "formal_scaling"
+  ]
+}

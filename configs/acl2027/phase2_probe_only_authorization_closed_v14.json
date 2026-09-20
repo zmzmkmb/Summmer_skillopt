@@ -1,0 +1,28 @@
+{
+  "schema_version": 14,
+  "experiment": "acl2027_phase2_probe_only_authorization_v14",
+  "authorization_id": "phase2-probe-only-token-plan-v14",
+  "status": "closed_preflight",
+  "authorized_stage": null,
+  "authorized_calls": 0,
+  "stage_call_ceiling": 0,
+  "stage_cost_ceiling_cny": 0.0,
+  "cumulative_cost_ceiling_cny": 0.0,
+  "model_id": "qwen3.7-plus",
+  "temperature": 0,
+  "retries": 0,
+  "max_tokens_present": false,
+  "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+  "paid_api_allowed": false,
+  "provider_calls_allowed": false,
+  "qwen_authorization_open": false,
+  "formal_scaling_allowed": false,
+  "forbidden_stages": ["held_out", "formal_scaling", "later_phase2_stages"],
+  "bindings": {
+    "preflight_config_sha256": "c169dddecc2ee3ff74798e578260d9dbacd5468ea6364e92698e3c7a4a5b3d33",
+    "v4_aggregate_fingerprint": "17752bb2d26f38e253c91a5f789654dad209eb6c16a1dd68203a942fa354e8d9",
+    "v13_aggregate_fingerprint": "b85558e67b05589384b628d1bbc082b840ea3b8175260ec71a2cd14a0d82f244",
+    "schedule_sha256": "01c4e03660648cf8d5b150f78bf783f273b99899fa6fa4ac8be495090e44dd60",
+    "candidate_sha256": "0059732a15c74f6688acf2ae2a1873f33fa87f2971e8e6c9d3c0aaf5a028ac5d"
+  }
+}

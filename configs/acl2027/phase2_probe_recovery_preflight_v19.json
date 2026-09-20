@@ -1,0 +1,64 @@
+{
+  "schema_version": 19,
+  "experiment": "acl2027_phase2_probe_recovery_preflight_v19",
+  "status": "preflight_only_closed",
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "paid_api_allowed": false,
+    "qwen_authorization_open": false,
+    "formal_scaling_allowed": false
+  },
+  "recovery_contract": {
+    "preserve_v18_completed_rows_as_provenance": 49,
+    "preserve_v18_terminal_rows_as_provenance": 1,
+    "spent_v18_requests_excluded": 50,
+    "reusable_completed_rows": 48,
+    "carry_forward_unattempted_rows": 108,
+    "replacement_task_grid_rows": 4,
+    "recovery_calls": 112,
+    "combined_analysis_rows": 160,
+    "combined_task_grid": "40 tasks x 4 conditions",
+    "explicit_json_contract_required": true
+  },
+  "bindings": {
+    "v4_aggregate_fingerprint": "17752bb2d26f38e253c91a5f789654dad209eb6c16a1dd68203a942fa354e8d9",
+    "v17_aggregate_fingerprint": "68a173ca4e45f58879221ca4c15c9df7bc08dcccae452d496cdb22d9e6cdaa8a",
+    "v4_manifest_sha256": "19108e7ed5837bbd199a1d36bfb78886b4998a8da72337a9ea5e439562ec35c7",
+    "v17_config_sha256": "6749c2d72aa4a10f2df20b1efa6bb023c9459bf7e142eaec4f458520e0bb6794",
+    "v17_manifest_sha256": "93b7856c3c7dda5a25b062162024cb663c73d15c9d7746cbf90e805c26293d11",
+    "v17_schedule_sha256": "207e5d0fd867c045169d67751926755b744bfbe13d223a929c02becfb6762856",
+    "v17_prior_bundles_sha256": "f4de47c538fedf1d28ecba8c07d8f4605f7fff4be1e8e300634c7af273a6d63d",
+    "v17_gold_sha256": "e43d8226e675578e0bfa090138af0ed2e87fb646d7f37e9e0b6cba46e17bc781",
+    "v18_open_authorization_sha256": "f10c9cb4d21ae4909734be8937228492462851df6752a865bde80d1654f85ca9",
+    "v18_closed_authorization_sha256": "4831a4da13f039b42b6944d686206b3ceb947ad9774cd969703c4e0c83463376",
+    "v18_ledger_sha256": "07f67c1109297f01888121b13f29abe2e228c9327deea254f560fc5fe59d301d",
+    "v18_request_start_ledger_sha256": "d1ddb24ffaf7cddb6cc8fc2f21be4bf6b5bb1e7587472499b1dcefb253e39815",
+    "v18_run_audit_sha256": "74d6eebf822fefc2dc5efd4a0f8cff1d8d572c5bbe7ca3193bea10d33c62e379",
+    "v18_closure_sha256": "4831a4da13f039b42b6944d686206b3ceb947ad9774cd969703c4e0c83463376"
+  },
+  "proposed_authorization": {
+    "scope": "probe_only",
+    "requested_calls": 112,
+    "max_provider_attempts": 112,
+    "model_id": "qwen3.7-plus",
+    "temperature": 0,
+    "retries": 0,
+    "max_tokens_present": false,
+    "response_format": {
+      "type": "json_object"
+    },
+    "stage_cost_ceiling_cny": 7.5,
+    "cumulative_cost_ceiling_cny": 7.5,
+    "held_out_authorized": false,
+    "later_stages_authorized": false,
+    "formal_scaling_authorized": false,
+    "status": "fresh_explicit_authorization_required"
+  },
+  "forbidden": [
+    "retry_or_resume_any_v18_spent_request",
+    "held_out",
+    "later_phase2_stages",
+    "formal_scaling"
+  ]
+}

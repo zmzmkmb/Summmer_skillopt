@@ -1,0 +1,315 @@
+{
+  "experiment_line": "tracegraph-observable-state-skill-composition",
+  "phase_id": "TG6-tracegraph-local-readiness-audit-v1",
+  "task_count": 40,
+  "executable_tasks": 22,
+  "missing_game_tasks": [
+    "valid_seen/look_at_obj_in_light-BaseballBat-None-DeskLamp-303/trial_T20190907_060414_846460",
+    "valid_seen/look_at_obj_in_light-Cloth-None-DeskLamp-303/trial_T20190908_170503_844252",
+    "valid_seen/look_at_obj_in_light-CreditCard-None-FloorLamp-206/trial_T20190908_083541_210340",
+    "valid_seen/look_at_obj_in_light-CreditCard-None-FloorLamp-207/trial_T20190907_031918_448619",
+    "valid_seen/look_at_obj_in_light-CreditCard-None-FloorLamp-227/trial_T20190908_173545_981227",
+    "valid_seen/look_at_obj_in_light-CreditCard-None-FloorLamp-227/trial_T20190908_173610_612042",
+    "valid_seen/look_at_obj_in_light-KeyChain-None-FloorLamp-204/trial_T20190909_030908_402835",
+    "valid_seen/look_at_obj_in_light-KeyChain-None-FloorLamp-213/trial_T20190908_203806_730562",
+    "valid_seen/look_at_obj_in_light-Laptop-None-FloorLamp-205/trial_T20190907_130001_953970",
+    "valid_unseen/look_at_obj_in_light-BaseballBat-None-DeskLamp-308/trial_T20190906_214631_761426",
+    "valid_unseen/look_at_obj_in_light-BaseballBat-None-DeskLamp-308/trial_T20190906_214648_973919",
+    "valid_unseen/look_at_obj_in_light-BaseballBat-None-DeskLamp-308/trial_T20190906_214706_219505",
+    "valid_unseen/look_at_obj_in_light-BasketBall-None-DeskLamp-308/trial_T20190907_161210_531813",
+    "valid_unseen/look_at_obj_in_light-BasketBall-None-DeskLamp-308/trial_T20190907_161235_786153",
+    "valid_unseen/look_at_obj_in_light-BasketBall-None-DeskLamp-308/trial_T20190907_161252_926204",
+    "valid_unseen/look_at_obj_in_light-Box-None-FloorLamp-219/trial_T20190907_102952_001375",
+    "valid_unseen/look_at_obj_in_light-Box-None-FloorLamp-219/trial_T20190907_103005_855069",
+    "valid_unseen/look_at_obj_in_light-Box-None-FloorLamp-219/trial_T20190907_103041_110705"
+  ],
+  "missing_trajectory_tasks": [],
+  "execution_authorized": false,
+  "network_calls": 0,
+  "provider_calls": 0,
+  "model_calls": 0,
+  "paid_api_calls": 0,
+  "rows": [
+    {
+      "task_identity": "6f09d81cf1bf2e02e540b1f76a83092d822d75f7e82367ec00dfe9de4bec35a8",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-AlarmClock-None-DeskLamp-323/trial_T20190909_044715_250790",
+      "trajectory_present": true,
+      "game_present": true
+    },
+    {
+      "task_identity": "e4c4ebe7ccde6b7112813ca0554195d85cb29a7233b0944679b55964207d241a",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-BaseballBat-None-DeskLamp-303/trial_T20190907_060414_846460",
+      "trajectory_present": true,
+      "game_present": false
+    },
+    {
+      "task_identity": "95bf73dddd786ada972142cab71cfffcc178d31a8d72add5d6462ebcb4dc7a4f",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-Bowl-None-DeskLamp-301/trial_T20190909_150719_492274",
+      "trajectory_present": true,
+      "game_present": true
+    },
+    {
+      "task_identity": "8fc718e1895302383db0143e4879c4c6bd0caa01fbb74e99734aab9ce29a04fe",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-Bowl-None-DeskLamp-316/trial_T20190908_230702_962704",
+      "trajectory_present": true,
+      "game_present": true
+    },
+    {
+      "task_identity": "ca429486bb87719b35f542561dac75c470ca3244d76ff486614644710b57400c",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-Box-None-DeskLamp-205/trial_T20190907_074425_330493",
+      "trajectory_present": true,
+      "game_present": true
+    },
+    {
+      "task_identity": "8086766e568128367f9d40d92256bd7bdd9817b854df3bd61221fcbfb1b6854f",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-CD-None-DeskLamp-302/trial_T20190907_154618_526741",
+      "trajectory_present": true,
+      "game_present": true
+    },
+    {
+      "task_identity": "41f42511c095d79f37afd0e4bcc65b6b50b2791cf5f25e06dc914228ea1b2e83",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-CD-None-DeskLamp-314/trial_T20190907_114323_767231",
+      "trajectory_present": true,
+      "game_present": true
+    },
+    {
+      "task_identity": "b9e7dd183ebe26f2e3641e94a0bb32d6da3e837a34e46f5b2a13b010f3658d3a",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-CD-None-DeskLamp-320/trial_T20190907_224451_655673",
+      "trajectory_present": true,
+      "game_present": true
+    },
+    {
+      "task_identity": "f74b868c34ab1b4cb914c3058ec09e1c3f82aec32fa6df63d032740b92c144f1",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-Cloth-None-DeskLamp-303/trial_T20190908_170503_844252",
+      "trajectory_present": true,
+      "game_present": false
+    },
+    {
+      "task_identity": "9556304b31bde99819e40bdab48426bf757d0de709a1ac3d682254eb67aaebb1",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-CreditCard-None-FloorLamp-206/trial_T20190908_083541_210340",
+      "trajectory_present": true,
+      "game_present": false
+    },
+    {
+      "task_identity": "f19f673d9c50c586d13b5440b201ef09ab2e150181068b678c45028d6c97ea74",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-CreditCard-None-FloorLamp-207/trial_T20190907_031918_448619",
+      "trajectory_present": true,
+      "game_present": false
+    },
+    {
+      "task_identity": "70f2994489d82210e1033e76006a5b303f206d6d249b662bc22ba674b09c5d99",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-CreditCard-None-FloorLamp-227/trial_T20190908_173545_981227",
+      "trajectory_present": true,
+      "game_present": false
+    },
+    {
+      "task_identity": "1cf88c90400c0142d77ed14a5a3f97e47c6c5d8f1b0abbc36c4dba42956e80ec",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-CreditCard-None-FloorLamp-227/trial_T20190908_173610_612042",
+      "trajectory_present": true,
+      "game_present": false
+    },
+    {
+      "task_identity": "e7822ab63a374143fdcd17e0bf3c58fd2b0eba16bb9751717aba974391a91648",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-KeyChain-None-DeskLamp-327/trial_T20190906_202601_548273",
+      "trajectory_present": true,
+      "game_present": true
+    },
+    {
+      "task_identity": "f4ca200a1448121107b25f3f39a9570aba817792b416e4207d2d1a6716c24bc2",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-KeyChain-None-FloorLamp-204/trial_T20190909_030908_402835",
+      "trajectory_present": true,
+      "game_present": false
+    },
+    {
+      "task_identity": "5da64e62fe1079f36ba59127fea4e6f697bf1a57b9bdeafe44480a1298ab6e32",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-KeyChain-None-FloorLamp-213/trial_T20190908_203806_730562",
+      "trajectory_present": true,
+      "game_present": false
+    },
+    {
+      "task_identity": "db3ff908198c27495eefd85458fda81738186c5076d66ccf759639bea741f349",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-Laptop-None-DeskLamp-328/trial_T20190908_201550_622420",
+      "trajectory_present": true,
+      "game_present": true
+    },
+    {
+      "task_identity": "2e866efec64e0f783c081f061ab8e9b3dc39666449fafe0b4fc6c2988dad92c7",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-Laptop-None-FloorLamp-205/trial_T20190907_130001_953970",
+      "trajectory_present": true,
+      "game_present": false
+    },
+    {
+      "task_identity": "1ab6deb806c60b516d75b378ec7eb5ee98c7d1a9a019f88784f01211fd88f745",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-Pillow-None-DeskLamp-302/trial_T20190909_150916_682139",
+      "trajectory_present": true,
+      "game_present": true
+    },
+    {
+      "task_identity": "ce8bcf6b05fca7d332a51b7dbe8f7341e6834e5071d92b1aebd57695a1321a01",
+      "split": "valid_seen",
+      "task_relative_path": "valid_seen/look_at_obj_in_light-Pillow-None-DeskLamp-323/trial_T20190908_053153_077977",
+      "trajectory_present": true,
+      "game_present": true
+    },
+    {
+      "task_identity": "d4102cb0065c4e70d2e5038b8a8b4fafe7e484f417cbeae2424ad22691594f13",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-AlarmClock-None-DeskLamp-308/trial_T20190908_222917_366542",
+      "trajectory_present": true,
+      "game_present": true
+    },
+    {
+      "task_identity": "7f8bddc1e805db31422344abe1b44548216a6a1674cd36106f77701bbde49ea6",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-AlarmClock-None-DeskLamp-308/trial_T20190908_222933_607649",
+      "trajectory_present": true,
+      "game_present": true
+    },
+    {
+      "task_identity": "178e7106aa2ba1289fd610043a7853737679cd21d26e4fb2fa885333abb0f030",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-AlarmClock-None-DeskLamp-308/trial_T20190908_222951_616606",
+      "trajectory_present": true,
+      "game_present": true
+    },
+    {
+      "task_identity": "29ff66c4d260797743cec6cf27cf0ddca4e2fa2857605531f68d2608164d49c1",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-BaseballBat-None-DeskLamp-308/trial_T20190906_214631_761426",
+      "trajectory_present": true,
+      "game_present": false
+    },
+    {
+      "task_identity": "4c146e2af432a8522659c30b161229e29a9fe8b139e638b57efb1cfc89793a3e",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-BaseballBat-None-DeskLamp-308/trial_T20190906_214648_973919",
+      "trajectory_present": true,
+      "game_present": false
+    },
+    {
+      "task_identity": "0c10c9615d6ae7fa0816524c6a024c873ef08fecdcd3666ed81b7b7be713da40",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-BaseballBat-None-DeskLamp-308/trial_T20190906_214706_219505",
+      "trajectory_present": true,
+      "game_present": false
+    },
+    {
+      "task_identity": "e4c0245485d973d9981008f460b2b7e30d11698d8aa05c326a1646cb70dd62c3",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-BasketBall-None-DeskLamp-308/trial_T20190907_161210_531813",
+      "trajectory_present": true,
+      "game_present": false
+    },
+    {
+      "task_identity": "434e06be5740fef1101f8286e433f91c2491bc53dc9f45334c582a2fa66b6ba8",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-BasketBall-None-DeskLamp-308/trial_T20190907_161235_786153",
+      "trajectory_present": true,
+      "game_present": false
+    },
+    {
+      "task_identity": "4ed9293b62f23d17ac6cd9036a6c281593a71a96996d7a035691ea3e384a2c3b",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-BasketBall-None-DeskLamp-308/trial_T20190907_161252_926204",
+      "trajectory_present": true,
+      "game_present": false
+    },
+    {
+      "task_identity": "5cc3defbf882c788a1e5a977e3cdde7e133533fdf2d53788ad3aa3bbdbb0fc52",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-Book-None-DeskLamp-308/trial_T20190908_020029_636862",
+      "trajectory_present": true,
+      "game_present": true
+    },
+    {
+      "task_identity": "0e2e0924f88c16ca82c573942e964aa63ae5bbf614143ef0590c8f458c5899fc",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-Book-None-DeskLamp-308/trial_T20190908_020048_814402",
+      "trajectory_present": true,
+      "game_present": true
+    },
+    {
+      "task_identity": "a5d3a28b2adecc41e3e40d64b49f0fcb52653ffb3652090afa7748318ecd4d95",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-Book-None-DeskLamp-308/trial_T20190908_144951_587345",
+      "trajectory_present": true,
+      "game_present": true
+    },
+    {
+      "task_identity": "b0a8850ba694ba4e1750199345a63d7eb262a234c752cdacb55fb2c362ffcd3f",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-Bowl-None-DeskLamp-308/trial_T20190907_133919_856963",
+      "trajectory_present": true,
+      "game_present": true
+    },
+    {
+      "task_identity": "fa19035643dc03875dfe7b4a4a1676f3897f402a9091550a489ddf3bb4fe76dd",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-Bowl-None-DeskLamp-308/trial_T20190907_133935_066606",
+      "trajectory_present": true,
+      "game_present": true
+    },
+    {
+      "task_identity": "88fc5894f2977e3c97e7d14d74f12e3727a6afc5794d4df645f9bd6d4ce35ab7",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-Bowl-None-DeskLamp-308/trial_T20190907_133953_562557",
+      "trajectory_present": true,
+      "game_present": true
+    },
+    {
+      "task_identity": "a5a8eac9715dc8124009d69541ec0d15cc496a3d3c8cd52607946fb8abdd441e",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-Box-None-FloorLamp-219/trial_T20190907_102952_001375",
+      "trajectory_present": true,
+      "game_present": false
+    },
+    {
+      "task_identity": "3870960b8b29d8602b54ce21c25973ce2b54d6a65b336ebb5c195d392909d30f",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-Box-None-FloorLamp-219/trial_T20190907_103005_855069",
+      "trajectory_present": true,
+      "game_present": false
+    },
+    {
+      "task_identity": "2965606e9682fa4b5d4c37cb4c075c8b8ca12f042326a850ccea411f1a4382f4",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-Box-None-FloorLamp-219/trial_T20190907_103041_110705",
+      "trajectory_present": true,
+      "game_present": false
+    },
+    {
+      "task_identity": "3e2589cdb0997e9561c357b7b6123b59ed3fdda2134cd9f8a6732fdd3088480a",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-CD-None-DeskLamp-308/trial_T20190908_141942_810052",
+      "trajectory_present": true,
+      "game_present": true
+    },
+    {
+      "task_identity": "baa9a87c161a2cd24f6dda18bdd236f7e89ea0565cd208d4cc5151930070bc68",
+      "split": "valid_unseen",
+      "task_relative_path": "valid_unseen/look_at_obj_in_light-CD-None-DeskLamp-308/trial_T20190908_141958_463362",
+      "trajectory_present": true,
+      "game_present": true
+    }
+  ],
+  "ready_for_frozen_40_task_execution": false
+}

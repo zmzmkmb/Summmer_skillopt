@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "phase_id": "TG6-tracegraph-pddl-derived-repair-v2-preflight",
+  "status": "complete",
+  "completed_calls": 40,
+  "rows": 40,
+  "aggregate_fingerprint": "7aa7adbcfcdd8018b5a16045fee949883c6cb0cc547dde0063949adb4da33f43",
+  "repair_manifest": "repair_manifest.json",
+  "preflight": "preflight.json",
+  "zero_step_evidence": "zero_step_evidence.json",
+  "episodes_run": 0,
+  "actions_taken": 0,
+  "network_calls": 0,
+  "provider_calls": 0,
+  "model_calls": 0,
+  "api_calls": 0,
+  "paid_api_calls": 0,
+  "source_files_mutated": false,
+  "frozen_schedule_mutated": false,
+  "terminal_tg6_artifact_mutated": false,
+  "phase0_to_phase6_reuse": false
+}

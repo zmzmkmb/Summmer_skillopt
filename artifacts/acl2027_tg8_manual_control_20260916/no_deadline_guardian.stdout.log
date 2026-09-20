@@ -1,0 +1,3 @@
+{"at":"2026-09-16T23:40:35.9397526+08:00","deadline":null,"service":"tg8-v2-f0cdf278bffd858564cf.service","pid":27152,"display_requested":false,"keeper_pid":29516,"event":"awake_acquired"}
+{"scientific_result_audited":false,"state":["ActiveState=inactive"],"event":"service_terminal","at":"2026-09-17T08:08:46.5277727+08:00"}
+SYSTEM awake request released.

@@ -1,0 +1,32 @@
+{
+  "schema_version": 2,
+  "experiment": "tracegraph_tg8_observable_subgoal_authorization_20260911",
+  "status": "authorized",
+  "authorization_opened": true,
+  "authorization_source": "user_message_2026-09-10",
+  "authorization_statement_sha256": "1f864ecdb1749637a29931f240edf7aa7c1824e7da508e1961dd22127af100ba",
+  "bindings": {
+    "preflight_aggregate_fingerprint": "098bee6f10b47fb8dbe656785c3732a949448047f72bb0454bb48545299ceffe",
+    "selector_sha256": "6aae3a8539594bdb65bdeab92f9d82c2de9ac0e287f036af1e83157751636622",
+    "selector_config_sha256": "36407699541289ea42a69362f1a6a3c2582648b1e1b7680781ed6725ee066582",
+    "readiness_artifact_sha256": "85627fd938abce62e254a68957893f81b1389cc0a7e6519976d338a15ed3904b",
+    "runner_sha256": "d020a2ff4d60ee18d7ce1a10b3378f23a04aabb0a8922b04ee015542bf393b57",
+    "runner_config_sha256": "PENDING"
+  },
+  "scope": {
+    "planned_episode_rows": 360,
+    "max_steps_per_episode": 75,
+    "max_retries": 0,
+    "stop_rule": "stop on first hard invariant violation and invalidate the full factorial run",
+    "runtime_allowed_inputs": ["observation", "historical_actions", "admissible_actions"]
+  },
+  "execution": {
+    "user_authorization_received": true,
+    "execution_opened": true,
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "model_calls_allowed": false,
+    "api_calls_allowed": false,
+    "paid_api_calls_allowed": false
+  }
+}

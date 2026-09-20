@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "phase_id": "TG9-tracegraph-task-pool-preflight-v1",
+  "experiment_line": "tracegraph-observable-state-skill-composition",
+  "mode": "zero_network_design_only",
+  "plan": "paper/acl2027/TRACEGRAPH_TG9_TASK_POOL_PREFLIGHT_PLAN_V1.md",
+  "plan_sha256": "53a85be0c803e479154c6cf37b15a9474f49d7db984277db351116a7d9ff3feb",
+  "source_data_root": "C:/Users/CMCC/ALFWORLD_DATA",
+  "task_family": "pick_two_obj_and_place",
+  "splits": ["valid_seen", "valid_unseen"],
+  "identity_rule": "sha256(split + ':' + task_relative_path)",
+  "runnable_rule": "both traj_data.json and game.tw-pddl exist under json_2.1.1/{split}",
+  "executed_result_sources": [
+    {
+      "label": "tg6_trajectory_failure_analysis_executed",
+      "path": "artifacts/acl2027_tracegraph_tg6_trajectory_failure_analysis_authorized_attempt_v2/result.json",
+      "sha256": "d804d727f3d90beea4fc90f0216f1f6eeb6754fdceee00816309ea7240a81b67"
+    },
+    {
+      "label": "tg7_progress_memory_executed",
+      "path": "artifacts/acl2027_tracegraph_tg7_progress_memory_runner_v1/result_authorized_wsl_20260909.json",
+      "sha256": "34ea3456f7d361761b9c6eff369c466a799a1c2427da18f703060c27546ed4ff"
+    },
+    {
+      "label": "tg8_observable_subgoal_executed",
+      "path": "artifacts/acl2027_tracegraph_tg8_durable_v2/independent_20260916_manual_v1/result.json",
+      "sha256": "1a8f4c860822524e8290057b4783ff467ec8d0e4ba3a7e784af924f8d2dff954"
+    }
+  ],
+  "tg8_executed_source_label": "tg8_observable_subgoal_executed",
+  "prior_schedule_sources": [
+    {
+      "label": "tg8_schedule_v1_zero_execution",
+      "path": "artifacts/acl2027_tracegraph_tg8_observable_subgoal_preflight_v1/development_schedule.json",
+      "sha256": "5161c062c7a4bab1c23aa4c9a2c11dafeada6e88222a01b702d0410acb6686ed"
+    },
+    {
+      "label": "tg8_schedule_v2_zero_execution",
+      "path": "artifacts/acl2027_tracegraph_tg8_observable_subgoal_preflight_v2/development_schedule.json",
+      "sha256": "4432360d21fe8a858615018ab2855e494aa1690a81781a81d1f31032172f3e68"
+    },
+    {
+      "label": "tg8_schedule_v3_zero_execution",
+      "path": "artifacts/acl2027_tracegraph_tg8_observable_subgoal_preflight_v3/development_schedule.json",
+      "sha256": "e8053a942341931b722d1f42af1b64fb294c725a7563da5794d3d74b54f47c89"
+    },
+    {
+      "label": "tg8_schedule_v4_executed_later",
+      "path": "artifacts/acl2027_tracegraph_tg8_observable_subgoal_preflight_v4/development_schedule.json",
+      "sha256": "1115337803f8899e0637f69643f169d0de3bc67fe8e9f7e2f021e6b914695aa7"
+    }
+  ],
+  "base_skillbank": "artifacts/acl2027_tracegraph_tg1_skillbank_construction_v2/skillbank.jsonl",
+  "base_skillbank_sha256": "15059dd2cc5b99fc69d0bae79109ec20c8d000ec9d550ce237d06ee9ffd6a331",
+  "expected_counts": {
+    "runnable_double_object_identities": 41,
+    "executed_double_object_identities": 26,
+    "pre_tg8_executed_excluded": 16,
+    "tg8_executed_diagnosis_only": 10,
+    "never_executed_internal_validation": 15,
+    "internal_validation_valid_seen": 10,
+    "internal_validation_valid_unseen": 5,
+    "internal_validation_templates": 11,
+    "schedule_contaminated_internal_validation": 13,
+    "prior_schedule_identity_blind_internal_validation": 2
+  },
+  "expected_prior_schedule_identity_blind_ids": [
+    "636f12ec414272e08fb20759618a008de9bebb084ccee16e2076b34284547add",
+    "f965e61b35a96d3bff980a93f387a7073422ae9951a4123c09cbc115669a5f4e"
+  ],
+  "validation_label": "internal_validation_not_blind_confirmatory",
+  "replicate_count": 3,
+  "conditions": [
+    {
+      "id": "type_level_current_coverage",
+      "object_binding": "type_level",
+      "skill_coverage": "current"
+    },
+    {
+      "id": "instance_bound_current_coverage",
+      "object_binding": "instance_bound",
+      "skill_coverage": "current"
+    },
+    {
+      "id": "type_level_open_close_coverage",
+      "object_binding": "type_level",
+      "skill_coverage": "open_close"
+    },
+    {
+      "id": "instance_bound_open_close_coverage",
+      "object_binding": "instance_bound",
+      "skill_coverage": "open_close"
+    }
+  ],
+  "planned_episode_rows": 180,
+  "max_steps_per_episode": 75,
+  "primary_step_landmark": 50,
+  "conditional_step_75_landmark": 75,
+  "step_75_endpoint_status": "unavailable_until_readiness_proves_environment_support",
+  "max_retries": 0,
+  "stop_rule": "stop on first hard invariant violation and invalidate the full factorial run",
+  "paired_seed_rule": "seed = 6100 + 100*replicate_index + task_ordinal",
+  "condition_order_rule": "hash-rank 45 task-replicate blocks and assign cyclic Latin rotations",
+  "independent_unit": "task_identity",
+  "replicate_interpretation": "determinism audit only; replicates do not increase the independent sample size",
+  "runtime_allowed_inputs": ["observation", "historical_actions", "admissible_actions"],
+  "runtime_forbidden_inputs": [
+    "task_description",
+    "raw_trajectory",
+    "planner_state",
+    "pddl_params",
+    "scene_state",
+    "environment_object_ids",
+    "expert_future_actions",
+    "evaluation_label",
+    "phase0_to_phase6_artifact",
+    "tg6_private_metadata",
+    "tg7_private_metadata",
+    "tg8_private_metadata",
+    "tg9_private_metadata"
+  ],
+  "primary_metrics": ["completion_by_step_50"],
+  "secondary_metrics": ["completion_by_step_75_if_readiness_proves_support"],
+  "mechanism_metrics": [
+    "first_object_placement",
+    "second_round_subgoal_reentry",
+    "distinct_second_instance_acquired",
+    "second_object_placement",
+    "object_identity_collision",
+    "open_close_action_required",
+    "open_close_action_eligible",
+    "open_close_action_selected",
+    "episode_two_cycle_incidence",
+    "ledger_validity",
+    "ledger_provenance_completeness",
+    "trace_validity",
+    "terminal_admissibility"
+  ],
+  "output_dir": "artifacts/acl2027_tracegraph_tg9_task_pool_preflight_v1",
+  "execution_authorized": false,
+  "readiness_allowed": false,
+  "episode_execution_allowed": false,
+  "fresh_exact_user_authorization_required": true,
+  "official_source_fallback_allowed": false,
+  "network_calls_allowed": false,
+  "provider_calls_allowed": false,
+  "model_calls_allowed": false,
+  "api_calls_allowed": false,
+  "paid_api_calls_allowed": false,
+  "phase0_to_phase6_reuse_allowed": false,
+  "phase6_execution_allowed": false,
+  "webshop_execution_allowed": false,
+  "other_models_allowed": false,
+  "other_datasets_allowed": false,
+  "tuning_on_internal_validation_allowed": false
+}

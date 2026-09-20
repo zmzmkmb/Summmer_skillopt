@@ -1,0 +1,119 @@
+{
+  "schema_version": 24,
+  "experiment": "acl2027_phase2_post_v23_replication_design_preflight_v24",
+  "status": "design_only_closed",
+  "phase": "2",
+  "stage": "post_v23_replication_design",
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "model_calls_allowed": false,
+    "paid_api_allowed": false,
+    "qwen_authorization_open": false,
+    "formal_scaling_allowed": false
+  },
+  "replication_contract": {
+    "task_source": "fresh deterministic selection from the frozen SearchQA and 2WikiMultiHopQA source pools",
+    "tasks_per_family": 16,
+    "families": [
+      "fact_retrieval",
+      "attribute_comparison",
+      "bridge_attribute_comparison",
+      "entity_bridge",
+      "relation_inference"
+    ],
+    "conditions": [
+      "cold",
+      "copied_global",
+      "global_only",
+      "contextual_typed_prior"
+    ],
+    "tasks": 80,
+    "logical_calls": 320,
+    "reuse_v23_outcomes": false,
+    "reuse_any_prior_task": false,
+    "gold_is_private_and_not_in_requests": true,
+    "selection_rule": "per family, take the 16 lowest SHA256(phase2-v24:post-v23-replication:<family>:<task_id>) values after all prior exclusions"
+  },
+  "prior_contract": {
+    "source": "unchanged v17 bundles materialized from verifier-confirmed v13 formal-history candidates",
+    "cold": "explicit empty prior",
+    "global_only": "global bundle in global slot",
+    "copied_global": "the same global examples copied into the family-typed slot",
+    "contextual_typed_prior": "verified examples from the task skill family",
+    "history_probe_heldout_and_replication_gold_forbidden_for_priors": true
+  },
+  "future_execution_proposal": {
+    "status": "not_authorized_design_only",
+    "model_id": "qwen3.7-plus",
+    "requested_calls": 320,
+    "max_provider_attempts": 320,
+    "temperature": 0,
+    "retries": 0,
+    "max_tokens_present": false,
+    "enable_thinking": false,
+    "response_format": {"type": "json_object"},
+    "request_interval_seconds": 1.0,
+    "stage_cost_ceiling_cny_proposal": 3.5,
+    "cumulative_cost_ceiling_cny_proposal": 3.5,
+    "fresh_explicit_provider_authorization_required": true,
+    "authorization_artifact_created": false
+  },
+  "decision_rules": {
+    "primary_analysis": "replication-only paired contextual_typed_prior minus global_only accuracy on the 80 new task IDs",
+    "positive": "margin >= 0.125 and typed_wins >= 3 and typed_losses == 0",
+    "negative": "margin <= -0.125 or typed_losses >= 2",
+    "otherwise": "inconclusive",
+    "threshold_source": "unchanged v21/v23 pre-registered held-out gate; no tuning on v23 outcomes",
+    "v23_plus_replication_analysis": "secondary descriptive analysis only and never a replacement for the replication-only gate",
+    "coverage_or_probe_pass_is_not_method_effect": true
+  },
+  "bindings": {
+    "v4_aggregate_fingerprint": "17752bb2d26f38e253c91a5f789654dad209eb6c16a1dd68203a942fa354e8d9",
+    "v13_aggregate_fingerprint": "b85558e67b05589384b628d1bbc082b840ea3b8175260ec71a2cd14a0d82f244",
+    "v23_combined_audit_fingerprint": "9ebaa09c1afdb81e1fa59f7fb429dbc31f8df7b5b26dd10070dfc31552297c2b",
+    "source_files": {
+      "phase2_gold_1_sha256": "0e88c4cb6417006f676da867e7b2bba1ee7755770f65a924a9262968b380b07c",
+      "phase2_gold_2_sha256": "58b1879f9c8954b60e2630b94a89a777a9c3b60a0ed01e8f630c36e278f2de3b",
+      "phase2_gold_3_sha256": "676f41b52785ba0f0a63ac30097f59411b99e7345602edeed2e178c5b8511715",
+      "phase2_gold_4_sha256": "669b26e604ac0b8ee99445be7e35abdf630c44df3b859f5af7a5d1fcfbab9407",
+      "phase2_gold_5_sha256": "ccd2c7bf3288d92c38a714cfbc8ad8d4093de8c9bf29f5d40fc514299376077a",
+      "preflight_source_sha256": "2fb3f5270134118e0df45b397d937c9f407a3b80bf691aa04ae3e10cd0994386",
+      "preflight_test_sha256": "00b343fb64157aeb62a4757ff778eafb22bd326c1d54383ae6a9b28920da88dd",
+      "searchqa_ids_1_sha256": "86ba477accef4d4104e55b0a6e81a72c1e0e6009fcd0acaa1f8b138050011fec",
+      "searchqa_ids_2_sha256": "b3d94e9a187b048139440ab03436b6c1cc4f000f7f609f05e3fb244ab4d5836d",
+      "searchqa_ids_3_sha256": "9750dca312e5cdc14f99bbcbdf94d2abafe3f2fc242be98ce9f6c36bc3f1df6d",
+      "searchqa_items_1_sha256": "18979ad9cac50c0e09021cf3c29b43a39c106c44f420f0687d3b979285a17404",
+      "searchqa_items_2_sha256": "4f2686352d1c91b6a36ebdc915a00d4029dabb6b24838a975e9222b8613028f2",
+      "searchqa_items_3_sha256": "a2a053e848d154d74b962d39b4ee662a4832d83ea05eb5af14f9af70fff9fea0",
+      "source_2wiki_dev_sha256": "21b0a6ffef454f887b5a7a6115db443d3476e99fefeb05d4c5fb73be01582554",
+      "v13_manifest_sha256": "71547b70324b699a2a21212eb1ccc309d6afa2d1a9fbe86149b66a14e6ae1bc8",
+      "v17_prior_bundles_sha256": "f4de47c538fedf1d28ecba8c07d8f4605f7fff4be1e8e300634c7af273a6d63d",
+      "v17_schedule_sha256": "207e5d0fd867c045169d67751926755b744bfbe13d223a929c02becfb6762856",
+      "v19_schedule_sha256": "a30223a0de310b972f052f9a74be7f4552fd71aa6ede66b620e00e8a21b7649a",
+      "v20_probe_audit_sha256": "2ce0e311858bcc22ebd581915b7bb96bfb33092f51e9ff0084255a056e412a96",
+      "v21_schedule_sha256": "ab3c625434fcbb89f4cb1a607a560e5b8586a2f9add345d3953b216b1db4871a",
+      "v22_combined_gold_sha256": "30eb07f4d89041816389a149ea4ab42cc5dc41968b2ac5d33e49ee719bdbff62",
+      "v22_manifest_sha256": "c78125849582e49ce6e6683c53558d1ff2a4a0292fd2a2d9b4fe4a9fd6164790",
+      "v22_schedule_sha256": "3d3ef2e767fe162c8047ed498e1d5931457b1412c7eea93a5935dc1f48549f6d",
+      "v23_closed_authorization_sha256": "52c6dd9c3e2d426390cc7a1229151911ac8d5a53237f2d7f4e40b6c0a1413020",
+      "v23_closure_sha256": "52c6dd9c3e2d426390cc7a1229151911ac8d5a53237f2d7f4e40b6c0a1413020",
+      "v23_combined_audit_sha256": "eb79277a65b0a84f4698540c0c1f8c63b430646b7e5a8e8014d5de05547afc2a",
+      "v23_ledger_sha256": "99d6fc7090faa252ef4eb58c3f227587ae40eca2015e223c9e3848a62ef3220d",
+      "v23_run_audit_sha256": "1d3a65848a7e9c940630217b868e913e4cac318b436fef6616fa536324d26047",
+      "v4_config_sha256": "4775d9e55fb97316460e38e9c0a8fd07181b799a8aa9670a7a022194df3b7954",
+      "v4_manifest_sha256": "19108e7ed5837bbd199a1d36bfb78886b4998a8da72337a9ea5e439562ec35c7"
+    }
+  },
+  "forbidden": [
+    "provider_execution",
+    "network_calls",
+    "paid_api_calls",
+    "opening_or_creating_live_authorization",
+    "reuse_or_relabel_any_prior_task_or_outcome",
+    "tuning_on_v23_results",
+    "other_models",
+    "later_phase2_stages",
+    "formal_scaling"
+  ]
+}

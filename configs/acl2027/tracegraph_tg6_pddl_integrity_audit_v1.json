@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "phase_id": "TG6-tracegraph-pddl-integrity-audit-v1",
+  "experiment_line": "tracegraph-observable-state-skill-composition",
+  "mode": "read_only_pddl_integrity_audit",
+  "schedule": "artifacts/acl2027_tracegraph_tg4_heldout_mechanism_preflight_v1/heldout_schedule.json",
+  "schedule_sha256": "9e3acdad7a106fb20374d9885fc8da9f29ffba329c17c11134f193962887bb87",
+  "data_source": "local ALFWorld held-out game.tw-pddl files only",
+  "episodes_run": 0,
+  "network_calls_allowed": false,
+  "provider_calls_allowed": false,
+  "model_calls_allowed": false,
+  "paid_api_calls_allowed": false,
+  "phase0_to_phase6_reuse_allowed": false,
+  "webshop_allowed": false,
+  "overwrite_existing_artifact": false
+}

@@ -1,0 +1,27 @@
+{
+  "schema_version": 2,
+  "experiment": "acl2027_phase2_staged_live_runner_authorization_closed_v2",
+  "authorization_id": "phase2-staged-v2-closed-preflight",
+  "status": "closed_preflight",
+  "bindings": {
+    "preflight_config_sha256": "4145bc39eff02214d8423302ca40a5f5955a264516647e67838e0eb2119a4283",
+    "schedule_sha256": "01c4e03660648cf8d5b150f78bf783f273b99899fa6fa4ac8be495090e44dd60",
+    "freeze_config_sha256": "43e89e39a2bf536a3ab183d7e0a43dbe4221beeb54f912e76823190b4880439c",
+    "request_plan_sha256": "1c4caf62111a71cd6bf0af98fd8c14174117e7203c577151608d7a868db6732b",
+    "partition_audit_sha256": "403a0b806116ec0bb847afe5e4b5c1d160ff2c7b900feaec2456cd0c52c02133"
+  },
+  "paid_api_allowed": false,
+  "provider_calls_allowed": false,
+  "qwen_authorization_open": false,
+  "formal_scaling_allowed": false,
+  "authorized_stage": null,
+  "authorized_calls": 0,
+  "stage_call_ceiling": 0,
+  "stage_cost_ceiling_cny": 0.0,
+  "cumulative_cost_ceiling_cny": 0.0,
+  "model_id": "qwen3.7-plus",
+  "temperature": 0,
+  "retries": 0,
+  "max_tokens_present": false,
+  "endpoint_route": "dashscope-compatible-mode-chat-completions"
+}

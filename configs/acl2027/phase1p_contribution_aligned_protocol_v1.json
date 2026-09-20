@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase1p_contribution_aligned_protocol_v1",
+  "phase": "1P",
+  "title": "Zero-network contribution-aligned executor-backed real-task protocol freeze",
+  "status": "planned",
+  "objective": "Freeze a paired real-task protocol that isolates typed prior scope, sparse-probe representativeness, and candidate-retaining triage without provider calls.",
+  "execution": {
+    "protocol_only": true,
+    "paid_api_allowed": false,
+    "network_calls_allowed": false,
+    "provider_calls": 0,
+    "formal_scaling_allowed": false,
+    "qwen3_8_max_allowed": false,
+    "officeqa_24_batch_allowed": false,
+    "spreadsheetbench_40_batch_allowed": false
+  },
+  "source_contracts": {
+    "officeqa_split_manifest": "data/officeqa_id_split/split_manifest.json",
+    "officeqa_val_items": "data/officeqa_id_split/val/items.json",
+    "officeqa_payload": "data/officeqa_verified/officeqa_full.csv",
+    "spreadsheetbench_split_manifest": "data/spreadsheetbench_id_split/split_manifest.json",
+    "spreadsheetbench_val_items": "data/spreadsheetbench_id_split/val/items.json",
+    "spreadsheetbench_payload": "data/spreadsheetbench_verified_400/dataset.json",
+    "spreadsheetbench_root": "data/spreadsheetbench_verified_400",
+    "phase1o_manifest": "artifacts/acl2027_phase1o_task_route_adjudication_v1/run_manifest.json",
+    "phase1o_results": "artifacts/acl2027_phase1o_task_route_adjudication_v1/scientific_results.json"
+  },
+  "task_streams": {
+    "OfficeQA": {
+      "split": "val",
+      "development_ids": ["UID0001", "UID0027", "UID0039", "UID0086", "UID0070", "UID0072", "UID0217", "UID0234"],
+      "held_out_ids": ["UID0041", "UID0052", "UID0091", "UID0109", "UID0142", "UID0154", "UID0159", "UID0161", "UID0170", "UID0190", "UID0213", "UID0220", "UID0233", "UID0235", "UID0239", "UID0240"],
+      "stream_order": ["UID0041", "UID0109", "UID0052", "UID0154", "UID0091", "UID0170", "UID0142", "UID0190", "UID0159", "UID0213", "UID0161", "UID0220", "UID0235", "UID0233", "UID0239", "UID0240"],
+      "representative_probe_ids": ["UID0001", "UID0039", "UID0070", "UID0234"],
+      "shifted_probe_ids": ["UID0001", "UID0027", "UID0039", "UID0086"],
+      "shift_definition": "hard_single_document_only",
+      "executor_contract": {
+        "constructor_inputs": ["task_question", "retrieved_source_text", "candidate_skill_state"],
+        "reference_answer_forbidden_during_construction": true,
+        "required_checks": ["provenance", "time_basis", "coverage", "operand_consistency", "deterministic_recomputation"],
+        "score_after_persistence": true,
+        "abstain_on_any_evidence_mismatch": true
+      }
+    },
+    "SpreadsheetBench": {
+      "split": "val_cell_level_only",
+      "development_ids": ["45635", "55049", "9569", "7902", "54144", "2768", "37456", "12864"],
+      "held_out_ids": ["55979", "48620", "48588", "59595", "53383", "48921", "47798", "56563", "46897", "9726", "50768", "31628", "39046", "8942", "48527", "59196"],
+      "stream_order": ["55979", "59595", "48620", "53383", "48588", "48921", "47798", "46897", "56563", "9726", "50768", "39046", "31628", "8942", "48527", "59196"],
+      "representative_probe_ids": ["45635", "55049", "7902", "37456"],
+      "shifted_probe_ids": ["9569", "7902", "54144", "12864"],
+      "shift_definition": "lookup_heavy_only",
+      "executor_contract": {
+        "constructor_inputs": ["task_instruction", "initial_workbook", "candidate_skill_state"],
+        "golden_workbook_forbidden_during_construction": true,
+        "required_checks": ["target_coverage", "formula_syntax", "workbook_execution", "persisted_output"],
+        "score_after_persistence": true,
+        "task_scope": "constrained_executor_backed_cell_level_manipulation",
+        "abstain_when_no_leakage_free_executor_is_available": true
+      }
+    }
+  },
+  "prior_conditions": {
+    "copied-global": "Incorrect comparator that copies one learned global/domain state into every domain-specific state.",
+    "global-only": "Initialize only the shared global state; every domain-specific state starts cold and receives no copied domain state.",
+    "contextual": "Initialize shared state globally and preserve an independent explicitly labeled state for each task domain.",
+    "identity_invariant": "No condition may silently alias global-only and contextual state or infer domain state from held-out outputs."
+  },
+  "pairing_and_fairness": {
+    "paired_unit": "task_family:task_id:candidate_id:prior_condition:probe_stratum:gate_policy",
+    "candidate_ids_frozen_before_held_out_scoring": true,
+    "identical_model": "qwen3.7-plus_or_later_separately_authorized_single_model",
+    "identical_prompt_template": true,
+    "identical_task_order": true,
+    "identical_examples": true,
+    "identical_call_allocation": true,
+    "request_max_tokens_policy": "omit_max_tokens_for_every_condition",
+    "exact_usage_accounting": true,
+    "counterfactual_branch_accounting": "Charge candidate and fallback evaluation in every gate branch; never charge only the selected branch.",
+    "no_live_execution_authorized_by_this_config": true
+  },
+  "probe_protocol": {
+    "strata": ["representative", "shifted"],
+    "alternative_panels_may_overlap": true,
+    "prefix_rounds": 2,
+    "all_probe_rounds": 4,
+    "frozen_before_held_out_scoring": true,
+    "spent_evidence_policy": "Development probes may tune no held-out threshold after execution; held-out outputs can never be relabeled as development evidence.",
+    "predeclared_metrics": [
+      "prefix_probe_margin",
+      "all_probe_margin",
+      "downstream_stream_margin",
+      "probe_to_stream_sign_agreement",
+      "probe_to_stream_pearson",
+      "probe_to_stream_spearman",
+      "false_safe_rate",
+      "false_harm_rate",
+      "coverage",
+      "downstream_regret",
+      "reward_per_1k_cumulative_tokens"
+    ]
+  },
+  "gate_policies": {
+    "candidate_retaining_triage": {
+      "actions": ["accept", "reject", "abstain"],
+      "accept": "Deploy the candidate and retain its immutable provenance.",
+      "reject": "Do not deploy; route to the frozen fallback and retain the candidate unchanged for later review.",
+      "abstain": "Evidence is insufficient or conflicting; suspend deployment, route to the frozen fallback, and retain the candidate unchanged.",
+      "candidate_state_mutated_on_reject": false,
+      "candidate_state_mutated_on_abstain": false,
+      "discard_is_action": false
+    },
+    "destructive_gate": {
+      "actions": ["accept", "discard"],
+      "accept": "Deploy the candidate.",
+      "discard": "Do not deploy and irreversibly remove the candidate from future review.",
+      "role": "destructive comparator only"
+    }
+  },
+  "decision_gate": {
+    "protocol_pass": "All source identities, split disjointness, executor restrictions, condition fairness, probe definitions, gate actions, candidate-retention invariants, and zero-call restrictions validate.",
+    "future_method_support": "On a separately authorized run, contextual plus candidate-retaining triage must reduce harmful deployment versus copied-global and destructive gating while preserving non-trivial helpful deployment and improving or matching reward per cumulative token.",
+    "representativeness_support": "Representative probes must have better sign agreement or lower false-safe/false-harm error than deliberately shifted probes on the frozen downstream streams.",
+    "direction_change_trigger": "If prior identity has no paired real-task effect, representative probes do not outperform shifted probes, or triage has no safety/usefulness advantage over identity-correct reset, narrow or change the ACL main contribution before scaling.",
+    "preflight_does_not_establish_method_claim": true
+  },
+  "expected_design_cells": 24,
+  "write_scope": [
+    "configs/acl2027/phase1p_contribution_aligned_protocol_v1.json",
+    "scripts/validate_acl2027_phase1p_protocol.py",
+    "tests/test_acl2027_phase1p_protocol.py",
+    "artifacts/acl2027_phase1p_contribution_aligned_protocol_v1",
+    "paper/acl2027/results/phase1p_contribution_aligned_protocol_v1.md",
+    "paper/acl2027/CONTRIBUTION_EVIDENCE_LEDGER.md",
+    "paper/acl2027/experiment_state.json"
+  ]
+}

@@ -9,23 +9,23 @@ not invalidated when the rule list is reordered or extended.
 """
 from __future__ import annotations
 
-import hashlib
 import json
 import os
 from dataclasses import dataclass
 
 import numpy as np
 
+from skillopt.rule_identity import rule_text_hash, stable_rule_id
+
 
 def _hash_rule_text(text: str) -> str:
-    """Stable 12-char hex hash of a rule's full text."""
-    return hashlib.sha256(text.encode("utf-8")).hexdigest()[:12]
+    """Backward-compatible 12-char key derived from canonical rule text."""
+    return rule_text_hash(text)[:12]
 
 
-def _make_rule_id(index: int, heading: str) -> str:
-    """Generate a stable rule_id from index and heading."""
-    # e.g. "D00" for first dynamic rule
-    return f"D{index:02d}"
+def _make_rule_id(text: str) -> str:
+    """Generate a content-addressed ID that is stable under reordering."""
+    return stable_rule_id(text)
 
 
 @dataclass
@@ -86,12 +86,15 @@ class UtilityTracker:
         for i, text in enumerate(rule_texts):
             h = _hash_rule_text(text)
             self._rule_hashes.append(h)
-            self._rule_ids.append(_make_rule_id(i, text[:40].replace("\n", " ")))
+            self._rule_ids.append(_make_rule_id(text))
             if h not in self._stats:
                 self._stats[h] = RuleStats(
                     rule_id=self._rule_ids[-1],
                     text_hash=h,
                 )
+            else:
+                # Migrate historical positional IDs (for example D00) in memory.
+                self._stats[h].rule_id = self._rule_ids[-1]
 
     @property
     def n_rules(self) -> int:
@@ -172,6 +175,7 @@ class UtilityTracker:
         if not self._path:
             return
         data = {
+            "schema_version": 2,
             "decay": self._decay,
             "min_count": self._min_count,
             "frozen": self.frozen,

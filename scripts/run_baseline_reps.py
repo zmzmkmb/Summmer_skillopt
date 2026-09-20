@@ -30,6 +30,7 @@ for method in METHODS:
             "--target-model", MODEL,
             "--limit", str(N),
             "--workers", "16",
+            "--seed", rep.removeprefix("rep"),
             "--out", out_path,
         ]
         if method == "greedy-util":

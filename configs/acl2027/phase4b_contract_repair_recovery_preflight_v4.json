@@ -1,0 +1,54 @@
+{
+  "schema_version": 4,
+  "experiment": "acl2027_phase4b_contract_repair_recovery_preflight_v4",
+  "status": "zero_network_recovery_preflight_closed",
+  "source_fingerprints": {
+    "phase4b_r1_repair": "a9f5143ca6d302c0c9020fbacb2cb2e669de35e74da194dd6b4805f2346f739c",
+    "phase4b_r2_live_preflight": "94a2e284a4049db12f5e1f1294fa92d4433547ee9be0dd151e6ba848bbc7da28",
+    "phase4b_r3_terminal_audit": "f32e141b1ba15637cdb9b99fa360a59996adf613b90d610b7ef206bce14773e1"
+  },
+  "recovery_design": {
+    "completed_r3_rows_preserved": 72,
+    "spent_r3_identities_excluded": 73,
+    "orphan_replacement_rows": 1,
+    "unattempted_suffix_rows": 27,
+    "new_recovery_rows": 28,
+    "combined_analysis_rows": 100,
+    "combined_tasks": 20,
+    "rows_per_condition": 20,
+    "canonical_model_visible_payload_unchanged": true,
+    "orphan_transport_repeat_disclosed": true
+  },
+  "authorization_request": {
+    "status": "closed_fresh_live_preflight_and_explicit_authorization_required",
+    "requested_calls": 28,
+    "max_provider_attempts": 28,
+    "cost_treatment_status": "unresolved_due_to_unknown_orphan_usage",
+    "stage_cost_ceiling_cny": null,
+    "cumulative_cost_ceiling_cny": null,
+    "receipt_created": false,
+    "authorization_open": false,
+    "data_egress_authorized": false,
+    "provider_calls_authorized": false,
+    "paid_api_authorized": false
+  },
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "model_calls_allowed": false,
+    "paid_api_allowed": false,
+    "qwen_authorization_open": false,
+    "phase4c_allowed": false,
+    "replication_allowed": false,
+    "cross_domain_scaling_allowed": false,
+    "formal_scaling_allowed": false
+  },
+  "forbidden_scope": [
+    "retry_or_resume_any_r3_identity",
+    "phase4c",
+    "other_models",
+    "replication",
+    "cross_domain_scaling",
+    "formal_scaling"
+  ]
+}

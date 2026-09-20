@@ -1,0 +1,32 @@
+{
+    "schema_version":  1,
+    "purpose":  "Zero-network formatting development cases unrelated to SearchQA held-out content.",
+    "cases":  [
+                  {
+                      "id":  "already_valid",
+                      "source_output":  "\u003canswer\u003eMercury\u003c/answer\u003e",
+                      "expected":  "Mercury",
+                      "requires_repair":  false
+                  },
+                  {
+                      "id":  "verbose_final_statement",
+                      "source_output":  "The evidence points to the innermost planet. Therefore the answer is Mercury.",
+                      "repair_output":  "\u003canswer\u003eMercury\u003c/answer\u003e",
+                      "expected":  "Mercury",
+                      "requires_repair":  true
+                  },
+                  {
+                      "id":  "markdown_bold",
+                      "source_output":  "After comparing the fictional notes, the final choice is **Northbridge**.",
+                      "repair_output":  "\u003canswer\u003eNorthbridge\u003c/answer\u003e",
+                      "expected":  "Northbridge",
+                      "requires_repair":  true
+                  },
+                  {
+                      "id":  "empty_rejected",
+                      "source_output":  "",
+                      "requires_repair":  false,
+                      "expected_error":  "non-empty"
+                  }
+              ]
+}

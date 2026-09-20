@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "status": "authorized",
+  "authorization_opened": true,
+  "reusable": false,
+  "authorized_at": "2026-09-18T18:54:29.5910027+08:00",
+  "authorization_source": "explicit_user_message_in_current_codex_thread",
+  "authorization_text": "授权启动新的独立 TG9 运行，不恢复、不续跑且不覆盖 2026-09-18 已中断的 v1：绑定实验 aggregate fingerprint 6006009c4d662c45d166c4ca6f3503f789e6b081ce7fca81d8cd373542442385 与修正版 transport fingerprint d47aeed58b829b3437c56fa7795ab63dc367c7dee8aabe139942c8e3b58e2af3，输出到 artifacts/acl2027_tracegraph_tg9_factorial_v1/independent_20260918_v2；运行完整 180 rows、每条最多 50 steps、零重试、首个硬不变量违规立即停止；仅允许 observation、historical_actions、admissible_actions；禁止 network/provider/model/API/paid calls、Phase 0–6、WebShop、其他模型和其他数据集；primary endpoint 固定为 completion_by_step_50，禁止声称 75-step sensitivity；授权创建新的不可复用收据，并按“先验证 WSL keeper 和 Windows system-awake guardian，再启动 PrivateNetwork systemd 服务”的修正版启动流程执行。",
+  "aggregate_fingerprint": "6006009c4d662c45d166c4ca6f3503f789e6b081ce7fca81d8cd373542442385",
+  "transport_fingerprint": "d47aeed58b829b3437c56fa7795ab63dc367c7dee8aabe139942c8e3b58e2af3",
+  "runner_config_binding_sha256": "ee4c2302e3f29bda217799dbab56b600e11f2eea2f7af6196f54d16f5892ad83",
+  "scope": {
+    "run_directory": "artifacts/acl2027_tracegraph_tg9_factorial_v1/independent_20260918_v2",
+    "planned_rows": 180,
+    "max_steps_per_episode": 50,
+    "max_retries": 0,
+    "stop_on_first_hard_invariant_violation": true,
+    "runtime_allowed_inputs": ["observation", "historical_actions", "admissible_actions"],
+    "primary_endpoint": "completion_by_step_50",
+    "step_75_endpoint_status": "unavailable",
+    "launch_order": [
+      "validate fresh authorized config and receipt",
+      "create a new independent output directory",
+      "start and verify persistent WSL keeper",
+      "acquire and verify Windows system-awake request",
+      "start the private-network systemd experiment service",
+      "verify active service, Linux PID, keeper PID and guardian PID"
+    ]
+  },
+  "forbidden": [
+    "resume_or_continue_interrupted_v1",
+    "network_calls",
+    "provider_calls",
+    "model_calls",
+    "api_calls",
+    "paid_api_calls",
+    "phase0_to_phase6_reuse",
+    "webshop",
+    "other_models",
+    "other_datasets",
+    "overwrite_existing_outputs",
+    "step_75_sensitivity_claim"
+  ]
+}

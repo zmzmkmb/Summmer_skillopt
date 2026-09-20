@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "phase_id": "TG7-tracegraph-progress-memory-preflight-v1",
+  "status": "complete",
+  "completion_kind": "zero_network_design_preflight",
+  "completed_calls": 72,
+  "rows": 72,
+  "aggregate_fingerprint": "48470f6d571cf4a40547304ea475a536ab9855b40efaf644839b40e7fcdfc0d2",
+  "development_task_count": 24,
+  "conditions": 3,
+  "episodes_run": 0,
+  "actions_taken": 0,
+  "network_calls": 0,
+  "provider_calls": 0,
+  "model_calls": 0,
+  "api_calls": 0,
+  "paid_api_calls": 0,
+  "execution_authorized": false,
+  "phase0_to_phase6_reuse": false
+}

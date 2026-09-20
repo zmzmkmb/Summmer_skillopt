@@ -1,0 +1,58 @@
+{
+  "authorization_id": "phase2-heldout-recovery-only-v23",
+  "authorized_calls": 88,
+  "authorized_stage": "held_out_recovery",
+  "bindings": {
+    "analyzer_sha256": "a34d118d1d3ac2003f45f27512d243e39858b20203fde96ce808f348af466571",
+    "authorization_receipt_sha256": "6b88ef91dcb33128baa59509a509df021fd9bcf33c978c3f85be0431c2ea1ddc",
+    "authorization_request_sha256": "e1c2553b65f3928a668f9da344d282e3e7893bc28fa676f0023c6194d3fe13de",
+    "combined_analysis_plan_sha256": "69bf4b908efd48b6b28db25c52288ee6d9f00afc2d6cc3fc9a919c7c0ae083e3",
+    "combined_gold_sha256": "30eb07f4d89041816389a149ea4ab42cc5dc41968b2ac5d33e49ee719bdbff62",
+    "live_runner_sha256": "b1cebe545bf97d857c561a16afc2d16524a6040cc37ee65badf62e6c708c1b13",
+    "live_test_sha256": "b6d3c4593f7fd0b4399fb63d4372cf277552328de96d89a77ac56d5876904b63",
+    "preflight_config_sha256": "4607a75b34df9643ab70c3ae721106ef110be1a30e4b47e7b85b40d3b13d2307",
+    "preflight_manifest_sha256": "c78125849582e49ce6e6683c53558d1ff2a4a0292fd2a2d9b4fe4a9fd6164790",
+    "prior_bundles_sha256": "f4de47c538fedf1d28ecba8c07d8f4605f7fff4be1e8e300634c7af273a6d63d",
+    "provider_adapter_sha256": "6761e757eee26d9bfab3918930565eda70fa9857bc755a21992c5f8364381eba",
+    "schedule_sha256": "3d3ef2e767fe162c8047ed498e1d5931457b1412c7eea93a5935dc1f48549f6d",
+    "zero_network_preflight_aggregate_fingerprint": "e9891345a199695d8aa54211e2d63360fdd49d0677f2a6291363b040268df280"
+  },
+  "credential_sha256": "c633a901caf472c4a161651f45c53e5d9d962ca1e5dde40cea8e106da2b5ec6f",
+  "cumulative_cost_ceiling_cny": 2.0,
+  "enable_thinking": false,
+  "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+  "experiment": "acl2027_phase2_heldout_recovery_live_v23",
+  "forbidden_stages": [
+    "calibration",
+    "development_acquisition",
+    "formal_history",
+    "probe",
+    "later_phase2_stages",
+    "formal_scaling"
+  ],
+  "formal_scaling_allowed": false,
+  "max_provider_attempts": 88,
+  "max_tokens_present": false,
+  "model_id": "qwen3.7-plus",
+  "paid_api_allowed": true,
+  "provider_calls_allowed": true,
+  "qwen_authorization_open": true,
+  "request_interval_seconds": 1.0,
+  "response_format": {
+    "type": "json_object"
+  },
+  "retries": 0,
+  "schema_version": 23,
+  "stage_call_ceiling": 88,
+  "stage_cost_ceiling_cny": 1.0,
+  "status": "open",
+  "temperature": 0,
+  "user_authorization": {
+    "authorization_receipt_sha256": "6b88ef91dcb33128baa59509a509df021fd9bcf33c978c3f85be0431c2ea1ddc",
+    "authorized_calls": 88,
+    "formal_scaling_authorized": false,
+    "held_out_recovery_authorized": true,
+    "later_stages_authorized": false,
+    "scope": "held_out_recovery_only"
+  }
+}

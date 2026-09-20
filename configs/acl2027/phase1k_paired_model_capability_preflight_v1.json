@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase1k_paired_model_capability_preflight_v1",
+  "phase": "1K",
+  "title": "Zero-network paired-model capability confirmation preflight",
+  "status": "planned",
+  "objective": "Freeze and audit four fair capability-confirmation requests across two task families and two models before any paid execution.",
+  "execution": {"paid_api_allowed": false, "network_calls_allowed": false, "provider_calls": 0, "formal_scaling_allowed": false, "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1", "temperature": 0, "enable_thinking": false, "batch_closed": true},
+  "models": ["qwen3.6-flash", "qwen3.8-max"],
+  "source_preflight": {"request_plan": "artifacts/acl2027_phase1i_repaired_cross_task_live_smoke_v1/request_plan.json", "phase1j_contracts": "artifacts/acl2027_phase1j_no_paid_capability_calibration_v1/revised_response_contracts.json"},
+  "tasks": {
+    "OfficeQA": {"task_id": "UID0001", "max_output_tokens": 1200, "contract": "Exactly 12 operand objects with only period and value; evidence, operands, result, and answer must agree."},
+    "SpreadsheetBench": {"task_id": "45635", "max_output_tokens": 1400, "contract": "Exactly 12 compact edits, explanation at most 160 characters, and independent per-column comparison semantics."}
+  },
+  "pairing": {"logical_calls": 4, "order": ["qwen3.6-flash/OfficeQA", "qwen3.6-flash/SpreadsheetBench", "qwen3.8-max/OfficeQA", "qwen3.8-max/SpreadsheetBench"], "same_task_content_across_models": true},
+  "decision_gate": {"pass": "Exactly four frozen requests, zero calls, identical task content across models, stricter contracts present, no answer or golden-formula leakage, and all hashes/audits recorded.", "live_successor": "requires a new immutable config and separate authorization for exactly four calls", "batch": "OfficeQA 24 and SpreadsheetBench 40 remain closed"},
+  "write_scope": ["configs/acl2027/phase1k_paired_model_capability_preflight_v1.json", "scripts/prepare_acl2027_phase1k_preflight.py", "tests/test_acl2027_phase1k_preflight.py", "artifacts/acl2027_phase1k_paired_model_capability_preflight_v1", "paper/acl2027/results/phase1k_paired_model_capability_preflight_v1.md", "paper/acl2027/CONTRIBUTION_EVIDENCE_LEDGER.md", "paper/acl2027/experiment_state.json"]
+}

@@ -1,0 +1,56 @@
+{
+  "authorization_closes_on_completion_or_terminal_stop": true,
+  "authorization_source": "user_message_2026-08-18",
+  "authorization_statement_sha256": "54dffd5540e3ad312f691a54ddd8775e48f8ca4534ba946ce4eb5f935ae3f23a",
+  "authorized_calls": 100,
+  "authorized_destination": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+  "authorized_payload_classes": [
+    "frozen_task_prompts",
+    "frozen_annotated_contexts",
+    "frozen_procedure_candidate_bundles",
+    "frozen_six_field_response_contract"
+  ],
+  "bindings": {
+    "adapter_sha256": "6761e757eee26d9bfab3918930565eda70fa9857bc755a21992c5f8364381eba",
+    "preflight_manifest_sha256": "66756da0ba5f8a4256dc0bae89fd54d8a3c62fb46aad3fb9300c9acbdd7b3248",
+    "preflight_request_sha256": "e47f5107ac4707244056169bd1f995877d6f74eac5e3b1a4241fa0038fd721c5",
+    "runner_sha256": "b7d27e7c83e3c727341157c182bef13241cbdfd8cde497b2a3750102a337d4d8",
+    "schedule_sha256": "a2cc5ae434a759d83fe2807b8cc11fad1dc91ce0408ebd85b905117db92bcf3a"
+  },
+  "cumulative_cost_ceiling_cny": 15.0,
+  "data_egress_authorized": true,
+  "enable_thinking": false,
+  "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+  "exact_prefix_resume_only": true,
+  "execution": {
+    "formal_scaling_allowed": false,
+    "network_calls_allowed": false,
+    "paid_api_allowed": false,
+    "provider_calls_allowed": false,
+    "qwen_authorization_open": false
+  },
+  "forbidden_stages": [
+    "other_models",
+    "later_phase4",
+    "cross_domain_scaling",
+    "formal_scaling"
+  ],
+  "known_cumulative_cost_lower_bound_cny": 11.816126,
+  "max_provider_attempts": 100,
+  "max_tokens_present": false,
+  "model_id": "qwen3.7-plus",
+  "paid_usage_authorized": true,
+  "phase4b_live_preflight_fingerprint": "94a2e284a4049db12f5e1f1294fa92d4433547ee9be0dd151e6ba848bbc7da28",
+  "phase4b_repair_fingerprint": "a9f5143ca6d302c0c9020fbacb2cb2e669de35e74da194dd6b4805f2346f739c",
+  "request_interval_seconds": 1.0,
+  "response_format": {
+    "type": "json_object"
+  },
+  "retries": 0,
+  "schema_version": 3,
+  "scope": "phase4b_repaired_development_calibration_only",
+  "stage_cost_ceiling_cny": 2.0,
+  "status": "explicit_user_authorization_received_execution_not_open",
+  "temperature": 0,
+  "terminal_stop_on_first_failed_attempt": true
+}

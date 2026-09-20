@@ -1,0 +1,16 @@
+{
+  "schema_version": 2,
+  "artifact_type": "acl2027_phase2_probe_audit",
+  "analyzer_version": "phase2-probe-analyzer-v2",
+  "required_bindings": [
+    "coverage_artifact_sha256",
+    "probe_ledger_sha256",
+    "analyzer_config_sha256"
+  ],
+  "required_probe_calls": 160,
+  "required_conditions": {
+    "primary": ["contextual_typed_prior", "global_only"],
+    "secondary": ["cold", "copied_global"]
+  },
+  "gold_answer_access_for_candidate_adjustment": false
+}

@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "phase_id": "TG6-tracegraph-pddl-derived-repair-preflight-v1",
+  "status": "complete",
+  "completed_calls": 40,
+  "rows": 40,
+  "aggregate_fingerprint": "48b07274ebea48b1010efe865e5f5e0323f3db09417f21f40a8165350406db93",
+  "planner_status_counts": {
+    "passed": 40
+  },
+  "episodes_run": 0,
+  "network_calls": 0,
+  "provider_calls": 0,
+  "model_calls": 0,
+  "paid_api_calls": 0
+}

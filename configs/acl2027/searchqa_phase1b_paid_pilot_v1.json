@@ -1,0 +1,235 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_searchqa_phase1b_paid_pilot_v1",
+  "phase": "1B",
+  "scope": "Bounded Phase 1B Token Plan pilot protocol. Preserves the Phase 1A SearchQA call plan, strict parser, retry/fallback provenance, exact token accounting, and immutable inputs. Monetary fields are intentionally zeroed because this pilot records token consumption only; provider billing is not claimed to be zero.",
+  "execution": {
+    "default_mode": "dry-run",
+    "paid_api_allowed": false,
+    "formal_scaling_allowed": false,
+    "live_requires_repository_permission": true,
+    "live_requires_explicit_cli_flag": true,
+    "hidden_backend_retries_allowed": false,
+    "accounting_mode": "token_only",
+    "provider_env": {
+      "api_key": "DASHSCOPE_API_KEY",
+      "base_url": "DASHSCOPE_BASE_URL"
+    }
+  },
+  "model": {
+    "provider": "alibaba_cloud_token_plan",
+    "backend_protocol": "openai_compatible",
+    "model_id": "qwen3.6-flash",
+    "endpoint_region": "beijing",
+    "temperature": 0.0,
+    "provider_sampling_seed": null,
+    "max_input_tokens_per_attempt": 8192,
+    "max_output_tokens_per_attempt": 512,
+    "max_attempts_per_logical_call": 2,
+    "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1"
+  },
+  "pricing_snapshot": {
+    "accounting_mode": "token_only",
+    "currency": "TOKEN",
+    "retrieved_at": "2026-08-09",
+    "source": "provider_usage_metadata",
+    "region": "beijing",
+    "input_cny_per_million_tokens": "0",
+    "output_cny_per_million_tokens": "0",
+    "fixed_accounting_cny_per_usd": "7.0",
+    "conversion_policy": "No monetary estimate is used in this phase; exact input/output/total token fields remain mandatory."
+  },
+  "dataset": {
+    "name": "SearchQA",
+    "split": "test",
+    "items_path": "data/searchqa_split/test/items.json",
+    "items_sha256": "a2a053e848d154d74b962d39b4ee662a4832d83ea05eb5af14f9af70fff9fea0",
+    "split_manifest_path": "data/searchqa_split/split_manifest.json",
+    "split_manifest_sha256": "37ffd61b470fae26690f30ab861429478b55d31f5741b646d9b7495da7ef6be7",
+    "available_items": 1400,
+    "replicate_seeds": [
+      202701,
+      202702,
+      202703
+    ],
+    "seed_semantics": "Three deterministic, pairwise-disjoint example replicates; these are not claims of provider sampling randomness.",
+    "selection": "Sort unused item IDs by SHA-256(seed:item_id), then take the first items_per_replicate.",
+    "items_per_replicate": 120,
+    "guard_probe_items_per_replicate": 8,
+    "evaluation_items_per_replicate": 112,
+    "pairing": "Every method uses the identical ordered evaluation IDs within a replicate. Guarded methods additionally use the identical ordered probe IDs."
+  },
+  "skill": {
+    "path": "outputs/searchqa_rag/best_skill.md",
+    "sha256": "815b13fc116414ed1101b210748a0f0d5ee50bf030a2ea5eee1efa346659ee7c",
+    "bytes": 13929
+  },
+  "frozen_candidate_source": {
+    "phase": "0N",
+    "config_path": "configs/acl2027/offline_continual_phase0n_identity_aware_guard_reliability_v1.json",
+    "config_sha256": "b3050b75c43c269b9618822a46de3c7abf447ba1fa6c200323e1252f9866b85b",
+    "method_name": "global_only_selective_full_confirmation",
+    "parameters": {
+      "policy": "greedy-utility",
+      "credit": "shared",
+      "estimator": "contextual",
+      "context_weight": 0.5,
+      "prior_identity": "global-only",
+      "prior_guard": "selective-cold",
+      "prior_guard_tolerance": 0.06,
+      "prior_guard_max_probes_per_domain": 8,
+      "prior_guard_reference": "cold-router",
+      "prior_guard_confidence_z": 1.0,
+      "prior_guard_relevance_cost_share": 0.125,
+      "prior_guard_probe_order": "stream",
+      "prior_guard_evaluation": "rollout",
+      "prior_guard_sequential": true,
+      "prior_guard_min_samples": 6,
+      "prior_guard_min_reset_rounds": 2,
+      "prior_guard_min_harm_margin": 0.1,
+      "prior_guard_recovery_window": 2,
+      "prior_guard_max_recovery_slope": 0.1,
+      "prior_guard_min_accept_rounds": 8
+    },
+    "held_out_seed_warning": "Do not tune any threshold or action using Phase 0N seeds 161-180, including adversarial seed 176."
+  },
+  "methods": [
+    {
+      "name": "no_skill",
+      "kind": "downstream_comparator",
+      "skill_policy": "none",
+      "guard_probe_branches": []
+    },
+    {
+      "name": "static_full_skill",
+      "kind": "downstream_comparator",
+      "skill_policy": "full_skill",
+      "guard_probe_branches": []
+    },
+    {
+      "name": "tfidf_topk",
+      "kind": "retrieval_comparator",
+      "skill_policy": "tfidf",
+      "top_k": 5,
+      "cumulative_skill_token_budget": 2000,
+      "guard_probe_branches": []
+    },
+    {
+      "name": "skillopt_moar_frozen",
+      "kind": "skillopt_style_baseline",
+      "skill_policy": "moar",
+      "top_k": 5,
+      "cumulative_skill_token_budget": 2000,
+      "online_utility_updates": false,
+      "guard_probe_branches": []
+    },
+    {
+      "name": "global_only_reset_comparator",
+      "kind": "identity_correct_reset_comparator",
+      "skill_policy": "tfidf",
+      "top_k": 5,
+      "cumulative_skill_token_budget": 2000,
+      "prior_identity": "global-only",
+      "guard_action": "reset-cold",
+      "guard_probe_branches": [
+        "candidate",
+        "cold_reference"
+      ]
+    },
+    {
+      "name": "global_only_selective_full_confirmation",
+      "kind": "frozen_candidate",
+      "skill_policy": "tfidf",
+      "top_k": 5,
+      "cumulative_skill_token_budget": 2000,
+      "prior_identity": "global-only",
+      "guard_action": "selective-cold",
+      "ambiguous_action": "abstain_and_use_fresh_cold_fallback",
+      "candidate_state_mutation_allowed": false,
+      "guard_probe_branches": [
+        "candidate",
+        "cold_fallback"
+      ]
+    },
+    {
+      "name": "contextual_prior_diagnostic_upper_bound",
+      "kind": "diagnostic_upper_bound",
+      "skill_policy": "tfidf",
+      "top_k": 5,
+      "cumulative_skill_token_budget": 2000,
+      "prior_identity": "contextual",
+      "eligible_for_promotion": false,
+      "guard_probe_branches": []
+    }
+  ],
+  "planned_workload": {
+    "main_evaluation_logical_calls": 2352,
+    "guard_probe_logical_calls": 96,
+    "total_logical_calls": 2448,
+    "fallback_logical_calls": 48,
+    "formula": "3 replicates * 112 evaluation items * 7 methods + 3 replicates * 8 probe items * 2 guarded methods * 2 branches"
+  },
+  "hard_caps": {
+    "logical_calls": 2448,
+    "provider_attempts": 4896,
+    "failed_attempts": 2448,
+    "retries": 2448,
+    "fallback_calls": 48,
+    "input_tokens": 42000000,
+    "output_tokens": 2600000,
+    "total_tokens": 44600000,
+    "cost_usd": "0.00"
+  },
+  "accounting_contract": {
+    "logical_calls": "Count one requested model inference, independently of retries.",
+    "provider_attempts": "Count every provider request, including failed attempts.",
+    "retries": "provider_attempts - logical_calls for completed one-success-per-call runs.",
+    "failed_attempt_usage": "Charge any input/output usage returned or deterministically known for failed attempts.",
+    "fallback_calls": "Mark and sum explicit cold-reference or cold-fallback logical calls; never hide them inside a parent call.",
+    "identities": [
+      "attempt_total_tokens = attempt_input_tokens + attempt_output_tokens",
+      "provider_attempts = successful_attempts + failed_attempts",
+      "logical_call_total_tokens = sum(attempt_total_tokens)",
+      "logical_call_cost = sum(attempt_input_cost + attempt_output_cost)",
+      "cumulative totals = exact sums over persisted logical-call records"
+    ],
+    "cost_precision": "Token-only phase: monetary fields are persisted as zero; token identities are authoritative."
+  },
+  "parser_contract": {
+    "required_format": "<answer>non-empty text</answer>",
+    "exactly_one_answer_element": true,
+    "reject_missing_tag": true,
+    "reject_multiple_tags": true,
+    "reject_empty_answer": true,
+    "reject_unbalanced_tags": true,
+    "fallback_to_last_line": false,
+    "invalid_predictions_remain_in_denominator": true
+  },
+  "resume_contract": {
+    "run_id": "SHA-256 over config fingerprint, manifest fingerprint, replicate seed, method, stage, branch, and item ID.",
+    "fail_on_bad_jsonl": true,
+    "fail_on_duplicate_run_id": true,
+    "fail_on_config_fingerprint_mismatch": true,
+    "fail_on_manifest_fingerprint_mismatch": true,
+    "skip_only_exact_completed_run_ids": true
+  },
+  "mock_preflight": {
+    "provider": "deterministic_no_network_phase1b",
+    "retry_schedule": "The first attempt fails when the first eight hex digits of run_id are divisible by 17; the second succeeds.",
+    "failed_attempt_usage_visible": true,
+    "all_successful_responses_strictly_parseable": true,
+    "paid_calls_expected": 0
+  },
+  "predeclared_gates": {
+    "zero_paid_calls": "The preflight must instantiate only the deterministic mock provider and record paid_calls=0.",
+    "immutable_inputs": "Config, dataset, split manifest, skill, and frozen Phase 0N source hashes must match.",
+    "manifest_integrity": "Three manifests must be deterministic, pairwise disjoint, correctly sized, and paired across methods.",
+    "strict_parser": "Valid single tags parse; missing, multiple, empty, and unbalanced tags fail explicitly.",
+    "resume_integrity": "Exact completed run IDs resume; malformed JSONL, duplicate IDs, or fingerprint mismatch fail fast.",
+    "exact_accounting": "Every attempt, logical call, and cumulative token/call/cost identity must hold, including retries and fallback calls.",
+    "budget_enforcement": "Projected attempts that exceed any hard cap must fail before the provider is invoked.",
+    "permission_enforcement": "Live mode must refuse while repository paid_api_allowed=false.",
+    "promotion_rule": "Passing Phase 1A completes only the no-cost preflight. Paid pilot permission remains false until a separately approved Phase 1B records user cost authorization and re-verifies price/region.",
+    "token_accounting_mode": "Input, output, and total provider-reported tokens must be present and satisfy exact identities; monetary cost is not inferred."
+  }
+}

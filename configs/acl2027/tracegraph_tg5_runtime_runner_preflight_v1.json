@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "phase_id": "TG5-tracegraph-runtime-runner-preflight-v1",
+  "experiment_line": "tracegraph-observable-state-skill-composition",
+  "mode": "zero_network_runner_contract_only",
+  "heldout_schedule": "artifacts/acl2027_tracegraph_tg4_heldout_mechanism_preflight_v1/heldout_schedule.json",
+  "heldout_schedule_sha256": "9e3acdad7a106fb20374d9885fc8da9f29ffba329c17c11134f193962887bb87",
+  "skillbank": "artifacts/acl2027_tracegraph_tg1_skillbank_construction_v2/skillbank.jsonl",
+  "skillbank_sha256": "15059dd2cc5b99fc69d0bae79109ec20c8d000ec9d550ce237d06ee9ffd6a331",
+  "runtime_allowed_inputs": ["observation", "historical_actions", "admissible_actions"],
+  "runtime_forbidden_inputs": ["task_description", "raw_trajectory", "planner_state", "pddl_params", "scene_state", "expert_future_actions", "evaluation_label", "phase0_to_phase6_artifact"],
+  "trace_required_fields": ["observable_state_fingerprint", "candidate_skill_ids", "eligibility_rejections", "permitted_edges", "selected_skill_id", "selected_edge", "terminal_action_decision"],
+  "stop_rule": "stop on first hard invariant violation",
+  "max_trace_rows_per_task": 1,
+  "network_calls_allowed": false,
+  "provider_calls_allowed": false,
+  "model_calls_allowed": false,
+  "authorization_receipts_allowed": false,
+  "episode_execution_enabled": false
+}

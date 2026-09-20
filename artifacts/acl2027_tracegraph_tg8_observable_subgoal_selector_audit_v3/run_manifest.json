@@ -1,0 +1,17 @@
+{
+  "schema_version": 2,
+  "phase_id": "TG8-tracegraph-observable-subgoal-selector-v3",
+  "status": "passed",
+  "audit": "artifacts/acl2027_tracegraph_tg8_observable_subgoal_selector_audit_v3/selector_audit.json",
+  "audit_sha256": "28bcdc8a917bccd11572a7de0e7f1929529613b8b6d43e516f67b1c869247488",
+  "case_count": 5,
+  "passed_case_count": 5,
+  "episodes_run": 0,
+  "actions_taken": 0,
+  "network_calls": 0,
+  "provider_calls": 0,
+  "model_calls": 0,
+  "api_calls": 0,
+  "paid_api_calls": 0,
+  "execution_authorized": false
+}

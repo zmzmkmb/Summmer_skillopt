@@ -1,0 +1,364 @@
+{
+    "schema_version":  2,
+    "experiment":  "acl2027_searchqa_phase1b_token_plan_live_pilot_v5",
+    "phase":  "1B",
+    "scope":  "Provider-authorized Beijing Token Plan SearchQA v4 formatting-robustness pilot using qwen3.6-flash. Preserves the frozen Phase 1A workload and v3 partial artifact, strengthens the output-only instruction, and pre-registers one bounded format-normalization attempt that sees only the failed raw response. Exact usage, repair calls, resumability, and the CNY 200 ceiling remain mandatory.",
+    "execution":  {
+                      "default_mode":  "dry-run",
+                      "paid_api_allowed":  true,
+                      "formal_scaling_allowed":  false,
+                      "live_requires_repository_permission":  true,
+                      "live_requires_explicit_cli_flag":  true,
+                      "billing_route":  "token_plan_authorized",
+                      "token_plan_allowed":  true,
+                      "hidden_backend_retries_allowed":  false,
+                      "provider_env":  {
+                                           "api_key":  "DASHSCOPE_API_KEY",
+                                           "base_url":  "DASHSCOPE_BASE_URL"
+                                       },
+                      "provider_written_permission_attested":  true,
+                      "provider_written_permission_attested_by":  "user",
+                      "provider_written_permission_attested_at":  "2026-08-09",
+                      "authorization_scope":  "One bounded v5 smoke only until post-smoke audit; any continuation requires a separate repository checkpoint."
+                  },
+    "model":  {
+                  "provider":  "alibaba_cloud_token_plan",
+                  "backend_protocol":  "openai_compatible",
+                  "model_id":  "qwen3.6-flash",
+                  "endpoint_region":  "beijing",
+                  "endpoint":  "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+                  "temperature":  0.0,
+                  "provider_sampling_seed":  null,
+                  "enable_thinking":  false,
+                  "openai_sdk_version":  "2.45.0",
+                  "timeout_seconds":  60,
+                  "max_input_tokens_per_attempt":  8192,
+                  "max_output_tokens_per_attempt":  256,
+                  "max_attempts_per_logical_call":  3
+              },
+    "pricing_snapshot":  {
+                             "accounting_mode":  "token_plan_usage",
+                             "currency":  "TOKEN",
+                             "retrieved_at":  "2026-08-09",
+                             "source":  "Provider usage metadata under user-attested written Token Plan experiment permission; no per-token monetary billing claim.",
+                             "region":  "beijing",
+                             "input_cny_per_million_tokens":  "0",
+                             "output_cny_per_million_tokens":  "0",
+                             "fixed_accounting_cny_per_usd":  "7.0",
+                             "conversion_policy":  "Exact provider input/output/total tokens are mandatory. Monetary fields are zero-valued accounting placeholders and do not claim the subscription or attempt is free."
+                         },
+    "dataset":  {
+                    "name":  "SearchQA",
+                    "split":  "test",
+                    "items_path":  "data/searchqa_split/test/items.json",
+                    "items_sha256":  "a2a053e848d154d74b962d39b4ee662a4832d83ea05eb5af14f9af70fff9fea0",
+                    "split_manifest_path":  "data/searchqa_split/split_manifest.json",
+                    "split_manifest_sha256":  "37ffd61b470fae26690f30ab861429478b55d31f5741b646d9b7495da7ef6be7",
+                    "available_items":  1400,
+                    "replicate_seeds":  [
+                                            202701,
+                                            202702,
+                                            202703
+                                        ],
+                    "seed_semantics":  "Three deterministic, pairwise-disjoint example replicates; these are not claims of provider sampling randomness.",
+                    "selection":  "Sort unused item IDs by SHA-256(seed:item_id), then take the first items_per_replicate.",
+                    "items_per_replicate":  120,
+                    "guard_probe_items_per_replicate":  8,
+                    "evaluation_items_per_replicate":  112,
+                    "pairing":  "Every method uses the identical ordered evaluation IDs within a replicate. Guarded methods additionally use the identical ordered probe IDs."
+                },
+    "skill":  {
+                  "path":  "outputs/searchqa_rag/best_skill.md",
+                  "sha256":  "815b13fc116414ed1101b210748a0f0d5ee50bf030a2ea5eee1efa346659ee7c",
+                  "bytes":  13929,
+                  "rule_set_fingerprint":  "367938b8aba900de870ddd252e3d769762c4e04eca5f7935859f4c42f560be82"
+              },
+    "source_fingerprints":  {
+                                "rollout_system_prompt":  {
+                                                              "path":  "skillopt/envs/searchqa/prompts/rollout_system.md",
+                                                              "sha256":  "5c0edac102df979ad00380d9cfd774386f07f1f32af2dd5dacd208e8824dab94"
+                                                          },
+                                "rollout_prompt_builders":  {
+                                                                "path":  "skillopt/envs/searchqa/rollout.py",
+                                                                "sha256":  "601a79b4f26898ad722b2ac9f3d0a513b4530f617981b808fb9796d452d0d37f"
+                                                            },
+                                "rule_selector":  {
+                                                      "path":  "skillopt/rag_rule_selector.py",
+                                                      "sha256":  "3771d306f70c661926dd4bccb5d76d16be43a33fd512fd983717232842bbdb23"
+                                                  },
+                                "moar":  {
+                                             "path":  "skillopt/moar/__init__.py",
+                                             "sha256":  "362cbebee1f17b171262fe0c964d0899a3de2e68c4b70415025f909c63f08b20"
+                                         },
+                                "evaluator":  {
+                                                  "path":  "skillopt/envs/searchqa/evaluator.py",
+                                                  "sha256":  "6ebb64a3247544f7ea9c8d345ab81947514dab5f5c15b12f6ca01540db300baa"
+                                              },
+                                "pilot_runner":  {
+                                                     "path":  "scripts/run_acl2027_searchqa_token_plan_pilot_v5.py",
+                                                     "sha256":  "3c62cce288e5628b1bc4608c33340a8c1b67644056c6157d5b9b15a19ac86fec"
+                                                 }
+                            },
+    "frozen_candidate_source":  {
+                                    "phase":  "0N",
+                                    "config_path":  "configs/acl2027/offline_continual_phase0n_identity_aware_guard_reliability_v1.json",
+                                    "config_sha256":  "b3050b75c43c269b9618822a46de3c7abf447ba1fa6c200323e1252f9866b85b",
+                                    "method_name":  "global_only_selective_full_confirmation",
+                                    "parameters":  {
+                                                       "policy":  "greedy-utility",
+                                                       "credit":  "shared",
+                                                       "estimator":  "contextual",
+                                                       "context_weight":  0.5,
+                                                       "prior_identity":  "global-only",
+                                                       "prior_guard":  "selective-cold",
+                                                       "prior_guard_tolerance":  0.06,
+                                                       "prior_guard_max_probes_per_domain":  8,
+                                                       "prior_guard_reference":  "cold-router",
+                                                       "prior_guard_confidence_z":  1.0,
+                                                       "prior_guard_relevance_cost_share":  0.125,
+                                                       "prior_guard_probe_order":  "stream",
+                                                       "prior_guard_evaluation":  "rollout",
+                                                       "prior_guard_sequential":  true,
+                                                       "prior_guard_min_samples":  6,
+                                                       "prior_guard_min_reset_rounds":  2,
+                                                       "prior_guard_min_harm_margin":  0.1,
+                                                       "prior_guard_recovery_window":  2,
+                                                       "prior_guard_max_recovery_slope":  0.1,
+                                                       "prior_guard_min_accept_rounds":  8
+                                                   },
+                                    "held_out_seed_warning":  "Do not tune any threshold or action using Phase 0N seeds 161-180, including adversarial seed 176."
+                                },
+    "retrieval":  {
+                      "top_k":  5,
+                      "cumulative_skill_token_budget":  2000,
+                      "tfidf":  {
+                                    "implementation":  "skillopt.rag_rule_selector.RuleMemory",
+                                    "online_updates":  false
+                                },
+                      "moar":  {
+                                   "implementation":  "skillopt.moar.MOARMemory",
+                                   "pop_size":  50,
+                                   "generations":  30,
+                                   "crossover_p":  0.9,
+                                   "mutation_p":  0.1,
+                                   "weights":  "0.4,0.3,0.2,0.1",
+                                   "selection_mode":  "weighted_sum",
+                                   "utility_method":  "precision",
+                                   "utility_decay":  1.0,
+                                   "tokenizer":  "cl100k_base",
+                                   "frozen":  true,
+                                   "base_seed":  42
+                               }
+                  },
+    "methods":  [
+                    {
+                        "name":  "no_skill",
+                        "kind":  "downstream_comparator",
+                        "skill_policy":  "none",
+                        "guard_probe_branches":  [
+
+                                                 ]
+                    },
+                    {
+                        "name":  "static_full_skill",
+                        "kind":  "downstream_comparator",
+                        "skill_policy":  "full_skill",
+                        "guard_probe_branches":  [
+
+                                                 ]
+                    },
+                    {
+                        "name":  "tfidf_topk",
+                        "kind":  "retrieval_comparator",
+                        "skill_policy":  "tfidf",
+                        "top_k":  5,
+                        "cumulative_skill_token_budget":  2000,
+                        "guard_probe_branches":  [
+
+                                                 ]
+                    },
+                    {
+                        "name":  "skillopt_moar_frozen",
+                        "kind":  "skillopt_style_baseline",
+                        "skill_policy":  "moar",
+                        "top_k":  5,
+                        "cumulative_skill_token_budget":  2000,
+                        "online_utility_updates":  false,
+                        "guard_probe_branches":  [
+
+                                                 ]
+                    },
+                    {
+                        "name":  "global_only_reset_comparator",
+                        "kind":  "identity_correct_reset_comparator",
+                        "skill_policy":  "tfidf",
+                        "top_k":  5,
+                        "cumulative_skill_token_budget":  2000,
+                        "prior_identity":  "global-only",
+                        "guard_action":  "reset-cold",
+                        "guard_probe_branches":  [
+                                                     "candidate",
+                                                     "cold_reference"
+                                                 ]
+                    },
+                    {
+                        "name":  "global_only_selective_full_confirmation",
+                        "kind":  "frozen_candidate",
+                        "skill_policy":  "tfidf",
+                        "top_k":  5,
+                        "cumulative_skill_token_budget":  2000,
+                        "prior_identity":  "global-only",
+                        "guard_action":  "selective-cold",
+                        "ambiguous_action":  "abstain_and_use_fresh_cold_fallback",
+                        "candidate_state_mutation_allowed":  false,
+                        "guard_probe_branches":  [
+                                                     "candidate",
+                                                     "cold_fallback"
+                                                 ]
+                    },
+                    {
+                        "name":  "contextual_prior_diagnostic_upper_bound",
+                        "kind":  "diagnostic_upper_bound",
+                        "skill_policy":  "tfidf",
+                        "top_k":  5,
+                        "cumulative_skill_token_budget":  2000,
+                        "prior_identity":  "contextual",
+                        "eligible_for_promotion":  false,
+                        "guard_probe_branches":  [
+
+                                                 ]
+                    }
+                ],
+    "guard":  {
+                  "score_metric":  "f1",
+                  "paired_difference":  "candidate_minus_cold",
+                  "decision_boundary":  -0.06,
+                  "tolerance":  0.06,
+                  "confidence_z":  1.0,
+                  "min_samples":  6,
+                  "min_reset_rounds":  2,
+                  "min_harm_margin":  0.1,
+                  "recovery_window":  2,
+                  "max_recovery_slope":  0.1,
+                  "min_accept_rounds":  8,
+                  "max_rounds":  8,
+                  "acceptable_action":  "use_frozen_tfidf_candidate",
+                  "harmful_action":  "reject_and_use_fresh_cold_fallback",
+                  "ambiguous_action":  "abstain_and_use_fresh_cold_fallback",
+                  "candidate_state_mutation_allowed":  false
+              },
+    "planned_workload":  {
+                             "main_evaluation_logical_calls":  2352,
+                             "guard_probe_logical_calls":  96,
+                             "total_logical_calls":  2448,
+                             "fallback_logical_calls":  48,
+                             "cold_reference_or_fallback_calls":  48,
+                             "formula":  "3 replicates * 112 evaluation items * 7 methods + 3 replicates * 8 probe items * 2 guarded methods * 2 branches"
+                         },
+    "hard_caps":  {
+                      "logical_calls":  2448,
+                      "provider_attempts":  7344,
+                      "failed_attempts":  4896,
+                      "retries":  4896,
+                      "fallback_calls":  48,
+                      "input_tokens":  42000000,
+                      "output_tokens":  1300000,
+                      "total_tokens":  43300000,
+                      "priced_token_envelope_cny":  "0.00",
+                      "cost_cny":  "200.00"
+                  },
+    "accounting_contract":  {
+                                "logical_calls":  "Count one completed requested model inference, independently of retries.",
+                                "provider_attempts":  "Count and journal every provider request, including failed and orphaned attempts.",
+                                "retries":  "provider_attempts - completed logical_calls while resuming; equals failed attempts after a complete one-success-per-call run.",
+                                "failed_attempt_usage":  "Charge all provider-reported failed-attempt usage. Refuse further paid execution after any request whose usage is unknown.",
+                                "fallback_calls":  "Mark and sum explicit cold-reference or cold-fallback logical calls; never hide them inside a parent call.",
+                                "pre_invocation_reservation":  "Before every request, reserve the frozen envelope for its registered type: primary/primary-retry 8192 input + 256 output; format-repair 2048 input + 64 output.",
+                                "currency":  "CNY is authoritative under an absolute 200.00 cap."
+                            },
+    "parser_contract":  {
+                            "required_format":  "\u003canswer\u003enon-empty text\u003c/answer\u003e",
+                            "exactly_one_answer_element":  true,
+                            "reject_missing_tag":  true,
+                            "reject_multiple_tags":  true,
+                            "reject_empty_answer":  true,
+                            "reject_unbalanced_tags":  true,
+                            "fallback_to_last_line":  false,
+                            "invalid_predictions_remain_in_denominator":  true,
+                            "repair_trigger":  "Only a non-empty response rejected by the unchanged strict parser may trigger one repair.",
+                            "repair_source":  "Repair sees only the raw rejected response, never the question, context, skill, gold answer, or retrieval state."
+                        },
+    "resume_contract":  {
+                            "run_id":  "SHA-256 over config fingerprint, manifest fingerprint, replicate seed, method, stage, branch, and item ID.",
+                            "attempt_journal":  "Persist attempts.jsonl before appending the completed call record.",
+                            "orphan_success":  "Reconstruct the completed call from the successful terminal journal entry without another provider request.",
+                            "unknown_usage":  "Refuse all further paid execution until manually resolved.",
+                            "fail_on_bad_jsonl":  true,
+                            "fail_on_duplicate_run_id":  true,
+                            "fail_on_config_fingerprint_mismatch":  true,
+                            "fail_on_manifest_fingerprint_mismatch":  true,
+                            "skip_only_exact_completed_run_ids":  true
+                        },
+    "predeclared_gates":  {
+                              "immutable_inputs":  "Config, dataset, split manifest, skill, source implementations, runner, and frozen Phase 0N source hashes must match.",
+                              "prompt_parity":  "Dry-run and live use the same rollout prompt builders and prepared messages.",
+                              "guard_order":  "All 32 paired guard calls for a replicate complete before any evaluation call in that replicate.",
+                              "guard_behavior":  "Accept only at round 8 with lower bound \u003e= -0.06; reject harmful evidence under the frozen margin, horizon, and recovery conditions; otherwise abstain to cold.",
+                              "strict_parser":  "The unchanged strict parser judges both primary and repaired outputs; invalid repair output fails explicitly.",
+                              "resume_integrity":  "Attempt-first journaling supports exact reconstruction without duplicate provider requests.",
+                              "exact_accounting":  "Every attempt, logical call, cumulative token, and CNY identity must hold.",
+                              "budget_enforcement":  "The full per-attempt envelope is reserved before invocation and the absolute CNY cap is 200.00.",
+                              "smoke_before_batch":  "Run exactly one new v4 paid logical call and audit primary/repair type, request IDs, exact usage, parse format, and reasoning content before any continuation.",
+                              "promotion_rule":  "This Phase 1B pilot cannot enable formal 128/512 scaling; formal_scaling_allowed remains false.",
+                              "formatting_fixture":  "Zero-network fabricated cases must pass before a provider smoke; the fixture contains no spent SearchQA content."
+                          },
+    "formatting_repair":  {
+                              "enabled":  true,
+                              "trigger":  "strict_parser_failure_with_nonempty_response",
+                              "strategy":  "provider_format_normalization",
+                              "max_repairs_per_logical_call":  1,
+                              "temperature":  0,
+                              "primary_max_output_tokens":  256,
+                              "repair_max_input_tokens":  2048,
+                              "repair_max_output_tokens":  64,
+                              "include_original_question":  false,
+                              "include_original_context":  false,
+                              "allow_new_facts":  false,
+                              "on_empty_or_transport_failure":  "one primary retry using the frozen primary messages",
+                              "repair_prompt_contract":  "Extract only the shortest candidate answer already present in SOURCE_OUTPUT; return exactly one answer element and nothing else."
+                          },
+    "formatting_development_fixture":  {
+                                           "path":  "tests/fixtures/acl2027/searchqa_v5_formatting_cases.json",
+                                           "sha256":  "f25b2533ae9d2dcfb4522db5d3cabe82b757a73f64fd2622518a84e56192a9c9",
+                                           "contains_spent_searchqa_content":  false
+                                       },
+    "transport_policy":  {
+                             "min_request_interval_seconds":  1,
+                             "sdk_max_retries":  0,
+                             "retry_http_statuses":  [
+                                                         429
+                                                     ],
+                             "max_rate_limit_retries_per_call":  2,
+                             "backoff_initial_seconds":  2,
+                             "backoff_multiplier":  2,
+                             "pacing_clock":  "time.monotonic",
+                             "pacing_scope":  "provider_request_start_times"
+                         },
+    "provider_rejection_policy":  {
+                                      "terminal_error_codes":  [
+                                                                   "data_inspection_failed"
+                                                               ],
+                                      "retry_same_content":  false,
+                                      "alter_or_sanitize_input":  false,
+                                      "keep_in_metric_denominator":  true,
+                                      "metric_value":  0,
+                                      "unknown_usage_accounting":  "conservative_full_envelope",
+                                      "preserve_provider_error_code":  true,
+                                      "preserve_provider_error_id":  true
+                                  },
+    "transport_development_fixture":  {
+                                          "path":  "tests/fixtures/acl2027/searchqa_v5_transport_cases.json",
+                                          "sha256":  "183b7fa526d5bd358a60852d42101063b3f925f8917020c016e542d957b08bc2",
+                                          "contains_spent_searchqa_content":  false
+                                      }
+}

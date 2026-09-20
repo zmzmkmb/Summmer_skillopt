@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "phase_id": "TG3-tracegraph-runtime-mechanism-preflight-v1",
+  "experiment_line": "tracegraph-observable-state-skill-composition",
+  "mode": "zero_network_fixture_audit_only",
+  "skillbank": "artifacts/acl2027_tracegraph_tg1_skillbank_construction_v2/skillbank.jsonl",
+  "skillbank_sha256": "15059dd2cc5b99fc69d0bae79109ec20c8d000ec9d550ce237d06ee9ffd6a331",
+  "tg2_config": "configs/acl2027/tracegraph_tg2_observable_skillgraph_preflight_v1.json",
+  "tg2_config_sha256": "2d1daa5841430a8e8db699201c4987916f9aeae4c0bbb25b3a6b2761c172578e",
+  "runtime_allowed_inputs": ["observation", "historical_actions", "admissible_actions"],
+  "runtime_forbidden_inputs": ["task_description", "raw_trajectory", "planner_state", "pddl_params", "scene_state", "expert_future_actions", "evaluation_label", "phase0_to_phase6_artifact"],
+  "trace_required_fields": ["observable_state_fingerprint", "candidate_skill_ids", "eligibility_rejections", "permitted_edges", "selected_skill_id", "selected_edge", "terminal_action_decision"],
+  "fixture_cases": ["eligible_edge", "inadmissible_skill_rejection", "trace_completeness", "hidden_state_rejection"],
+  "network_calls_allowed": false,
+  "provider_calls_allowed": false,
+  "model_calls_allowed": false,
+  "authorization_receipts_allowed": false,
+  "episode_execution_enabled": false,
+  "webshop_status": "blocked_pending_preregistered_alfworld_mechanism_gate"
+}

@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase1j_no_paid_capability_calibration_v1",
+  "phase": "1J",
+  "title": "Zero-network capability calibration from immutable Phase 1I responses",
+  "status": "planned",
+  "objective": "Freeze stricter response contracts and prove that local diagnostics separate retrieval, operand-schema, arithmetic, answer, completion, edit-schema, and formula-semantic failures without repairing failed model outputs into successes.",
+  "execution": {"paid_api_allowed": false, "network_calls_allowed": false, "provider_calls": 0, "formal_scaling_allowed": false, "batch_closed": true},
+  "immutable_inputs": {
+    "phase1i_results": "artifacts/acl2027_phase1i_repaired_cross_task_live_smoke_v1/results.jsonl",
+    "phase1i_results_sha256": "8ffac099fd8868fe0d47ebe480023a898b63ecee1d82937627c81088801231d9",
+    "phase1i_scientific_results": "artifacts/acl2027_phase1i_repaired_cross_task_live_smoke_v1/scientific_results.json",
+    "phase1i_scientific_results_sha256": "33c4699b2415a5b43f18cf2f7ecd38a8d140ed776a41ea22a0084c890c3c7d09"
+  },
+  "officeqa": {
+    "task_id": "UID0001", "required_time_basis": "calendar", "expected_period_count": 12, "reference_answer": 2602,
+    "operand_item_schema": {"required_keys": ["period", "value"]},
+    "deterministic_recomputation": "sum evidence values independently; require calculation.result and answer to agree with the recomputed value",
+    "failure_channels": ["retrieval_or_provenance_failure", "operand_schema_failure", "arithmetic_failure", "answer_mismatch"]
+  },
+  "spreadsheetbench": {
+    "task_id": "45635", "target_range": "B5:E7", "expected_edit_count": 12,
+    "golden_workbook": "data/spreadsheetbench_verified_400/spreadsheet/45635/1_45635_golden.xlsx",
+    "development_semantics": "For each output column independently, compare the three people in that column; do not take a maximum over the full B1:D3 block.",
+    "response_contract": {"top_level_keys": ["target_range", "edits", "explanation"], "edit_keys": ["sheet", "cell", "formula"], "exact_cell_coverage": true, "explanation_max_characters": 160, "json_only": true},
+    "failure_channels": ["json_completion_failure", "edit_schema_failure", "formula_semantics_failure"]
+  },
+  "negative_evidence_policy": {"diagnostic_recovery_is_not_task_success": true, "deterministic_recomputation_is_not_silent_repair": true, "phase1i_task_valid_labels_must_remain_false": true},
+  "decision_gate": {
+    "pass": "Zero network calls; immutable inputs match their hashes; all seven failure channels are independently reported; OfficeQA recomputation finds 2602 while retaining the raw failure; SpreadsheetBench recovers 12 edits for diagnosis while retaining parse failure and detects 12 golden mismatches; compact golden-shape JSON closes within the frozen size guard.",
+    "model_viability": "Phase 1J can determine whether qwen3.6-flash is currently qualified, but cannot establish viability under the revised contract without a separately authorized live confirmation.",
+    "paid_successor": "requires a new immutable config and separate user authorization", "batch": "OfficeQA 24 and SpreadsheetBench 40 remain closed"
+  },
+  "write_scope": ["configs/acl2027/phase1j_no_paid_capability_calibration_v1.json", "scripts/run_acl2027_phase1j_calibration.py", "tests/test_acl2027_phase1j_calibration.py", "artifacts/acl2027_phase1j_no_paid_capability_calibration_v1", "paper/acl2027/results/phase1j_no_paid_capability_calibration_v1.md", "paper/acl2027/CONTRIBUTION_EVIDENCE_LEDGER.md", "paper/acl2027/experiment_state.json"]
+}

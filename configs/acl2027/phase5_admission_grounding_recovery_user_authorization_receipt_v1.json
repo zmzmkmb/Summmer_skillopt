@@ -1,0 +1,32 @@
+{
+  "authorization_closes_on_completion_or_terminal_stop": true,
+  "authorization_statement_sha256": "9e87db8e539ba8c4c88d4d641dfa057cff85573f840053d0a1f2be8962843053",
+  "authorization_statement_verbatim": "I explicitly authorize Phase 5 admission/grounding recovery execution, binding recovery preflight fingerprint 2cf8ba557fcdb766ca9737ceea3a755f1849237a622260442398af1c0214d45c, preserving 93 completed rows as provenance, excluding all 94 spent source attempts including orphan source sequence 94, and using 147 new frozen requests to https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1 with qwen3.7-plus, temperature 0, thinking disabled, zero retries, no max_tokens, JSON-object responses, one-second pacing, CNY 3.00 recovery-stage and CNY 15.00 cumulative ceilings including the CNY 0.05 orphan-usage reserve, first-failure stop, exact-prefix resume, durable hash-chain ledgers, and automatic closure. I authorize no replication, other models, cross-domain scaling, or formal scaling.",
+  "authorized_calls": 147,
+  "cumulative_cost_ceiling_cny": 15.0,
+  "data_egress_authorized": true,
+  "enable_thinking": false,
+  "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+  "exact_prefix_resume_only": true,
+  "hash_chain_required": true,
+  "max_provider_attempts": 147,
+  "max_tokens_present": false,
+  "model_id": "qwen3.7-plus",
+  "orphan_usage_reserve_cny": 0.05,
+  "paid_usage_authorized": true,
+  "recovery_preflight_aggregate_fingerprint": "2cf8ba557fcdb766ca9737ceea3a755f1849237a622260442398af1c0214d45c",
+  "request_interval_seconds": 1.0,
+  "request_start_ledger_required": true,
+  "response_format": {
+    "type": "json_object"
+  },
+  "response_ledger_required": true,
+  "retries": 0,
+  "schema_version": 1,
+  "scope": "phase5_admission_grounding_recovery_only",
+  "stage_cost_ceiling_cny": 3.0,
+  "status": "explicit_user_authorization_received",
+  "temperature": 0,
+  "terminal_stop_on_first_failed_attempt": true,
+  "usage_accounting_required": true
+}

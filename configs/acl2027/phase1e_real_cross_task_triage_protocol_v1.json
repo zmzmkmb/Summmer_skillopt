@@ -1,0 +1,83 @@
+﻿{
+  "schema_version": 1,
+  "experiment": "acl2027_phase1e_real_cross_task_triage_protocol_v1",
+  "phase": "1E",
+  "title": "Frozen real cross-task validation protocol for inherited-experience triage",
+  "execution": {
+    "paid_api_allowed": false,
+    "formal_scaling_allowed": false,
+    "network_calls_allowed": false,
+    "protocol_only": true
+  },
+  "paper_mainline": "safe_continual_skill_routing_under_inherited_experience",
+  "research_questions": [
+    "Does prior identity (copied-global, global-only, contextual) change safe deployment behavior?",
+    "Can sparse or conflicting validation evidence be detected before deployment?",
+    "Does abstain reduce harmful deployment while retaining candidates for later review?"
+  ],
+  "task_families": [
+    {
+      "name": "SearchQA",
+      "role": "confirmatory_reference",
+      "split": "test",
+      "source_manifest": "data/searchqa_id_split/split_manifest.json",
+      "development_allowed": false,
+      "notes": "Phase 1B test answers are frozen held-out evidence and cannot tune thresholds."
+    },
+    {
+      "name": "OfficeQA",
+      "role": "new_task_family",
+      "split": "val",
+      "source_manifest": "data/officeqa_id_split/split_manifest.json",
+      "development_allowed": true,
+      "notes": "Requires authorized materialization of the gated official payload."
+    },
+    {
+      "name": "SpreadsheetBench",
+      "role": "new_tool_use_family",
+      "split": "val",
+      "source_manifest": "data/spreadsheetbench_id_split/split_manifest.json",
+      "development_allowed": true,
+      "notes": "Requires materialized task JSON and spreadsheet files."
+    }
+  ],
+  "priors": ["copied-global", "global-only", "contextual"],
+  "methods": ["identity_correct_reset", "binary_proxy_gate", "triage_gate", "skillopt_moar_frozen"],
+  "triage_actions": {
+    "accept": "deploy candidate and retain provenance",
+    "reject": "do not deploy candidate; retain for future review",
+    "abstain": "do not deploy; retain and mark evidence-insufficient or conflicting",
+    "discard": "never emitted by the validation gate"
+  },
+  "pairing": {
+    "unit": "task_id:seed:prior_type",
+    "same_model_prompt_budget_and_task_order": true,
+    "independent_seeds": [202701, 202702, 202703],
+    "primary_new_task_sample": {"OfficeQA": 24, "SpreadsheetBench": 40},
+    "searchqa_confirmatory_sample": 112
+  },
+  "metrics": [
+    "task_success_or_accuracy",
+    "harmful_deployment_rate",
+    "helpful_deployment_rate",
+    "abstention_rate",
+    "candidate_retention_rate",
+    "old_task_forgetting",
+    "input_output_tokens",
+    "latency",
+    "invalid_or_failed_calls"
+  ],
+  "decision_gate": {
+    "pass_for_real_pilot": "protocol audit passes, payloads are materialized, and no thresholds are tuned on SearchQA held-out answers",
+    "pass_for_method_claim": "triage reduces harmful deployment on at least one new task family without rejecting nearly all helpful updates and does not lose the frozen MOAR quality advantage",
+    "fallback": "if triage fails, freeze prior taxonomy plus proxy-to-real mismatch as the paper contribution and demote triage to a safety limitation"
+  },
+  "required_materialization": [
+    "data/officeqa_id_split/val/items.json plus authorized OfficeQA payload",
+    "data/spreadsheetbench_id_split/val/items.json plus task JSON and spreadsheet files",
+    "frozen model endpoint and compliant batch policy",
+    "new immutable run directory"
+  ],
+  "network_calls": 0,
+  "paid_api_calls": 0
+}

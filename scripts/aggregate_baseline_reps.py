@@ -1,30 +1,49 @@
 #!/usr/bin/env python3
-"""汇总基线 3-rep 结果."""
-import json, os, sys, numpy as np
+"""Print canonical baseline summaries from manifested, fingerprinted artifacts."""
+from __future__ import annotations
 
-OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "outputs")
+import argparse
+import sys
+from pathlib import Path
 
-methods = {
-    'BM25': ['jos_formal_bm25_rep42','jos_formal_bm25_rep43','jos_formal_bm25_rep44'],
-    'Greedy-Cold': ['jos_formal_greedy_cold_rep42','jos_formal_greedy_cold_rep43','jos_formal_greedy_cold_rep44'],
-    'Greedy-Utility': ['jos_formal_greedy_util_rep42','jos_formal_greedy_util_rep43','jos_formal_greedy_util_rep44'],
-}
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
-for method, files in methods.items():
-    accs = []; rules = []; tokens = []; budget_viol = 0; api_fail = 0
-    for fname in files:
-        d = json.load(open(os.path.join(OUT, fname + '.json'), encoding='utf-8'))
-        accs.append(d['acc'])
-        rules.append(d['avg_rules'])
-        pq = d['per_question']
-        tokens.append(np.mean([p.get('selected_tokens',0) for p in pq]))
-        budget_viol += sum(1 for p in pq if p.get('budget_violated', False))
-        api_fail += sum(1 for p in pq if p.get('predicted','') == '')
+from skillopt.evaluation.artifact_audit import audit_artifact_package
 
-    mean = np.mean(accs); std = np.std(accs, ddof=1) if len(accs) > 1 else 0
-    acc_strs = ", ".join("%.1f%%" % (a*100) for a in accs)
-    print("%s:" % method)
-    print("  acc: %.2f%% +/- %.2f%%  (%s)" % (mean*100, std*100, acc_strs))
-    print("  rules: %.1f  tokens: %.0f  budget_viol: %d  api_fail: %d" % (
-        np.mean(rules), np.mean(tokens), budget_viol, api_fail))
-    print()
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--artifact-root",
+        default=str(PROJECT_ROOT / "artifacts" / "jos_experiment_v1"),
+    )
+    args = parser.parse_args()
+    report = audit_artifact_package(args.artifact_root)
+
+    print("Canonical JoS baseline results (independent runs only)")
+    print("=" * 104)
+    for row in report["audited_baselines"]:
+        completeness = "" if row["independent_runs"] >= 3 else " [INCOMPLETE]"
+        print(
+            f"{row['condition']:<20} {row['model']:<18} {row['method']:<18} "
+            f"n={row['independent_runs']} seeds={row['seeds']:<8} "
+            f"acc={row['accuracy_mean']:.4f} +/- {row['accuracy_std']:.4f} "
+            f"tokens={row['avg_selected_tokens']:.0f} "
+            f"budget_viol={row['budget_violations']}{completeness}"
+        )
+
+    duplicates = [
+        issue for issue in report["issues"] if issue["code"] == "duplicate_baseline_content"
+    ]
+    if duplicates:
+        print("\nDuplicate baseline runs excluded:")
+        for issue in duplicates:
+            print(f"- {issue['message']}")
+        return 1
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

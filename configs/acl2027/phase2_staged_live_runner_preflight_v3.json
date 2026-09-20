@@ -1,0 +1,20 @@
+{
+  "schema_version": 3,
+  "experiment": "acl2027_phase2_staged_live_runner_preflight_v3",
+  "status": "preflight_only_closed",
+  "execution": {"network_calls_allowed": false, "provider_calls_allowed": false, "paid_api_allowed": false, "qwen_authorization_open": false, "formal_scaling_allowed": false},
+  "frozen_bindings": {
+    "freeze_config": {"path": "configs/acl2027/phase2_expansion_freeze_v2.json", "sha256": "43e89e39a2bf536a3ab183d7e0a43dbe4221beeb54f912e76823190b4880439c"},
+    "request_plan": {"path": "artifacts/acl2027_phase2_expansion_freeze_v2/request_plan.json", "sha256": "1c4caf62111a71cd6bf0af98fd8c14174117e7203c577151608d7a868db6732b"},
+    "partition_audit": {"path": "artifacts/acl2027_phase2_expansion_freeze_v2/partition_audit.json", "sha256": "403a0b806116ec0bb847afe5e4b5c1d160ff2c7b900feaec2456cd0c52c02133"}
+  },
+  "schedule_binding": {"path": "artifacts/acl2027_phase2_staged_live_runner_preflight_v2/staged_execution_schedule.json", "sha256": "01c4e03660648cf8d5b150f78bf783f273b99899fa6fa4ac8be495090e44dd60", "semantics": "immutable v2 schedule reused; exact prefix is staged execution order"},
+  "model_route": {"model_id": "qwen3.7-plus", "temperature": 0, "retries": 0, "max_tokens_present": false, "endpoint_route": "dashscope-compatible-mode-chat-completions"},
+  "stages": {"calibration": 60, "development_acquisition": 10, "formal_history": 160, "probe": 160, "held_out": 320},
+  "stage_estimated_cost_cny": {"calibration": 0.386880, "development_acquisition": 0.084960, "formal_history": 1.359360, "probe": 1.455360, "held_out": 2.910720, "total": 6.197280},
+  "cost_control": {"input_cny_per_million": 2.0, "output_cny_per_million": 8.0, "stage_ceilings_cny": {"calibration": 0.50, "development_acquisition": 0.11, "formal_history": 1.64, "probe": 1.75, "held_out": 3.50}, "cumulative_ceiling_cny": 7.50, "ceiling_is_request_parameter": false},
+  "coverage_gate": {"minimum_per_family": 8, "schema_path": "configs/acl2027/phase2_candidate_materialization_schema_v3.json", "verifier_config_sha256": "518c2aa43a48b83523ca42abd5189ab5b736f498f52ec505517697d89faa8e01", "real_artifact_status": "not_materialized", "failure_status": "coverage-incomplete"},
+  "probe_gate": {"schema_path": "configs/acl2027/phase2_probe_audit_schema_v3.json", "conditions": ["contextual_typed_prior", "global_only", "cold", "copied_global"], "real_artifact_status": "not_materialized"},
+  "trusted_evaluation": {"formal_history_gold_sha256": "676f41b52785ba0f0a63ac30097f59411b99e7345602edeed2e178c5b8511715", "probe_gold_sha256": "669b26e604ac0b8ee99445be7e35abdf630c44df3b859f5af7a5d1fcfbab9407", "verifier_source_sha256": "929cf11168ba294fd769c16a7fb953bb9801ccf98cae64355c438c9c65e308c7", "verifier_config_sha256": "518c2aa43a48b83523ca42abd5189ab5b736f498f52ec505517697d89faa8e01", "materializer_source_sha256": "69a3ea9734cd5a08dd1fef480741dcc303da8b70c2786eea4f7af575c2a10403", "probe_analyzer_source_sha256": "0145c56dbf2a2191c2371186d276bb424cd2994276559ce4db6e2e5c55648629", "probe_analyzer_config_sha256": "68d606b73a0e02dce9434ed0ff1f1b0ef78f4d645a1c3cfea559d932e5f46039"},
+  "hard_stops": ["freeze/config/plan/partition/schedule/authorization hash drift", "authorization registry unresolved", "non staged exact-prefix resume", "duplicate logical ID/request/response/support", "stage skip/order drift", "stage not authorized", "current authorization call ceiling", "stage cost ceiling", "global cumulative cost ceiling", "provider exception", "unknown/missing/invalid usage", "retry attempt", "max_tokens present", "model/temperature/route drift", "coverage verifier/ledger binding drift", "coverage not passed", "probe audit drift or incomplete", "ledger schedule bijection failure"]
+}

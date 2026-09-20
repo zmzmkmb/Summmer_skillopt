@@ -1,0 +1,29 @@
+{
+  "schema_version": 20,
+  "experiment": "acl2027_phase2_probe_recovery_live_v20",
+  "authorization_id": "phase2-probe-recovery-only-v20",
+  "status": "request_frozen_user_authorization_received_execution_not_open",
+  "bindings": {
+    "v19_aggregate_fingerprint": "12582b59aa355f1f0e5c8e1340613edce816a24e7c6d80504087a2114a8a7e4c",
+    "v19_config_sha256": "1f0931ebdfe6ec3a889b9e9300f4fb3d176f650ef1eb0110bece2fca9dbbfd5a",
+    "v19_manifest_sha256": "f8ac1cce8207152e2c496902e3e2362c13500a41bce8ce00eeff059119f80302",
+    "v19_schedule_sha256": "a30223a0de310b972f052f9a74be7f4552fd71aa6ede66b620e00e8a21b7649a"
+  },
+  "scope": "probe_recovery_only",
+  "authorized_stage": "probe",
+  "authorized_calls": 112,
+  "max_provider_attempts": 112,
+  "model_id": "qwen3.7-plus",
+  "temperature": 0,
+  "retries": 0,
+  "max_tokens_present": false,
+  "enable_thinking": false,
+  "response_format": {
+    "type": "json_object"
+  },
+  "stage_cost_ceiling_cny": 7.5,
+  "cumulative_cost_ceiling_cny": 7.5,
+  "held_out_authorized": false,
+  "later_stages_authorized": false,
+  "formal_scaling_authorized": false
+}

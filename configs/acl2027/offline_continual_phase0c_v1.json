@@ -1,0 +1,100 @@
+{
+  "schema_version": 3,
+  "experiment": "acl2027_phase0c_contextual_drift_corruption",
+  "scope": "synthetic offline instrumentation only; no downstream LLM accuracy claim",
+  "stream_type": "contextual",
+  "seeds": [
+    41,
+    42,
+    43
+  ],
+  "n_rules": 48,
+  "domains": [
+    "searchqa",
+    "law",
+    "health"
+  ],
+  "block_order": [
+    "searchqa",
+    "law",
+    "health",
+    "searchqa",
+    "law",
+    "health"
+  ],
+  "tasks_per_block": 25,
+  "probe_tasks_per_domain": 8,
+  "top_k": 3,
+  "budget": 170,
+  "token_target": 0.72,
+  "target_window": 20,
+  "target_sustain": 5,
+  "prior_strength": 2.0,
+  "recovery_correlation_target": 0.25,
+  "recovery_sustain": 5,
+  "utility_conditions": [
+    "all-cold",
+    "adversarial"
+  ],
+  "corruptions": [
+    {
+      "name": "none",
+      "mode": "none",
+      "block": null
+    },
+    {
+      "name": "shuffled_midstream",
+      "mode": "shuffled",
+      "block": 3
+    }
+  ],
+  "methods": [
+    {
+      "name": "relevance_topk",
+      "policy": "relevance",
+      "credit": "none"
+    },
+    {
+      "name": "global_greedy_shared",
+      "policy": "greedy-utility",
+      "credit": "shared"
+    },
+    {
+      "name": "contextual_greedy_shared",
+      "policy": "greedy-utility",
+      "credit": "shared",
+      "estimator": "contextual"
+    },
+    {
+      "name": "contextual_greedy_oracle_credit",
+      "policy": "greedy-utility",
+      "credit": "oracle-per-rule",
+      "estimator": "contextual"
+    },
+    {
+      "name": "contextual_ucb_shared",
+      "policy": "ucb",
+      "credit": "shared",
+      "estimator": "contextual"
+    },
+    {
+      "name": "contextual_greedy_nonreg",
+      "policy": "greedy-utility",
+      "credit": "shared",
+      "estimator": "contextual",
+      "gate": "non-regression"
+    },
+    {
+      "name": "contextual_greedy_balanced",
+      "policy": "greedy-utility",
+      "credit": "shared",
+      "estimator": "contextual",
+      "gate": "balanced"
+    },
+    {
+      "name": "oracle_upper_bound",
+      "policy": "oracle",
+      "credit": "oracle-per-rule"
+    }
+  ]
+}

@@ -147,9 +147,9 @@ class TestRunnerBundledMatchesShared(unittest.TestCase):
     """The bundled copy must stay in sync with the shared runner."""
 
     def test_bundled_equals_shared(self):
-        with open(RUNNER) as f:
+        with open(RUNNER, encoding="utf-8") as f:
             shared = f.read()
-        with open(BUNDLED) as f:
+        with open(BUNDLED, encoding="utf-8") as f:
             bundled = f.read()
         self.assertEqual(shared, bundled,
                          "plugins/claude-code/scripts/run-sleep.sh has drifted "

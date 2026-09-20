@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase3a_real_task_mechanism_audit_v1",
+  "status": "zero_network_analysis_only",
+  "objective": "Determine whether the Phase 2 real-task gap is dominated by absent observable prior uptake, outcome-insensitive response changes, or mixed typed-prior benefit and harm before authorizing any new model calls.",
+  "source": {
+    "combined_audit": "artifacts/acl2027_phase2_post_v25_failure_analysis_second_recovery_live_v31/combined_failure_analysis_audit.json",
+    "aggregate_fingerprint": "a203fc9bf435b9bc8d1079e118b1aa34e54a1b647944596ad0aee351a4b958bb",
+    "tasks": 400,
+    "conditions": [
+      "cold",
+      "copied_global",
+      "global_only",
+      "contextual_typed_prior"
+    ]
+  },
+  "taxonomy": {
+    "priority": [
+      "typed_benefit",
+      "typed_harm",
+      "no_observable_uptake",
+      "response_change_without_alias_outcome_change",
+      "other_outcome_heterogeneity"
+    ],
+    "typed_benefit": "Alias-tolerant contextual typed prior is correct and global-only is wrong.",
+    "typed_harm": "Alias-tolerant global-only is correct and contextual typed prior is wrong.",
+    "no_observable_uptake": "All four raw-response SHA-256 values are identical.",
+    "response_change_without_alias_outcome_change": "At least one raw response changes, but all four alias-tolerant correctness labels are equal.",
+    "other_outcome_heterogeneity": "The task has condition-dependent alias outcomes not captured by the typed-versus-global pair."
+  },
+  "diagnostic_rules": {
+    "reject_random_scale_up_if_all_alias_outcomes_equal_rate_at_least": 0.85,
+    "require_mechanism_bridge_if_all_response_hashes_equal_rate_at_least": 0.65,
+    "preserve_phase2_gate": "inconclusive",
+    "descriptive_only_no_regating": true
+  },
+  "future_activation_pilot": {
+    "status": "design_target_not_materialized_not_authorized",
+    "tasks": 60,
+    "tasks_per_family": 12,
+    "conditions": [
+      "cold",
+      "copied_global",
+      "global_only",
+      "contextual_typed_prior",
+      "shuffled_typed_prior"
+    ],
+    "logical_calls": 300,
+    "required_observations": [
+      "declared_skill_applicability",
+      "selected_skill_id",
+      "intermediate_operation",
+      "final_answer"
+    ],
+    "selection_must_be_gold_independent": true,
+    "new_task_ids_required": true,
+    "authorization_artifact_created": false,
+    "provider_execution_authorized": false
+  },
+  "execution": {
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "model_calls_allowed": false,
+    "paid_api_allowed": false,
+    "formal_scaling_allowed": false
+  }
+}

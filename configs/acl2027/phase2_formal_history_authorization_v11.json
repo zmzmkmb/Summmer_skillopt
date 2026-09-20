@@ -1,0 +1,54 @@
+{
+  "authorization_id": "phase2-formal-history-token-plan-v11",
+  "authorized_calls": 160,
+  "authorized_stage": "formal_history",
+  "bindings": {
+    "formal_history_gold_sha256": "676f41b52785ba0f0a63ac30097f59411b99e7345602edeed2e178c5b8511715",
+    "manifest_sha256": "73bd902f7cbbdd8303cc9b5cd319bba8b21a994195d1f9e8a45fcce665d45aeb",
+    "materializer_source_sha256": "69a3ea9734cd5a08dd1fef480741dcc303da8b70c2786eea4f7af575c2a10403",
+    "preflight_config_sha256": "43d6e55013b7ebda3500910b7996d7e3de13fca3eadeb565fad3b6bbdea9ce4d",
+    "provider_adapter_sha256": "6761e757eee26d9bfab3918930565eda70fa9857bc755a21992c5f8364381eba",
+    "runner_source_sha256": "4fcfa080831201c7c5a098985e28722e7fa0edc7f3cb95973e4cfb2ca7ff0765",
+    "schedule_sha256": "3878a6e1cf3ca5ab486767f49d74325c7ca9261210e6ec356a1eedebc7653f4a",
+    "verifier_source_sha256": "929cf11168ba294fd769c16a7fb953bb9801ccf98cae64355c438c9c65e308c7"
+  },
+  "credential_sha256": "c633a901caf472c4a161651f45c53e5d9d962ca1e5dde40cea8e106da2b5ec6f",
+  "cumulative_cost_ceiling_cny": 1.64,
+  "enable_thinking": false,
+  "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+  "forbidden_stages": [
+    "probe",
+    "held_out",
+    "formal_scaling"
+  ],
+  "formal_scaling_allowed": false,
+  "max_provider_attempts": 160,
+  "max_tokens_present": false,
+  "model_id": "qwen3.7-plus",
+  "opened_at": "2026-08-14T08:21:08.022284+00:00",
+  "paid_api_allowed": true,
+  "provider_calls_allowed": true,
+  "qwen_authorization_open": true,
+  "request_interval_seconds": 1.0,
+  "response_format": {
+    "type": "json_object"
+  },
+  "retries": 0,
+  "schema_version": 11,
+  "stage_call_ceiling": 160,
+  "stage_cost_ceiling_cny": 1.64,
+  "status": "open",
+  "temperature": 0,
+  "user_authorization": {
+    "authorized_calls": 160,
+    "calls_per_family": 32,
+    "formal_scaling_authorized": false,
+    "held_out_authorized": false,
+    "later_stages_authorized": false,
+    "max_tokens_present": false,
+    "probe_authorized": false,
+    "retries": 0,
+    "scope": "phase2_formal_history_only",
+    "target_verified_supports_per_family": 8
+  }
+}

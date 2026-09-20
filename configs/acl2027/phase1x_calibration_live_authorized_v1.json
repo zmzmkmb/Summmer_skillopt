@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase1x_calibration_live_authorized_v1",
+  "phase": "1X",
+  "title": "Authorized bounded live calibration execution",
+  "status": "in_progress",
+  "objective": "Execute exactly the 24 Phase 1W-bound qwen3.7-plus Token Plan calibration attempts once and measure SearchQA answer accuracy plus 2Wiki answer, support, and joint accuracy.",
+  "execution": {
+    "paid_api_allowed": true,
+    "network_calls_allowed": true,
+    "provider_calls_authorized": 24,
+    "formal_scaling_allowed": false,
+    "logical_calls": 24,
+    "physical_requests": 24,
+    "max_provider_attempts_per_logical_call": 1,
+    "sdk_max_retries": 0,
+    "explicit_retries": 0,
+    "request_interval_seconds": 1.0,
+    "model_id": "qwen3.7-plus",
+    "endpoint": "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+    "endpoint_class": "token_plan_user_confirmed",
+    "api_key_env": "DASHSCOPE_API_KEY",
+    "api_key_prefix": "sk-",
+    "temperature": 0,
+    "enable_thinking": false,
+    "request_body_forbidden_keys": ["max_tokens"]
+  },
+  "phase1w_binding": {
+    "config": {"path": "configs/acl2027/phase1w_calibration_live_preflight_v1.json", "sha256": "6e668c0cc4db1aa2c38332b02aaad5f31305fbae9bc2f3eb85843fa07a7a9f65"},
+    "audit": {"path": "artifacts/acl2027_phase1w_calibration_live_preflight_v1/preflight_audit.json", "sha256": "f4d8947ebbd74aad623337125bea9b448035c43edae9b4bddcc8fab94daac8e2"},
+    "manifest": {"path": "artifacts/acl2027_phase1w_calibration_live_preflight_v1/run_manifest.json", "sha256": "20c19eceb945b853fb49d6ba9b163514cfafb46d5a51e0f0e2f4e0cb6d7fe0bf"},
+    "transport_plan": {"path": "artifacts/acl2027_phase1w_calibration_live_preflight_v1/transport_plan.json", "file_sha256": "046d844de9efdb5267f002a29f056d2e7aa84081fcebe1eb0ab8655332cc921d", "stable_sha256": "099f899a2c5c06a1773b43d55909f5ac7e446ea37af9b9aceeed4441f2fa08b8"},
+    "scientific_request_plan_sha256": "694ecbc1ad016f22452a9d94652485f8088afc7f18d54620bc8bfc9693844ac0",
+    "evaluator_private": {"path": "artifacts/acl2027_phase1v_calibration_preflight_v1/evaluator_private.json", "file_sha256": "d1b696f6303ec75c4f861943921ba41ce939ebe0dd9752453bb9f239239e04f4", "stable_sha256": "4b7beaf887abce1b111ece39e46606108f1502b53cbc24cd7a5dd6b3452ca65c"}
+  },
+  "response_policy": {
+    "parser_verifier_source": "scripts/prepare_acl2027_phase1v_calibration.py::parse_response,verify_response",
+    "raw_provider_text_preserved": true,
+    "known_usage_malformed_or_schema_invalid": "record_invalid_and_continue",
+    "invalid_outputs_count_scientifically": true,
+    "unknown_usage": "append_terminal_record_and_refuse_resume",
+    "provider_exception": "append_terminal_record_and_refuse_resume",
+    "resume": "exact_append_only_completed_transport_plan_prefix"
+  },
+  "cost_control": {
+    "currency": "CNY",
+    "list_price_cny_per_million_input_tokens": 2.0,
+    "list_price_cny_per_million_output_tokens": 8.0,
+    "accounting_ceiling_cny": 100.0,
+    "accounting_ceiling_is_request_parameter": false,
+    "max_tokens_is_cost_control": false,
+    "phase1w_planning_ceiling_cny": 10.0,
+    "authorized_ceiling_supersedes_planning_ceiling": true,
+    "hard_stop_rule": "Before every provider attempt, stop if accumulated exact list-price accounting has reached CNY 100. Never translate the ceiling into max_tokens."
+  },
+  "authorization_gate": {
+    "status": "authorized",
+    "authorized_at": "2026-08-11",
+    "authorization_text": "允许执行恰好 24 次 qwen3.7-plus Token Plan 调用，零重试、不设置 max_tokens、本地核算上限 CNY 100。",
+    "authorized_calls": 24,
+    "authorized_model": "qwen3.7-plus",
+    "authorized_route": "Token Plan compatible endpoint",
+    "authorized_accounting_ceiling_cny": 100.0,
+    "inherited_from_phase1s": false,
+    "qwen3.8_max_allowed": false,
+    "legacy_24_40_batch_allowed": false,
+    "staged_or_full_scaling_allowed": false
+  },
+  "decision_gate": {
+    "measurement": "Report contract-valid rate and exact task accuracy separately for SearchQA and 2WikiMultiHopQA; 2Wiki success requires both answer and supporting evidence.",
+    "searchqa_policy": "SearchQA is admitted as an experiment anchor; its result is diagnostic and not an inclusion blocker.",
+    "two_wiki_eligibility_reference": "Interpret the 12-task 2Wiki result against the frozen Phase 1T non-floor gate without retuning the gate after results.",
+    "post_execution": "Close paid permission immediately after completion or the first terminal hard stop and preserve every invalid or terminal result visibly."
+  }
+}

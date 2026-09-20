@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "experiment": "acl2027_phase1u_calibration_payload_readiness_v1",
+  "phase": "1U",
+  "title": "SearchQA admission and 2WikiMultiHopQA payload materialization",
+  "status": "planned",
+  "objective": "Bind the admitted SearchQA calibration identities and materialize a hash-bound, gold-bearing 2WikiMultiHopQA pool with deterministic disjoint partitions and frozen automatic verification contracts.",
+  "execution": {
+    "dataset_network_allowed": true,
+    "provider_calls_allowed": false,
+    "paid_api_allowed": false,
+    "formal_scaling_allowed": false,
+    "qwen3_8_max_allowed": false,
+    "legacy_officeqa_spreadsheetbench_batch_allowed": false
+  },
+  "source": {
+    "normative_repository": "https://github.com/Alab-NII/2wikimultihop",
+    "normative_readme": "https://raw.githubusercontent.com/Alab-NII/2wikimultihop/main/README.md",
+    "normative_release_url": "https://www.dropbox.com/s/ms2m13252h6xubs/data_ids_april7.zip",
+    "normative_release_description": "April 7 2021 ID-bearing release with corrected paragraph sentence segmentation",
+    "transport_mirror": "https://www.kaggle.com/datasets/tranleanhpha/rescoreembedding",
+    "transport_mirror_api": "https://www.kaggle.com/api/v1/datasets/download/tranleanhpha/rescoreembedding?filename={quoted_path}",
+    "mirror_files": {
+      "dev": {
+        "remote_path": "data/raw_data/2wikimultihopqa/dev.json",
+        "expected_bytes": 57613717,
+        "local_path": "source/dev.json"
+      },
+      "id_aliases": {
+        "remote_path": "data/raw_data/2wikimultihopqa/id_aliases.json",
+        "expected_bytes": 17501406,
+        "local_path": "source/id_aliases.json"
+      }
+    },
+    "remote_split_inventory": {
+      "train": {"bytes": 707811331, "gold_expected": true},
+      "dev": {"bytes": 57613717, "gold_expected": true},
+      "test": {"bytes": 53837823, "gold_expected": false}
+    },
+    "materialized_gold_pool": "dev",
+    "transport_limitation": "The author-hosted Dropbox endpoint timed out repeatedly from the execution environment. The author repository remains normative; Kaggle is used only as the byte transport mirror and is independently schema-audited."
+  },
+  "paths": {
+    "data_root": "data/2wikimultihopqa_verified",
+    "phase1t_config": "configs/acl2027/phase1t_heldout_deployment_identifiability_v1.json",
+    "phase1t_audit": "artifacts/acl2027_phase1t_heldout_deployment_identifiability_v1/design_audit.json",
+    "searchqa_val": "data/searchqa_id_split/val/items.json",
+    "searchqa_dataset": "lucadiliello/searchqa",
+    "searchqa_calibration_payload": "data/searchqa_phase1u/calibration.json",
+    "artifact_dir": "artifacts/acl2027_phase1u_calibration_payload_readiness_v1"
+  },
+  "required_gold_fields": [
+    "_id",
+    "question",
+    "answer",
+    "supporting_facts",
+    "context",
+    "evidences",
+    "type",
+    "answer_id",
+    "evidences_id"
+  ],
+  "allowed_task_types": [
+    "comparison",
+    "inference",
+    "compositional",
+    "bridge_comparison"
+  ],
+  "task_type_contract": {
+    "source": "dataset type metadata frozen before model responses",
+    "mapping": {
+      "comparison": "attribute_comparison",
+      "inference": "relation_inference",
+      "compositional": "entity_bridge",
+      "bridge_comparison": "bridge_attribute_comparison"
+    }
+  },
+  "verifier_contract": {
+    "answer": "lowercase, remove ASCII punctuation and English articles, collapse whitespace, then exact match against answer plus aliases for answer_id",
+    "supporting_evidence": "case-insensitive set equality over [title, sentence_index] pairs",
+    "joint_success": "answer exact match and supporting evidence exact set match",
+    "frozen_before_provider_response": true
+  },
+  "partition_contract": {
+    "pool": "dev gold-bearing records",
+    "method": "sequentially select unassigned IDs sorted by sha256(seed + ':' + id)",
+    "order": [
+      "calibration",
+      "history",
+      "development_probe",
+      "held_out_downstream"
+    ],
+    "partitions": {
+      "calibration": {"count": 12, "seed": "acl2027-phase1t-2wiki-calibration-v1"},
+      "history": {"count": 120, "seed": "acl2027-phase1t-2wiki-history-v1"},
+      "development_probe": {"count": 24, "seed": "acl2027-phase1t-2wiki-probe-v1"},
+      "held_out_downstream": {"count": 120, "seed": "acl2027-phase1t-2wiki-downstream-v1"}
+    },
+    "pairwise_disjoint": true
+  },
+  "decision_gate": {
+    "pass": "All 12 SearchQA calibration identities bind to complete local question, context, and answer payloads; both mirrored 2Wiki files match declared byte sizes; every development record passes schema, ID, evidence, context-index, answer-ID, and task-type checks; all four partitions have exact counts and are pairwise disjoint; verifier fixtures pass; no provider or paid calls occur.",
+    "failure": "Keep provider execution closed and preserve visible acquisition/audit provenance.",
+    "preflight_does_not_establish_method_claim": true
+  }
+}

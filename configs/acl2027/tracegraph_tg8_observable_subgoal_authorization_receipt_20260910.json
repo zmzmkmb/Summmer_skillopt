@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "experiment": "tracegraph_tg8_observable_subgoal_authorization_20260910",
+  "status": "explicit_user_authorization_received_execution_not_open",
+  "authorization_opened": false,
+  "authorization_source": "user_message_2026-09-10",
+  "authorization_statement_verbatim": "授权执行v4 aggregate fingerprint、selector/config hash、readiness hash、360 rows、最多 75 steps、零重试、首个硬不变量停止，以及仅允许 `observation`、`historical_actions`、`admissible_actions`。",
+  "authorization_statement_sha256": "1f864ecdb1749637a29931f240edf7aa7c1824e7da508e1961dd22127af100ba",
+  "bindings": {
+    "preflight_config": "configs/acl2027/tracegraph_tg8_observable_subgoal_preflight_v4.json",
+    "preflight_config_sha256": "9c39499796eebc41a2855a5e374b855cefb3affc58275261b56ffb2cbc60efdb",
+    "preflight_artifact": "artifacts/acl2027_tracegraph_tg8_observable_subgoal_preflight_v4/preflight.json",
+    "preflight_artifact_sha256": "7144406aea76ff0583b6dd04256306f65498eb04b53001184fe1c58f1c2a47e3",
+    "preflight_completion_manifest": "artifacts/acl2027_tracegraph_tg8_observable_subgoal_preflight_v4/completion_manifest.json",
+    "preflight_completion_manifest_sha256": "eb6e801156c32b49e3ab75d48002ec8282bf2bf275219d59d6b5556484586130",
+    "preflight_schedule": "artifacts/acl2027_tracegraph_tg8_observable_subgoal_preflight_v4/development_schedule.json",
+    "preflight_schedule_sha256": "1115337803f8899e0637f69643f169d0de3bc67fe8e9f7e2f021e6b914695aa7",
+    "preflight_aggregate_fingerprint": "098bee6f10b47fb8dbe656785c3732a949448047f72bb0454bb48545299ceffe",
+    "selector_config": "configs/acl2027/tracegraph_tg8_observable_subgoal_selector_v3.json",
+    "selector_config_sha256": "36407699541289ea42a69362f1a6a3c2582648b1e1b7680781ed6725ee066582",
+    "selector": "scripts/run_acl2027_tracegraph_tg8_observable_subgoal_selector_v3.py",
+    "selector_sha256": "6aae3a8539594bdb65bdeab92f9d82c2de9ac0e287f036af1e83157751636622",
+    "selector_audit": "artifacts/acl2027_tracegraph_tg8_observable_subgoal_selector_audit_v3/selector_audit.json",
+    "selector_audit_sha256": "28bcdc8a917bccd11572a7de0e7f1929529613b8b6d43e516f67b1c869247488",
+    "readiness_config": "configs/acl2027/tracegraph_tg8_observable_subgoal_readiness_v1_ubuntu_wsl.json",
+    "readiness_config_sha256": "9f5a85decc311c037b9b93b86f9669ac16bbc753e29927c3424472b5ea4a909d",
+    "readiness_runner": "scripts/run_acl2027_tracegraph_tg8_observable_subgoal_readiness_v1_ubuntu_wsl.py",
+    "readiness_runner_sha256": "32b1294dbd2607f8e49bc92d24c89731a1f6f66dc51989cdd64a7c61b3b63985",
+    "readiness_artifact": "artifacts/acl2027_tracegraph_tg8_observable_subgoal_readiness_v1/readiness_wsl_20260910.json",
+    "readiness_artifact_sha256": "85627fd938abce62e254a68957893f81b1389cc0a7e6519976d338a15ed3904b",
+    "authorized_episode_runner": null,
+    "authorized_episode_runner_sha256": null
+  },
+  "scope": {
+    "development_task_count": 30,
+    "conditions": [
+      "lexical_greedy",
+      "lexical_anti_cycle",
+      "observable_subgoal_greedy",
+      "observable_subgoal_anti_cycle"
+    ],
+    "planned_episode_rows": 360,
+    "max_steps_per_episode": 75,
+    "max_retries": 0,
+    "stop_rule": "stop on first hard invariant violation and invalidate the full factorial run",
+    "runtime_allowed_inputs": [
+      "observation",
+      "historical_actions",
+      "admissible_actions"
+    ]
+  },
+  "execution": {
+    "user_authorization_received": true,
+    "execution_opened": false,
+    "episodes_run": 0,
+    "actions_taken": 0,
+    "network_calls_allowed": false,
+    "provider_calls_allowed": false,
+    "model_calls_allowed": false,
+    "api_calls_allowed": false,
+    "paid_api_calls_allowed": false,
+    "official_source_fallback_allowed": false,
+    "phase0_to_phase6_reuse_allowed": false,
+    "phase6_execution_allowed": false,
+    "webshop_execution_allowed": false,
+    "other_models_allowed": false,
+    "other_datasets_allowed": false,
+    "tuning_on_parent_heldout_allowed": false
+  },
+  "runner_gate": {
+    "formal_episode_runner_required_before_opening": true,
+    "reason": "No TG8 formal episode runner is present in the repository; bind an immutable runner path and SHA-256, then validate the exact runtime input projection before opening execution.",
+    "receipt_does_not_authorize_episode_start": true
+  },
+  "forbidden_scope": [
+    "network_calls",
+    "provider_calls",
+    "model_calls",
+    "api_calls",
+    "paid_api_calls",
+    "official_source_fallback",
+    "Phase 0-6 reuse",
+    "Phase 6",
+    "WebShop",
+    "other models",
+    "other datasets",
+    "tuning on parent held-out data",
+    "changing the frozen v4 schedule",
+    "changing the selector or readiness artifacts"
+  ]
+}

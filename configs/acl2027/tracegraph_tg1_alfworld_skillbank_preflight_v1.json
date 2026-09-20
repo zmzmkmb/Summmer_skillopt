@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "phase_id": "TG1-tracegraph-alfworld-skillbank-preflight-v1",
+  "experiment_line": "tracegraph-observable-state-skill-composition",
+  "mode": "zero_network_preflight_only",
+  "provider_calls_allowed": false,
+  "model_calls_allowed": false,
+  "authorization_receipts_allowed": false,
+  "primary_environment": "ALFWorld",
+  "source_contract": {
+    "root_env": "ALFWORLD_DATA",
+    "allowed_relative_root": "json_2.1.1/train",
+    "gamefile_name": "game.tw-pddl",
+    "trajectory_filename": "traj_data.json",
+    "allowed_split": "train",
+    "forbidden_path_markers": ["/valid_seen/", "/valid_unseen/", "\\valid_seen\\", "\\valid_unseen\\"]
+  },
+  "skillbank_contract": {
+    "source": "ALFWorld training-split expert trajectories only",
+    "required_provenance_fields": ["trajectory_id", "gamefile_sha256", "traj_data_sha256", "task_type", "source_split"],
+    "runtime_payload_forbidden": ["raw_traj_data", "expert_future_actions", "planner_state", "pddl_params", "human_task_descriptions", "evaluation_trajectory"],
+    "runtime_allowed_inputs": ["observation", "historical_actions", "admissible_actions"]
+  },
+  "contamination_isolation": {
+    "phase0_to_phase6_status": "frozen-read-only",
+    "forbidden_sources": ["ACL2027 Phase 0-6 artifacts", "ACL2027 Phase 0-6 trajectories", "ACL2027 Phase 0-6 prompts", "ACL2027 Phase 0-6 outputs"],
+    "required_audit": "zero_phase0_to_phase6_dependency"
+  },
+  "outputs": {
+    "planned_manifest": "artifacts/acl2027_tracegraph_tg1_skillbank_preflight_v1/skillbank_source_manifest.json",
+    "planned_report": "paper/acl2027/results/tracegraph_tg1_skillbank_preflight_v1.md"
+  }
+}

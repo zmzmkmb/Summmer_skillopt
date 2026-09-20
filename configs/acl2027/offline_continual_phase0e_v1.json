@@ -1,0 +1,135 @@
+{
+  "schema_version": 3,
+  "experiment": "acl2027_phase0e_context_weight_sweep",
+  "scope": "synthetic offline instrumentation only; clean per-rule credit isolates estimator quality",
+  "stream_type": "contextual",
+  "seeds": [
+    41,
+    42,
+    43
+  ],
+  "n_rules": 48,
+  "domains": [
+    "searchqa",
+    "law",
+    "health"
+  ],
+  "block_order": [
+    "searchqa",
+    "law",
+    "health",
+    "searchqa",
+    "law",
+    "health"
+  ],
+  "tasks_per_block": 25,
+  "probe_tasks_per_domain": 8,
+  "top_k": 3,
+  "budget": 170,
+  "token_target": 0.72,
+  "target_window": 20,
+  "target_sustain": 5,
+  "prior_strength": 2.0,
+  "recovery_correlation_target": 0.25,
+  "recovery_sustain": 5,
+  "utility_conditions": [
+    "all-cold",
+    "adversarial"
+  ],
+  "corruptions": [
+    {
+      "name": "none",
+      "mode": "none",
+      "block": null
+    }
+  ],
+  "methods": [
+    {
+      "name": "relevance_topk",
+      "policy": "relevance",
+      "credit": "none"
+    },
+    {
+      "name": "global_oracle_credit",
+      "policy": "greedy-utility",
+      "credit": "oracle-per-rule"
+    },
+    {
+      "name": "context_fixed_0p25",
+      "policy": "greedy-utility",
+      "credit": "oracle-per-rule",
+      "estimator": "contextual",
+      "context_weight": 0.25,
+      "context_weight_mode": "fixed"
+    },
+    {
+      "name": "context_fixed_0p5",
+      "policy": "greedy-utility",
+      "credit": "oracle-per-rule",
+      "estimator": "contextual",
+      "context_weight": 0.5,
+      "context_weight_mode": "fixed"
+    },
+    {
+      "name": "context_fixed_0p75",
+      "policy": "greedy-utility",
+      "credit": "oracle-per-rule",
+      "estimator": "contextual",
+      "context_weight": 0.75,
+      "context_weight_mode": "fixed"
+    },
+    {
+      "name": "context_fixed_1p0",
+      "policy": "greedy-utility",
+      "credit": "oracle-per-rule",
+      "estimator": "contextual",
+      "context_weight": 1.0,
+      "context_weight_mode": "fixed"
+    },
+    {
+      "name": "context_adaptive_s2",
+      "policy": "greedy-utility",
+      "credit": "oracle-per-rule",
+      "estimator": "contextual",
+      "context_weight_mode": "adaptive",
+      "context_evidence_scale": 2.0,
+      "context_min_weight": 0.0,
+      "context_max_weight": 0.9
+    },
+    {
+      "name": "context_adaptive_s4",
+      "policy": "greedy-utility",
+      "credit": "oracle-per-rule",
+      "estimator": "contextual",
+      "context_weight_mode": "adaptive",
+      "context_evidence_scale": 4.0,
+      "context_min_weight": 0.0,
+      "context_max_weight": 0.9
+    },
+    {
+      "name": "context_adaptive_s8",
+      "policy": "greedy-utility",
+      "credit": "oracle-per-rule",
+      "estimator": "contextual",
+      "context_weight_mode": "adaptive",
+      "context_evidence_scale": 8.0,
+      "context_min_weight": 0.0,
+      "context_max_weight": 0.9
+    },
+    {
+      "name": "context_adaptive_s16",
+      "policy": "greedy-utility",
+      "credit": "oracle-per-rule",
+      "estimator": "contextual",
+      "context_weight_mode": "adaptive",
+      "context_evidence_scale": 16.0,
+      "context_min_weight": 0.0,
+      "context_max_weight": 0.9
+    },
+    {
+      "name": "oracle_upper_bound",
+      "policy": "oracle",
+      "credit": "oracle-per-rule"
+    }
+  ]
+}
